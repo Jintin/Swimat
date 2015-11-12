@@ -1,5 +1,8 @@
 # Swimat
 
+[![Build Status](https://travis-ci.org/Jintin/Swimat.svg?branch=master)](https://travis-ci.org/Jintin/Swimat)
+
+
 An Xcode plug-in to format your swift code.
 
 ## Installation:
