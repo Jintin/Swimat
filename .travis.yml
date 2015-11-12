@@ -1,0 +1,7 @@
+language: objective-c
+
+before_install:
+  - brew update
+  - brew outdated xctool || brew upgrade xctool
+
+script: xctool -workspace Formatter.xcworkspace -scheme FormatterTest test
