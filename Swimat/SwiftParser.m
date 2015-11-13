@@ -203,7 +203,7 @@ NSUInteger strIndex;
 				return strIndex;
 			} else if ([self isNext:'=']) { // +=
 				[self spaceWith:@"+="];
-			} else { // +
+			} else { // +, ignore positive sign
 				[self spaceWith:@"+"];
 			}
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
@@ -216,7 +216,12 @@ NSUInteger strIndex;
 			} else if ([self isNext:'=']) { // -=
 				[self spaceWith:@"-="];
 			} else { // -
-				return 0; //TODO check minus or negative
+//				int a = 0;
+				//+-*/&|^:({?! //negative
+				[retString lastChar:strIndex defaults:' '];
+//				a = a - -(a - a);
+				[orString lastChar:strIndex defaults:' '];
+				return 0; //TODO check minus or negative sign
 			}
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
 		case '*':
@@ -303,11 +308,24 @@ NSUInteger strIndex;
 			if ([self isNext:'?']) {
 				[self spaceWith:@"??"];
 			} else {
+//				__block int count = 0;
+//				NSUInteger nextIndex = orString nextIndex:strIndex defaults:-1 compare:^bool(NSString *next){
+//					if (<#condition#>) {
+//						<#statements#>
+//					}
+//					return [next isEqualToString:@":"];
+//				}];
+//
+//				[orString nextIndex:strIndex search:@":" defaults:orString.length];
+//				if (nextIndex != -1) {
+//					
+//				}
+
 				return 0; // TODO check (optional)? or A?B:C
 			}
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
 		case ':':
-			[self appendString:@": "];// TODO check A?B:C or normal :
+			[self appendString:@": "];
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
 		case '.':
 			if (orString.length >= strIndex + 3) {
