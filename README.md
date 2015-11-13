@@ -5,7 +5,7 @@
 
 An Xcode plug-in to format your swift code.
 
-## Installation:
+## Installation
 
 Clone this repo, build and restart Xcode.
 

@@ -11,30 +11,32 @@
 @implementation Swimat
 
 + (instancetype)sharedPlugin {
-    return sharedPlugin;
+	return sharedPlugin;
 }
 
 - (id)initWithBundle:(NSBundle *)plugin {
-    if (self = [super init]) {
-        self.bundle = plugin;
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(didApplicationFinishLaunchingNotification:)
-                                                     name:NSApplicationDidFinishLaunchingNotification
-                                                   object:nil];
-    }
-    return self;
+	if (self = [super init]) {
+		self.bundle = plugin;
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(didApplicationFinishLaunchingNotification:)
+													 name:NSApplicationDidFinishLaunchingNotification
+												   object:nil];
+	}
+	return self;
 }
 
 - (void)didApplicationFinishLaunchingNotification:(NSNotification*)noti {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
 	
-    NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Edit"];
-    if (menuItem) {
-        [[menuItem submenu] addItem:[NSMenuItem separatorItem]];
-        NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Swimat" action:@selector(doMenuAction) keyEquivalent:@""];
-        [actionMenuItem setTarget:self];
-        [[menuItem submenu] addItem:actionMenuItem];
-    }
+	NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Edit"];
+	if (menuItem) {
+		[[menuItem submenu] addItem:[NSMenuItem separatorItem]];
+		NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle: @"Swimat" action: @selector(doMenuAction) keyEquivalent:@"l"];
+		[actionMenuItem setKeyEquivalentModifierMask: NSAlphaShiftKeyMask | NSCommandKeyMask | NSAlternateKeyMask];
+		[actionMenuItem setTarget:self];
+		[[menuItem submenu] addItem:actionMenuItem];
+		
+	}
 }
 
 - (void)doMenuAction {
@@ -78,7 +80,7 @@
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
