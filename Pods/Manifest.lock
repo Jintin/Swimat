@@ -1,0 +1,10 @@
+PODS:
+  - DTXcodeUtils (0.1.1)
+
+DEPENDENCIES:
+  - DTXcodeUtils
+
+SPEC CHECKSUMS:
+  DTXcodeUtils: e080d36d30440b440aefa7bd7db88111a2317ce2
+
+COCOAPODS: 0.39.0

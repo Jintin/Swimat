@@ -146,7 +146,7 @@
 	}];
 }
 
--(NSUInteger) lastNonChar:(NSUInteger) index defaults:(NSUInteger) value {
+-(NSUInteger) lastNonCharIndex:(NSUInteger) index defaults:(NSUInteger) value {
 	return [self lastIndex:index defaults:value compare:^bool(NSString *next){
 		return [next isEqualToString:@" "] || [next isEqualToString:@"\t"] || [next isEqualToString:@"\n"];
 	}];
@@ -162,7 +162,7 @@
 
 -(NSString *) lastWord:(NSUInteger) index {
 	NSUInteger toIndex = [self lastCharIndex:index defaults:-1];
-	NSUInteger fromIndex = [self lastNonChar:toIndex defaults:-1];
+	NSUInteger fromIndex = [self lastNonCharIndex:toIndex defaults:-1];
 	if (toIndex != -1) {
 		return [self subString:fromIndex + 1 length:toIndex - fromIndex];
 	}

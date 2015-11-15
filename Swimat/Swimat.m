@@ -17,10 +17,11 @@
 - (id)initWithBundle:(NSBundle *)plugin {
 	if (self = [super init]) {
 		self.bundle = plugin;
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(didApplicationFinishLaunchingNotification:)
-													 name:NSApplicationDidFinishLaunchingNotification
-												   object:nil];
+		[[NSNotificationCenter defaultCenter]
+		 addObserver:self
+		 selector:@selector(didApplicationFinishLaunchingNotification:)
+		 name:NSApplicationDidFinishLaunchingNotification
+		 object:nil];
 	}
 	return self;
 }
@@ -62,7 +63,7 @@
 	NSString * oldString =	[NSString stringWithString:sourceTextView.textStorage.string];
 	NSRange oldRange = [[[sourceTextView selectedRanges] objectAtIndex:0] rangeValue];
 	NSArray *oldArray = [NSArray arrayWithObjects:oldString, [NSValue valueWithRange:oldRange], nil];
-	[undoManager setActionName:@"Swifmat"];
+	[undoManager setActionName:@"Swimat"];
 	[undoManager registerUndoWithTarget:self selector:@selector(setText:) object: oldArray];
 }
 

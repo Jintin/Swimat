@@ -5,6 +5,10 @@
 
 An Xcode plug-in to format your swift code.
 
+## PreView
+
+![](./README/preview.gif)
+
 ## Installation
 
 Clone this repo, build and restart Xcode.

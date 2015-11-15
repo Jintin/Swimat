@@ -107,7 +107,7 @@ NSUInteger strIndex;
 		offset++;
 	}
 	
-	return index2 - offset;
+	return index2 - offset - 1;
 }
 
 -(bool) isNext:(unichar) check {
@@ -216,12 +216,17 @@ NSUInteger strIndex;
 			} else if ([self isNext:'=']) { // -=
 				[self spaceWith:@"-="];
 			} else { // -
-//				int a = 0;
-				//+-*/&|^:({?! //negative
-				[retString lastChar:strIndex defaults:' '];
-//				a = a - -(a - a);
-				[orString lastChar:strIndex defaults:' '];
-				return 0; //TODO check minus or negative sign
+				NSArray *checkList = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@":",@"(",@"{",@"?",@"!"];
+				unichar last = [orString lastChar:strIndex - 1 defaults:' '];
+				if ([checkList containsObject:[NSString stringWithFormat:@"%c", last]]) {
+					// is negative
+					if (![Parser isUpperBrackets:last]) {
+						[self appendString:@" "];
+					}
+					[self appendString:@"-"];
+				} else {
+					[self spaceWith:@"-"];
+				}
 			}
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
 		case '*':
@@ -265,7 +270,7 @@ NSUInteger strIndex;
 				if (closeIndex != -1) {
 					NSString *checkString = [orString subString:checkIndex endWith:closeIndex + 1];
 					
-					NSString *regex = @"^(<|>|\\w|\\s|!|\\?|,)+$";
+					NSString *regex = @"^(<|>|:|\\w|\\s|!|\\?|,)+$";
 					NSRange range = [checkString rangeOfString:regex options:NSRegularExpressionSearch];
 					if (range.location != NSNotFound) {
 						strIndex += checkString.length;
