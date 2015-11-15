@@ -5,7 +5,7 @@
 
 An Xcode plug-in to format your swift code.
 
-## PreView
+## Preview
 
 ![](./README/preview.gif)
 
