@@ -27,6 +27,16 @@
 		ED6E78ECED4819B8F5D685DF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D52CEBDB4458DBB16680E54 /* libPods.a */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		2FEEF24C1BFCA434007A46A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2F041D841BF1B5C100C51207 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2F041DB21BF1B94F00C51207;
+			remoteInfo = SwimatTest;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1D52CEBDB4458DBB16680E54 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F041D8C1BF1B5C100C51207 /* Swimat.xcplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Swimat.xcplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,6 +183,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				2FEEF24D1BFCA434007A46A0 /* PBXTargetDependency */,
 			);
 			name = Swimat;
 			productName = Swimat;
@@ -312,6 +323,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2FEEF24D1BFCA434007A46A0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2F041DB21BF1B94F00C51207 /* SwimatTest */;
+			targetProxy = 2FEEF24C1BFCA434007A46A0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2F041D9E1BF1B5C100C51207 /* Debug */ = {

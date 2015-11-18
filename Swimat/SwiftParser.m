@@ -94,20 +94,21 @@ NSUInteger strIndex;
 
 -(NSUInteger) transformIndex:(NSUInteger) rangeIndex {
 	int offset = 0;
-	NSUInteger index = strIndex;
+	NSUInteger index = strIndex - 1;
 	NSUInteger index2 = retString.length - 1;
 	
-	while (index - offset > rangeIndex) {
-		while ([Parser isBlank:[orString characterAtIndex:index - offset]]) {
+	while (index - offset >= rangeIndex) {
+		while ([Parser isSpace:[orString characterAtIndex:index - offset]]) {
 			index--;
 		}
-		while ([Parser isBlank:[retString characterAtIndex:index2 - offset]]) {
+		while ([Parser isSpace:[retString characterAtIndex:index2 - offset]]) {
 			index2--;
 		}
+		
 		offset++;
 	}
 	
-	return index2 - offset - 1;
+	return index2 - offset + 1;
 }
 
 -(bool) isNext:(unichar) check {
@@ -126,7 +127,6 @@ NSUInteger strIndex;
 			NSUInteger nextIndex = [orString nextIndex:strIndex search:@"*/" defaults:orString.length];
 			
 			NSString *subString = [orString substringWithRange:NSMakeRange(strIndex, nextIndex - strIndex)];
-			NSLog(@"%@",subString);
 			NSMutableString *orderStr = [NSMutableString string];
 			NSUInteger subIndex = 0;
 			while (subIndex < subString.length) {
