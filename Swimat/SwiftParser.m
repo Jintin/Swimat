@@ -54,6 +54,10 @@ NSUInteger strIndex;
 		if (!checkRangeStart && strIndex >= range.location) {
 			newRange.location = [self transformIndex:range.location];
 			checkRangeStart = true;
+			if (range.length == 0) {
+				checkRangeEnd = true;
+				newRange.length = 0;
+			}
 		}
 		if (!checkRangeEnd && strIndex >= range.location + range.length) {
 			NSUInteger temp = [self transformIndex:range.location + range.length];
@@ -93,22 +97,27 @@ NSUInteger strIndex;
 }
 
 -(NSUInteger) transformIndex:(NSUInteger) rangeIndex {
-	int offset = 0;
-	NSUInteger index = strIndex - 1;
+	NSUInteger index1 = strIndex - 1;
 	NSUInteger index2 = retString.length - 1;
+	bool samevalue = true;
 	
-	while (index - offset >= rangeIndex) {
-		while ([Parser isSpace:[orString characterAtIndex:index - offset]]) {
-			index--;
+	while (index1 >= rangeIndex) {
+		if ([Parser isSpace:[orString characterAtIndex:index1]]) {
+			index1--;
+			samevalue = false;
 		}
-		while ([Parser isSpace:[retString characterAtIndex:index2 - offset]]) {
+		if ([Parser isSpace:[retString characterAtIndex:index2]]) {
 			index2--;
+			samevalue = false;
 		}
-		
-		offset++;
+		if (samevalue) {
+			index1--;
+			index2--;
+		} else {
+			samevalue = true;
+		}
 	}
-	
-	return index2 - offset + 1;
+	return index2 + 1;
 }
 
 -(bool) isNext:(unichar) check {
@@ -174,7 +183,7 @@ NSUInteger strIndex;
 -(NSUInteger) checkSpace:(unichar) c {
 	if ([Parser isSpace:c]) {
 		[self appendString:@" "];
-		return [orString nextNonSpaceIndex:strIndex defaults:strIndex];
+		return [orString nextNonSpaceIndex:strIndex defaults:strIndex + 1];
 	}
 	
 	return 0;
@@ -266,7 +275,7 @@ NSUInteger strIndex;
 					}
 					return false;
 				}];
-
+				
 				if (closeIndex != -1) {
 					NSString *checkString = [orString subString:checkIndex endWith:closeIndex + 1];
 					
@@ -313,19 +322,19 @@ NSUInteger strIndex;
 			if ([self isNext:'?']) {
 				[self spaceWith:@"??"];
 			} else {
-//				__block int count = 0;
-//				NSUInteger nextIndex = orString nextIndex:strIndex defaults:-1 compare:^bool(NSString *next){
-//					if (<#condition#>) {
-//						<#statements#>
-//					}
-//					return [next isEqualToString:@":"];
-//				}];
-//
-//				[orString nextIndex:strIndex search:@":" defaults:orString.length];
-//				if (nextIndex != -1) {
-//					
-//				}
-
+				//				__block int count = 0;
+				//				NSUInteger nextIndex = orString nextIndex:strIndex defaults:-1 compare:^bool(NSString *next){
+				//					if (<#condition#>) {
+				//						<#statements#>
+				//					}
+				//					return [next isEqualToString:@":"];
+				//				}];
+				//
+				//				[orString nextIndex:strIndex search:@":" defaults:orString.length];
+				//				if (nextIndex != -1) {
+				//
+				//				}
+				
 				return 0; // TODO check (optional)? or A?B:C
 			}
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
@@ -344,7 +353,7 @@ NSUInteger strIndex;
 				[self appendString:@"."];
 			}
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
-		
+			
 		default:
 			break;
 	}
@@ -384,7 +393,7 @@ NSUInteger strIndex;
 			}
 			if ([Parser isLowerBrackets:lastChar]) {
 				if (c != '(') {
-					[retString appendString:@" "];
+					[self appendString:@" "];
 				}
 			} else {
 				switch (c) {
@@ -392,13 +401,13 @@ NSUInteger strIndex;
 						NSArray *controlsArray = @[@"]", @"if", @"else", @"while", @"for", @"guard", @"switch", @"defer"];
 						NSString *preStr = [orString lastWord:strIndex - 1];
 						if ([controlsArray containsObject:preStr]) {
-							[retString appendString:@" "];
+							[self appendString:@" "];
 						}
 					}
 						break;
 					case '{':
 						if (![Parser isUpperBrackets:lastChar]) {
-							[retString appendString:@" "];
+							[self appendString:@" "];
 						}
 						break;
 					defaults:
