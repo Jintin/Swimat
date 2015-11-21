@@ -30,7 +30,7 @@
 /**
  @brief find next index of string
  */
--(NSUInteger) nextIndex:(NSUInteger) index defaults:(NSUInteger) value compare: (bool(^)(NSString *)) checker;
+-(NSUInteger) nextIndex:(NSUInteger) index defaults:(NSUInteger) value compare: (bool(^)(NSString *, NSUInteger)) checker;
 
 /**
  @brief find next "
@@ -48,9 +48,24 @@
 -(NSUInteger) nextNonSpaceIndex:(NSUInteger) index defaults:(NSUInteger) value;
 
 /**
+ @brief get next non empty char
+ */
+-(NSUInteger) nextCharIndex:(NSUInteger) index defaults:(NSUInteger) value;
+
+/**
+ @brief find next empty char
+ */
+-(NSUInteger) nextNonCharIndex:(NSUInteger) index defaults:(NSUInteger) value;
+
+/**
+ @brief get last word
+ */
+-(NSString *) nextWord:(NSUInteger) index;
+
+/**
  @brief find last index of string
  */
--(NSUInteger) lastIndex:(NSUInteger) index defaults:(NSUInteger) value compare: (bool(^)(NSString *)) checker;
+-(NSUInteger) lastIndex:(NSUInteger) index defaults:(NSUInteger) value compare: (bool(^)(NSString *, NSUInteger)) checker;
 
 /**
  @brief find last space
@@ -66,6 +81,11 @@
  @brief find last non empty char
  */
 -(NSUInteger) lastCharIndex:(NSUInteger) index defaults:(NSUInteger) value;
+
+/**
+ @brief find last empty char
+ */
+-(NSUInteger) lastNonCharIndex:(NSUInteger) index defaults:(NSUInteger) value;
 
 /**
  @brief get last char (without empty char)

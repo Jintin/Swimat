@@ -33,7 +33,7 @@
 	};
 	
 	if (index < [self length] && [self characterAtIndex:index] != '\n') {
-		index = [self nextIndex:index defaults:self.length compare:^bool(NSString *next){
+		index = [self nextIndex:index defaults:self.length compare:^bool(NSString *next, NSUInteger curIndex){
 			return [next isEqualToString:@"\n"];
 		}];
 	}
@@ -49,6 +49,19 @@
 	}
 	checkIndex = [self lastNonSpaceIndex:index - 1 defaults:-1];
 	if (notComplete(checkIndex)) {
+		unichar c = [self characterAtIndex:checkIndex];
+		if (c == ':') {
+			NSUInteger lineIndex = [self lastIndex:index - 1 defaults:self.length compare:^bool(NSString *last, NSUInteger curIndex){
+				return [last isEqualToString:@"\n"];
+			}];
+			lineIndex = [self nextNonSpaceIndex:lineIndex defaults:-1];
+			// check 'case' 'default'
+			NSString *head = [self nextWord:lineIndex];
+			if ([head hasPrefix:@"case"] || [head hasPrefix:@"default"]) {
+				
+				return true;
+			}
+		}
 		if (checkIndex >= 2) {
 			NSString *checkString = [self subString:checkIndex - 1 length:2];
 			NSArray *exclude = [NSArray arrayWithObjects:@"++", @"--", @"//", @"/*", @"*/", nil];
@@ -72,11 +85,11 @@
 	}
 }
 
--(NSUInteger) nextIndex:(NSUInteger) index defaults:(NSUInteger) value compare: (bool(^)(NSString *)) checker {
+-(NSUInteger) nextIndex:(NSUInteger) index defaults:(NSUInteger) value compare: (bool(^)(NSString *, NSUInteger)) checker {
 	if (index < self.length) {
 		do {
 			NSString *check = [self subString:index length:1];
-			if (!checker(check)) {
+			if (!checker(check, index)) {
 				continue;
 			}
 			return index;
@@ -104,22 +117,43 @@
 }
 
 -(NSUInteger) nextSpaceIndex:(NSUInteger) index defaults:(NSUInteger) value {
-	return [self nextIndex:index defaults:value compare:^bool(NSString *next){
+	return [self nextIndex:index defaults:value compare:^bool(NSString *next, NSUInteger curIndex){
 		return [next isEqualToString:@" "] || [next isEqualToString:@"\t"];
 	}];
 }
 
 -(NSUInteger) nextNonSpaceIndex:(NSUInteger) index defaults:(NSUInteger) value {
-	return [self nextIndex:index defaults:value compare:^bool(NSString *next){
+	return [self nextIndex:index defaults:value compare:^bool(NSString *next, NSUInteger curIndex){
 		return ![next isEqualToString:@" "] && ![next isEqualToString:@"\t"];
 	}];
 }
 
--(NSUInteger) lastIndex:(NSUInteger) index defaults:(NSUInteger) value compare: (bool(^)(NSString *)) checker {
+-(NSUInteger) nextCharIndex:(NSUInteger) index defaults:(NSUInteger) value {
+	return [self nextIndex:index defaults:value compare:^bool(NSString *next, NSUInteger curIndex){
+		return ![next isEqualToString:@" "] && ![next isEqualToString:@"\t"] && ![next isEqualToString:@"\n"];
+	}];
+}
+
+-(NSUInteger) nextNonCharIndex:(NSUInteger) index defaults:(NSUInteger) value {
+	return [self nextIndex:index defaults:value compare:^bool(NSString *next, NSUInteger curIndex){
+		return [next isEqualToString:@" "] || [next isEqualToString:@"\t"] || [next isEqualToString:@"\n"];
+	}];
+}
+
+-(NSString *) nextWord:(NSUInteger) index {
+	NSUInteger fromIndex = [self nextCharIndex:index defaults:-1];
+	NSUInteger toIndex = [self nextNonCharIndex:fromIndex defaults:self.length];
+	if (fromIndex != -1) {
+		return [self subString:fromIndex length:toIndex - fromIndex];
+	}
+	return nil;
+}
+
+-(NSUInteger) lastIndex:(NSUInteger) index defaults:(NSUInteger) value compare:(bool(^)(NSString *, NSUInteger)) checker {
 	if ((int)index >= 0 && index < self.length) {
 		do {
 			NSString *check = [self subString:index length:1];
-			if (!checker(check)) {
+			if (!checker(check, index)) {
 				continue;
 			}
 			return index;
@@ -129,25 +163,25 @@
 }
 
 -(NSUInteger) lastSpaceIndex:(NSUInteger) index defaults:(NSUInteger) value {
-	return [self lastIndex:index defaults:value compare:^bool(NSString *next){
+	return [self lastIndex:index defaults:value compare:^bool(NSString *next, NSUInteger curIndex){
 		return [next isEqualToString:@" "] || [next isEqualToString:@"\t"];
 	}];
 }
 
 -(NSUInteger) lastNonSpaceIndex:(NSUInteger) index defaults:(NSUInteger) value {
-	return [self lastIndex:index defaults:value compare:^bool(NSString *next){
+	return [self lastIndex:index defaults:value compare:^bool(NSString *next, NSUInteger curIndex){
 		return ![next isEqualToString:@" "] && ![next isEqualToString:@"\t"];
 	}];
 }
 
 -(NSUInteger) lastCharIndex:(NSUInteger) index defaults:(NSUInteger) value {
-	return [self lastIndex:index defaults:value compare:^bool(NSString *next){
+	return [self lastIndex:index defaults:value compare:^bool(NSString *next, NSUInteger curIndex){
 		return ![next isEqualToString:@" "] && ![next isEqualToString:@"\t"] && ![next isEqualToString:@"\n"];
 	}];
 }
 
 -(NSUInteger) lastNonCharIndex:(NSUInteger) index defaults:(NSUInteger) value {
-	return [self lastIndex:index defaults:value compare:^bool(NSString *next){
+	return [self lastIndex:index defaults:value compare:^bool(NSString *next, NSUInteger curIndex){
 		return [next isEqualToString:@" "] || [next isEqualToString:@"\t"] || [next isEqualToString:@"\n"];
 	}];
 }

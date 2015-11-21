@@ -101,6 +101,9 @@ NSUInteger strIndex;
 	NSUInteger index2 = retString.length - 1;
 	bool samevalue = true;
 	
+	if (index1 == 0 || index2 == 0) {
+		return 0;
+	}
 	while (index1 >= rangeIndex) {
 		if ([Parser isSpace:[orString characterAtIndex:index1]]) {
 			index1--;
@@ -267,7 +270,7 @@ NSUInteger strIndex;
 			} else {
 				NSUInteger checkIndex = strIndex;
 				__block int checkCount = 0;
-				NSUInteger closeIndex = [orString nextIndex:checkIndex defaults:-1 compare:^bool(NSString *next){
+				NSUInteger closeIndex = [orString nextIndex:checkIndex defaults:-1 compare:^bool(NSString *next, NSUInteger curIndex){
 					if ([next isEqualToString:@"<"]) {
 						checkCount++;
 					} else if ([next isEqualToString:@">"]) {
@@ -368,6 +371,11 @@ NSUInteger strIndex;
 	}
 	unichar next = [orString characterAtIndex:nextIndex];
 	if ([Parser isLowerBrackets:next]) { // close bracket don't indent
+		onetimeIndent -= 1;
+	}
+	NSString *head = [orString nextWord:nextIndex];
+	NSArray *array = @[@"case", @"default:"];
+	if ([array containsObject:head]) {
 		onetimeIndent -= 1;
 	}
 	for (int i = 0; i < indent + onetimeIndent; i++) {

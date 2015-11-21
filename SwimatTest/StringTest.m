@@ -33,7 +33,7 @@
 }
 
 - (void) testNextIndex {
-	XCTAssertTrue(3 == [@"abcde" nextIndex:0 defaults:-1 compare:^bool(NSString *next){
+	XCTAssertTrue(3 == [@"abcde" nextIndex:0 defaults:-1 compare:^bool(NSString *next, NSUInteger curIndex){
 		return [next isEqualToString:@"d"];
 	}]);
 }
@@ -51,7 +51,7 @@
 }
 
 - (void) testLastIndex {
-	XCTAssertTrue(3 == [@"abcde" lastIndex:4 defaults:-1 compare:^bool(NSString *next){
+	XCTAssertTrue(3 == [@"abcde" lastIndex:4 defaults:-1 compare:^bool(NSString *next, NSUInteger curIndex){
 		return [next isEqualToString:@"d"];
 	}]);
 }
@@ -71,6 +71,12 @@
 
 - (void) testLastWord {
 	NSString *string = [@"a bc  " lastWord:4];
+	XCTAssertTrue([@"bc" isEqualToString:string]);
+}
+
+- (void) testNextWord {
+	NSString *string = [@"a bc  " nextWord:1];
+	NSLog(@"%@",string);
 	XCTAssertTrue([@"bc" isEqualToString:string]);
 }
 
