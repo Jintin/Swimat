@@ -11,7 +11,12 @@ An Xcode plug-in to format your swift code.
 
 ## Installation
 
-Clone this repo, build and restart Xcode.
+
+There has two way to install
+
+1. Use [Alcatraz](https://github.com/mneorr/Alcatraz) to install and manage Plug-ins.
+
+2. Clone this repo, build and restart Xcode.
 
 If you encounter any issues you can uninstall it by removing the `~/Library/Application Support/Developer/Shared/Xcode/Plug-ins/Swimat.xcplugin` folder.
 
