@@ -42,8 +42,8 @@
 
 - (void)doMenuAction {
 	NSString *ext = [DTXcodeUtils currentSourceCodeDocument].fileURL.pathExtension;
-	
-	if ([ext isEqualToString:@"swift"]) {
+	NSArray *acceptFormat = @[@"swift", @"playground"];
+	if ([acceptFormat containsObject:ext]) {
 		DVTSourceTextView *sourceTextView = [DTXcodeUtils currentSourceTextView];
 		NSRange range = [[[sourceTextView selectedRanges] objectAtIndex:0] rangeValue];
 		SwiftParser *parser = [[SwiftParser alloc] init];
