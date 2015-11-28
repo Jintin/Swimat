@@ -105,8 +105,8 @@ NSUInteger strIndex;
 	}
 	
 	bool samevalue = true;
-	while (index1 >= rangeIndex) {
-		if (index1 < orString.length && [Parser isSpace:[orString characterAtIndex:index1]]) {
+	while (index1 >= rangeIndex && index1 < orString.length) {
+		if ([Parser isSpace:[orString characterAtIndex:index1]]) {
 			index1--;
 			samevalue = false;
 		}
