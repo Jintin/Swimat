@@ -99,17 +99,18 @@ NSUInteger strIndex;
 -(NSUInteger) transformIndex:(NSUInteger) rangeIndex {
 	NSUInteger index1 = strIndex - 1;
 	NSUInteger index2 = retString.length - 1;
-	bool samevalue = true;
 	
-	if (index1 == 0 || index2 == 0) {
+	if (index1 <= 0 || index2 <= 0) {
 		return 0;
 	}
+	
+	bool samevalue = true;
 	while (index1 >= rangeIndex) {
-		if ([Parser isSpace:[orString characterAtIndex:index1]]) {
+		if (index1 < orString.length && [Parser isSpace:[orString characterAtIndex:index1]]) {
 			index1--;
 			samevalue = false;
 		}
-		if ([Parser isSpace:[retString characterAtIndex:index2]]) {
+		if (index2 < retString.length && [Parser isSpace:[retString characterAtIndex:index2]]) {
 			index2--;
 			samevalue = false;
 		}
