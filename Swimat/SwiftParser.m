@@ -105,12 +105,12 @@ NSUInteger strIndex;
 	}
 	
 	bool samevalue = true;
-	while (index1 >= rangeIndex && index1 < orString.length) {
+	while (index1 >= rangeIndex) {
 		if ([Parser isSpace:[orString characterAtIndex:index1]]) {
 			index1--;
 			samevalue = false;
 		}
-		if (index2 < retString.length && [Parser isSpace:[retString characterAtIndex:index2]]) {
+		if ([Parser isSpace:[retString characterAtIndex:index2]]) {
 			index2--;
 			samevalue = false;
 		}
@@ -119,6 +119,9 @@ NSUInteger strIndex;
 			index2--;
 		} else {
 			samevalue = true;
+		}
+		if (index1 + 1 == 0 || index2 + 1 == 0) {
+			return 0;
 		}
 	}
 	return index2 + 1;
