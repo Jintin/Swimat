@@ -13,17 +13,15 @@
 		2F041D991BF1B5C100C51207 /* Swimat.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041D981BF1B5C100C51207 /* Swimat.m */; };
 		2F041D9C1BF1B5C100C51207 /* NSObject_Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041D9B1BF1B5C100C51207 /* NSObject_Extension.m */; };
 		2F041DA51BF1B6D700C51207 /* SwiftParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041DA41BF1B6D700C51207 /* SwiftParser.m */; };
-		2F041DA81BF1B72B00C51207 /* NSString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041DA71BF1B72B00C51207 /* NSString+Common.m */; };
-		2F041DAB1BF1B74A00C51207 /* NSMutableString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041DAA1BF1B74A00C51207 /* NSMutableString+Common.m */; };
 		2F041DAE1BF1B76800C51207 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041DAD1BF1B76800C51207 /* Parser.m */; };
 		2F041DB61BF1B94F00C51207 /* SwimatTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041DB51BF1B94F00C51207 /* SwimatTest.m */; };
+		2F2F5C781C0B37F20090D0C5 /* NSMutableString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F5C751C0B37F20090D0C5 /* NSMutableString+Common.m */; };
+		2F2F5C791C0B37F20090D0C5 /* NSString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F5C771C0B37F20090D0C5 /* NSString+Common.m */; };
 		2FCE0E541C05D2910000DF1B /* DTXcodeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCE0E531C05D2910000DF1B /* DTXcodeUtils.m */; };
 		2FD1EECC1BF1B992002B56B0 /* MutableStringTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD1EECB1BF1B992002B56B0 /* MutableStringTest.m */; };
 		2FD1EECE1BF1B9A2002B56B0 /* ParserTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD1EECD1BF1B9A2002B56B0 /* ParserTest.m */; };
 		2FD1EED01BF1B9B1002B56B0 /* StringTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD1EECF1BF1B9B1002B56B0 /* StringTest.m */; };
 		2FD1EED11BF1BA1F002B56B0 /* SwiftParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041DA41BF1B6D700C51207 /* SwiftParser.m */; };
-		2FD1EED21BF1BA23002B56B0 /* NSString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041DA71BF1B72B00C51207 /* NSString+Common.m */; };
-		2FD1EED31BF1BA27002B56B0 /* NSMutableString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041DAA1BF1B74A00C51207 /* NSMutableString+Common.m */; };
 		2FD1EED41BF1BA2B002B56B0 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041DAD1BF1B76800C51207 /* Parser.m */; };
 /* End PBXBuildFile section */
 
@@ -49,15 +47,15 @@
 		2F041D9D1BF1B5C100C51207 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F041DA31BF1B6D700C51207 /* SwiftParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftParser.h; sourceTree = "<group>"; };
 		2F041DA41BF1B6D700C51207 /* SwiftParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwiftParser.m; sourceTree = "<group>"; };
-		2F041DA61BF1B72B00C51207 /* NSString+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Common.h"; sourceTree = "<group>"; };
-		2F041DA71BF1B72B00C51207 /* NSString+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Common.m"; sourceTree = "<group>"; };
-		2F041DA91BF1B74A00C51207 /* NSMutableString+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+Common.h"; sourceTree = "<group>"; };
-		2F041DAA1BF1B74A00C51207 /* NSMutableString+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+Common.m"; sourceTree = "<group>"; };
 		2F041DAC1BF1B76800C51207 /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
 		2F041DAD1BF1B76800C51207 /* Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Parser.m; sourceTree = "<group>"; };
 		2F041DB31BF1B94F00C51207 /* SwimatTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwimatTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F041DB51BF1B94F00C51207 /* SwimatTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SwimatTest.m; sourceTree = "<group>"; };
 		2F041DB71BF1B94F00C51207 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2F2F5C741C0B37F20090D0C5 /* NSMutableString+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableString+Common.h"; path = "category/NSMutableString+Common.h"; sourceTree = "<group>"; };
+		2F2F5C751C0B37F20090D0C5 /* NSMutableString+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableString+Common.m"; path = "category/NSMutableString+Common.m"; sourceTree = "<group>"; };
+		2F2F5C761C0B37F20090D0C5 /* NSString+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Common.h"; path = "category/NSString+Common.h"; sourceTree = "<group>"; };
+		2F2F5C771C0B37F20090D0C5 /* NSString+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Common.m"; path = "category/NSString+Common.m"; sourceTree = "<group>"; };
 		2FCE0E511C05D2910000DF1B /* DTXcodeHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXcodeHeaders.h; path = DTXcodeUtils/DTXcodeHeaders.h; sourceTree = "<group>"; };
 		2FCE0E521C05D2910000DF1B /* DTXcodeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXcodeUtils.h; path = DTXcodeUtils/DTXcodeUtils.h; sourceTree = "<group>"; };
 		2FCE0E531C05D2910000DF1B /* DTXcodeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXcodeUtils.m; path = DTXcodeUtils/DTXcodeUtils.m; sourceTree = "<group>"; };
@@ -124,12 +122,9 @@
 				2F041D9B1BF1B5C100C51207 /* NSObject_Extension.m */,
 				2F041D9D1BF1B5C100C51207 /* Info.plist */,
 				2F041D941BF1B5C100C51207 /* Supporting Files */,
+				2F2F5C731C0B37CB0090D0C5 /* category */,
 				2F041DA31BF1B6D700C51207 /* SwiftParser.h */,
 				2F041DA41BF1B6D700C51207 /* SwiftParser.m */,
-				2F041DA61BF1B72B00C51207 /* NSString+Common.h */,
-				2F041DA71BF1B72B00C51207 /* NSString+Common.m */,
-				2F041DA91BF1B74A00C51207 /* NSMutableString+Common.h */,
-				2F041DAA1BF1B74A00C51207 /* NSMutableString+Common.m */,
 				2F041DAC1BF1B76800C51207 /* Parser.h */,
 				2F041DAD1BF1B76800C51207 /* Parser.m */,
 			);
@@ -154,6 +149,17 @@
 				2FD1EECF1BF1B9B1002B56B0 /* StringTest.m */,
 			);
 			path = SwimatTest;
+			sourceTree = "<group>";
+		};
+		2F2F5C731C0B37CB0090D0C5 /* category */ = {
+			isa = PBXGroup;
+			children = (
+				2F2F5C741C0B37F20090D0C5 /* NSMutableString+Common.h */,
+				2F2F5C751C0B37F20090D0C5 /* NSMutableString+Common.m */,
+				2F2F5C761C0B37F20090D0C5 /* NSString+Common.h */,
+				2F2F5C771C0B37F20090D0C5 /* NSString+Common.m */,
+			);
+			name = category;
 			sourceTree = "<group>";
 		};
 		2FCE0E501C05D2220000DF1B /* DTXcodeUtils */ = {
@@ -262,13 +268,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F041DAB1BF1B74A00C51207 /* NSMutableString+Common.m in Sources */,
-				2F041DA81BF1B72B00C51207 /* NSString+Common.m in Sources */,
 				2FCE0E541C05D2910000DF1B /* DTXcodeUtils.m in Sources */,
 				2F041D991BF1B5C100C51207 /* Swimat.m in Sources */,
+				2F2F5C791C0B37F20090D0C5 /* NSString+Common.m in Sources */,
 				2F041D9C1BF1B5C100C51207 /* NSObject_Extension.m in Sources */,
 				2F041DAE1BF1B76800C51207 /* Parser.m in Sources */,
 				2F041DA51BF1B6D700C51207 /* SwiftParser.m in Sources */,
+				2F2F5C781C0B37F20090D0C5 /* NSMutableString+Common.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,8 +287,6 @@
 				2FD1EECE1BF1B9A2002B56B0 /* ParserTest.m in Sources */,
 				2FD1EED11BF1BA1F002B56B0 /* SwiftParser.m in Sources */,
 				2FD1EED01BF1B9B1002B56B0 /* StringTest.m in Sources */,
-				2FD1EED21BF1BA23002B56B0 /* NSString+Common.m in Sources */,
-				2FD1EED31BF1BA27002B56B0 /* NSMutableString+Common.m in Sources */,
 				2FD1EECC1BF1B992002B56B0 /* MutableStringTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
