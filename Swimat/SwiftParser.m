@@ -100,8 +100,8 @@ NSUInteger strIndex;
 	NSUInteger index1 = strIndex - 1;
 	NSUInteger index2 = retString.length - 1;
 	
-	if (index1 <= 0 || index2 <= 0) {
-		return 0;
+	if (strIndex >= orString.length) {
+		index1 = orString.length - 1;
 	}
 	
 	bool samevalue = true;
@@ -120,7 +120,7 @@ NSUInteger strIndex;
 		} else {
 			samevalue = true;
 		}
-		if (index1 + 1 == 0 || index2 + 1 == 0) {
+		if (index1 + 1 == 0 || index2 + 1 == 0) {// no negative value here
 			return 0;
 		}
 	}
@@ -232,11 +232,16 @@ NSUInteger strIndex;
 			} else if ([self isNext:'=']) { // -=
 				[self spaceWith:@"-="];
 			} else { // -
-				NSArray *checkList = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@":",@"(",@"{",@"?",@"!"];
+				NSArray *checkList = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@":",@"(",@"{",@"?",@"!",@"="];
 				unichar last = [orString lastChar:strIndex - 1 defaults:' '];
+				bool isNegative = false;
 				if ([checkList containsObject:[NSString stringWithFormat:@"%c", last]]) {
-					// is negative
-					if (![Parser isUpperBrackets:last]) {
+					isNegative = true;
+				} else if ([[orString lastWord:strIndex - 1] isEqualToString:@"case"]) {
+					isNegative = true;
+				}
+				if (isNegative) {
+					if (![Parser isUpperBrackets:last] && ![Parser isBlank:[retString characterAtIndex:retString.length - 1]]) {
 						[self appendString:@" "];
 					}
 					[self appendString:@"-"];
