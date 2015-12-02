@@ -232,7 +232,7 @@ NSUInteger strIndex;
 			} else if ([self isNext:'=']) { // -=
 				[self spaceWith:@"-="];
 			} else { // -
-				NSArray *checkList = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@":",@"(",@"{",@"?",@"!",@"="];
+				NSArray *checkList = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@":",@"(",@"{",@"?",@"!",@"=",@","];
 				unichar last = [orString lastChar:strIndex - 1 defaults:' '];
 				bool isNegative = false;
 				if ([checkList containsObject:[NSString stringWithFormat:@"%c", last]]) {
