@@ -452,9 +452,9 @@ int switchBlockCount; // change to stack if need nested
 			switch (c) {
 				case '(':{
 					NSArray *controlsArray = @[@"]", @"if", @"else", @"while", @"for", @"guard", @"switch", @"defer"];
+					unichar lastChar = [orString characterAtIndex:strIndex -1];
 					NSString *preStr = [orString lastWord:strIndex - 1];
-					if ([controlsArray containsObject:preStr]) {
-						[retString keepSpace];
+					if ([controlsArray containsObject:preStr] || lastChar == '=') {		[retString keepSpace];
 					} else {
 						[retString trim];
 						NSLog(@"trim");
