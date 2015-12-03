@@ -44,18 +44,4 @@
 	XCTAssertFalse([Parser isLowerBrackets:'|']);
 }
 
-- (void) testAddStringToNext {
-	NSMutableString *string = [NSMutableString string];
-	int index = (int)[self.parser addStringToNext:@"\n" withOffset:1 edit:string withString:@"abcd\nefg"];
-	
-	XCTAssertTrue([string isEqualToString:@"bcd\n"]);
-	XCTAssertTrue(index == 5);
-	string = [NSMutableString string];
-	index = (int)[self.parser addStringToNext:@"\n" withOffset:1 edit:string withString:@"abcd"];
-	
-	XCTAssertTrue([string isEqualToString:@"bcd"]);
-	XCTAssertTrue(index == 4);
-	
-}
-
 @end

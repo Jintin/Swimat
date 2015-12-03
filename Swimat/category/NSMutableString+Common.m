@@ -14,6 +14,17 @@
 	[self appendString:@" "];
 }
 
+-(void) keepSpace {
+	if (self.length != 0) {
+		unichar c = [self characterAtIndex:self.length - 1];
+		if (![Parser isBlank:c]) {
+			[self appendString:@" "];
+		}
+	} else {
+		[self appendString:@" "];
+	}
+}
+
 -(void) trim {
 	while (self.length > 0 && [Parser isSpace:[self characterAtIndex:self.length - 1]]) {
 		[self deleteCharactersInRange:NSMakeRange(self.length - 1, 1)];

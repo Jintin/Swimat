@@ -23,12 +23,4 @@
 	return c == ')' || c == '}' || c == ']';
 }
 
--(NSUInteger) addStringToNext:(NSString *) next withOffset:(NSUInteger)index edit:(NSMutableString *) editString withString:(NSString *) string {
-	
-	NSUInteger nextIndex = [string nextIndex:index search:next defaults:string.length];
-	
-	[editString appendString:[string substringWithRange:NSMakeRange(index, nextIndex - index)]];
-	return nextIndex;
-}
-
 @end

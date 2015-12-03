@@ -12,6 +12,9 @@ NSString *orString;
 NSRange newRange;
 NSUInteger strIndex;
 
+bool inSwitch; // TODO: change to stack if need nested
+int switchBlockCount; // change to stack if need nested
+
 -(NSRange) getRange {
 	return newRange;
 }
@@ -24,6 +27,8 @@ NSUInteger strIndex;
 	onetimeIndent = 0;
 	orString = string;
 	retString = [NSMutableString string];
+	inSwitch = false;
+	switchBlockCount = 0;
 	
 	NSUInteger length = [string lastNonSpaceIndex:range.location + range.length defaults:range.location + range.length] - range.location;
 	NSUInteger location = [string nextNonSpaceIndex:range.location defaults:range.location];
@@ -38,7 +43,7 @@ NSUInteger strIndex;
 			strIndex = nextIndex;
 		} else if ((nextIndex = [self checkQuote:c]) != 0) {
 			strIndex = nextIndex;
-		} else if ((nextIndex = [self checkIndent:c]) != 0) {
+		} else if ((nextIndex = [self checkBrackets:c]) != 0) {
 			strIndex = nextIndex;
 		} else if ((nextIndex = [self checkNewline:c]) != 0) {
 			strIndex = nextIndex;
@@ -133,10 +138,30 @@ NSUInteger strIndex;
 
 -(NSUInteger) checkComment:(unichar) c {
 	if (c == '/') {
+		
+		NSUInteger (^addToEnd)(NSString *, NSMutableString *, NSUInteger) =
+		^ NSUInteger (NSString *string, NSMutableString *editString, NSUInteger index) {
+			NSUInteger nextIndex = [string nextIndex:index search:@"\n" defaults:-1];
+			if (nextIndex == -1) { // not found '\n'
+				NSLog(@"-1 %i, %i",(int) index,(int) string.length - 1);
+				
+				[editString appendString:[string substringFromIndex:index]];
+				[editString trim];
+				return string.length;
+			} else {
+				NSLog(@"f %i, %i",(int) index,(int) string.length - 1);
+				
+				[editString appendString:[string substringWithRange:NSMakeRange(index, nextIndex - index - 1)]];
+				[editString trim];
+				[editString appendString:@"\n"];
+				return nextIndex;
+			}
+		};
+		
 		if ([self isNext:'/']) {
 			[self appendString:@"// "];
 			NSUInteger start = [orString nextNonSpaceIndex:strIndex defaults:strIndex];
-			strIndex = [self addStringToNext:@"\n" withOffset:start edit:retString withString:orString];
+			strIndex = addToEnd(orString, retString, start);
 			
 			return [self addIndent:retString];
 		} else if ([self isNext:'*']) {
@@ -147,7 +172,8 @@ NSUInteger strIndex;
 			NSUInteger subIndex = 0;
 			while (subIndex < subString.length) {
 				subIndex = [subString nextNonSpaceIndex:subIndex defaults:subIndex];
-				NSUInteger newIndex = [self addStringToNext:@"\n" withOffset:subIndex edit:orderStr withString:subString];
+				NSUInteger newIndex = addToEnd(subString, orderStr, subIndex);
+				
 				for (int i = 0; i < indent; i++) {
 					[orderStr appendString:@"\t"];
 				}
@@ -184,12 +210,13 @@ NSUInteger strIndex;
 		return [self addIndent:retString];
 	}
 	
+	
 	return 0;
 }
 
 -(NSUInteger) checkSpace:(unichar) c {
 	if ([Parser isSpace:c]) {
-		[self appendString:@" "];
+		[retString keepSpace];
 		return [orString nextNonSpaceIndex:strIndex defaults:strIndex + 1];
 	}
 	
@@ -242,7 +269,7 @@ NSUInteger strIndex;
 				}
 				if (isNegative) {
 					if (![Parser isUpperBrackets:last] && ![Parser isBlank:[retString characterAtIndex:retString.length - 1]]) {
-						[self appendString:@" "];
+						[retString keepSpace];
 					}
 					[self appendString:@"-"];
 				} else {
@@ -375,6 +402,9 @@ NSUInteger strIndex;
 -(NSUInteger) addIndent:(NSMutableString *)editString  {
 	
 	NSUInteger nextIndex = [orString nextNonSpaceIndex:strIndex defaults:-1];
+	if ([@"switch" isEqualToString:[orString nextWord:strIndex]]) {
+		inSwitch = true;
+	}
 	if (nextIndex == -1) {
 		return strIndex + 1;
 	}
@@ -383,10 +413,13 @@ NSUInteger strIndex;
 		onetimeIndent -= 1;
 	}
 	NSString *head = [orString nextWord:nextIndex];
+	
+	// check in switch block
 	NSArray *array = @[@"case", @"default:"];
-	if ([array containsObject:head]) {
+	if (inSwitch && [array containsObject:head]) {
 		onetimeIndent -= 1;
 	}
+	
 	for (int i = 0; i < indent + onetimeIndent; i++) {
 		[editString appendString:@"\t"];
 	}
@@ -394,48 +427,58 @@ NSUInteger strIndex;
 	return nextIndex;
 }
 
--(NSUInteger) checkIndent:(unichar) c {
+-(NSUInteger) checkBrackets:(unichar) c {
 	
 	if ([Parser isUpperBrackets:c]) {
 		indent++;
+		if (inSwitch) {
+			switchBlockCount++;
+		}
 		unichar lastChar = ' ';
 		if (retString.length > 0) {
 			lastChar = [retString characterAtIndex:retString.length - 1];
 		}
-		if (![Parser isSpace:lastChar]) {
-			NSUInteger lastIndex = [orString lastCharIndex:strIndex - 1 defaults:-1];
-			lastChar = ' ';
-			if (lastIndex != -1) {
-				lastChar = [orString characterAtIndex:lastIndex];
+		
+		NSUInteger lastIndex = [orString lastCharIndex:strIndex - 1 defaults:-1];
+		lastChar = ' ';
+		if (lastIndex != -1) {
+			lastChar = [orString characterAtIndex:lastIndex];
+		}
+		if ([Parser isLowerBrackets:lastChar]) {
+			if (c != '(') {
+				[retString keepSpace];
 			}
-			if ([Parser isLowerBrackets:lastChar]) {
-				if (c != '(') {
-					[self appendString:@" "];
-				}
-			} else {
-				switch (c) {
-					case '(':{
-						NSArray *controlsArray = @[@"]", @"if", @"else", @"while", @"for", @"guard", @"switch", @"defer"];
-						NSString *preStr = [orString lastWord:strIndex - 1];
-						if ([controlsArray containsObject:preStr]) {
-							[self appendString:@" "];
-						}
+		} else {
+			switch (c) {
+				case '(':{
+					NSArray *controlsArray = @[@"]", @"if", @"else", @"while", @"for", @"guard", @"switch", @"defer"];
+					NSString *preStr = [orString lastWord:strIndex - 1];
+					if ([controlsArray containsObject:preStr]) {
+						[retString keepSpace];
+					} else {
+						[retString trim];
+						NSLog(@"trim");
 					}
-						break;
-					case '{':
-						if (![Parser isUpperBrackets:lastChar]) {
-							[self appendString:@" "];
-						}
-						break;
-					defaults:
-						break;
 				}
+					break;
+				case '{':
+					if (![Parser isUpperBrackets:lastChar]) {
+						[retString keepSpace];
+					}
+					break;
+				defaults:
+					break;
 			}
 		}
 		[self appendChar:c];
 		
 		return [orString nextNonSpaceIndex:strIndex defaults:strIndex];
 	} else if ([Parser isLowerBrackets:c]) {
+		if (inSwitch) {
+			if (--switchBlockCount == 0) {
+				inSwitch = false;
+			}
+		}
 		if (indent != 0)
 			indent--;
 		[self appendChar:c];

@@ -16,6 +16,16 @@
 	XCTAssertTrue([string isEqualToString:@"abc cd "]);
 }
 
+- (void) testKeepSpace {
+	NSMutableString *string = [NSMutableString stringWithString:@"abc"];
+	[string keepSpace];
+	XCTAssertTrue([string isEqualToString:@"abc "]);
+	string = [NSMutableString stringWithString:@"abc "];
+	[string keepSpace];
+	XCTAssertTrue([string isEqualToString:@"abc "]);
+
+}
+
 - (void) testTrim {
 	NSMutableString *string = [NSMutableString stringWithString:@" abc  "];
 	[string trim];

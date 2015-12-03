@@ -12,9 +12,4 @@
 
 +(bool) isLowerBrackets:(unichar) c;
 
-/**
- @brief add string to next occurrence string
- */
--(NSUInteger) addStringToNext:(NSString *) next withOffset:(NSUInteger)index edit:(NSMutableString *) editString withString:(NSString *) string;
-
 @end
