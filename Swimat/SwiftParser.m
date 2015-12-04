@@ -7,10 +7,12 @@
 
 int indent;
 int onetimeIndent;
+int lastIndent;
 NSMutableString *retString;
 NSString *orString;
 NSRange newRange;
 NSUInteger strIndex;
+
 
 bool inSwitch; // TODO: change to stack if need nested
 int switchBlockCount; // change to stack if need nested
@@ -25,6 +27,7 @@ int switchBlockCount; // change to stack if need nested
 	strIndex = 0;
 	indent = 0;
 	onetimeIndent = 0;
+	lastIndent = 0;
 	orString = string;
 	retString = [NSMutableString string];
 	inSwitch = false;
@@ -225,6 +228,10 @@ int switchBlockCount; // change to stack if need nested
 
 -(NSUInteger) checkComma:(unichar) c {
 	if (c == ',') {
+		[retString trim];
+		if (retString.length > 0 && [retString characterAtIndex:retString.length - 1] == '\n') {
+			[self addIndent:retString withCount:lastIndent];
+		}
 		NSUInteger nextIndex = [orString nextNonSpaceIndex:strIndex + 1 defaults:-1];
 		if (nextIndex != -1 && [orString characterAtIndex:nextIndex] != '\n') {
 			[retString appendString:@", "];
@@ -416,15 +423,19 @@ int switchBlockCount; // change to stack if need nested
 	
 	// check in switch block
 	NSArray *array = @[@"case", @"default:"];
-	if (inSwitch && [array containsObject:head]) {
+	if (inSwitch && [array containsObject:head]) {//TODO change contains to startWith will better
 		onetimeIndent -= 1;
 	}
-	
-	for (int i = 0; i < indent + onetimeIndent; i++) {
-		[editString appendString:@"\t"];
-	}
+	lastIndent = indent + onetimeIndent;
+	[self addIndent:editString withCount:indent + onetimeIndent];
 	onetimeIndent = 0;
 	return nextIndex;
+}
+
+-(void) addIndent:(NSMutableString *)editString withCount:(int) count{
+	for (int i = 0; i < count; i++) {
+		[editString appendString:@"\t"];
+	}
 }
 
 -(NSUInteger) checkBrackets:(unichar) c {
@@ -451,12 +462,17 @@ int switchBlockCount; // change to stack if need nested
 		} else {
 			switch (c) {
 				case '(':{
-					NSArray *controlsArray = @[@"]", @"if", @"else", @"while", @"for", @"guard", @"switch", @"defer"];
+					NSArray *controlsArray = @[@"]", @"if", @"else", @"while", @"for", @"guard", @"switch", @"case", @"defer"];
 					unichar lastChar = [orString lastChar:strIndex - 1 defaults:' '];
 					NSString *preStr = [orString lastWord:strIndex - 1];
-					if ([controlsArray containsObject:preStr] || lastChar == '=') {		[retString keepSpace];
-					} else {
+					if ([controlsArray containsObject:preStr]) {
+						[retString keepSpace];
+					} else if ([Parser isAZ:lastChar]){
 						[retString trim];
+						if ([retString characterAtIndex:retString.length - 1] == '\n') {
+							[self addIndent:retString withCount:lastIndent];
+						}
+						
 						NSLog(@"trim");
 					}
 				}
@@ -481,6 +497,10 @@ int switchBlockCount; // change to stack if need nested
 		}
 		if (indent != 0)
 			indent--;
+		[retString trim];
+		if (retString.length > 0 && [retString characterAtIndex:retString.length - 1] == '\n') {
+			[self addIndent:retString withCount:lastIndent];
+		}
 		[self appendChar:c];
 		return strIndex;
 	}

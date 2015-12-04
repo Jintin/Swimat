@@ -70,7 +70,7 @@
 }
 
 - (void) testLastWord {
-	NSString *string = [@"a bc  " lastWord:4];
+	NSString *string = [@"a bcd " lastWord:3];
 	XCTAssertTrue([@"bc" isEqualToString:string]);
 }
 

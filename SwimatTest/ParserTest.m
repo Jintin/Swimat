@@ -44,4 +44,14 @@
 	XCTAssertFalse([Parser isLowerBrackets:'|']);
 }
 
+- (void) testAZ {
+	XCTAssertFalse([Parser isAZ:' ']);
+	XCTAssertTrue([Parser isAZ:'1']);
+	XCTAssertTrue([Parser isAZ:'0']);
+	XCTAssertTrue([Parser isAZ:'a']);
+	XCTAssertTrue([Parser isAZ:'z']);
+	XCTAssertTrue([Parser isAZ:'A']);
+	XCTAssertTrue([Parser isAZ:'Z']);
+}
+
 @end

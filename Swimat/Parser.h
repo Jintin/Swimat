@@ -12,4 +12,9 @@
 
 +(bool) isLowerBrackets:(unichar) c;
 
+/**
+ @brief is qualify name(0~9 a~z A~Z _)
+ */
++(bool) isAZ:(unichar) c;
+
 @end
