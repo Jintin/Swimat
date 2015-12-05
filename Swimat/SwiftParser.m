@@ -502,6 +502,7 @@ int switchBlockCount; // change to stack if need nested
 			[self addIndent:retString withCount:lastIndent];
 		}
 		[self appendChar:c];
+		[retString keepSpace];
 		return strIndex;
 	}
 	
