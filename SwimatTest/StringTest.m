@@ -70,8 +70,8 @@
 }
 
 - (void) testLastChar {
-	XCTAssertTrue([@"abcd " lastChar:4 defaults:' '] == 'd');
-	XCTAssertTrue([@"    e" lastChar:4 defaults:' '] == ' ');
+	XCTAssertTrue([@"abc e" lastChar:3 defaults:' '] == 'c');
+	XCTAssertTrue([@"    e" lastChar:3 defaults:' '] == ' ');
 }
 
 - (void) testLastWord {
