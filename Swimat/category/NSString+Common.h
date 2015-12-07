@@ -48,14 +48,9 @@
 -(NSUInteger) nextNonSpaceIndex:(NSUInteger) index defaults:(NSUInteger) value;
 
 /**
- @brief get next non empty char
+ @brief get next char (without empty char)
  */
--(NSUInteger) nextCharIndex:(NSUInteger) index defaults:(NSUInteger) value;
-
-/**
- @brief find next empty char
- */
--(NSUInteger) nextNonCharIndex:(NSUInteger) index defaults:(NSUInteger) value;
+-(unichar) nextChar:(NSUInteger) index defaults:(unichar) value;
 
 /**
  @brief get last word
@@ -76,16 +71,6 @@
  @brief find last non space
  */
 -(NSUInteger) lastNonSpaceIndex:(NSUInteger) index defaults:(NSUInteger) value;
-
-/**
- @brief find last non empty char
- */
--(NSUInteger) lastCharIndex:(NSUInteger) index defaults:(NSUInteger) value;
-
-/**
- @brief find last empty char
- */
--(NSUInteger) lastNonCharIndex:(NSUInteger) index defaults:(NSUInteger) value;
 
 /**
  @brief get last char (without empty char)

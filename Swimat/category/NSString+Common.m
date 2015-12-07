@@ -20,7 +20,7 @@
 
 -(bool) isCompleteLine:(NSUInteger) index {
 	
-	NSArray *array = [NSArray arrayWithObjects:@"+", @"-", @"*", @"/", @"=", @":", nil];
+	NSArray *array = [NSArray arrayWithObjects:@"+", @"-", @"*", @"/", @"=", @":", @".", nil];
 	
 	bool(^notComplete)(NSUInteger checkIndex) = ^bool(NSUInteger checkIndex){
 		if (checkIndex != -1) {
@@ -138,6 +138,15 @@
 	return [self nextIndex:index defaults:value compare:^bool(NSString *next, NSUInteger curIndex){
 		return [next isEqualToString:@" "] || [next isEqualToString:@"\t"] || [next isEqualToString:@"\n"];
 	}];
+}
+
+-(unichar) nextChar:(NSUInteger) index defaults:(unichar) value {
+	NSUInteger nextIndex = [self nextCharIndex:index defaults:-1];
+	if (nextIndex == -1) {
+		return value;
+	} else {
+		return [self characterAtIndex:nextIndex];
+	}
 }
 
 -(NSString *) nextWord:(NSUInteger) index {

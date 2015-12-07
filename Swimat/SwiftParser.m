@@ -146,13 +146,11 @@ int switchBlockCount; // change to stack if need nested
 		^ NSUInteger (NSString *string, NSMutableString *editString, NSUInteger index) {
 			NSUInteger nextIndex = [string nextIndex:index search:@"\n" defaults:-1];
 			if (nextIndex == -1) { // not found '\n'
-				NSLog(@"-1 %i, %i",(int) index,(int) string.length - 1);
 				
 				[editString appendString:[string substringFromIndex:index]];
 				[editString trim];
 				return string.length;
 			} else {
-				NSLog(@"f %i, %i",(int) index,(int) string.length - 1);
 				
 				[editString appendString:[string substringWithRange:NSMakeRange(index, nextIndex - index - 1)]];
 				[editString trim];
@@ -445,16 +443,9 @@ int switchBlockCount; // change to stack if need nested
 		if (inSwitch) {
 			switchBlockCount++;
 		}
-		unichar lastChar = ' ';
-		if (retString.length > 0) {
-			lastChar = [retString characterAtIndex:retString.length - 1];
-		}
 		
-		NSUInteger lastIndex = [orString lastCharIndex:strIndex - 1 defaults:-1];
-		lastChar = ' ';
-		if (lastIndex != -1) {
-			lastChar = [orString characterAtIndex:lastIndex];
-		}
+		unichar lastChar = [orString lastChar:strIndex - 1 defaults:' '];
+		
 		if ([Parser isLowerBrackets:lastChar]) {
 			if (c != '(') {
 				[retString keepSpace];
@@ -463,7 +454,6 @@ int switchBlockCount; // change to stack if need nested
 			switch (c) {
 				case '(':{
 					NSArray *controlsArray = @[@"]", @"if", @"else", @"while", @"for", @"guard", @"switch", @"case", @"defer"];
-					unichar lastChar = [orString lastChar:strIndex - 1 defaults:' '];
 					NSString *preStr = [orString lastWord:strIndex - 1];
 					if ([controlsArray containsObject:preStr]) {
 						[retString keepSpace];
@@ -472,8 +462,6 @@ int switchBlockCount; // change to stack if need nested
 						if ([retString characterAtIndex:retString.length - 1] == '\n') {
 							[self addIndent:retString withCount:lastIndent];
 						}
-						
-						NSLog(@"trim");
 					}
 				}
 					break;
@@ -502,8 +490,11 @@ int switchBlockCount; // change to stack if need nested
 			[self addIndent:retString withCount:lastIndent];
 		}
 		[self appendChar:c];
-		[retString keepSpace];
-		return strIndex;
+		unichar next = [orString nextChar:strIndex defaults:' '];
+		if (next != '.' && next != '?' && next != '!') {
+			[retString keepSpace];
+		}
+		return [orString nextNonSpaceIndex:strIndex defaults:strIndex];
 	}
 	
 	return 0;

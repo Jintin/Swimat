@@ -50,6 +50,11 @@
 	XCTAssertTrue(3 == [@"   d " nextNonSpaceIndex:0 defaults:-1]);
 }
 
+- (void) testNextChar {
+	XCTAssertTrue([@"a cde" nextChar:1 defaults:' '] == 'c');
+	XCTAssertTrue([@"a    " nextChar:1 defaults:' '] == ' ');
+}
+
 - (void) testLastIndex {
 	XCTAssertTrue(3 == [@"abcde" lastIndex:4 defaults:-1 compare:^bool(NSString *next, NSUInteger curIndex){
 		return [next isEqualToString:@"d"];
@@ -65,8 +70,8 @@
 }
 
 - (void) testLastChar {
-	XCTAssertTrue([@"abcd " lastCharIndex:4 defaults:-1] == 3);
-	XCTAssertTrue([@"ab   " lastCharIndex:4 defaults:-1] == 1);
+	XCTAssertTrue([@"abcd " lastChar:4 defaults:' '] == 'd');
+	XCTAssertTrue([@"    e" lastChar:4 defaults:' '] == ' ');
 }
 
 - (void) testLastWord {
@@ -76,7 +81,6 @@
 
 - (void) testNextWord {
 	NSString *string = [@"a bc  " nextWord:1];
-	NSLog(@"%@",string);
 	XCTAssertTrue([@"bc" isEqualToString:string]);
 }
 
