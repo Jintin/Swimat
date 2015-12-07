@@ -160,9 +160,8 @@ int switchBlockCount; // change to stack if need nested
 		};
 		
 		if ([self isNext:'/']) {
-			[self appendString:@"// "];
-			NSUInteger start = [orString nextNonSpaceIndex:strIndex defaults:strIndex];
-			strIndex = addToEnd(orString, retString, start);
+			[self appendString:@"//"];
+			strIndex = addToEnd(orString, retString, strIndex);
 			
 			return [self addIndent:retString];
 		} else if ([self isNext:'*']) {
