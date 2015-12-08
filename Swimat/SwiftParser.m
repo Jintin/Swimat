@@ -322,7 +322,7 @@ int switchBlockCount; // change to stack if need nested
 				if (closeIndex != -1) {
 					NSString *checkString = [orString subString:checkIndex endWith:closeIndex + 1];
 					
-					NSString *regex = @"^(<|>|.|:|\\w|\\s|!|\\?|,)+$";
+					NSString *regex = @"^(<|>|\\.|:|\\w|\\s|!|\\?|,)+$";
 					NSRange range = [checkString rangeOfString:regex options:NSRegularExpressionSearch];
 					if (range.location != NSNotFound) {
 						strIndex += checkString.length;
@@ -439,24 +439,26 @@ int switchBlockCount; // change to stack if need nested
 	
 	if ([Parser isUpperBrackets:c]) {
 		indent++;
-		if (inSwitch) {
+		if (inSwitch && c == '{') {
 			switchBlockCount++;
 		}
 		
 		unichar lastChar = [orString lastChar:strIndex - 1 defaults:' '];
 		
 		if ([Parser isLowerBrackets:lastChar]) {
-			if (c != '(') {
+			if (c == '(') {
+				[retString trim];
+			} else {
 				[retString keepSpace];
 			}
 		} else {
 			switch (c) {
 				case '(':{
-					NSArray *controlsArray = @[@"]", @"if", @"else", @"while", @"for", @"guard", @"switch", @"case", @"defer"];
+					NSArray *controlsArray = @[ @"if", @"else", @"while", @"for", @"guard", @"switch", @"case", @"defer"];
 					NSString *preStr = [orString lastWord:strIndex - 1];
 					if ([controlsArray containsObject:preStr]) {
 						[retString keepSpace];
-					} else if ([Parser isAZ:lastChar]){
+					} else if ([Parser isAZ:lastChar] || lastChar == ']'){
 						[retString trim];
 						if ([retString characterAtIndex:retString.length - 1] == '\n') {
 							[self addIndent:retString withCount:lastIndent];
@@ -477,7 +479,7 @@ int switchBlockCount; // change to stack if need nested
 		
 		return [orString nextNonSpaceIndex:strIndex defaults:strIndex];
 	} else if ([Parser isLowerBrackets:c]) {
-		if (inSwitch) {
+		if (inSwitch && c == '}') {
 			if (--switchBlockCount == 0) {
 				inSwitch = false;
 			}
