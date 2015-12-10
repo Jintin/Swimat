@@ -454,7 +454,7 @@ int switchBlockCount; // change to stack if need nested
 		} else {
 			switch (c) {
 				case '(':{
-					NSArray *controlsArray = @[ @"if", @"else", @"while", @"for", @"guard", @"switch", @"case", @"defer"];
+					NSArray *controlsArray = @[ @"if", @"else", @"while", @"for", @"guard", @"switch", @"case", @"defer", @"var", @"let"];
 					NSString *preStr = [orString lastWord:strIndex - 1];
 					if ([controlsArray containsObject:preStr]) {
 						[retString keepSpace];
