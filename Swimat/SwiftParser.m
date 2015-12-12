@@ -73,6 +73,13 @@ int switchBlockCount; // change to stack if need nested
 			checkRangeEnd = true;
 		}
 	}
+	[retString trim];
+	if (newRange.location >= retString.length) {
+		newRange.location = retString.length;
+	}
+	if (newRange.location + newRange.length >= retString.length) {
+		newRange.length = retString.length - newRange.location;
+	}
 	return retString;
 }
 

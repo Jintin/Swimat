@@ -74,10 +74,46 @@
 	
 	DVTSourceTextView *sourceTextView = [DTXcodeUtils currentSourceTextView];
 	NSRect r = [sourceTextView visibleRect];
+	NSString *orString = sourceTextView.string;
 	
-	[sourceTextView replaceCharactersInRange: NSMakeRange(0, sourceTextView.textStorage.string.length) withString:string];
+	NSRange diff = [self findDiffRange:string string2:orString];
+	NSUInteger start = diff.location;
+	NSUInteger end = diff.length;
+	
+	NSLog(@"start = %i, end = %i",(int)start,(int)end);
+	NSLog(@"string = %i, orString = %i",(int)string.length,(int)orString.length);
+	NSLog(@"end1 %i",(int)(orString.length - end - start));
+	NSLog(@"end2 %i",(int)(string.length - end - start));
+	[sourceTextView replaceCharactersInRange: NSMakeRange(start, orString.length - end - start) withString:[string substringWithRange:NSMakeRange(start, string.length - end - start)]];
+	
 	[sourceTextView setSelectedRange:range];
 	[sourceTextView scrollRectToVisible: r];
+}
+
+- (NSRange) findDiffRange:(NSString *) string1 string2:(NSString *) string2 {
+	NSUInteger start = 0, end = 1;
+	NSUInteger minLen = MIN(string1.length, string2.length);
+	
+	while ([string1 characterAtIndex:start] == [string2 characterAtIndex:start]) {
+		if (start < minLen - 1) {
+			start++;
+			NSLog(@"start++");
+		} else {
+			break;
+		}
+	}
+	while ([string1 characterAtIndex:string1.length - end] == [string2 characterAtIndex:string2.length - end]) {
+		if (minLen - end > start) {
+			end++;
+			NSLog(@"end++");
+		} else {
+			NSLog(@"break");
+			break;
+		}
+	}
+	end--;
+	
+	return NSMakeRange(start, end);
 }
 
 - (void)dealloc {

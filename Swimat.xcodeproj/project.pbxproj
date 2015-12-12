@@ -19,6 +19,8 @@
 		2F2F5C791C0B37F20090D0C5 /* NSString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F5C771C0B37F20090D0C5 /* NSString+Common.m */; };
 		2F2F5C7A1C0B39140090D0C5 /* NSMutableString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F5C751C0B37F20090D0C5 /* NSMutableString+Common.m */; };
 		2F2F5C7B1C0B39170090D0C5 /* NSString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F5C771C0B37F20090D0C5 /* NSString+Common.m */; };
+		2F39CCA41C1A791100005EC5 /* Swimat.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041D981BF1B5C100C51207 /* Swimat.m */; };
+		2F39CCA51C1A7A5A00005EC5 /* DTXcodeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCE0E531C05D2910000DF1B /* DTXcodeUtils.m */; };
 		2FCE0E541C05D2910000DF1B /* DTXcodeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCE0E531C05D2910000DF1B /* DTXcodeUtils.m */; };
 		2FD1EECC1BF1B992002B56B0 /* MutableStringTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD1EECB1BF1B992002B56B0 /* MutableStringTest.m */; };
 		2FD1EECE1BF1B9A2002B56B0 /* ParserTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD1EECD1BF1B9A2002B56B0 /* ParserTest.m */; };
@@ -291,6 +293,8 @@
 				2FD1EED11BF1BA1F002B56B0 /* SwiftParser.m in Sources */,
 				2FD1EED01BF1B9B1002B56B0 /* StringTest.m in Sources */,
 				2F2F5C7A1C0B39140090D0C5 /* NSMutableString+Common.m in Sources */,
+				2F39CCA51C1A7A5A00005EC5 /* DTXcodeUtils.m in Sources */,
+				2F39CCA41C1A791100005EC5 /* Swimat.m in Sources */,
 				2FD1EECC1BF1B992002B56B0 /* MutableStringTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

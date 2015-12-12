@@ -1,14 +1,15 @@
 #import <XCTest/XCTest.h>
+#import "Swimat.h"
 
 @interface SwimatTest : XCTestCase
-
+@property (nonatomic) Swimat *parser;
 @end
 
 @implementation SwimatTest
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+	self.parser = [[Swimat alloc]init];
 }
 
 - (void)tearDown {
@@ -16,16 +17,21 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+- (void)testFindDiffRange {
+	NSRange range;
+	range = [self.parser findDiffRange:@"abc d" string2:@"abed"];
+	XCTAssert(range.location == 2);
+	XCTAssert(range.length == 1);
+	
+	range = [self.parser findDiffRange:@"abcd" string2:@"abcd"];
+	XCTAssert(range.location == 3);
+	XCTAssert(range.length == 0);
+	
+	range = [self.parser findDiffRange:@"abcd " string2:@"abcd"];
+	XCTAssert(range.location == 3);
+	XCTAssert(range.length == 0);
+	
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
-}
 
 @end

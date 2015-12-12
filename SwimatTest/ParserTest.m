@@ -2,14 +2,12 @@
 #import "Parser.h"
 
 @interface ParserTest : XCTestCase
-@property (nonatomic) Parser *parser;
 @end
 
 @implementation ParserTest
 
 - (void)setUp {
 	[super setUp];
-	self.parser = [[Parser alloc]init];
 }
 
 - (void) testSpace {
