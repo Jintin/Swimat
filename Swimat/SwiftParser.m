@@ -502,7 +502,7 @@ int switchBlockCount; // change to stack if need nested
 		}
 		[self appendChar:c];
 		unichar next = [orString nextChar:strIndex defaults:' '];
-		if (next != '.' && next != '?' && next != '!') {
+		if (next != '.' && next != '?' && next != '!' && next != ':') {
 			[retString keepSpace];
 		}
 		return [orString nextNonSpaceIndex:strIndex defaults:strIndex];
