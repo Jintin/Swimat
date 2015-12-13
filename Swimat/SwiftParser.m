@@ -270,12 +270,15 @@ int switchBlockCount; // change to stack if need nested
 			} else if ([self isNext:'=']) { // -=
 				[self spaceWith:@"-="];
 			} else { // -
-				NSArray *checkList = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@":",@"(",@"{",@"?",@"!",@"=",@","];
+				NSArray *checkChar = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@":",@"(",@"{",@"?",@"!",@"=",@","];
 				unichar last = [orString lastChar:strIndex - 1 defaults:' '];
+				NSArray *checkWord = @[@"case", @"return"];
+				NSString *lastWord = [orString lastWord:strIndex - 1];
+				
 				bool isNegative = false;
-				if ([checkList containsObject:[NSString stringWithFormat:@"%c", last]]) {
+				if ([checkChar containsObject:[NSString stringWithFormat:@"%c", last]]) {
 					isNegative = true;
-				} else if ([[orString lastWord:strIndex - 1] isEqualToString:@"case"]) {
+				} else if ([checkWord containsObject:lastWord]) {
 					isNegative = true;
 				}
 				if (isNegative) {
@@ -461,7 +464,7 @@ int switchBlockCount; // change to stack if need nested
 		} else {
 			switch (c) {
 				case '(':{
-					NSArray *controlsArray = @[ @"if", @"else", @"while", @"for", @"guard", @"switch", @"case", @"defer", @"var", @"let"];
+					NSArray *controlsArray = @[ @"if", @"else", @"while", @"for", @"guard", @"switch", @"case", @"defer", @"var", @"let", @"return"];
 					NSString *preStr = [orString lastWord:strIndex - 1];
 					if ([controlsArray containsObject:preStr]) {
 						[retString keepSpace];
