@@ -331,14 +331,15 @@ int switchBlockCount; // change to stack if need nested
 				
 				if (closeIndex != -1) {
 					NSString *checkString = [orString subString:checkIndex endWith:closeIndex + 1];
-					
 					NSString *regex = @"^(<|>|\\.|:|\\w|\\s|!|\\?|,)+$";
 					NSRange range = [checkString rangeOfString:regex options:NSRegularExpressionSearch];
 					if (range.location != NSNotFound) {
 						strIndex += checkString.length;
-						checkString = [checkString stringByReplacingOccurrencesOfString:@" " withString:@""];
 						checkString = [checkString stringByReplacingOccurrencesOfString:@"," withString:@", "];
-						
+						checkString = [checkString stringByReplacingOccurrencesOfString:@":" withString:@": "];
+						while ([checkString containsString:@"  "]) {
+							checkString = [checkString stringByReplacingOccurrencesOfString:@"  " withString:@" "];
+						}
 						[retString appendString:checkString];
 						return strIndex;
 					}
