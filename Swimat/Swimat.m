@@ -32,15 +32,15 @@
 	NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Edit"];
 	if (menuItem) {
 		[[menuItem submenu] addItem:[NSMenuItem separatorItem]];
-		NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle: @"Swimat" action: @selector(doMenuAction) keyEquivalent:@"l"];
-		[actionMenuItem setKeyEquivalentModifierMask: NSAlphaShiftKeyMask | NSCommandKeyMask | NSAlternateKeyMask];
+		NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Swimat" action:@selector(doMenuAction) keyEquivalent:@"l"];
+		[actionMenuItem setKeyEquivalentModifierMask:NSAlphaShiftKeyMask | NSCommandKeyMask | NSAlternateKeyMask];
 		[actionMenuItem setTarget:self];
 		[[menuItem submenu] addItem:actionMenuItem];
-		
 	}
 }
 
 - (void)doMenuAction {
+	NSDate *methodStart = [NSDate date];
 	NSString *ext = [DTXcodeUtils currentSourceCodeDocument].fileURL.pathExtension;
 	NSArray *acceptFormat = @[@"swift", @"playground"];
 	if ([acceptFormat containsObject:ext]) {
@@ -55,6 +55,9 @@
 		[alert setMessageText: @"Only support swift now"];
 		[alert runModal];
 	}
+	NSDate *methodFinish = [NSDate date];
+	NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
+	NSLog(@"total executionTime = %f", executionTime);
 }
 
 - (void)setUndo {
@@ -64,7 +67,7 @@
 	NSRange oldRange = [[[sourceTextView selectedRanges] objectAtIndex:0] rangeValue];
 	NSArray *oldArray = [NSArray arrayWithObjects:oldString, [NSValue valueWithRange:oldRange], nil];
 	[undoManager setActionName:@"Swimat"];
-	[undoManager registerUndoWithTarget:self selector:@selector(setText:) object: oldArray];
+	[undoManager registerUndoWithTarget:self selector:@selector(setText:) object:oldArray];
 }
 
 - (void)setText: (NSArray*) array {
@@ -80,24 +83,20 @@
 	NSUInteger start = diff.location;
 	NSUInteger end = diff.length;
 	
-	NSLog(@"start = %i, end = %i",(int)start,(int)end);
-	NSLog(@"string = %i, orString = %i",(int)string.length,(int)orString.length);
-	NSLog(@"end1 %i",(int)(orString.length - end - start));
-	NSLog(@"end2 %i",(int)(string.length - end - start));
 	[sourceTextView replaceCharactersInRange: NSMakeRange(start, orString.length - end - start) withString:[string substringWithRange:NSMakeRange(start, string.length - end - start)]];
 	
 	[sourceTextView setSelectedRange:range];
-	[sourceTextView scrollRectToVisible: r];
+	[sourceTextView scrollRectToVisible:r];
 }
 
 - (NSRange) findDiffRange:(NSString *) string1 string2:(NSString *) string2 {
+	NSDate *methodStart = [NSDate date];
 	NSUInteger start = 0, end = 1;
 	NSUInteger minLen = MIN(string1.length, string2.length);
 	
 	while ([string1 characterAtIndex:start] == [string2 characterAtIndex:start]) {
 		if (start < minLen - 1) {
 			start++;
-			NSLog(@"start++");
 		} else {
 			break;
 		}
@@ -105,14 +104,14 @@
 	while ([string1 characterAtIndex:string1.length - end] == [string2 characterAtIndex:string2.length - end]) {
 		if (minLen - end > start) {
 			end++;
-			NSLog(@"end++");
 		} else {
-			NSLog(@"break");
 			break;
 		}
 	}
 	end--;
-	
+	NSDate *methodFinish = [NSDate date];
+	NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
+	NSLog(@"diff executionTime = %f", executionTime);
 	return NSMakeRange(start, end);
 }
 

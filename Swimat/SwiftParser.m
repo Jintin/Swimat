@@ -22,8 +22,8 @@ int switchBlockCount; // change to stack if need nested
 }
 
 -(NSString*) formatString:(NSString*) string withRange:(NSRange) range {
-	
-	bool checkRangeStart = false, checkRangeEnd = false;
+	NSDate *methodStart = [NSDate date];
+	bool checkRangeStart = false, checkRangeEnd = range.length == 0;
 	strIndex = 0;
 	indent = 0;
 	onetimeIndent = 0;
@@ -33,9 +33,7 @@ int switchBlockCount; // change to stack if need nested
 	inSwitch = false;
 	switchBlockCount = 0;
 	
-	NSUInteger length = [string lastNonSpaceIndex:range.location + range.length defaults:range.location + range.length] - range.location;
-	NSUInteger location = [string nextNonSpaceIndex:range.location defaults:range.location];
-	newRange = NSMakeRange(location, length);
+	newRange = NSMakeRange(range.location, range.length);
 	
 	while (strIndex < string.length) {
 		unichar c = [string characterAtIndex:strIndex];
@@ -60,26 +58,37 @@ int switchBlockCount; // change to stack if need nested
 			[self appendChar:c];
 		}
 		if (!checkRangeStart && strIndex >= range.location) {
-			newRange.location = [self transformIndex:range.location];
 			checkRangeStart = true;
-			if (range.length == 0) {
-				checkRangeEnd = true;
-				newRange.length = 0;
+			newRange.location = [self transformIndex:range.location];
+			
+			if (range.length != 0) {
+				[retString replaceCharactersInRange:NSMakeRange(0, newRange.location) withString:[string substringWithRange:NSMakeRange(0, range.location)]];
+				newRange.location = range.location;
 			}
 		}
 		if (!checkRangeEnd && strIndex >= range.location + range.length) {
+			checkRangeEnd = true;
 			NSUInteger temp = [self transformIndex:range.location + range.length];
 			newRange.length = temp - newRange.location;
-			checkRangeEnd = true;
+			
+			if (range.length != 0) {
+				[retString replaceCharactersInRange:NSMakeRange(newRange.location + newRange.length, retString.length - newRange.location - newRange.length) withString:[string substringWithRange:NSMakeRange(range.location + range.length, string.length - range.location - range.length)]];
+				break;
+			}
 		}
 	}
 	[retString trim];
 	if (newRange.location >= retString.length) {
 		newRange.location = retString.length;
+		NSLog(@"modify range location");
 	}
 	if (newRange.location + newRange.length >= retString.length) {
 		newRange.length = retString.length - newRange.location;
+		NSLog(@"modify range length");
 	}
+	NSDate *methodFinish = [NSDate date];
+	NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
+	NSLog(@"format executionTime = %f", executionTime);
 	return retString;
 }
 
@@ -216,7 +225,6 @@ int switchBlockCount; // change to stack if need nested
 		[self appendString:@"\n"];
 		return [self addIndent:retString];
 	}
-	
 	
 	return 0;
 }
@@ -482,7 +490,7 @@ int switchBlockCount; // change to stack if need nested
 						[retString keepSpace];
 					}
 					break;
-				defaults:
+				default:
 					break;
 			}
 		}
@@ -502,8 +510,11 @@ int switchBlockCount; // change to stack if need nested
 			[self addIndent:retString withCount:lastIndent];
 		}
 		[self appendChar:c];
+		
 		unichar next = [orString nextChar:strIndex defaults:' '];
-		if (next != '.' && next != '?' && next != '!' && next != ':') {
+		if (next == '?' || next == ':') {
+			return strIndex;
+		} else if (next != '.' && next != '!') {
 			[retString keepSpace];
 		}
 		return [orString nextNonSpaceIndex:strIndex defaults:strIndex];
