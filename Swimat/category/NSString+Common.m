@@ -11,11 +11,19 @@
 }
 
 -(NSString *) subString:(NSUInteger) startIndex endWith:(NSUInteger) endIndex {
-	return [self substringWithRange:NSMakeRange(startIndex, endIndex - startIndex)];
+	if (endIndex <= self.length) {
+		return [self substringWithRange:NSMakeRange(startIndex, endIndex - startIndex)];
+	} else {
+		return @"";
+	}
 }
 
 -(NSString *) subString:(NSUInteger) startIndex length:(NSUInteger) length {
-	return [self substringWithRange:NSMakeRange(startIndex, length)];
+	if (startIndex + length <= self.length) {
+		return [self substringWithRange:NSMakeRange(startIndex, length)];
+	} else {
+		return @"";
+	}
 }
 
 -(bool) isCompleteLine:(NSUInteger) index {

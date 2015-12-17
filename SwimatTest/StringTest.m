@@ -14,6 +14,14 @@
 	XCTAssertFalse([string isStartWith:@"bc" fromIndex:1]);
 }
 
+- (void) testSubString {
+	NSString *string = @"abc";
+	XCTAssertTrue([[string subString:1 length:2] isEqualToString:@"bc"]);
+	XCTAssertTrue([[string subString:2 length:2] isEqualToString:@""]);
+	XCTAssertTrue([[string subString:1 endWith:3] isEqualToString:@"bc"]);
+	XCTAssertTrue([[string subString:1 endWith:4] isEqualToString:@""]);
+}
+
 - (void) testNextIndexSearch {
 	NSString *string = @"abcaa";
 	XCTAssertEqual([string nextIndex:1 search:@"aa" defaults:-1], 5);

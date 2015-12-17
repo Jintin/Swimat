@@ -120,6 +120,13 @@ int switchBlockCount; // change to stack if need nested
 	return -1;
 }
 
+-(void) trimWithIndent {
+	[retString trim];
+	if (retString.length > 0 && [retString characterAtIndex:retString.length - 1] == '\n') {
+		[self addIndent:retString withCount:lastIndent];
+	}
+}
+
 -(NSUInteger) transformIndex:(NSUInteger) rangeIndex {
 	NSUInteger index1 = strIndex - 1;
 	NSUInteger index2 = retString.length - 1;
@@ -152,7 +159,11 @@ int switchBlockCount; // change to stack if need nested
 }
 
 -(bool) isNext:(unichar) check {
-	return [orString characterAtIndex:strIndex + 1] == check;
+	if (strIndex + 1 < orString.length) {
+		return [orString characterAtIndex:strIndex + 1] == check;
+	} else {
+		return false;
+	}
 }
 
 -(NSUInteger) checkComment:(unichar) c {
@@ -162,12 +173,10 @@ int switchBlockCount; // change to stack if need nested
 		^ NSUInteger (NSString *string, NSMutableString *editString, NSUInteger index) {
 			NSUInteger nextIndex = [string nextIndex:index search:@"\n" defaults:-1];
 			if (nextIndex == -1) { // not found '\n'
-				
 				[editString appendString:[string substringFromIndex:index]];
 				[editString trim];
 				return string.length;
 			} else {
-				
 				[editString appendString:[string substringWithRange:NSMakeRange(index, nextIndex - index - 1)]];
 				[editString trim];
 				[editString appendString:@"\n"];
@@ -221,8 +230,11 @@ int switchBlockCount; // change to stack if need nested
 		if (![orString isCompleteLine:strIndex]) {
 			onetimeIndent++;
 		}
-		[retString trim];
+		[self trimWithIndent];
 		[self appendString:@"\n"];
+		if ([self isNext:'/']) { // not indent
+			
+		}
 		return [self addIndent:retString];
 	}
 	
@@ -240,10 +252,7 @@ int switchBlockCount; // change to stack if need nested
 
 -(NSUInteger) checkComma:(unichar) c {
 	if (c == ',') {
-		[retString trim];
-		if (retString.length > 0 && [retString characterAtIndex:retString.length - 1] == '\n') {
-			[self addIndent:retString withCount:lastIndent];
-		}
+		[self trimWithIndent];
 		NSUInteger nextIndex = [orString nextNonSpaceIndex:strIndex + 1 defaults:-1];
 		if (nextIndex != -1 && [orString characterAtIndex:nextIndex] != '\n') {
 			[retString appendString:@", "];
@@ -466,7 +475,7 @@ int switchBlockCount; // change to stack if need nested
 		
 		if ([Parser isLowerBrackets:lastChar]) {
 			if (c == '(') {
-				[retString trim];
+				[self trimWithIndent];
 			} else {
 				[retString keepSpace];
 			}
@@ -478,10 +487,7 @@ int switchBlockCount; // change to stack if need nested
 					if ([controlsArray containsObject:preStr]) {
 						[retString keepSpace];
 					} else if ([Parser isAZ:lastChar] || lastChar == ']'){
-						[retString trim];
-						if ([retString characterAtIndex:retString.length - 1] == '\n') {
-							[self addIndent:retString withCount:lastIndent];
-						}
+						[self trimWithIndent];
 					}
 				}
 					break;
@@ -505,10 +511,7 @@ int switchBlockCount; // change to stack if need nested
 		}
 		if (indent != 0)
 			indent--;
-		[retString trim];
-		if (retString.length > 0 && [retString characterAtIndex:retString.length - 1] == '\n') {
-			[self addIndent:retString withCount:lastIndent];
-		}
+		[self trimWithIndent];
 		[self appendChar:c];
 		
 		unichar next = [orString nextChar:strIndex defaults:' '];
