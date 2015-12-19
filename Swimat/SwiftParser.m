@@ -166,29 +166,35 @@ int switchBlockCount; // change to stack if need nested
 	}
 }
 
+-(bool) isNextString:(NSString *) check {
+	return [[orString subString:strIndex length:check.length] isEqualToString:check];
+}
+
+-(NSUInteger) addToEnd:(NSString *) string edit:(NSMutableString *) editString withIndex:(NSUInteger) index {
+	NSUInteger nextIndex = [string nextIndex:index search:@"\n" defaults:-1];
+	if (nextIndex == -1) { // not found '\n'
+		[editString appendString:[string substringFromIndex:index]];
+		[editString trim];
+		return string.length;
+	} else {
+		[editString appendString:[string substringWithRange:NSMakeRange(index, nextIndex - index - 1)]];
+		[editString trim];
+		[editString appendString:@"\n"];
+		return nextIndex;
+	}
+}
+
+-(NSUInteger) lineComment {
+	strIndex = [self addToEnd:orString edit:retString withIndex:strIndex];
+	
+	return [self addIndent:retString];
+}
+
 -(NSUInteger) checkComment:(unichar) c {
 	if (c == '/') {
-		
-		NSUInteger (^addToEnd)(NSString *, NSMutableString *, NSUInteger) =
-		^ NSUInteger (NSString *string, NSMutableString *editString, NSUInteger index) {
-			NSUInteger nextIndex = [string nextIndex:index search:@"\n" defaults:-1];
-			if (nextIndex == -1) { // not found '\n'
-				[editString appendString:[string substringFromIndex:index]];
-				[editString trim];
-				return string.length;
-			} else {
-				[editString appendString:[string substringWithRange:NSMakeRange(index, nextIndex - index - 1)]];
-				[editString trim];
-				[editString appendString:@"\n"];
-				return nextIndex;
-			}
-		};
-		
+	
 		if ([self isNext:'/']) {
-			[self appendString:@"//"];
-			strIndex = addToEnd(orString, retString, strIndex);
-			
-			return [self addIndent:retString];
+			return [self lineComment];
 		} else if ([self isNext:'*']) {
 			NSUInteger nextIndex = [orString nextIndex:strIndex search:@"*/" defaults:orString.length];
 			
@@ -197,7 +203,7 @@ int switchBlockCount; // change to stack if need nested
 			NSUInteger subIndex = 0;
 			while (subIndex < subString.length) {
 				subIndex = [subString nextNonSpaceIndex:subIndex defaults:subIndex];
-				NSUInteger newIndex = addToEnd(subString, orderStr, subIndex);
+				NSUInteger newIndex = [self addToEnd:subString edit:orderStr withIndex:subIndex];
 				
 				for (int i = 0; i < indent; i++) {
 					[orderStr appendString:@"\t"];
@@ -232,10 +238,11 @@ int switchBlockCount; // change to stack if need nested
 		}
 		[self trimWithIndent];
 		[self appendString:@"\n"];
-		if ([self isNext:'/']) { // not indent
-			
+		if ([self isNextString:@"//"]) { // code comment not indent
+			return [self lineComment];
+		} else {
+			return [self addIndent:retString];
 		}
-		return [self addIndent:retString];
 	}
 	
 	return 0;
