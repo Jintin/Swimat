@@ -184,7 +184,11 @@ int switchBlockCount; // change to stack if need nested
 	}
 }
 
--(NSUInteger) lineComment {
+-(NSUInteger) lineComment:(bool) trim {
+	if (trim) {
+		[self appendString:@"// "];
+		strIndex = [orString nextNonSpaceIndex:strIndex defaults:orString.length];
+	}
 	strIndex = [self addToEnd:orString edit:retString withIndex:strIndex];
 	
 	return [self addIndent:retString];
@@ -194,7 +198,7 @@ int switchBlockCount; // change to stack if need nested
 	if (c == '/') {
 	
 		if ([self isNext:'/']) {
-			return [self lineComment];
+			return [self lineComment:true];
 		} else if ([self isNext:'*']) {
 			NSUInteger nextIndex = [orString nextIndex:strIndex search:@"*/" defaults:orString.length];
 			
@@ -239,7 +243,7 @@ int switchBlockCount; // change to stack if need nested
 		[self trimWithIndent];
 		[self appendString:@"\n"];
 		if ([self isNextString:@"//"]) { // code comment not indent
-			return [self lineComment];
+			return [self lineComment:false];
 		} else {
 			return [self addIndent:retString];
 		}
