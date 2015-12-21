@@ -5,21 +5,8 @@
 
 @implementation SwiftParser
 
-int indent;
-int onetimeIndent;
-int lastIndent;
-NSMutableString *retString;
-NSString *orString;
-NSRange newRange;
-NSUInteger strIndex;
-
-
 bool inSwitch; // TODO: change to stack if need nested
 int switchBlockCount; // change to stack if need nested
-
--(NSRange) getRange {
-	return newRange;
-}
 
 -(NSString*) formatString:(NSString*) string withRange:(NSRange) range {
 	NSDate *methodStart = [NSDate date];
@@ -27,13 +14,13 @@ int switchBlockCount; // change to stack if need nested
 	strIndex = 0;
 	indent = 0;
 	onetimeIndent = 0;
-	lastIndent = 0;
+	currentIndent = 0;
 	orString = string;
 	retString = [NSMutableString string];
 	inSwitch = false;
 	switchBlockCount = 0;
 	
-	newRange = NSMakeRange(range.location, range.length);
+	newRange = NSMakeRange(range.location, range.length);// TODO need?
 	
 	while (strIndex < string.length) {
 		unichar c = [string characterAtIndex:strIndex];
@@ -92,41 +79,6 @@ int switchBlockCount; // change to stack if need nested
 	return retString;
 }
 
--(void) appendString:(NSString *) string {
-	[retString appendString:string];
-	
-	NSString *trim = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-	strIndex += trim.length;
-}
-
--(void) appendChar:(unichar) c {
-	[retString appendFormat:@"%c", c];
-	strIndex++;
-}
-
--(NSUInteger) spaceWith:(NSString *) string {
-	[retString spaceWith:string];
-	strIndex += string.length;
-	return strIndex;
-}
-
--(NSUInteger) spaceWithArray:(NSArray *) array {
-	for (NSString *checkString in array) {
-		if ([orString isStartWith:checkString fromIndex:strIndex]) {
-			[self spaceWith:checkString];
-			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
-		}
-	}
-	return -1;
-}
-
--(void) trimWithIndent {
-	[retString trim];
-	if (retString.length > 0 && [retString characterAtIndex:retString.length - 1] == '\n') {
-		[self addIndent:retString withCount:lastIndent];
-	}
-}
-
 -(NSUInteger) transformIndex:(NSUInteger) rangeIndex {
 	NSUInteger index1 = strIndex - 1;
 	NSUInteger index2 = retString.length - 1;
@@ -156,32 +108,6 @@ int switchBlockCount; // change to stack if need nested
 		}
 	}
 	return index2 + 1;
-}
-
--(bool) isNext:(unichar) check {
-	if (strIndex + 1 < orString.length) {
-		return [orString characterAtIndex:strIndex + 1] == check;
-	} else {
-		return false;
-	}
-}
-
--(bool) isNextString:(NSString *) check {
-	return [[orString subString:strIndex length:check.length] isEqualToString:check];
-}
-
--(NSUInteger) addToEnd:(NSString *) string edit:(NSMutableString *) editString withIndex:(NSUInteger) index {
-	NSUInteger nextIndex = [string nextIndex:index search:@"\n" defaults:-1];
-	if (nextIndex == -1) { // not found '\n'
-		[editString appendString:[string substringFromIndex:index]];
-		[editString trim];
-		return string.length;
-	} else {
-		[editString appendString:[string substringWithRange:NSMakeRange(index, nextIndex - index - 1)]];
-		[editString trim];
-		[editString appendString:@"\n"];
-		return nextIndex;
-	}
 }
 
 -(NSUInteger) lineComment:(bool) trim {
@@ -257,7 +183,6 @@ int switchBlockCount; // change to stack if need nested
 		[retString keepSpace];
 		return [orString nextNonSpaceIndex:strIndex defaults:strIndex + 1];
 	}
-	
 	return 0;
 }
 
@@ -265,7 +190,7 @@ int switchBlockCount; // change to stack if need nested
 	if (c == ',') {
 		[self trimWithIndent];
 		NSUInteger nextIndex = [orString nextNonSpaceIndex:strIndex + 1 defaults:-1];
-		if (nextIndex != -1 && [orString characterAtIndex:nextIndex] != '\n') {
+		if (nextIndex != -1) {
 			[retString appendString:@", "];
 		} else {
 			[retString appendString:@","];
@@ -277,7 +202,6 @@ int switchBlockCount; // change to stack if need nested
 }
 
 -(NSUInteger) checkOperator:(unichar) c {
-	
 	switch (c) {
 		case '+':
 			if ([self isNext:'+']) { // ++
@@ -445,11 +369,12 @@ int switchBlockCount; // change to stack if need nested
 -(NSUInteger) addIndent:(NSMutableString *)editString  {
 	
 	NSUInteger nextIndex = [orString nextNonSpaceIndex:strIndex defaults:-1];
-	if ([@"switch" isEqualToString:[orString nextWord:strIndex]]) {
-		inSwitch = true;
-	}
+
 	if (nextIndex == -1) {
 		return strIndex + 1;
+	}
+	if ([@"switch" isEqualToString:[orString nextWord:strIndex]]) {
+		inSwitch = true;
 	}
 	unichar next = [orString characterAtIndex:nextIndex];
 	if ([Parser isLowerBrackets:next]) { // close bracket don't indent
@@ -462,20 +387,13 @@ int switchBlockCount; // change to stack if need nested
 	if (inSwitch && [array containsObject:head]) {//TODO change contains to startWith will better
 		onetimeIndent -= 1;
 	}
-	lastIndent = indent + onetimeIndent;
-	[self addIndent:editString withCount:indent + onetimeIndent];
+	currentIndent = indent + onetimeIndent;
+	[self addIndent:editString withCount:currentIndent];
 	onetimeIndent = 0;
 	return nextIndex;
 }
 
--(void) addIndent:(NSMutableString *)editString withCount:(int) count{
-	for (int i = 0; i < count; i++) {
-		[editString appendString:@"\t"];
-	}
-}
-
 -(NSUInteger) checkBrackets:(unichar) c {
-	
 	if ([Parser isUpperBrackets:c]) {
 		indent++;
 		if (inSwitch && c == '{') {

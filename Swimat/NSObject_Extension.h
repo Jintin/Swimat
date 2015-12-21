@@ -4,5 +4,4 @@
 
 + (void)pluginDidLoad:(NSBundle *)plugin;
 
-
 @end
