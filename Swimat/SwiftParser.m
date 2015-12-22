@@ -80,9 +80,11 @@ int switchBlockCount; // change to stack if need nested
 }
 
 -(NSUInteger) transformIndex:(NSUInteger) rangeIndex {
+	if (rangeIndex == 0) {
+		return 0;
+	}
 	NSUInteger index1 = strIndex - 1;
-	NSUInteger index2 = retString.length - 1;
-	
+	NSUInteger index2 = [retString lastNonSpaceIndex:retString.length - 1 defaults:0];
 	if (strIndex >= orString.length) {
 		index1 = orString.length - 1;
 	}
@@ -189,13 +191,8 @@ int switchBlockCount; // change to stack if need nested
 -(NSUInteger) checkComma:(unichar) c {
 	if (c == ',') {
 		[self trimWithIndent];
-		NSUInteger nextIndex = [orString nextNonSpaceIndex:strIndex + 1 defaults:-1];
-		if (nextIndex != -1) {
-			[retString appendString:@", "];
-		} else {
-			[retString appendString:@","];
-		}
-		return nextIndex != -1 ? nextIndex : strIndex + 1;
+		[self appendString:@", "];
+		return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
 	}
 	
 	return 0;
