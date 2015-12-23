@@ -93,7 +93,9 @@
 	NSDate *methodStart = [NSDate date];
 	NSUInteger start = 0, end = 1;
 	NSUInteger minLen = MIN(string1.length, string2.length);
-	
+	if (minLen == 0) {
+		return NSMakeRange(0, 0);
+	}
 	while ([string1 characterAtIndex:start] == [string2 characterAtIndex:start]) {
 		if (start < minLen - 1) {
 			start++;
