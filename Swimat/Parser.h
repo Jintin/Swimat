@@ -11,6 +11,7 @@
 	NSString *orString;
 	NSRange newRange;
 	NSUInteger strIndex;
+	NSString *indentString;
 }
 
 +(bool) isSpace:(unichar) c;

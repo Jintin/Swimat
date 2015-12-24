@@ -27,6 +27,8 @@
 		2FD1EED01BF1B9B1002B56B0 /* StringTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD1EECF1BF1B9B1002B56B0 /* StringTest.m */; };
 		2FD1EED11BF1BA1F002B56B0 /* SwiftParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041DA41BF1B6D700C51207 /* SwiftParser.m */; };
 		2FD1EED41BF1BA2B002B56B0 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041DAD1BF1B76800C51207 /* Parser.m */; };
+		2FEF76A21C2B88750017311E /* Prefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FEF76A11C2B88750017311E /* Prefs.m */; };
+		2FEF76A31C2B88750017311E /* Prefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FEF76A11C2B88750017311E /* Prefs.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,8 @@
 		2FD1EECB1BF1B992002B56B0 /* MutableStringTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutableStringTest.m; sourceTree = "<group>"; };
 		2FD1EECD1BF1B9A2002B56B0 /* ParserTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParserTest.m; sourceTree = "<group>"; };
 		2FD1EECF1BF1B9B1002B56B0 /* StringTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringTest.m; sourceTree = "<group>"; };
+		2FEF76A01C2B88750017311E /* Prefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefs.h; sourceTree = "<group>"; };
+		2FEF76A11C2B88750017311E /* Prefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Prefs.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +135,8 @@
 				2F041DA41BF1B6D700C51207 /* SwiftParser.m */,
 				2F041DAC1BF1B76800C51207 /* Parser.h */,
 				2F041DAD1BF1B76800C51207 /* Parser.m */,
+				2FEF76A01C2B88750017311E /* Prefs.h */,
+				2FEF76A11C2B88750017311E /* Prefs.m */,
 			);
 			path = Swimat;
 			sourceTree = "<group>";
@@ -275,6 +281,7 @@
 			files = (
 				2FCE0E541C05D2910000DF1B /* DTXcodeUtils.m in Sources */,
 				2F041D991BF1B5C100C51207 /* Swimat.m in Sources */,
+				2FEF76A21C2B88750017311E /* Prefs.m in Sources */,
 				2F2F5C791C0B37F20090D0C5 /* NSString+Common.m in Sources */,
 				2F041D9C1BF1B5C100C51207 /* NSObject_Extension.m in Sources */,
 				2F041DAE1BF1B76800C51207 /* Parser.m in Sources */,
@@ -288,6 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F2F5C7B1C0B39170090D0C5 /* NSString+Common.m in Sources */,
+				2FEF76A31C2B88750017311E /* Prefs.m in Sources */,
 				2FD1EED41BF1BA2B002B56B0 /* Parser.m in Sources */,
 				2F041DB61BF1B94F00C51207 /* SwimatTest.m in Sources */,
 				2FD1EECE1BF1B9A2002B56B0 /* ParserTest.m in Sources */,

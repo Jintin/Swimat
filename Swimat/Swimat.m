@@ -2,6 +2,7 @@
 #import "DTXcodeHeaders.h"
 #import "DTXcodeUtils.h"
 #import "SwiftParser.h"
+#import "Prefs.h"
 
 @interface Swimat()
 
@@ -29,14 +30,42 @@
 - (void)didApplicationFinishLaunchingNotification:(NSNotification*)noti {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
 	
-	NSMenuItem *menuItem = [[NSApp mainMenu] itemWithTitle:@"Edit"];
-	if (menuItem) {
-		[[menuItem submenu] addItem:[NSMenuItem separatorItem]];
-		NSMenuItem *actionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Swimat" action:@selector(doMenuAction) keyEquivalent:@"l"];
-		[actionMenuItem setKeyEquivalentModifierMask:NSAlphaShiftKeyMask | NSCommandKeyMask | NSAlternateKeyMask];
-		[actionMenuItem setTarget:self];
-		[[menuItem submenu] addItem:actionMenuItem];
+	NSMenuItem *editItem = [[NSApp mainMenu] itemWithTitle:@"Edit"];
+	if (editItem) {
+		[[editItem submenu] addItem:[NSMenuItem separatorItem]];
+		
+		NSMenu *swimatMenu = [[NSMenu alloc] initWithTitle:@"Swimat"];
+		NSMenuItem *swimatItem = [[NSMenuItem alloc] initWithTitle:@"Swimat" action:nil keyEquivalent:@""];
+		[swimatItem setSubmenu:swimatMenu];
+		[[editItem submenu] addItem:swimatItem];
+		
+		NSMenuItem *formatItem = [[NSMenuItem alloc] initWithTitle:@"Format" action:@selector(doMenuAction) keyEquivalent:@"l"];
+		[formatItem setKeyEquivalentModifierMask:NSAlphaShiftKeyMask | NSCommandKeyMask | NSAlternateKeyMask];
+		[formatItem setTarget:self];
+		[swimatMenu addItem:formatItem];
+		
+		[swimatMenu addItem:[NSMenuItem separatorItem]];
+		
+		NSString *indent_type = [Prefs getIndent];
+		for (NSString *title in [Prefs getIndentArray]) {
+			NSMenuItem *indentItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(updateIndent:) keyEquivalent:@""];
+			[indentItem setTarget:self];
+			if ([indentItem.title isEqualToString:indent_type]) {
+				indentItem.state = NSOnState;
+			}
+			[swimatMenu addItem:indentItem];
+		}
 	}
+}
+
+- (void)updateIndent:(NSMenuItem *)menuItem {
+	[Prefs setIndent:menuItem.title];
+	for (NSMenuItem *item in menuItem.parentItem.submenu.itemArray) {
+		if (item.action == @selector(updateIndent:)) {
+			item.state = NSOffState;
+		}
+	}
+	menuItem.state = NSOnState;
 }
 
 - (void)doMenuAction {

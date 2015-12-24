@@ -78,7 +78,7 @@
 
 -(void) addIndent:(NSMutableString *)editString withCount:(int) count{
 	for (int i = 0; i < count; i++) {
-		[editString appendString:@"\t"];
+		[editString appendString:indentString];
 	}
 }
 

@@ -2,6 +2,7 @@
 #import "SwiftParser.h"
 #import "NSString+Common.h"
 #import "NSMutableString+Common.h"
+#import "Prefs.h"
 
 @implementation SwiftParser
 
@@ -19,6 +20,7 @@ int switchBlockCount; // change to stack if need nested
 	retString = [NSMutableString string];
 	inSwitch = false;
 	switchBlockCount = 0;
+	indentString = [Prefs getIndentString];
 	
 	newRange = NSMakeRange(range.location, range.length);// TODO need?
 	
@@ -136,10 +138,7 @@ int switchBlockCount; // change to stack if need nested
 			while (subIndex < subString.length) {
 				subIndex = [subString nextNonSpaceIndex:subIndex defaults:subIndex];
 				NSUInteger newIndex = [self addToEnd:subString edit:orderStr withIndex:subIndex];
-				
-				for (int i = 0; i < indent; i++) {
-					[orderStr appendString:@"\t"];
-				}
+				[self addIndent:orderStr withCount:indent];
 				subIndex = newIndex;
 				if (subIndex < subString.length) {
 					[orderStr appendString:@" "];
