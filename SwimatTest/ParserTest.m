@@ -72,14 +72,46 @@
 	[self.parser appendString:@" abc "];
 	XCTAssertEqual(self.parser->strIndex, 3);
 	XCTAssert([self.parser->retString isEqualToString:@" abc "]);
-	
  }
-//-(void) appendChar:(unichar) c;
-//
-//-(NSUInteger) spaceWith:(NSString *) string;
-//
-//-(NSUInteger) spaceWithArray:(NSArray *) array;
-//
+
+- (void) testAppendChar {
+	[self reset];
+	[self.parser appendChar:'a'];
+	XCTAssertEqual(self.parser->strIndex, 1);
+	XCTAssert([self.parser->retString isEqualToString:@"a"]);
+}
+
+//- (void) testSpaceWith {
+//	[self reset];
+//	[self.parser spaceWith:@"abc"];
+//	XCTAssertEqual(self.parser->strIndex, 3);
+//	XCTAssert([self.parser->retString isEqualToString:@"abc "]);
+//	
+//	[self reset];
+//	[self.parser appendChar:'a'];
+//	[self.parser spaceWith:@"abc"];
+//	XCTAssertEqual(self.parser->strIndex, 4);
+//	XCTAssert([self.parser->retString isEqualToString:@"a abc "]);
+//}
+
+- (void) testSpaceWithArray {
+	[self reset];
+	NSArray *array = @[@"aa", @"bb"];
+	self.parser->orString = @"aa";
+	[self.parser spaceWithArray:array];
+	NSLog(@"'%@'", self.parser->retString);
+	XCTAssertEqual(self.parser->strIndex, 2);
+	XCTAssert([self.parser->retString isEqualToString:@"aa "]);
+	
+	[self reset];
+	self.parser->orString = @"a cc";
+	self.parser->strIndex = 2;
+	[self.parser spaceWithArray:array];
+	NSLog(@"'%@'", self.parser->retString);
+	XCTAssertEqual(self.parser->strIndex, 2);
+	XCTAssert([self.parser->retString isEqualToString:@""]);
+}
+
 //-(void) trimWithIndent;
 //
 //-(void) addIndent:(NSMutableString *)editString withCount:(int) count;
