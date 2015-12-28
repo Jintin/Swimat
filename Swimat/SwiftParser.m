@@ -169,11 +169,8 @@ int switchBlockCount; // change to stack if need nested
 		}
 		[self trimWithIndent];
 		[self appendString:@"\n"];
-		if ([self isNextString:@"//"]) { // code comment not indent
-			return [self lineComment:false];
-		} else {
-			return [self addIndent:retString];
-		}
+		
+		return [self addIndent:retString];
 	}
 	
 	return 0;
@@ -363,7 +360,9 @@ int switchBlockCount; // change to stack if need nested
 }
 
 -(NSUInteger) addIndent:(NSMutableString *)editString  {
-	
+	if ([self isNextString:@"//"]) { // code comment not indent
+		return [self lineComment:false];
+	}
 	NSUInteger nextIndex = [orString nextNonSpaceIndex:strIndex defaults:-1];
 
 	if (nextIndex == -1) {
