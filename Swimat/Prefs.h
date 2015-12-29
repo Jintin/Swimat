@@ -23,4 +23,8 @@ extern NSString * const INDENT_SPACE4;
 
 +(NSString *) getIndentString;
 
++(void) setAutoFormat:(bool) format;
+
++(bool) isAutoFormat;
+
 @end

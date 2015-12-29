@@ -10,6 +10,7 @@
 
 @implementation Prefs
 
+NSString * const TAG_AUTO_SAVE = @"auto_save";
 NSString * const TAG_INDENT = @"indent";
 NSString * const INDENT_TAB = @"Tab Indent";
 NSString * const INDENT_SPACE2 = @"2 Space Indent";
@@ -44,6 +45,17 @@ NSString * const INDENT_SPACE4 = @"4 Space Indent";
 		return @"    ";
 	}
 	return @"\t";
+}
+
++(void) setAutoFormat:(bool) format {
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+	[prefs setBool:format forKey:TAG_AUTO_SAVE];
+	[prefs synchronize];
+}
+
++(bool) isAutoFormat {
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+	return [prefs boolForKey:TAG_AUTO_SAVE];
 }
 
 @end
