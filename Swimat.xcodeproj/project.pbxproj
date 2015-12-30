@@ -21,6 +21,7 @@
 		2F2F5C7B1C0B39170090D0C5 /* NSString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F2F5C771C0B37F20090D0C5 /* NSString+Common.m */; };
 		2F39CCA41C1A791100005EC5 /* Swimat.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041D981BF1B5C100C51207 /* Swimat.m */; };
 		2F39CCA51C1A7A5A00005EC5 /* DTXcodeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCE0E531C05D2910000DF1B /* DTXcodeUtils.m */; };
+		2FAF21A21C30E6BB00A1E40A /* NSDocument+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FAF21A11C30E6BB00A1E40A /* NSDocument+Common.m */; };
 		2FCE0E541C05D2910000DF1B /* DTXcodeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCE0E531C05D2910000DF1B /* DTXcodeUtils.m */; };
 		2FD1EECC1BF1B992002B56B0 /* MutableStringTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD1EECB1BF1B992002B56B0 /* MutableStringTest.m */; };
 		2FD1EECE1BF1B9A2002B56B0 /* ParserTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD1EECD1BF1B9A2002B56B0 /* ParserTest.m */; };
@@ -62,6 +63,8 @@
 		2F2F5C751C0B37F20090D0C5 /* NSMutableString+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableString+Common.m"; path = "category/NSMutableString+Common.m"; sourceTree = "<group>"; };
 		2F2F5C761C0B37F20090D0C5 /* NSString+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Common.h"; path = "category/NSString+Common.h"; sourceTree = "<group>"; };
 		2F2F5C771C0B37F20090D0C5 /* NSString+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Common.m"; path = "category/NSString+Common.m"; sourceTree = "<group>"; };
+		2FAF21A01C30E6BB00A1E40A /* NSDocument+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDocument+Common.h"; path = "category/NSDocument+Common.h"; sourceTree = "<group>"; };
+		2FAF21A11C30E6BB00A1E40A /* NSDocument+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDocument+Common.m"; path = "category/NSDocument+Common.m"; sourceTree = "<group>"; };
 		2FCE0E511C05D2910000DF1B /* DTXcodeHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXcodeHeaders.h; path = DTXcodeUtils/DTXcodeHeaders.h; sourceTree = "<group>"; };
 		2FCE0E521C05D2910000DF1B /* DTXcodeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXcodeUtils.h; path = DTXcodeUtils/DTXcodeUtils.h; sourceTree = "<group>"; };
 		2FCE0E531C05D2910000DF1B /* DTXcodeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXcodeUtils.m; path = DTXcodeUtils/DTXcodeUtils.m; sourceTree = "<group>"; };
@@ -168,6 +171,8 @@
 				2F2F5C751C0B37F20090D0C5 /* NSMutableString+Common.m */,
 				2F2F5C761C0B37F20090D0C5 /* NSString+Common.h */,
 				2F2F5C771C0B37F20090D0C5 /* NSString+Common.m */,
+				2FAF21A01C30E6BB00A1E40A /* NSDocument+Common.h */,
+				2FAF21A11C30E6BB00A1E40A /* NSDocument+Common.m */,
 			);
 			name = category;
 			sourceTree = "<group>";
@@ -285,6 +290,7 @@
 				2F2F5C791C0B37F20090D0C5 /* NSString+Common.m in Sources */,
 				2F041D9C1BF1B5C100C51207 /* NSObject_Extension.m in Sources */,
 				2F041DAE1BF1B76800C51207 /* Parser.m in Sources */,
+				2FAF21A21C30E6BB00A1E40A /* NSDocument+Common.m in Sources */,
 				2F041DA51BF1B6D700C51207 /* SwiftParser.m in Sources */,
 				2F2F5C781C0B37F20090D0C5 /* NSMutableString+Common.m in Sources */,
 			);

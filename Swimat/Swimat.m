@@ -39,7 +39,7 @@
 		[swimatItem setSubmenu:swimatMenu];
 		[[editItem submenu] addItem:swimatItem];
 		
-		NSMenuItem *formatItem = [[NSMenuItem alloc] initWithTitle:@"Format" action:@selector(doMenuAction) keyEquivalent:@"l"];
+		NSMenuItem *formatItem = [[NSMenuItem alloc] initWithTitle:@"Format" action:@selector(format) keyEquivalent:@"l"];
 		[formatItem setKeyEquivalentModifierMask:NSAlphaShiftKeyMask | NSCommandKeyMask | NSAlternateKeyMask];
 		[formatItem setTarget:self];
 		[swimatMenu addItem:formatItem];
@@ -68,7 +68,7 @@
 	menuItem.state = NSOnState;
 }
 
-- (void)doMenuAction {
+- (void)format {
 	NSDate *methodStart = [NSDate date];
 	NSString *ext = [DTXcodeUtils currentSourceCodeDocument].fileURL.pathExtension;
 	NSArray *acceptFormat = @[@"swift", @"playground"];
