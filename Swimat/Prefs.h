@@ -1,11 +1,3 @@
-//
-//  Prefs.h
-//  Swimat
-//
-//  Created by Jintin on 12/24/15.
-//  Copyright © 2015 jintin. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 
 @interface Prefs : NSObject

@@ -81,18 +81,18 @@
 	XCTAssert([self.parser->retString isEqualToString:@"a"]);
 }
 
-//- (void) testSpaceWith {
-//	[self reset];
-//	[self.parser spaceWith:@"abc"];
-//	XCTAssertEqual(self.parser->strIndex, 3);
-//	XCTAssert([self.parser->retString isEqualToString:@"abc "]);
-//	
-//	[self reset];
-//	[self.parser appendChar:'a'];
-//	[self.parser spaceWith:@"abc"];
-//	XCTAssertEqual(self.parser->strIndex, 4);
-//	XCTAssert([self.parser->retString isEqualToString:@"a abc "]);
-//}
+- (void) testSpaceWith {
+	[self reset];
+	[self.parser spaceWith:@"abc"];
+	XCTAssertEqual(self.parser->strIndex, 3);
+	XCTAssert([self.parser->retString isEqualToString:@"abc "]);
+	
+	[self reset];
+	[self.parser appendChar:'a'];
+	[self.parser spaceWith:@"abc"];
+	XCTAssertEqual(self.parser->strIndex, 4);
+	XCTAssert([self.parser->retString isEqualToString:@"a abc "]);
+}
 
 - (void) testSpaceWithArray {
 	[self reset];
