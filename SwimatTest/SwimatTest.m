@@ -19,15 +19,15 @@
 
 - (void)testFindDiffRange {
 	NSRange range;
-	range = [self.parser findDiffRange:@"abc d" string2:@"abed"];
+	range = [Swimat findDiffRange:@"abc d" string2:@"abed"];
 	XCTAssert(range.location == 2);
 	XCTAssert(range.length == 1);
 	
-	range = [self.parser findDiffRange:@"abcd" string2:@"abcd"];
+	range = [Swimat findDiffRange:@"abcd" string2:@"abcd"];
 	XCTAssert(range.location == 3);
 	XCTAssert(range.length == 0);
 	
-	range = [self.parser findDiffRange:@"abcd " string2:@"abcd"];
+	range = [Swimat findDiffRange:@"abcd " string2:@"abcd"];
 	XCTAssert(range.location == 3);
 	XCTAssert(range.length == 0);
 	

@@ -39,9 +39,9 @@
 		[swimatItem setSubmenu:swimatMenu];
 		[[editItem submenu] addItem:swimatItem];
 		
-		NSMenuItem *formatItem = [[NSMenuItem alloc] initWithTitle:@"Format" action:@selector(format) keyEquivalent:@"l"];
+		NSMenuItem *formatItem = [[NSMenuItem alloc] initWithTitle:@"Format" action:@selector(formatString) keyEquivalent:@"l"];
 		[formatItem setKeyEquivalentModifierMask:NSAlphaShiftKeyMask | NSCommandKeyMask | NSAlternateKeyMask];
-		[formatItem setTarget:self];
+		[formatItem setTarget:[Swimat class]];
 		[swimatMenu addItem:formatItem];
 		
 		[swimatMenu addItem:[NSMenuItem separatorItem]];
@@ -49,16 +49,36 @@
 		NSString *indent_type = [Prefs getIndent];
 		for (NSString *title in [Prefs getIndentArray]) {
 			NSMenuItem *indentItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(updateIndent:) keyEquivalent:@""];
-			[indentItem setTarget:self];
+			[indentItem setTarget:[Swimat class]];
 			if ([indentItem.title isEqualToString:indent_type]) {
 				indentItem.state = NSOnState;
 			}
 			[swimatMenu addItem:indentItem];
 		}
+		
+		[swimatMenu addItem:[NSMenuItem separatorItem]];
+		NSMenuItem *autoItem = [[NSMenuItem alloc] initWithTitle:@"Auto Format before Save" action:@selector(updateAutoFormat:) keyEquivalent:@""];
+		[autoItem setTarget:[Swimat class]];
+		if ([Prefs isAutoFormat]) {
+			autoItem.state = NSOnState;
+		} else {
+			autoItem.state = NSOffState;
+		}
+		[swimatMenu addItem:autoItem];
 	}
 }
 
-- (void)updateIndent:(NSMenuItem *)menuItem {
++ (void)updateAutoFormat:(NSMenuItem *)menuItem {
+	bool autoFormat = ![Prefs isAutoFormat];
+	[Prefs setAutoFormat:autoFormat];
+	if (autoFormat) {
+		menuItem.state = NSOnState;
+	} else {
+		menuItem.state = NSOffState;
+	}
+}
+
++ (void)updateIndent:(NSMenuItem *)menuItem {
 	[Prefs setIndent:menuItem.title];
 	for (NSMenuItem *item in menuItem.parentItem.submenu.itemArray) {
 		if (item.action == @selector(updateIndent:)) {
@@ -68,7 +88,7 @@
 	menuItem.state = NSOnState;
 }
 
-- (void)format {
++ (void)formatString {
 	NSDate *methodStart = [NSDate date];
 	NSString *ext = [DTXcodeUtils currentSourceCodeDocument].fileURL.pathExtension;
 	NSArray *acceptFormat = @[@"swift", @"playground"];
@@ -89,7 +109,7 @@
 	NSLog(@"total executionTime = %f", executionTime);
 }
 
-- (void)setUndo {
++ (void)setUndo {
 	NSUndoManager *undoManager = [DTXcodeUtils currentSourceCodeDocument].undoManager;
 	DVTSourceTextView *sourceTextView = [DTXcodeUtils currentSourceTextView];
 	NSString * oldString =	[NSString stringWithString:sourceTextView.textStorage.string];
@@ -99,7 +119,7 @@
 	[undoManager registerUndoWithTarget:self selector:@selector(setText:) object:oldArray];
 }
 
-- (void)setText: (NSArray*) array {
++ (void)setText: (NSArray*) array {
 	[self setUndo];
 	NSString *string = [array objectAtIndex:0];
 	NSRange range = [[array objectAtIndex:1] rangeValue];
@@ -118,7 +138,7 @@
 	[sourceTextView scrollRectToVisible:r];
 }
 
-- (NSRange) findDiffRange:(NSString *) string1 string2:(NSString *) string2 {
++ (NSRange) findDiffRange:(NSString *) string1 string2:(NSString *) string2 {
 	NSDate *methodStart = [NSDate date];
 	NSUInteger start = 0, end = 1;
 	NSUInteger minLen = MIN(string1.length, string2.length);

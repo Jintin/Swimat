@@ -11,8 +11,8 @@ static Swimat *sharedPlugin;
 
 @property (nonatomic, strong, readonly) NSBundle* bundle;
 
-- (void) format;
++ (void) formatString;
 
-- (NSRange) findDiffRange:(NSString *) string1 string2:(NSString *) string2;
++ (NSRange) findDiffRange:(NSString *) string1 string2:(NSString *) string2;
 
 @end

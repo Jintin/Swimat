@@ -13,7 +13,7 @@
 		NSString *ext = [DTXcodeUtils currentSourceCodeDocument].fileURL.pathExtension;
 		NSArray *acceptFormat = @[@"swift", @"playground"];
 		if ([acceptFormat containsObject:ext]) {
-			[[[Swimat alloc] init] format];
+			[Swimat formatString];
 		}
 	}
 	[self externSaveDocumentWithDelegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
