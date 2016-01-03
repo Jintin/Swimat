@@ -65,6 +65,7 @@
 		2F2F5C771C0B37F20090D0C5 /* NSString+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Common.m"; path = "category/NSString+Common.m"; sourceTree = "<group>"; };
 		2FAF21A01C30E6BB00A1E40A /* NSDocument+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDocument+Common.h"; path = "category/NSDocument+Common.h"; sourceTree = "<group>"; };
 		2FAF21A11C30E6BB00A1E40A /* NSDocument+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDocument+Common.m"; path = "category/NSDocument+Common.m"; sourceTree = "<group>"; };
+		2FBBF3901C38EF4B00245603 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2FCE0E511C05D2910000DF1B /* DTXcodeHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXcodeHeaders.h; path = DTXcodeUtils/DTXcodeHeaders.h; sourceTree = "<group>"; };
 		2FCE0E521C05D2910000DF1B /* DTXcodeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTXcodeUtils.h; path = DTXcodeUtils/DTXcodeUtils.h; sourceTree = "<group>"; };
 		2FCE0E531C05D2910000DF1B /* DTXcodeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTXcodeUtils.m; path = DTXcodeUtils/DTXcodeUtils.m; sourceTree = "<group>"; };
@@ -98,6 +99,7 @@
 		2F041D831BF1B5C100C51207 = {
 			isa = PBXGroup;
 			children = (
+				2FBBF3901C38EF4B00245603 /* README.md */,
 				2F041D931BF1B5C100C51207 /* Swimat */,
 				2F041DB41BF1B94F00C51207 /* SwimatTest */,
 				2FCE0E501C05D2220000DF1B /* DTXcodeUtils */,

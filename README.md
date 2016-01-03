@@ -16,6 +16,12 @@ If you encounter any issues you can uninstall it by removing the `~/Library/Appl
 ## Usage
 In the menu open **[Edit] -> [Swimat] -> [Format]** or press hot-key(command+option+shift+L).
 
+### Configuration
+There are preferences in [Edit] -> [Swimat] menu you can set:
+
+- Indent type(tab, 2 space, 4 space) 
+- Auto format when save swift file
+
 ## Contributing
 Bug reports and pull requests are welcome on GitHub at [https://github.com/Jintin/Swimat](https://github.com/Jintin/Swimat).
 
