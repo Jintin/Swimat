@@ -96,7 +96,7 @@
 -(NSUInteger) nextIndex:(NSUInteger) index defaults:(NSUInteger) value compare: (bool(^)(NSString *, NSUInteger)) checker {
 	if (index < self.length) {
 		do {
-			NSString *check = [self subString:index length:1];
+			NSString *check = [self subString:index length:1];//TODO can change to char
 			if (!checker(check, index)) {
 				continue;
 			}

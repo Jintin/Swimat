@@ -115,8 +115,15 @@ int switchBlockCount; // change to stack if need nested
 }
 
 -(NSUInteger) lineComment:(bool) trim {
+	strIndex = [orString nextIndex:strIndex defaults:orString.length compare:^bool(NSString *next, NSUInteger curIndex){
+		if ([next isEqualToString:@"/"]) {
+			[self appendString:@"/"];
+			return false;
+		}
+		return true;
+	}];
 	if (trim) {
-		[self appendString:@"// "];
+		[self appendString:@" "];
 		strIndex = [orString nextNonSpaceIndex:strIndex defaults:orString.length];
 	}
 	strIndex = [self addToEnd:orString edit:retString withIndex:strIndex];
