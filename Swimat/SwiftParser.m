@@ -224,7 +224,7 @@ int switchBlockCount; // change to stack if need nested
 			} else { // -
 				NSArray *checkChar = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@":",@"(",@"{",@"?",@"!",@"=",@","];
 				unichar last = [orString lastChar:strIndex - 1 defaults:' '];
-				NSArray *checkWord = @[@"case", @"return"];
+				NSArray *checkWord = @[@"case", @"return", @"if", @"for", @"while"];
 				NSString *lastWord = [orString lastWord:strIndex - 1];
 				
 				bool isNegative = false;
