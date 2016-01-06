@@ -243,11 +243,17 @@ int switchBlockCount; // change to stack if need nested
 				}
 			}
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
+		case '~':
+			if ([self isNext:'=']) {
+				[self spaceWith:[NSString stringWithFormat:@"%c=", c]];
+				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
+			} else {
+				return 0;
+			}
 		case '*':
 		case '/':
 		case '%':
 		case '^':
-		case '~':
 			if ([self isNext:'=']) { // *=, /=, >=, <=
 				[self spaceWith:[NSString stringWithFormat:@"%c=", c]];
 			} else { // * /
