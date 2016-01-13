@@ -47,6 +47,12 @@
 
 -(bool) isNextString:(NSString *) check;
 
+-(bool) isNextLineEmpty:(NSUInteger)index;
+
+-(bool) isNextLineLowerBrackets:(NSUInteger)index;
+
+-(bool) isEmptyLine;
+
 -(NSUInteger) addToEnd:(NSString *) string edit:(NSMutableString *) editString withIndex:(NSUInteger) index;
 
 @end
