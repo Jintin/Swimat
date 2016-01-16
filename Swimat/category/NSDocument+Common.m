@@ -22,7 +22,7 @@
 - (void)externSaveToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation completionHandler:(void (^)(NSError * __nullable errorOrNil))completionHandler NS_AVAILABLE_MAC(10_7) {
 	if ([Prefs isFormatOnBuild]) {
 		NSString *ext = [DTXcodeUtils currentSourceCodeDocument].fileURL.pathExtension;
-		NSArray *acceptFormat = @[@"swift", @"playground"];
+		NSArray *acceptFormat = @[@"swift"];
 		if ([acceptFormat containsObject:ext]) {
 			[Swimat formatString];
 		}
