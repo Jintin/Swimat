@@ -19,4 +19,8 @@ extern NSString * const INDENT_SPACE4;
 
 +(bool) isAutoFormat;
 
++(void) setFormatOnBuild:(bool) format;
+
++(bool) isFormatOnBuild;
+
 @end

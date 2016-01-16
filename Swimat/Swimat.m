@@ -57,7 +57,7 @@
 		}
 		
 		[swimatMenu addItem:[NSMenuItem separatorItem]];
-		NSMenuItem *autoItem = [[NSMenuItem alloc] initWithTitle:@"Auto Format before Save" action:@selector(updateAutoFormat:) keyEquivalent:@""];
+		NSMenuItem *autoItem = [[NSMenuItem alloc] initWithTitle:@"Format when Save" action:@selector(updateAutoFormat:) keyEquivalent:@""];
 		[autoItem setTarget:[Swimat class]];
 		if ([Prefs isAutoFormat]) {
 			autoItem.state = NSOnState;
@@ -65,6 +65,14 @@
 			autoItem.state = NSOffState;
 		}
 		[swimatMenu addItem:autoItem];
+		NSMenuItem *buildItem = [[NSMenuItem alloc] initWithTitle:@"Format when Build" action:@selector(updateFormatOnBuild:) keyEquivalent:@""];
+		[buildItem setTarget:[Swimat class]];
+		if ([Prefs isFormatOnBuild]) {
+			buildItem.state = NSOnState;
+		} else {
+			buildItem.state = NSOffState;
+		}
+		[swimatMenu addItem:buildItem];
 	}
 }
 
@@ -72,6 +80,16 @@
 	bool autoFormat = ![Prefs isAutoFormat];
 	[Prefs setAutoFormat:autoFormat];
 	if (autoFormat) {
+		menuItem.state = NSOnState;
+	} else {
+		menuItem.state = NSOffState;
+	}
+}
+
++ (void)updateFormatOnBuild:(NSMenuItem *)menuItem {
+	bool formatOnBuild = ![Prefs isFormatOnBuild];
+	[Prefs setFormatOnBuild:formatOnBuild];
+	if (formatOnBuild) {
 		menuItem.state = NSOnState;
 	} else {
 		menuItem.state = NSOffState;

@@ -3,6 +3,7 @@
 @implementation Prefs
 
 NSString * const TAG_AUTO_SAVE = @"auto_save";
+NSString * const TAG_AUTO_ON_BUILD = @"auto_on_build";
 NSString * const TAG_INDENT = @"indent";
 NSString * const INDENT_TAB = @"Tab Indent";
 NSString * const INDENT_SPACE2 = @"2 Space Indent";
@@ -48,6 +49,17 @@ NSString * const INDENT_SPACE4 = @"4 Space Indent";
 +(bool) isAutoFormat {
 	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
 	return [prefs boolForKey:TAG_AUTO_SAVE];
+}
+
++(void) setFormatOnBuild:(bool) format {
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+	[prefs setBool:format forKey:TAG_AUTO_ON_BUILD];
+	[prefs synchronize];
+}
+
++(bool) isFormatOnBuild {
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+	return [prefs boolForKey:TAG_AUTO_ON_BUILD];
 }
 
 @end
