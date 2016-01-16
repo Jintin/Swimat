@@ -440,7 +440,9 @@ int switchBlockCount; // change to stack if need nested
 			}
 		}
 		[self appendChar:c];
-		
+		if (c == '{') {
+			[self appendString:@" "];
+		}
 		return [orString nextNonSpaceIndex:strIndex defaults:strIndex];
 	} else if ([Parser isLowerBrackets:c]) {
 		if (inSwitch && c == '}') {
@@ -448,9 +450,16 @@ int switchBlockCount; // change to stack if need nested
 				inSwitch = false;
 			}
 		}
+		
 		if (indent != 0)
 			indent--;
 		[self trimWithIndent];
+		if (c == '}') {
+			unichar lastChar = [retString lastChar:retString.length - 1 defaults:' '];
+			if (![Parser isSpace:lastChar]) {
+				[self appendString:@" "];
+			}
+		}
 		[self appendChar:c];
 		
 		unichar next = [orString nextChar:strIndex defaults:' '];
