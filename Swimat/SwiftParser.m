@@ -244,12 +244,14 @@ int switchBlockCount; // change to stack if need nested
 			}
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
 		case '~':
-			if ([self isNext:'=']) {
-				[self spaceWith:[NSString stringWithFormat:@"%c=", c]];
-				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
-			} else {
-				return 0;
+		{
+			NSArray *array = @[@"~=", @"~~>"];
+			NSUInteger findIndex = [self spaceWithArray:array];
+			if (findIndex != -1) {
+				return findIndex;
 			}
+			return 0;
+		}
 		case '*':
 		case '/':
 		case '%':
@@ -271,7 +273,7 @@ int switchBlockCount; // change to stack if need nested
 		}
 		case '<':
 		{
-			NSArray *array = @[@"<<=", @"<<", @"<="];
+			NSArray *array = @[@"<<=", @"<<", @"<=", @"<~~"];
 			NSUInteger findIndex = [self spaceWithArray:array];
 			if (findIndex != -1) {
 				return findIndex;
@@ -419,7 +421,7 @@ int switchBlockCount; // change to stack if need nested
 		} else {
 			switch (c) {
 				case '(':{
-					NSArray *controlsArray = @[ @"if", @"else", @"while", @"for", @"guard", @"switch", @"case", @"defer", @"var", @"let", @"return"];
+					NSArray *controlsArray = @[ @"if", @"else", @"while", @"for", @"guard", @"switch", @"case", @"defer", @"var", @"let", @"return", @"#if", @"else", @"endif"];
 					NSString *preStr = [orString lastWord:strIndex - 1];
 					if ([controlsArray containsObject:preStr]) {
 						[retString keepSpace];
