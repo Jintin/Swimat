@@ -174,8 +174,13 @@ int switchBlockCount; // change to stack if need nested
 		if (![orString isCompleteLine:strIndex]) {
 			onetimeIndent++;
 		}
+		BOOL shouldAddEmtyLine = !([self isEmptyLine] && ([self isNextLineEmpty:strIndex + 1] || [self isNextLineLowerBrackets:strIndex + 1]));
 		[self trimWithIndent];
-		[self appendString:@"\n"];
+		if (shouldAddEmtyLine) {
+			[self appendString:@"\n"];
+		} else {
+			strIndex++;
+		}
 		
 		return [self addIndent:retString];
 	}

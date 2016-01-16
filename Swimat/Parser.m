@@ -94,6 +94,21 @@
 	return [[orString subString:strIndex length:check.length] isEqualToString:check];
 }
 
+-(bool) isNextLineEmpty:(NSUInteger)index {
+	NSUInteger nextNonSpaceIndex = [orString nextNonSpaceIndex:index defaults:retString.length];
+	return nextNonSpaceIndex < orString.length ? [orString characterAtIndex:nextNonSpaceIndex] == '\n' : false;
+}
+
+-(bool) isNextLineLowerBrackets:(NSUInteger)index {
+	NSUInteger nextNonSpaceIndex = [orString nextNonSpaceIndex:index defaults:retString.length];
+	return nextNonSpaceIndex < orString.length ? [Parser isLowerBrackets:[orString characterAtIndex:nextNonSpaceIndex]] : false;
+}
+
+-(bool) isEmptyLine {
+	NSUInteger lastNonSpaceIndex = [retString lastNonSpaceIndex:retString.length - 1 defaults:retString.length];
+	return lastNonSpaceIndex < retString.length ? [retString characterAtIndex:lastNonSpaceIndex] == '\n' : false;
+}
+
 -(NSUInteger) addToEnd:(NSString *) string edit:(NSMutableString *) editString withIndex:(NSUInteger) index {
 	NSUInteger nextIndex = [string nextIndex:index search:@"\n" defaults:-1];
 	if (nextIndex == -1) { // not found '\n'
