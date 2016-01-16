@@ -461,7 +461,7 @@ int switchBlockCount; // change to stack if need nested
 		[self trimWithIndent];
 		if (c == '}') {
 			unichar lastChar = [retString lastChar:retString.length - 1 defaults:' '];
-			if (![Parser isSpace:lastChar]) {
+			if (![Parser isBlank:lastChar]) {
 				[self appendString:@" "];
 			}
 		}
