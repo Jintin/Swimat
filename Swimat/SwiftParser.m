@@ -460,7 +460,7 @@ int switchBlockCount; // change to stack if need nested
 			indent--;
 		[self trimWithIndent];
 		if (c == '}') {
-			unichar lastChar = [retString lastChar:retString.length - 1 defaults:' '];
+			unichar lastChar = [retString lastChar:retString.length defaults:' '];
 			if (![Parser isBlank:lastChar]) {
 				[self appendString:@" "];
 			}
