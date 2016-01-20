@@ -8,6 +8,7 @@
 
 bool inSwitch; // TODO: change to stack if need nested
 int switchBlockCount; // change to stack if need nested
+bool indentEmptyLine;
 
 -(NSString*) formatString:(NSString*) string withRange:(NSRange) range {
 	NSDate *methodStart = [NSDate date];
@@ -21,6 +22,7 @@ int switchBlockCount; // change to stack if need nested
 	inSwitch = false;
 	switchBlockCount = 0;
 	indentString = [Prefs getIndentString];
+	indentEmptyLine = [Prefs isIndentEmptyLine];
 	
 	newRange = NSMakeRange(range.location, range.length);// TODO need?
 	
@@ -175,7 +177,11 @@ int switchBlockCount; // change to stack if need nested
 			onetimeIndent++;
 		}
 		BOOL shouldAddEmtyLine = !([self isEmptyLine] && ([self isNextLineEmpty:strIndex + 1] || [self isNextLineLowerBrackets:strIndex + 1]));
-		[self trimWithIndent];
+		if (indentEmptyLine) {
+			[self trimWithIndent];
+		} else {
+			[retString trim];
+		}
 		if (shouldAddEmtyLine) {
 			[self appendString:@"\n"];
 		} else {

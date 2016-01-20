@@ -23,4 +23,8 @@ extern NSString * const INDENT_SPACE4;
 
 +(bool) isFormatOnBuild;
 
++(void) setIndentEmptyLine:(bool) format;
+
++(bool) isIndentEmptyLine;
+
 @end

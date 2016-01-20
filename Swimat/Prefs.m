@@ -4,6 +4,7 @@
 
 NSString * const TAG_AUTO_SAVE = @"auto_save";
 NSString * const TAG_AUTO_ON_BUILD = @"auto_on_build";
+NSString * const TAG_INDENT_EMPTY_LINE = @"IndentEmptyLine";
 NSString * const TAG_INDENT = @"indent";
 NSString * const INDENT_TAB = @"Tab Indent";
 NSString * const INDENT_SPACE2 = @"2 Space Indent";
@@ -61,5 +62,17 @@ NSString * const INDENT_SPACE4 = @"4 Space Indent";
 	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
 	return [prefs boolForKey:TAG_AUTO_ON_BUILD];
 }
+
++(void) setIndentEmptyLine:(bool) format {
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+	[prefs setBool:format forKey:TAG_INDENT_EMPTY_LINE];
+	[prefs synchronize];
+}
+
++(bool) isIndentEmptyLine {
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+	return [prefs boolForKey:TAG_INDENT_EMPTY_LINE];
+}
+
 
 @end

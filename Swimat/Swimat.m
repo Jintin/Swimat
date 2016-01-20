@@ -73,6 +73,26 @@
 			buildItem.state = NSOffState;
 		}
 		[swimatMenu addItem:buildItem];
+		
+		[swimatMenu addItem:[NSMenuItem separatorItem]];
+		NSMenuItem *indentEmptyLineItem = [[NSMenuItem alloc] initWithTitle:@"Intent Empty Line" action:@selector(indentEmptyLine:) keyEquivalent:@""];
+		[indentEmptyLineItem setTarget:[Swimat class]];
+		if ([Prefs isIndentEmptyLine]) {
+			indentEmptyLineItem.state = NSOnState;
+		} else {
+			indentEmptyLineItem.state = NSOffState;
+		}
+		[swimatMenu addItem:indentEmptyLineItem];
+	}
+}
+
++ (void)indentEmptyLine:(NSMenuItem *)menuItem {
+	bool indentEmptyLine = ![Prefs isIndentEmptyLine];
+	[Prefs setIndentEmptyLine:indentEmptyLine];
+	if (indentEmptyLine) {
+		menuItem.state = NSOnState;
+	} else {
+		menuItem.state = NSOffState;
 	}
 }
 
