@@ -415,7 +415,9 @@ bool indentEmptyLine;
 
 -(NSUInteger) checkBrackets:(unichar) c {
 	if ([Parser isUpperBrackets:c]) {
-		indent++;
+		if (c == '{' || c == '[') {
+			indent++;
+		}
 		if (inSwitch && c == '{') {
 			switchBlockCount++;
 		}
@@ -461,20 +463,8 @@ bool indentEmptyLine;
 			}
 		}
 		
-		unichar lastChar = [orString characterAtIndex:[orString lastNonSpaceIndex:strIndex - 1 defaults:orString.length]];
-		if (![Parser isLowerBrackets:lastChar]) {
-			NSUInteger checkIndex = strIndex;
-			while (checkIndex < orString.length) {
-				unichar checkChar = [orString characterAtIndex:checkIndex];
-				checkIndex++;
-				if ([Parser isLowerBrackets:checkChar]) {
-					if (indent != 0) {
-						indent--;
-					}
-				} else if (![Parser isSpace:checkChar]) {
-					break;
-				}
-			}
+		if ((c == '}' || c == ']') && indent != 0) {
+			indent--;
 		}
 		
 		[self trimWithIndent];

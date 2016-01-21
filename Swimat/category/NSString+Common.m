@@ -28,7 +28,7 @@
 
 -(bool) isCompleteLine:(NSUInteger) index {
 	
-	NSArray *array = [NSArray arrayWithObjects:@"+", @"-", @"*", @"/", @"=", @":", @".", nil];
+	NSArray *array = [NSArray arrayWithObjects:@"+", @"-", @"*", @"/", @"=", @":", @".", @",", nil];
 	
 	bool(^notComplete)(NSUInteger checkIndex) = ^bool(NSUInteger checkIndex){
 		if (checkIndex != -1) {
