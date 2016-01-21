@@ -6,7 +6,6 @@
 @public
 	int indent;
 	int onetimeIndent;
-	int currentIndent;
 	NSMutableString *retString;
 	NSString *orString;
 	NSRange newRange;

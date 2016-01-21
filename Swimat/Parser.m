@@ -72,7 +72,7 @@
 -(void) trimWithIndent {
 	[retString trim];
 	if (retString.length > 0 && [retString characterAtIndex:retString.length - 1] == '\n') {
-		[self addIndent:retString withCount:currentIndent];
+		[self addIndent:retString withCount:indent];
 	}
 }
 

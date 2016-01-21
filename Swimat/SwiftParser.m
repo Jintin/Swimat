@@ -16,7 +16,6 @@ bool indentEmptyLine;
 	strIndex = 0;
 	indent = 0;
 	onetimeIndent = 0;
-	currentIndent = 0;
 	orString = string;
 	retString = [NSMutableString string];
 	inSwitch = false;
@@ -135,7 +134,6 @@ bool indentEmptyLine;
 
 -(NSUInteger) checkComment:(unichar) c {
 	if (c == '/') {
-	
 		if ([self isNext:'/']) {
 			return [self lineComment:true];
 		} else if ([self isNext:'*']) {
@@ -390,7 +388,7 @@ bool indentEmptyLine;
 		return [self lineComment:false];
 	}
 	NSUInteger nextIndex = [orString nextNonSpaceIndex:strIndex defaults:-1];
-
+	
 	if (nextIndex == -1) {
 		return strIndex + 1;
 	}
@@ -408,8 +406,9 @@ bool indentEmptyLine;
 	if (inSwitch && [array containsObject:head]) {//TODO change contains to startWith will better
 		onetimeIndent -= 1;
 	}
-	currentIndent = indent + onetimeIndent;
-	[self addIndent:editString withCount:currentIndent];
+	indent += onetimeIndent;
+	[self addIndent:editString withCount:indent];
+	indent -= onetimeIndent;
 	onetimeIndent = 0;
 	return nextIndex;
 }
@@ -462,9 +461,24 @@ bool indentEmptyLine;
 			}
 		}
 		
-		if (indent != 0)
-			indent--;
+		unichar lastChar = [orString characterAtIndex:[orString lastNonSpaceIndex:strIndex - 1 defaults:orString.length]];
+		if (![Parser isLowerBrackets:lastChar]) {
+			NSUInteger checkIndex = strIndex;
+			while (checkIndex < orString.length) {
+				unichar checkChar = [orString characterAtIndex:checkIndex];
+				checkIndex++;
+				if ([Parser isLowerBrackets:checkChar]) {
+					if (indent != 0) {
+						indent--;
+					}
+				} else if (![Parser isSpace:checkChar]) {
+					break;
+				}
+			}
+		}
+		
 		[self trimWithIndent];
+		
 		if (c == '}' && retString.length > 0) {
 			unichar lastChar = [retString characterAtIndex:retString.length - 1];
 			if (![Parser isBlank:lastChar]) {

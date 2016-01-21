@@ -60,7 +60,6 @@
 	self.parser->strIndex = 0;
 	self.parser->indent = 0;
 	self.parser->onetimeIndent = 0;
-	self.parser->currentIndent = 0;
 }
 
 - (void) testAppendString {
