@@ -282,7 +282,7 @@ bool indentEmptyLine;
 		}
 		case '<':
 		{
-			NSArray *array = @[@"<<=", @"<<", @"<=", @"<~~"];
+			NSArray *array = @[@"<<=", @"<<", @"<=", @"<~~", @"<-"];
 			NSUInteger findIndex = [self spaceWithArray:array];
 			if (findIndex != -1) {
 				return findIndex;

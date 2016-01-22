@@ -75,7 +75,7 @@
 		[swimatMenu addItem:buildItem];
 		
 		[swimatMenu addItem:[NSMenuItem separatorItem]];
-		NSMenuItem *indentEmptyLineItem = [[NSMenuItem alloc] initWithTitle:@"Intent Empty Line" action:@selector(indentEmptyLine:) keyEquivalent:@""];
+		NSMenuItem *indentEmptyLineItem = [[NSMenuItem alloc] initWithTitle:@"Indent Empty Line" action:@selector(indentEmptyLine:) keyEquivalent:@""];
 		[indentEmptyLineItem setTarget:[Swimat class]];
 		if ([Prefs isIndentEmptyLine]) {
 			indentEmptyLineItem.state = NSOnState;
