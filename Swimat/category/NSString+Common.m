@@ -30,10 +30,10 @@
 	
 	NSArray *array = [NSArray arrayWithObjects:@"+", @"-", @"*", @"/", @"=", @":", @".", @",", nil];
 	
-	bool(^notComplete)(NSUInteger checkIndex) = ^bool(NSUInteger checkIndex){
+	bool(^notComplete)(NSUInteger checkIndex, NSArray* addition) = ^bool(NSUInteger checkIndex, NSArray* addition){
 		if (checkIndex != -1) {
 			NSString *checkString = [NSString stringWithFormat: @"%C", [self characterAtIndex:checkIndex]];
-			if ([array containsObject:checkString]) {
+			if ([array containsObject:checkString] || [addition containsObject:checkString]) {
 				return true;
 			}
 		}
@@ -47,7 +47,7 @@
 	}
 	
 	NSUInteger checkIndex = [self nextNonSpaceIndex:index + 1 defaults:-1];
-	if (notComplete(checkIndex)) {
+	if (notComplete(checkIndex, nil)) {
 		NSString *checkString = [self subString:checkIndex length:2];
 		NSArray *exclude = [NSArray arrayWithObjects:@"++", @"--", @"//", @"/*", nil];
 		if ([exclude containsObject:checkString]) {
@@ -56,7 +56,7 @@
 		return false;
 	}
 	checkIndex = [self lastNonSpaceIndex:index - 1 defaults:-1];
-	if (notComplete(checkIndex)) {
+	if (notComplete(checkIndex, @[@"(", @"["])) {
 		unichar c = [self characterAtIndex:checkIndex];
 		if (c == ':') {
 			NSUInteger lineIndex = [self lastIndex:index - 1 defaults:self.length compare:^bool(NSString *last, NSUInteger curIndex){

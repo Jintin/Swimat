@@ -415,7 +415,7 @@ bool indentEmptyLine;
 
 -(NSUInteger) checkBrackets:(unichar) c {
 	if ([Parser isUpperBrackets:c]) {
-		if (c == '{' || c == '[') {
+		if (c == '{') {
 			indent++;
 		}
 		if (inSwitch && c == '{') {
@@ -463,7 +463,7 @@ bool indentEmptyLine;
 			}
 		}
 		
-		if ((c == '}' || c == ']') && indent != 0) {
+		if ((c == '}') && indent != 0) {
 			indent--;
 		}
 		
