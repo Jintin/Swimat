@@ -368,7 +368,7 @@ bool indentEmptyLine;
 			if (orString.length >= strIndex + 3) {
 				NSString *leading = [orString substringWithRange:NSMakeRange(strIndex, 3)];
 				if ([leading isEqualToString:@"..."] || [leading isEqualToString:@"..<"]) {
-					[self appendString:leading];
+					[self spaceWith:leading];
 				} else {
 					[self appendString:@"."];
 				}
