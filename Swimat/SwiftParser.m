@@ -9,6 +9,9 @@
 bool inSwitch; // TODO: change to stack if need nested
 int switchBlockCount; // change to stack if need nested
 bool indentEmptyLine;
+NSMutableArray *indentStack;
+bool notComplete = false;
+bool popIndent = false;
 
 -(NSString*) formatString:(NSString*) string withRange:(NSRange) range {
 	NSDate *methodStart = [NSDate date];
@@ -16,6 +19,7 @@ bool indentEmptyLine;
 	strIndex = 0;
 	indent = 0;
 	onetimeIndent = 0;
+	indentStack = [NSMutableArray array];
 	orString = string;
 	retString = [NSMutableString string];
 	inSwitch = false;
@@ -173,6 +177,9 @@ bool indentEmptyLine;
 	if (c == '\n') {
 		if (![orString isCompleteLine:strIndex]) {
 			onetimeIndent++;
+			notComplete = true;
+		} else {
+			notComplete = false;
 		}
 		BOOL shouldAddEmtyLine = !([self isEmptyLine] && ([self isNextLineEmpty:strIndex + 1] || [self isNextLineLowerBrackets:strIndex + 1]));
 		if (indentEmptyLine) {
@@ -399,6 +406,13 @@ bool indentEmptyLine;
 	if ([Parser isLowerBrackets:next]) { // close bracket don't indent
 		onetimeIndent -= 1;
 	}
+	if (popIndent) {
+		popIndent = false;
+		int lastIndent = [[indentStack lastObject] intValue];
+		indent -= lastIndent;
+		[indentStack removeLastObject];
+	}
+	
 	NSString *head = [orString nextWord:nextIndex];
 	
 	// check in switch block
@@ -406,9 +420,7 @@ bool indentEmptyLine;
 	if (inSwitch && [array containsObject:head]) {//TODO change contains to startWith will better
 		onetimeIndent -= 1;
 	}
-	indent += onetimeIndent;
-	[self addIndent:editString withCount:indent];
-	indent -= onetimeIndent;
+	[self addIndent:editString withCount:indent + onetimeIndent];
 	onetimeIndent = 0;
 	return nextIndex;
 }
@@ -417,6 +429,9 @@ bool indentEmptyLine;
 	if ([Parser isUpperBrackets:c]) {
 		if (c == '{') {
 			indent++;
+			int notCompleteIndent = notComplete ? 1 : 0;
+			[indentStack addObject:[NSNumber numberWithInt:notCompleteIndent]];
+			indent += notCompleteIndent;
 		}
 		if (inSwitch && c == '{') {
 			switchBlockCount++;
@@ -463,8 +478,9 @@ bool indentEmptyLine;
 			}
 		}
 		
-		if ((c == '}') && indent != 0) {
+		if (c == '}' && indent != 0) {
 			indent--;
+			popIndent = true;
 		}
 		
 		[self trimWithIndent];
