@@ -167,6 +167,9 @@ bool popIndent = false;
 -(NSUInteger) checkQuote:(unichar) c {
 	if (c == '"') {
 		NSUInteger nextIndex = [orString nextQuoteIndex:strIndex + 1] + 1;
+		if (nextIndex == 0) {
+			nextIndex = orString.length;
+		}
 		[retString appendString:[orString substringWithRange:NSMakeRange(strIndex, nextIndex - strIndex)]];
 		return nextIndex;
 	}

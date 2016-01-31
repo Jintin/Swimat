@@ -120,8 +120,11 @@
 			escape = false;
 		}
 	} while (++index < self.length);
-	
-	return index;
+	if (index != self.length) {
+		return index;
+	} else {
+		return -1;
+	}
 }
 
 -(NSUInteger) nextSpaceIndex:(NSUInteger) index defaults:(NSUInteger) value {
