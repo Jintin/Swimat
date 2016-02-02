@@ -5,6 +5,7 @@
 extern NSString * const TAG_INDENT;
 extern NSString * const INDENT_TAB;
 extern NSString * const INDENT_SPACE2;
+extern NSString * const INDENT_SPACE3;
 extern NSString * const INDENT_SPACE4;
 
 +(void) setIndent:(NSString *)value;
