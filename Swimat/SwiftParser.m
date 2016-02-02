@@ -241,7 +241,7 @@ bool popIndent = false;
 			} else if ([self isNext:'=']) { // -=
 				[self spaceWith:@"-="];
 			} else { // -
-				NSArray *checkChar = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@":",@"(",@"{",@"?",@"!",@"=",@","];
+				NSArray *checkChar = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@"<",@">",@":",@"(",@"{",@"?",@"!",@"=",@","];
 				unichar last = [orString lastChar:strIndex - 1 defaults:' '];
 				NSArray *checkWord = @[@"case", @"return", @"if", @"for", @"while"];
 				NSString *lastWord = [orString lastWord:strIndex - 1];
@@ -499,7 +499,7 @@ bool popIndent = false;
 		unichar next = [orString nextChar:strIndex defaults:' '];
 		if (next == '?' || next == ':') {
 			return strIndex;
-		} else if (next != '.' && next != '!') {
+		} else if (next != '.' && next != '!' && next != ';') {
 			[retString keepSpace];
 		}
 		return [orString nextNonSpaceIndex:strIndex defaults:strIndex];
