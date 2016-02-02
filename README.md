@@ -19,7 +19,7 @@ In the menu open **[Edit] -> [Swimat] -> [Format]** or press hot-key(command+opt
 ### Configuration
 There are preferences in [Edit] -> [Swimat] menu you can set:
 
-- Indent type(tab, 2 space, 4 space) 
+- Indent type(tab, 2 space, 3 space, 4 space) 
 - Auto format when save swift file
 
 ## Contributing
