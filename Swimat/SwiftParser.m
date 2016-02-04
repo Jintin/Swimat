@@ -11,7 +11,7 @@ int switchBlockCount; // change to stack if need nested
 bool indentEmptyLine;
 NSMutableArray *indentStack;
 bool notComplete = false;
-bool popIndent = false;
+int popIndent = 0;
 
 -(NSString*) formatString:(NSString*) string withRange:(NSRange) range {
 	NSDate *methodStart = [NSDate date];
@@ -409,8 +409,8 @@ bool popIndent = false;
 	if ([Parser isLowerBrackets:next]) { // close bracket don't indent
 		onetimeIndent -= 1;
 	}
-	if (popIndent) {
-		popIndent = false;
+	while (popIndent != 0) {
+		popIndent--;
 		int lastIndent = [[indentStack lastObject] intValue];
 		indent -= lastIndent;
 		[indentStack removeLastObject];
@@ -432,15 +432,17 @@ bool popIndent = false;
 	if ([Parser isUpperBrackets:c]) {
 		if (c == '{') {
 			indent++;
-			int notCompleteIndent = notComplete ? 1 : 0;
-			[indentStack addObject:[NSNumber numberWithInt:notCompleteIndent]];
-			indent += notCompleteIndent;
 		}
+		
+		int notCompleteIndent = notComplete ? 1 : 0;
+		[indentStack addObject:[NSNumber numberWithInt:notCompleteIndent]];
+		indent += notCompleteIndent;
+		
 		if (inSwitch && c == '{') {
 			switchBlockCount++;
 		}
 		
-		unichar lastChar = [orString lastChar:strIndex - 1 defaults:' '];
+		unichar lastChar = [orString lastChar:strIndex - 1 defaults:'\n'];
 		
 		if ([Parser isLowerBrackets:lastChar]) {
 			if (c == '(') {
@@ -483,9 +485,8 @@ bool popIndent = false;
 		
 		if (c == '}' && indent != 0) {
 			indent--;
-			popIndent = true;
 		}
-		
+		popIndent++;
 		[self trimWithIndent];
 		
 		if (c == '}' && retString.length > 0) {
