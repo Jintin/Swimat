@@ -47,12 +47,19 @@
 	}
 	
 	NSUInteger checkIndex = [self nextNonSpaceIndex:index + 1 defaults:-1];
+	if (checkIndex != -1) {
+		unichar nextChar = [self characterAtIndex:checkIndex];
+		if (nextChar == '?') {
+			return false;
+		}
+	}
 	if (notComplete(checkIndex, nil)) {
 		NSString *checkString = [self subString:checkIndex length:2];
 		NSArray *exclude = [NSArray arrayWithObjects:@"++", @"--", @"//", @"/*", nil];
 		if ([exclude containsObject:checkString]) {
 			return true;
 		}
+		
 		return false;
 	}
 	checkIndex = [self lastNonSpaceIndex:index - 1 defaults:-1];

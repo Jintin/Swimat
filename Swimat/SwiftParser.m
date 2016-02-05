@@ -372,8 +372,62 @@ int popIndent = 0;
 			}
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
 		case ':':
-			[self appendString:@": "];
+		{
+			//TODO check previous exist ?
+			bool findBlock = false;
+			bool isInlineIf = false;
+			NSUInteger searchIndex = [retString lastNonSpaceIndex:retString.length - 1 defaults:-1];
+			
+			while (!findBlock) {
+				NSLog(@"index : %lu", searchIndex);
+				if (searchIndex == -1) {
+					findBlock = true;
+				}
+				unichar now = [retString characterAtIndex:searchIndex];
+				NSLog(@"now = %c", now);
+				if (now == '?') {
+					isInlineIf = true;
+					findBlock = true;
+				} else if ([Parser isBlank:now]){
+					NSLog(@"find black");
+					searchIndex = [retString lastNonSpaceIndex:searchIndex defaults:-1];
+					NSLog(@"char : %c", [retString characterAtIndex:searchIndex]);
+					if (searchIndex != -1 && [retString characterAtIndex:searchIndex] == '?') {
+						isInlineIf = true;
+					}
+					findBlock = true;
+				} else if (now == ')') {
+					NSLog(@"find )");
+					__block int blockCount = 0;
+					searchIndex = [retString lastIndex:searchIndex defaults:-1 compare:^bool(NSString *last, NSUInteger curIndex) {
+						NSLog(@"now inner = %@", last);
+						if ([last isEqualToString:@")"]) {
+							blockCount++;
+							NSLog(@"blockCount++;");
+						} else if ([last isEqualToString:@"("]) {
+							blockCount--;
+							NSLog(@"blockCount--;");
+						}
+						
+						return blockCount == 0;
+					}];
+				} else {
+					searchIndex--;
+				}
+			}
+			if (isInlineIf) {
+				if ([retString characterAtIndex:searchIndex + 1] != ' ') {
+					[retString insertString:@" " atIndex:searchIndex + 1];
+				}
+				if ([retString characterAtIndex:searchIndex - 1] != ' ') {
+					[retString insertString:@" " atIndex:searchIndex];
+				}
+				[self spaceWith:@":"];
+			} else {
+				[self appendString:@": "];
+			}
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
+		}
 		case '.':
 			if (orString.length >= strIndex + 3) {
 				NSString *leading = [orString substringWithRange:NSMakeRange(strIndex, 3)];
