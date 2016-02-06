@@ -370,12 +370,21 @@ int popIndent = 0;
 				}
 				unichar now = [retString characterAtIndex:searchIndex];
 				if (now == '?') {
-					isInlineIf = true;
+					if ([retString characterAtIndex:searchIndex + 1] != '.') {
+						isInlineIf = true;
+						findBlock = true;
+					} else {
+						searchIndex--;
+					}
+				} else if ([Parser isLowerBrackets:now] || [Parser isUpperBrackets:now]) {
+					isInlineIf = false;
 					findBlock = true;
 				} else if ([Parser isBlank:now]){
 					searchIndex = [retString lastNonSpaceIndex:searchIndex defaults:-1];
 					if (searchIndex != -1 && [retString characterAtIndex:searchIndex] == '?') {
-						isInlineIf = true;
+						if ([retString characterAtIndex:searchIndex + 1] != '.') {
+							isInlineIf = true;
+						}
 					}
 					findBlock = true;
 				} else if (now == ')') {
