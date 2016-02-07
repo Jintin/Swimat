@@ -190,26 +190,26 @@
 }
 
 -(NSUInteger) lastSpaceIndex:(NSUInteger) index defaults:(NSUInteger) value {
-	return [self lastIndex:index defaults:value compare:^bool(NSString *next, NSUInteger curIndex){
-		return [next isEqualToString:@" "] || [next isEqualToString:@"\t"];
+	return [self lastIndex:index defaults:value compare:^bool(NSString *last, NSUInteger curIndex){
+		return [last isEqualToString:@" "] || [last isEqualToString:@"\t"];
 	}];
 }
 
 -(NSUInteger) lastNonSpaceIndex:(NSUInteger) index defaults:(NSUInteger) value {
-	return [self lastIndex:index defaults:value compare:^bool(NSString *next, NSUInteger curIndex){
-		return ![next isEqualToString:@" "] && ![next isEqualToString:@"\t"];
+	return [self lastIndex:index defaults:value compare:^bool(NSString *last, NSUInteger curIndex){
+		return ![last isEqualToString:@" "] && ![last isEqualToString:@"\t"];
 	}];
 }
 
 -(NSUInteger) lastCharIndex:(NSUInteger) index defaults:(NSUInteger) value {
-	return [self lastIndex:index defaults:value compare:^bool(NSString *next, NSUInteger curIndex){
-		return ![next isEqualToString:@" "] && ![next isEqualToString:@"\t"] && ![next isEqualToString:@"\n"];
+	return [self lastIndex:index defaults:value compare:^bool(NSString *last, NSUInteger curIndex){
+		return ![last isEqualToString:@" "] && ![last isEqualToString:@"\t"] && ![last isEqualToString:@"\n"];
 	}];
 }
 
 -(NSUInteger) lastNonCharIndex:(NSUInteger) index defaults:(NSUInteger) value {
-	return [self lastIndex:index defaults:value compare:^bool(NSString *next, NSUInteger curIndex){
-		return [next isEqualToString:@" "] || [next isEqualToString:@"\t"] || [next isEqualToString:@"\n"];
+	return [self lastIndex:index defaults:value compare:^bool(NSString *last, NSUInteger curIndex){
+		return [last isEqualToString:@" "] || [last isEqualToString:@"\t"] || [last isEqualToString:@"\n"];
 	}];
 }
 

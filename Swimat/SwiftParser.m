@@ -354,6 +354,7 @@ int popIndent = 0;
 		case '?':
 			if ([self isNext:'?']) {
 				[self spaceWith:@"??"];
+				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
 			} else {
 				return 0; // TODO check (optional)? or A?B:C
 			}
