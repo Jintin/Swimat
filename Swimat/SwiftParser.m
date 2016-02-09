@@ -377,9 +377,6 @@ int popIndent = 0;
 					} else {
 						searchIndex--;
 					}
-				} else if ([Parser isLowerBrackets:now] || [Parser isUpperBrackets:now]) {
-					isInlineIf = false;
-					findBlock = true;
 				} else if ([Parser isBlank:now]){
 					searchIndex = [retString lastNonBlankIndex:searchIndex defaults:-1];
 					if (searchIndex != -1 && [retString characterAtIndex:searchIndex] == '?') {
