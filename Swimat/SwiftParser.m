@@ -362,7 +362,7 @@ int popIndent = 0;
 		{
 			bool findBlock = false;
 			bool isInlineIf = false;
-			NSUInteger searchIndex = [retString lastNonSpaceIndex:retString.length - 1 defaults:-1];
+			NSUInteger searchIndex = [retString lastNonBlankIndex:retString.length - 1 defaults:-1];
 			
 			while (!findBlock) {
 				if (searchIndex == -1) {
@@ -381,7 +381,7 @@ int popIndent = 0;
 					isInlineIf = false;
 					findBlock = true;
 				} else if ([Parser isBlank:now]){
-					searchIndex = [retString lastNonSpaceIndex:searchIndex defaults:-1];
+					searchIndex = [retString lastNonBlankIndex:searchIndex defaults:-1];
 					if (searchIndex != -1 && [retString characterAtIndex:searchIndex] == '?') {
 						if ([retString characterAtIndex:searchIndex + 1] != '.') {
 							isInlineIf = true;
@@ -428,7 +428,20 @@ int popIndent = 0;
 				[self appendString:@"."];
 			}
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
-			
+		case '#':
+			if ([self isNextString:@"#if"]) {
+				indent++;
+			} else if ([self isNextString:@"#else"]) {
+				indent--;
+				[retString trim];
+				[self addIndent:retString];
+				indent++;
+			} else if ([self isNextString:@"#endif"]) {
+				indent--;
+				[retString trim];
+				[self addIndent:retString];
+			}
+			break;
 		default:
 			break;
 	}

@@ -201,6 +201,12 @@
 	}];
 }
 
+-(NSUInteger) lastNonBlankIndex:(NSUInteger) index defaults:(NSUInteger) value {
+	return [self lastIndex:index defaults:value compare:^bool(NSString *last, NSUInteger curIndex){
+		return ![last isEqualToString:@" "] && ![last isEqualToString:@"\t"] && ![last isEqualToString:@"\n"];
+	}];
+}
+
 -(NSUInteger) lastCharIndex:(NSUInteger) index defaults:(NSUInteger) value {
 	return [self lastIndex:index defaults:value compare:^bool(NSString *last, NSUInteger curIndex){
 		return ![last isEqualToString:@" "] && ![last isEqualToString:@"\t"] && ![last isEqualToString:@"\n"];

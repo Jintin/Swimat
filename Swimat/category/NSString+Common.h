@@ -73,6 +73,11 @@
 -(NSUInteger) lastNonSpaceIndex:(NSUInteger) index defaults:(NSUInteger) value;
 
 /**
+ @brief find last non blank
+ */
+-(NSUInteger) lastNonBlankIndex:(NSUInteger) index defaults:(NSUInteger) value;
+
+/**
  @brief get last char (without empty char)
  */
 -(unichar) lastChar:(NSUInteger) index defaults:(unichar) value;

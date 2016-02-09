@@ -69,7 +69,7 @@
 	return -1;
 }
 
--(void) trimWithIndent {
+-(void) trimWithIndent { //TODO merge with addIndent
 	[retString trim];
 	if (retString.length > 0 && [retString characterAtIndex:retString.length - 1] == '\n') {
 		[self addIndent:retString withCount:indent + onetimeIndent];
