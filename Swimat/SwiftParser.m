@@ -410,7 +410,12 @@ int popIndent = 0;
 						
 						return blockCount == 0;
 					}];
-				} else if ([Parser isUpperBrackets:now]) {
+					if (searchIndex != -1) {
+						searchIndex--;
+					} else {
+						findBlock = true;
+					}
+				} else if (now == '(') {
 					findBlock = true;
 				} else {
 					searchIndex--;
