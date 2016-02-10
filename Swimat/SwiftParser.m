@@ -377,6 +377,20 @@ int popIndent = 0;
 					} else {
 						searchIndex--;
 					}
+				} else if (now == '"') {
+					searchIndex = [retString lastIndex:searchIndex - 1 defaults:-1 compare:^bool(NSString *last, NSUInteger curIndex) {
+						if ([last isEqualToString:@"\""]) {
+							if ([retString characterAtIndex:curIndex - 1] != '\\') {
+								return true;
+							}
+						}
+						return false;
+					}];
+					if (searchIndex != -1) {
+						searchIndex--;
+					} else {
+						findBlock = true;
+					}
 				} else if ([Parser isBlank:now]){
 					searchIndex = [retString lastNonBlankIndex:searchIndex defaults:-1];
 					if (searchIndex != -1 && [retString characterAtIndex:searchIndex] == '?') {
