@@ -28,7 +28,7 @@
 
 -(bool) isCompleteLine:(NSUInteger) index {
 	
-	NSArray *array = [NSArray arrayWithObjects:@"+", @"-", @"*", @"/", @"=", @":", @".", @",", nil];
+	NSArray *array = [NSArray arrayWithObjects:@"+", @"-", @"*", @"/", @"=", @":", @".", nil];
 	
 	bool(^notComplete)(NSUInteger checkIndex, NSArray* addition) = ^bool(NSUInteger checkIndex, NSArray* addition){
 		if (checkIndex != -1) {
@@ -63,7 +63,7 @@
 		return false;
 	}
 	checkIndex = [self lastNonSpaceIndex:index - 1 defaults:-1];
-	if (notComplete(checkIndex, @[@"(", @"["])) {
+	if (notComplete(checkIndex, nil)) {
 		unichar c = [self characterAtIndex:checkIndex];
 		if (c == ':') {
 			NSUInteger lineIndex = [self lastIndex:index - 1 defaults:self.length compare:^bool(NSString *last, NSUInteger curIndex){

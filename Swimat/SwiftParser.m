@@ -10,16 +10,18 @@ bool inSwitch; // TODO: change to stack if need nested
 int switchBlockCount; // change to stack if need nested
 bool indentEmptyLine;
 NSMutableArray *indentStack;
-bool notComplete = false;
-int popIndent = 0;
+NSMutableArray *onetimeIndentStack;
+int curIndent = 0;
 
 -(NSString*) formatString:(NSString*) string withRange:(NSRange) range {
 	NSDate *methodStart = [NSDate date];
 	bool checkRangeStart = false, checkRangeEnd = range.length == 0;
 	strIndex = 0;
 	indent = 0;
+	curIndent = 0;
 	onetimeIndent = 0;
 	indentStack = [NSMutableArray array];
+	onetimeIndentStack = [NSMutableArray array];
 	orString = string;
 	retString = [NSMutableString string];
 	inSwitch = false;
@@ -180,9 +182,6 @@ int popIndent = 0;
 	if (c == '\n') {
 		if (![orString isCompleteLine:strIndex]) {
 			onetimeIndent++;
-			notComplete = true;
-		} else {
-			notComplete = false;
 		}
 		BOOL shouldAddEmtyLine = !([self isEmptyLine] && ([self isNextLineEmpty:strIndex + 1] || [self isNextLineLowerBrackets:strIndex + 1]));
 		if (indentEmptyLine) {
@@ -482,12 +481,6 @@ int popIndent = 0;
 	if ([Parser isLowerBrackets:next]) { // close bracket don't indent
 		onetimeIndent -= 1;
 	}
-	while (popIndent != 0) {
-		popIndent--;
-		int lastIndent = [[indentStack lastObject] intValue];
-		indent -= lastIndent;
-		[indentStack removeLastObject];
-	}
 	
 	NSString *head = [orString nextWord:nextIndex];
 	
@@ -496,21 +489,17 @@ int popIndent = 0;
 	if (inSwitch && [array containsObject:head]) {//TODO change contains to startWith will better
 		onetimeIndent -= 1;
 	}
-	[self addIndent:editString withCount:indent + onetimeIndent];
+	curIndent = indent + onetimeIndent;
+	[self addIndent:editString withCount:curIndent];
 	onetimeIndent = 0;
 	return nextIndex;
 }
 
 -(NSUInteger) checkBrackets:(unichar) c {
 	if ([Parser isUpperBrackets:c]) {
-		if (c == '{') {
-			indent++;
-		}
-		if (c == '{' || c == '[') {
-			int notCompleteIndent = notComplete ? 1 : 0;
-			[indentStack addObject:[NSNumber numberWithInt:notCompleteIndent]];
-			indent += notCompleteIndent;
-		}
+		[indentStack addObject:[NSNumber numberWithInt:indent]];
+		[onetimeIndentStack addObject:[NSNumber numberWithInt:onetimeIndent]];
+		indent = curIndent + 1;
 		
 		if (inSwitch && c == '{') {
 			switchBlockCount++;
@@ -557,13 +546,18 @@ int popIndent = 0;
 			}
 		}
 		
-		if (c == '}' && indent != 0) {
-			indent--;
-		}
-		if (c == '}' || c == ']') {
-			popIndent++;
-		}
+		indent = [[indentStack lastObject] intValue];
+		[indentStack removeLastObject];
+		onetimeIndent = [[onetimeIndentStack lastObject] intValue];
+		[onetimeIndentStack removeLastObject];
 		[self trimWithIndent];
+		
+		unichar lastChar = [retString characterAtIndex:retString.length - 1];
+		if ([Parser isLowerBrackets:lastChar]) {
+			[retString deleteCharactersInRange:NSMakeRange(retString.length - 1, 1)];
+			[self trimWithIndent];
+			[retString appendFormat:@"%c", lastChar];
+		}
 		
 		if (c == '}' && retString.length > 0) {
 			unichar lastChar = [retString characterAtIndex:retString.length - 1];
