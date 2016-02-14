@@ -222,15 +222,19 @@ int curIndent = 0;
 -(NSUInteger) checkOperator:(unichar) c {
 	switch (c) {
 		case '+':
-			if ([self isNext:'+']) { // ++
+		{
+			NSArray *array = @[@"+++=", @"+++", @"+=<", @"+="];
+			NSUInteger findIndex = [self spaceWithArray:array];
+			if (findIndex != -1) {
+				return findIndex;
+			} else if ([self isNext:'+']) { // ++
 				[self appendString:@"++"];
 				return strIndex;
-			} else if ([self isNext:'=']) { // +=
-				[self spaceWith:@"+="];
 			} else { // +, ignore positive sign
 				[self spaceWith:@"+"];
+				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
 			}
-			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
+		}
 		case '-':
 			if ([self isNext:'-']) { // --
 				[self appendString:@"--"];
@@ -291,7 +295,7 @@ int curIndent = 0;
 		}
 		case '<':
 		{
-			NSArray *array = @[@"<<=", @"<<", @"<=", @"<~~", @"<-"];
+			NSArray *array = @[@"<<<", @"<<=", @"<<", @"<=", @"<~~", @"<-"];
 			NSUInteger findIndex = [self spaceWithArray:array];
 			if (findIndex != -1) {
 				return findIndex;
@@ -328,7 +332,8 @@ int curIndent = 0;
 		case '>':
 		case '|':
 		{
-			NSArray *array = @[[NSString stringWithFormat:@"%c%c=", c, c],
+			NSArray *array = @[[NSString stringWithFormat:@"%c%c%c", c, c, c],
+							   [NSString stringWithFormat:@"%c%c=", c, c],
 							   [NSString stringWithFormat:@"%c%c", c, c],
 							   [NSString stringWithFormat:@"%c=", c],
 							   [NSString stringWithFormat:@"%c", c]];
@@ -414,7 +419,7 @@ int curIndent = 0;
 					} else {
 						findBlock = true;
 					}
-				} else if (now == '(') {
+				} else if ([Parser isUpperBrackets:now]) {
 					findBlock = true;
 				} else {
 					searchIndex--;
