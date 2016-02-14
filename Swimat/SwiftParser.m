@@ -508,10 +508,10 @@ int curIndent = 0;
 		unichar lastChar = [orString lastChar:strIndex - 1 defaults:'\n'];
 		
 		if ([Parser isLowerBrackets:lastChar]) {
-			if (c == '(') {
-				[self trimWithIndent];
-			} else {
+			if (c == '{') {
 				[retString keepSpace];
+			} else {
+				[self trimWithIndent];
 			}
 		} else {
 			switch (c) {
