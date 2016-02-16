@@ -364,6 +364,7 @@ int curIndent = 0;
 				[self spaceWith:@"??"];
 				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
 			}
+			break;
 		case ':':
 		{
 			if ([self isNext:'?']) {
