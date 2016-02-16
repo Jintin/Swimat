@@ -300,6 +300,10 @@ int curIndent = 0;
 			if (findIndex != -1) {
 				return findIndex;
 			} else {
+				if ([self isNext:'#']) {
+					[self appendString:@"<#"];
+					return strIndex;
+				}
 				NSUInteger checkIndex = strIndex;
 				__block int checkCount = 0;
 				NSUInteger closeIndex = [orString nextIndex:checkIndex defaults:-1 compare:^bool(NSString *next, NSUInteger curIndex){
@@ -359,11 +363,13 @@ int curIndent = 0;
 			if ([self isNext:'?']) {
 				[self spaceWith:@"??"];
 				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
-			} else {
-				return 0; // TODO check (optional)? or A?B:C
 			}
 		case ':':
 		{
+			if ([self isNext:'?']) {
+				[self spaceWith:@":?"];
+				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
+			}
 			bool findBlock = false;
 			bool isInlineIf = false;
 			NSUInteger searchIndex = [retString lastNonBlankIndex:retString.length - 1 defaults:-1];
@@ -375,7 +381,7 @@ int curIndent = 0;
 				}
 				unichar now = [retString characterAtIndex:searchIndex];
 				if (now == '?') {
-					if ([retString characterAtIndex:searchIndex + 1] != '.') {
+					if (searchIndex + 1 < retString.length && [retString characterAtIndex:searchIndex + 1] != '.') {
 						isInlineIf = true;
 						findBlock = true;
 					} else {
@@ -384,7 +390,7 @@ int curIndent = 0;
 				} else if (now == '"') {
 					searchIndex = [retString lastIndex:searchIndex - 1 defaults:-1 compare:^bool(NSString *last, NSUInteger curIndex) {
 						if ([last isEqualToString:@"\""]) {
-							if ([retString characterAtIndex:curIndex - 1] != '\\') {
+							if (curIndex != 0 && [retString characterAtIndex:curIndex - 1] != '\\') {
 								return true;
 							}
 						}
@@ -453,15 +459,24 @@ int curIndent = 0;
 		case '#':
 			if ([self isNextString:@"#if"]) {
 				indent++;
+				[self appendString:@"#if"];
+				return strIndex;
 			} else if ([self isNextString:@"#else"]) {
 				indent--;
 				[retString trim];
 				[self addIndent:retString];
 				indent++;
+				[self appendString:@"#else"];
+				return strIndex;
 			} else if ([self isNextString:@"#endif"]) {
 				indent--;
 				[retString trim];
 				[self addIndent:retString];
+				[self appendString:@"#endif"];
+				return strIndex;
+			} else if ([self isNext:'>']) {
+				[self appendString:@"#>"];
+				return strIndex;
 			}
 			break;
 		default:
