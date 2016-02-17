@@ -191,7 +191,7 @@
 		}
 	}
 	while ([string1 characterAtIndex:string1.length - end] == [string2 characterAtIndex:string2.length - end]) {
-		if (minLen - end > start) {
+		if (minLen - end >= start) {
 			end++;
 		} else {
 			break;

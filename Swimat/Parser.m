@@ -49,7 +49,7 @@
 }
 
 -(void) appendChar:(unichar) c {
-	[retString appendFormat:@"%c", c];
+	[retString appendFormat:@"%C", c];
 	strIndex++;
 }
 
