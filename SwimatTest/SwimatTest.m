@@ -25,7 +25,7 @@
 	
 	range = [Swimat findDiffRange:@"abcd" string2:@"abcd"];
 	XCTAssert(range.location == 3);
-	XCTAssert(range.length == 0);
+	XCTAssert(range.length == 1);
 	
 	range = [Swimat findDiffRange:@"abcd " string2:@"abcd"];
 	XCTAssert(range.location == 3);
