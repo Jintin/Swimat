@@ -9,6 +9,8 @@
 bool inSwitch; // TODO: change to stack if need nested
 int switchBlockCount; // change to stack if need nested
 bool indentEmptyLine;
+NSMutableArray *blockStack;
+NSString *curBlock;
 NSMutableArray *indentStack;
 NSMutableArray *onetimeIndentStack;
 int curIndent = 0;
@@ -20,6 +22,8 @@ int curIndent = 0;
 	indent = 0;
 	curIndent = 0;
 	onetimeIndent = 0;
+	curBlock = @"";
+	blockStack = [NSMutableArray array];
 	indentStack = [NSMutableArray array];
 	onetimeIndentStack = [NSMutableArray array];
 	orString = string;
@@ -180,9 +184,10 @@ int curIndent = 0;
 
 -(NSUInteger) checkNewline:(unichar) c {
 	if (c == '\n') {
-		if (![orString isCompleteLine:strIndex]) {
+		if (![orString isCompleteLine:strIndex curBlock:curBlock]) {
 			onetimeIndent++;
 		}
+		//TODO check , curblock
 		BOOL shouldAddEmtyLine = !([self isEmptyLine] && ([self isNextLineEmpty:strIndex + 1] || [self isNextLineLowerBrackets:strIndex + 1]));
 		if (indentEmptyLine) {
 			[self trimWithIndent];
@@ -520,6 +525,9 @@ int curIndent = 0;
 	if ([Parser isUpperBrackets:c]) {
 		[indentStack addObject:[NSNumber numberWithInt:indent]];
 		[onetimeIndentStack addObject:[NSNumber numberWithInt:onetimeIndent]];
+		curBlock = [NSString stringWithFormat:@"%c", c];
+		[blockStack addObject:curBlock];
+		
 		indent = curIndent + 1;
 		
 		if (inSwitch && c == '{') {
@@ -569,6 +577,7 @@ int curIndent = 0;
 		
 		indent = [[indentStack lastObject] intValue];
 		[indentStack removeLastObject];
+		[blockStack removeLastObject];
 		onetimeIndent = [[onetimeIndentStack lastObject] intValue];
 		[onetimeIndentStack removeLastObject];
 		[self trimWithIndent];

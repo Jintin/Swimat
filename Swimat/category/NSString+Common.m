@@ -26,10 +26,12 @@
 	}
 }
 
--(bool) isCompleteLine:(NSUInteger) index {
+-(bool) isCompleteLine:(NSUInteger) index curBlock:(NSString *) curBlock {
 	
-	NSArray *array = [NSArray arrayWithObjects:@"+", @"-", @"*", @"/", @"=", @":", @".", nil];
-	
+	NSMutableArray *array = [NSMutableArray arrayWithObjects:@"+", @"-", @"*", @"/", @"=", @":", @".", nil];
+	if ([curBlock isEqualToString:@"{"]) {
+		[array addObject:@","];
+	}
 	bool(^notComplete)(NSUInteger checkIndex, NSArray* addition) = ^bool(NSUInteger checkIndex, NSArray* addition){
 		if (checkIndex != -1) {
 			NSString *checkString = [NSString stringWithFormat: @"%C", [self characterAtIndex:checkIndex]];

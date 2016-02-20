@@ -20,7 +20,7 @@
 /**
  @brief is complete line of code or not
  */
--(bool) isCompleteLine:(NSUInteger) index;
+-(bool) isCompleteLine:(NSUInteger) index curBlock:(NSString *) curBlock;
 
 /**
  @brief find next index by given sting
