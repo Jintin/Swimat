@@ -187,7 +187,6 @@ int curIndent = 0;
 		if (![orString isCompleteLine:strIndex curBlock:curBlock]) {
 			onetimeIndent++;
 		}
-		//TODO check , curblock
 		BOOL shouldAddEmtyLine = !([self isEmptyLine] && ([self isNextLineEmpty:strIndex + 1] || [self isNextLineLowerBrackets:strIndex + 1]));
 		if (indentEmptyLine) {
 			[self trimWithIndent];
@@ -578,6 +577,7 @@ int curIndent = 0;
 		indent = [[indentStack lastObject] intValue];
 		[indentStack removeLastObject];
 		[blockStack removeLastObject];
+		curBlock = [blockStack lastObject];
 		onetimeIndent = [[onetimeIndentStack lastObject] intValue];
 		[onetimeIndentStack removeLastObject];
 		[self trimWithIndent];
