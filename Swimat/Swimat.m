@@ -178,7 +178,7 @@
 
 + (NSRange) findDiffRange:(NSString *) string1 string2:(NSString *) string2 {
 	NSDate *methodStart = [NSDate date];
-	NSUInteger start = 0, end = 1;
+	NSUInteger start = 0, end = 0;
 	NSUInteger minLen = MIN(string1.length, string2.length);
 	if (minLen == 0) {
 		return NSMakeRange(0, 0);
@@ -190,14 +190,15 @@
 			break;
 		}
 	}
-	while ([string1 characterAtIndex:string1.length - end] == [string2 characterAtIndex:string2.length - end]) {
-		if (minLen - end > start) {
+	while ([string1 characterAtIndex:string1.length - end - 1] == [string2 characterAtIndex:string2.length - end - 1]) {
+		if (minLen - end - 1 >= start) {
 			end++;
 		} else {
+			end--;
 			break;
 		}
 	}
-	end--;
+	
 	NSDate *methodFinish = [NSDate date];
 	NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
 	NSLog(@"diff executionTime = %f", executionTime);

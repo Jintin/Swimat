@@ -49,7 +49,7 @@
 }
 
 -(void) appendChar:(unichar) c {
-	[retString appendFormat:@"%c", c];
+	[retString appendFormat:@"%C", c];
 	strIndex++;
 }
 
@@ -69,7 +69,7 @@
 	return -1;
 }
 
--(void) trimWithIndent {
+-(void) trimWithIndent { //TODO merge with addIndent
 	[retString trim];
 	if (retString.length > 0 && [retString characterAtIndex:retString.length - 1] == '\n') {
 		[self addIndent:retString withCount:indent + onetimeIndent];

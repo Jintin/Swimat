@@ -20,8 +20,6 @@
 		if (![Parser isBlank:c]) {
 			[self appendString:@" "];
 		}
-	} else {
-		[self appendString:@" "];
 	}
 }
 

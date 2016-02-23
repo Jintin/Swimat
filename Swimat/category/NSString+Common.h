@@ -20,7 +20,7 @@
 /**
  @brief is complete line of code or not
  */
--(bool) isCompleteLine:(NSUInteger) index;
+-(bool) isCompleteLine:(NSUInteger) index curBlock:(NSString *) curBlock;
 
 /**
  @brief find next index by given sting
@@ -71,6 +71,11 @@
  @brief find last non space
  */
 -(NSUInteger) lastNonSpaceIndex:(NSUInteger) index defaults:(NSUInteger) value;
+
+/**
+ @brief find last non blank
+ */
+-(NSUInteger) lastNonBlankIndex:(NSUInteger) index defaults:(NSUInteger) value;
 
 /**
  @brief get last char (without empty char)

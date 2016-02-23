@@ -9,17 +9,23 @@
 bool inSwitch; // TODO: change to stack if need nested
 int switchBlockCount; // change to stack if need nested
 bool indentEmptyLine;
+NSMutableArray *blockStack;
+NSString *curBlock;
 NSMutableArray *indentStack;
-bool notComplete = false;
-bool popIndent = false;
+NSMutableArray *onetimeIndentStack;
+int curIndent = 0;
 
 -(NSString*) formatString:(NSString*) string withRange:(NSRange) range {
 	NSDate *methodStart = [NSDate date];
 	bool checkRangeStart = false, checkRangeEnd = range.length == 0;
 	strIndex = 0;
 	indent = 0;
+	curIndent = 0;
 	onetimeIndent = 0;
+	curBlock = @"";
+	blockStack = [NSMutableArray array];
 	indentStack = [NSMutableArray array];
+	onetimeIndentStack = [NSMutableArray array];
 	orString = string;
 	retString = [NSMutableString string];
 	inSwitch = false;
@@ -178,11 +184,8 @@ bool popIndent = false;
 
 -(NSUInteger) checkNewline:(unichar) c {
 	if (c == '\n') {
-		if (![orString isCompleteLine:strIndex]) {
+		if (![orString isCompleteLine:strIndex curBlock:curBlock]) {
 			onetimeIndent++;
-			notComplete = true;
-		} else {
-			notComplete = false;
 		}
 		BOOL shouldAddEmtyLine = !([self isEmptyLine] && ([self isNextLineEmpty:strIndex + 1] || [self isNextLineLowerBrackets:strIndex + 1]));
 		if (indentEmptyLine) {
@@ -223,15 +226,19 @@ bool popIndent = false;
 -(NSUInteger) checkOperator:(unichar) c {
 	switch (c) {
 		case '+':
-			if ([self isNext:'+']) { // ++
+		{
+			NSArray *array = @[@"+++=", @"+++", @"+=<", @"+="];
+			NSUInteger findIndex = [self spaceWithArray:array];
+			if (findIndex != -1) {
+				return findIndex;
+			} else if ([self isNext:'+']) { // ++
 				[self appendString:@"++"];
 				return strIndex;
-			} else if ([self isNext:'=']) { // +=
-				[self spaceWith:@"+="];
 			} else { // +, ignore positive sign
 				[self spaceWith:@"+"];
+				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
 			}
-			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
+		}
 		case '-':
 			if ([self isNext:'-']) { // --
 				[self appendString:@"--"];
@@ -292,11 +299,15 @@ bool popIndent = false;
 		}
 		case '<':
 		{
-			NSArray *array = @[@"<<=", @"<<", @"<=", @"<~~", @"<-"];
+			NSArray *array = @[@"<<<", @"<<=", @"<<", @"<=", @"<~~", @"<-"];
 			NSUInteger findIndex = [self spaceWithArray:array];
 			if (findIndex != -1) {
 				return findIndex;
 			} else {
+				if ([self isNext:'#']) {
+					[self appendString:@"<#"];
+					return strIndex;
+				}
 				NSUInteger checkIndex = strIndex;
 				__block int checkCount = 0;
 				NSUInteger closeIndex = [orString nextIndex:checkIndex defaults:-1 compare:^bool(NSString *next, NSUInteger curIndex){
@@ -329,7 +340,8 @@ bool popIndent = false;
 		case '>':
 		case '|':
 		{
-			NSArray *array = @[[NSString stringWithFormat:@"%c%c=", c, c],
+			NSArray *array = @[[NSString stringWithFormat:@"%c%c%c", c, c, c],
+							   [NSString stringWithFormat:@"%c%c=", c, c],
 							   [NSString stringWithFormat:@"%c%c", c, c],
 							   [NSString stringWithFormat:@"%c=", c],
 							   [NSString stringWithFormat:@"%c", c]];
@@ -354,26 +366,89 @@ bool popIndent = false;
 		case '?':
 			if ([self isNext:'?']) {
 				[self spaceWith:@"??"];
+				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
+			}
+			return 0;
+		case ':':
+		{
+			if ([self isNext:'?']) {
+				[self spaceWith:@":?"];
+				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
+			}
+			bool findBlock = false;
+			bool isInlineIf = false;
+			NSUInteger searchIndex = [retString lastNonBlankIndex:retString.length - 1 defaults:-1];
+			
+			while (!findBlock) {
+				if (searchIndex == -1) {
+					findBlock = true;
+					break;
+				}
+				unichar now = [retString characterAtIndex:searchIndex];
+				if (now == '?') {
+					if (searchIndex + 1 < retString.length && [retString characterAtIndex:searchIndex + 1] != '.') {
+						isInlineIf = true;
+						findBlock = true;
+					} else {
+						searchIndex--;
+					}
+				} else if (now == '"') {
+					searchIndex = [retString lastIndex:searchIndex - 1 defaults:-1 compare:^bool(NSString *last, NSUInteger curIndex) {
+						if ([last isEqualToString:@"\""]) {
+							if (curIndex != 0 && [retString characterAtIndex:curIndex - 1] != '\\') {
+								return true;
+							}
+						}
+						return false;
+					}];
+					if (searchIndex != -1) {
+						searchIndex--;
+					} else {
+						findBlock = true;
+					}
+				} else if ([Parser isBlank:now]){
+					searchIndex = [retString lastNonBlankIndex:searchIndex defaults:-1];
+					if (searchIndex != -1 && [retString characterAtIndex:searchIndex] == '?') {
+						if ([retString characterAtIndex:searchIndex + 1] != '.') {
+							isInlineIf = true;
+						}
+					}
+					findBlock = true;
+				} else if (now == ')') {
+					__block int blockCount = 0;
+					searchIndex = [retString lastIndex:searchIndex defaults:-1 compare:^bool(NSString *last, NSUInteger curIndex) {
+						if ([last isEqualToString:@")"]) {
+							blockCount++;
+						} else if ([last isEqualToString:@"("]) {
+							blockCount--;
+						}
+						
+						return blockCount == 0;
+					}];
+					if (searchIndex != -1) {
+						searchIndex--;
+					} else {
+						findBlock = true;
+					}
+				} else if ([Parser isUpperBrackets:now]) {
+					findBlock = true;
+				} else {
+					searchIndex--;
+				}
+			}
+			if (isInlineIf) {
+				if (![Parser isBlank:[retString characterAtIndex:searchIndex + 1]]) {
+					[retString insertString:@" " atIndex:searchIndex + 1];
+				}
+				if (![Parser isBlank:[retString characterAtIndex:searchIndex - 1]]) {
+					[retString insertString:@" " atIndex:searchIndex];
+				}
+				[self spaceWith:@":"];
 			} else {
-				//				__block int count = 0;
-				//				NSUInteger nextIndex = orString nextIndex:strIndex defaults:-1 compare:^bool(NSString *next){
-				//					if (<#condition#>) {
-				//						<#statements#>
-				//					}
-				//					return [next isEqualToString:@":"];
-				//				}];
-				//
-				//				[orString nextIndex:strIndex search:@":" defaults:orString.length];
-				//				if (nextIndex != -1) {
-				//
-				//				}
-				
-				return 0; // TODO check (optional)? or A?B:C
+				[self appendString:@": "];
 			}
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
-		case ':':
-			[self appendString:@": "];
-			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
+		}
 		case '.':
 			if (orString.length >= strIndex + 3) {
 				NSString *leading = [orString substringWithRange:NSMakeRange(strIndex, 3)];
@@ -386,7 +461,29 @@ bool popIndent = false;
 				[self appendString:@"."];
 			}
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
-			
+		case '#':
+			if ([self isNextString:@"#if"]) {
+				indent++;
+				[self appendString:@"#if"];
+				return strIndex;
+			} else if ([self isNextString:@"#else"]) {
+				indent--;
+				[retString trim];
+				[self addIndent:retString];
+				indent++;
+				[self appendString:@"#else"];
+				return strIndex;
+			} else if ([self isNextString:@"#endif"]) {
+				indent--;
+				[retString trim];
+				[self addIndent:retString];
+				[self appendString:@"#endif"];
+				return strIndex;
+			} else if ([self isNext:'>']) {
+				[self appendString:@"#>"];
+				return strIndex;
+			}
+			break;
 		default:
 			break;
 	}
@@ -409,12 +506,6 @@ bool popIndent = false;
 	if ([Parser isLowerBrackets:next]) { // close bracket don't indent
 		onetimeIndent -= 1;
 	}
-	if (popIndent) {
-		popIndent = false;
-		int lastIndent = [[indentStack lastObject] intValue];
-		indent -= lastIndent;
-		[indentStack removeLastObject];
-	}
 	
 	NSString *head = [orString nextWord:nextIndex];
 	
@@ -423,30 +514,32 @@ bool popIndent = false;
 	if (inSwitch && [array containsObject:head]) {//TODO change contains to startWith will better
 		onetimeIndent -= 1;
 	}
-	[self addIndent:editString withCount:indent + onetimeIndent];
+	curIndent = indent + onetimeIndent;
+	[self addIndent:editString withCount:curIndent];
 	onetimeIndent = 0;
 	return nextIndex;
 }
 
 -(NSUInteger) checkBrackets:(unichar) c {
 	if ([Parser isUpperBrackets:c]) {
-		if (c == '{') {
-			indent++;
-			int notCompleteIndent = notComplete ? 1 : 0;
-			[indentStack addObject:[NSNumber numberWithInt:notCompleteIndent]];
-			indent += notCompleteIndent;
-		}
+		[indentStack addObject:[NSNumber numberWithInt:indent]];
+		[onetimeIndentStack addObject:[NSNumber numberWithInt:onetimeIndent]];
+		curBlock = [NSString stringWithFormat:@"%c", c];
+		[blockStack addObject:curBlock];
+		
+		indent = curIndent + 1;
+		
 		if (inSwitch && c == '{') {
 			switchBlockCount++;
 		}
 		
-		unichar lastChar = [orString lastChar:strIndex - 1 defaults:' '];
+		unichar lastChar = [orString lastChar:strIndex - 1 defaults:'\n'];
 		
 		if ([Parser isLowerBrackets:lastChar]) {
-			if (c == '(') {
-				[self trimWithIndent];
-			} else {
+			if (c == '{') {
 				[retString keepSpace];
+			} else {
+				[self trimWithIndent];
 			}
 		} else {
 			switch (c) {
@@ -481,12 +574,20 @@ bool popIndent = false;
 			}
 		}
 		
-		if (c == '}' && indent != 0) {
-			indent--;
-			popIndent = true;
-		}
-		
+		indent = [[indentStack lastObject] intValue];
+		[indentStack removeLastObject];
+		[blockStack removeLastObject];
+		curBlock = [blockStack lastObject];
+		onetimeIndent = [[onetimeIndentStack lastObject] intValue];
+		[onetimeIndentStack removeLastObject];
 		[self trimWithIndent];
+		
+		unichar lastChar = [retString characterAtIndex:retString.length - 1];
+		if ([Parser isLowerBrackets:lastChar]) {
+			[retString deleteCharactersInRange:NSMakeRange(retString.length - 1, 1)];
+			[self trimWithIndent];
+			[retString appendFormat:@"%c", lastChar];
+		}
 		
 		if (c == '}' && retString.length > 0) {
 			unichar lastChar = [retString characterAtIndex:retString.length - 1];

@@ -29,15 +29,15 @@
 
 - (void) testCompleteLine {
 	NSString *string = @"a = b + c\n";
-	XCTAssertTrue([string isCompleteLine:string.length - 1]);
+	XCTAssertTrue([string isCompleteLine:string.length - 1 curBlock:@""]);
 	string = @"a = \n";
-	XCTAssertFalse([string isCompleteLine:string.length - 1]);
+	XCTAssertFalse([string isCompleteLine:string.length - 1 curBlock:@""]);
 	string = @"a = b + \n";
-	XCTAssertFalse([string isCompleteLine:string.length - 1]);
+	XCTAssertFalse([string isCompleteLine:string.length - 1 curBlock:@""]);
 	string = @"a = b++ \n";
-	XCTAssertTrue([string isCompleteLine:string.length - 1]);
+	XCTAssertTrue([string isCompleteLine:string.length - 1 curBlock:@""]);
 	string = @"a = b\n  ++b";
-	XCTAssertTrue([string isCompleteLine:5]);
+	XCTAssertTrue([string isCompleteLine:5 curBlock:@""]);
 }
 
 - (void) testNextIndex {
