@@ -23,9 +23,12 @@
 	}
 }
 
--(void) trim {
+-(int) trim {
+	int count = 0;
 	while (self.length > 0 && [Parser isSpace:[self characterAtIndex:self.length - 1]]) {
 		[self deleteCharactersInRange:NSMakeRange(self.length - 1, 1)];
+		count++;
 	}
+	return count;
 }
 @end

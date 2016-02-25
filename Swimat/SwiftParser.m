@@ -585,7 +585,10 @@ int curIndent = 0;
 		unichar lastChar = [retString characterAtIndex:retString.length - 1];
 		if ([Parser isLowerBrackets:lastChar]) {
 			[retString deleteCharactersInRange:NSMakeRange(retString.length - 1, 1)];
-			[self trimWithIndent];
+			int count = [self trimWithIndent];
+			if (count != 0) {
+				[retString appendFormat:@"%c", ' '];
+			}
 			[retString appendFormat:@"%c", lastChar];
 		}
 		
@@ -598,7 +601,7 @@ int curIndent = 0;
 		[self appendChar:c];
 		
 		unichar next = [orString nextChar:strIndex defaults:' '];
-		if (next == '?' || next == ':') {
+		if (next == '?' || next == ':' || [Parser isLowerBrackets:next]) {
 			return strIndex;
 		} else if (next != '.' && next != '!' && next != ';') {
 			[retString keepSpace];
