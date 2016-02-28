@@ -299,43 +299,40 @@ int curIndent = 0;
 		}
 		case '<':
 		{
+			if ([self isNext:'#']) {
+				[self appendString:@"<#"];
+				return strIndex;
+			}
+			NSUInteger checkIndex = strIndex;
+			__block int checkCount = 0;
+			NSUInteger closeIndex = [orString nextIndex:checkIndex defaults:-1 compare:^bool(NSString *next, NSUInteger curIndex){
+				if ([next isEqualToString:@"<"]) {
+					checkCount++;
+				} else if ([next isEqualToString:@">"]) {
+					return --checkCount == 0;
+				}
+				return false;
+			}];
+			
+			if (closeIndex != -1) {
+				NSString *checkString = [orString subString:checkIndex endWith:closeIndex + 1];
+				NSString *regex = @"^(<|>|\\(|\\)|\\.|:|\\w|\\s|!|\\?|,)+$";
+				NSRange range = [checkString rangeOfString:regex options:NSRegularExpressionSearch];
+				if (range.location != NSNotFound) {
+					strIndex += checkString.length;
+					checkString = [checkString stringByReplacingOccurrencesOfString:@" " withString:@""];
+					checkString = [checkString stringByReplacingOccurrencesOfString:@"," withString:@", "];
+					checkString = [checkString stringByReplacingOccurrencesOfString:@":" withString:@": "];
+					[retString appendString:checkString];
+					return strIndex;
+				}
+			}
 			NSArray *array = @[@"<<<", @"<<=", @"<<", @"<=", @"<~~", @"<-"];
 			NSUInteger findIndex = [self spaceWithArray:array];
 			if (findIndex != -1) {
 				return findIndex;
-			} else {
-				if ([self isNext:'#']) {
-					[self appendString:@"<#"];
-					return strIndex;
-				}
-				NSUInteger checkIndex = strIndex;
-				__block int checkCount = 0;
-				NSUInteger closeIndex = [orString nextIndex:checkIndex defaults:-1 compare:^bool(NSString *next, NSUInteger curIndex){
-					if ([next isEqualToString:@"<"]) {
-						checkCount++;
-					} else if ([next isEqualToString:@">"]) {
-						return --checkCount == 0;
-					}
-					return false;
-				}];
-				
-				if (closeIndex != -1) {
-					NSString *checkString = [orString subString:checkIndex endWith:closeIndex + 1];
-					NSString *regex = @"^(<|>|\\.|:|\\w|\\s|!|\\?|,)+$";
-					NSRange range = [checkString rangeOfString:regex options:NSRegularExpressionSearch];
-					if (range.location != NSNotFound) {
-						strIndex += checkString.length;
-						checkString = [checkString stringByReplacingOccurrencesOfString:@"," withString:@", "];
-						checkString = [checkString stringByReplacingOccurrencesOfString:@":" withString:@": "];
-						while ([checkString containsString:@"  "]) {
-							checkString = [checkString stringByReplacingOccurrencesOfString:@"  " withString:@" "];
-						}
-						[retString appendString:checkString];
-						return strIndex;
-					}
-				}
-				return [self spaceWith:@"<"];
 			}
+			return [self spaceWith:@"<"];
 		}
 		case '>':
 		case '|':
