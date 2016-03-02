@@ -145,6 +145,7 @@ int curIndent = 0;
 -(NSUInteger) checkComment:(unichar) c {
 	if (c == '/') {
 		if ([self isNext:'/']) {
+			[retString keepSpace];
 			return [self lineComment:true];
 		} else if ([self isNext:'*']) {
 			NSUInteger nextIndex = [orString nextIndex:strIndex search:@"*/" defaults:orString.length];
@@ -320,9 +321,11 @@ int curIndent = 0;
 				NSRange range = [checkString rangeOfString:regex options:NSRegularExpressionSearch];
 				if (range.location != NSNotFound) {
 					strIndex += checkString.length;
-					checkString = [checkString stringByReplacingOccurrencesOfString:@" " withString:@""];
 					checkString = [checkString stringByReplacingOccurrencesOfString:@"," withString:@", "];
 					checkString = [checkString stringByReplacingOccurrencesOfString:@":" withString:@": "];
+					while ([checkString containsString:@"  "]) {
+						checkString = [checkString stringByReplacingOccurrencesOfString:@"  " withString:@" "];
+					}
 					[retString appendString:checkString];
 					return strIndex;
 				}
@@ -442,6 +445,7 @@ int curIndent = 0;
 				}
 				[self spaceWith:@":"];
 			} else {
+				[self trimWithIndent];
 				[self appendString:@": "];
 			}
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
@@ -524,8 +528,6 @@ int curIndent = 0;
 		curBlock = [NSString stringWithFormat:@"%c", c];
 		[blockStack addObject:curBlock];
 		
-		indent = curIndent + 1;
-		
 		if (inSwitch && c == '{') {
 			switchBlockCount++;
 		}
@@ -563,6 +565,7 @@ int curIndent = 0;
 		if (c == '{') {
 			[self appendString:@" "];
 		}
+		indent = curIndent + 1;
 		return [orString nextNonSpaceIndex:strIndex defaults:strIndex];
 	} else if ([Parser isLowerBrackets:c]) {
 		if (inSwitch && c == '}') {
