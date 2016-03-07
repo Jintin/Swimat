@@ -364,10 +364,10 @@ int curIndent = 0;
 			return findIndex;
 		}
 		case '?':
-			if ([self isNext:'?']) {
-				[self spaceWith:@"??"];
-				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
-			}
+//			if ([self isNext:'?']) { // how to distingush two optional ?? or null check ??
+//				[self spaceWith:@"??"];
+//				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
+//			}
 			return 0;
 		case ':':
 		{
