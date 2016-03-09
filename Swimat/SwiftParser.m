@@ -167,17 +167,81 @@ int curIndent = 0;
 			return nextIndex;
 		}
 	}
-	
 	return 0;
+}
+
+-(NSUInteger) findNextEscape:(NSUInteger) index {
+//	NSMutableString *tempString = [NSMutableString string];
+	bool escape = false;
+	int count = 1;
+	while (count != 0 && ++index < orString.length) {
+		unichar next = [orString characterAtIndex:index];
+		if (!escape) {
+			if (next == '(') {
+				count++;
+			} else if (next == ')') {
+				count--;
+			} else if (next == '"') {
+				index = [self findNextQuote:index];
+			}
+		}
+		
+		if (next == '\\') {
+			escape = !escape;
+		} else {
+			escape = false;
+		}
+	}
+	if (index < orString.length) {
+		return index;
+	} else {
+		return -1;
+	}
+	
+}
+
+-(NSUInteger) findNextQuote:(NSUInteger) index {
+//	NSMutableString *tempString = [NSMutableString string];
+	bool escape = false;
+	while (++index < orString.length) {
+		unichar next = [orString characterAtIndex:index];
+		if (next == '"' && !escape) {
+			return index;
+		}
+		if (next == '(' && escape) {
+			NSUInteger start = index;
+			index = [self findNextEscape:index];
+			
+			if (index != -1) {
+				NSString *sub = [orString subString:start + 1 endWith:index];
+				SwiftParser *parser = [[SwiftParser alloc] init];
+				NSString *string = [parser formatString: sub withRange:NSMakeRange(0, sub.length)];
+				//TODO modify back
+				NSLog(@"sub string '%@' ", string);
+			} else {
+				return index;
+			}
+			escape = false;
+		}
+		if (next == '\\') {
+			escape = !escape;
+		} else {
+			escape = false;
+		}
+	}
+	return -1;
 }
 
 -(NSUInteger) checkQuote:(unichar) c {
 	if (c == '"') {
-		NSUInteger nextIndex = [orString nextQuoteIndex:strIndex + 1] + 1;
+		NSUInteger nextIndex = [self findNextQuote:strIndex] + 1;
+
 		if (nextIndex == 0) {
 			nextIndex = orString.length;
 		}
-		[retString appendString:[orString substringWithRange:NSMakeRange(strIndex, nextIndex - strIndex)]];
+		NSString *quoteString = [orString substringWithRange:NSMakeRange(strIndex, nextIndex - strIndex)];
+		
+		[retString appendString:quoteString];
 		return nextIndex;
 	}
 	return 0;
@@ -364,10 +428,10 @@ int curIndent = 0;
 			return findIndex;
 		}
 		case '?':
-//			if ([self isNext:'?']) { // how to distingush two optional ?? or null check ??
-//				[self spaceWith:@"??"];
-//				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
-//			}
+			//			if ([self isNext:'?']) { // how to distingush two optional ?? or null check ??
+			//				[self spaceWith:@"??"];
+			//				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
+			//			}
 			return 0;
 		case ':':
 		{
