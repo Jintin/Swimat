@@ -214,10 +214,10 @@ int curIndent = 0;
 			
 			if (index != -1) {
 				NSString *sub = [orString subString:start + 1 endWith:index];
-				SwiftParser *parser = [[SwiftParser alloc] init];
-				NSString *string = [parser formatString: sub withRange:NSMakeRange(0, sub.length)];
-				//TODO modify back
-				NSLog(@"sub string '%@' ", string);
+//				SwiftParser *parser = [[SwiftParser alloc] init];
+//				NSString *string = [parser formatString: sub withRange:NSMakeRange(0, sub.length)];
+//				//TODO modify back
+				NSLog(@"sub string '%@' ", sub);
 			} else {
 				return index;
 			}
