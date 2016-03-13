@@ -1,0 +1,7 @@
+language: objective-c
+
+before_install:
+  - brew update
+  - brew outdated xctool || brew upgrade xctool
+
+script: xctool -project Swimat.xcodeproj -scheme SwimatTest test
