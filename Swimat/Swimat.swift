@@ -57,6 +57,10 @@ class Swimat: NSObject {
 		setUndo()
 //		let string = sourceTextView.textStorage?.string
 //		let range = sourceTextView.selectedRanges[0].rangeValue
+
+		let source = DTXcodeUtils.currentSourceTextView()
+		let oldString = source.textStorage?.string
+		let oldRange = source.selectedRanges[0].rangeValue
 	}
 
 //	+ (void)setText: (NSArray*) array {
@@ -76,5 +80,34 @@ class Swimat: NSObject {
 //
 //	[sourceTextView setSelectedRange:range];
 //	[sourceTextView scrollRectToVisible:r];
+//	}
+
+//	+ (NSRange) findDiffRange:(NSString *) string1 string2:(NSString *) string2 {
+//	NSDate *methodStart = [NSDate date];
+//	NSUInteger start = 0, end = 0;
+//	NSUInteger minLen = MIN(string1.length, string2.length);
+//	if (minLen == 0) {
+//	return NSMakeRange(0, 0);
+//	}
+//	while ([string1 characterAtIndex:start] == [string2 characterAtIndex:start]) {
+//	if (start < minLen - 1) {
+//	start++;
+//	} else {
+//	break;
+//	}
+//	}
+//	while ([string1 characterAtIndex:string1.length - end - 1] == [string2 characterAtIndex:string2.length - end - 1]) {
+//	if (minLen - end - 1 >= start) {
+//	end++;
+//	} else {
+//	end--;
+//	break;
+//	}
+//	}
+//
+//	NSDate *methodFinish = [NSDate date];
+//	NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
+//	NSLog(@"diff executionTime = %f", executionTime);
+//	return NSMakeRange(start, end);
 //	}
 }
