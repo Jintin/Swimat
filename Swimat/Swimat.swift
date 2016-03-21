@@ -55,32 +55,19 @@ class Swimat: NSObject {
 
 	func setText(sourceTextView: DVTSourceTextView) {
 		setUndo()
-//		let string = sourceTextView.textStorage?.string
-//		let range = sourceTextView.selectedRanges[0].rangeValue
+		let string = sourceTextView.textStorage!.string
+		let range = sourceTextView.selectedRanges[0].rangeValue
 
 		let source = DTXcodeUtils.currentSourceTextView()
-		let oldString = source.textStorage?.string
-		let oldRange = source.selectedRanges[0].rangeValue
-	}
+		let rect = sourceTextView.visibleRect
+		let oldString = source.textStorage!.string
 
-//	+ (void)setText: (NSArray*) array {
-//	[self setUndo];
-//	NSString *string = [array objectAtIndex:0];
-//	NSRange range = [[array objectAtIndex:1] rangeValue];
-//
-//	DVTSourceTextView *sourceTextView = [DTXcodeUtils currentSourceTextView];
-//	NSRect r = [sourceTextView visibleRect];
-//	NSString *orString = sourceTextView.string;
-//
-//	NSRange diff = [self findDiffRange:string string2:orString];
-//	NSUInteger start = diff.location;
-//	NSUInteger end = diff.length;
-//
-//	[sourceTextView replaceCharactersInRange: NSMakeRange(start, orString.length - end - start) withString:[string substringWithRange:NSMakeRange(start, string.length - end - start)]];
-//
-//	[sourceTextView setSelectedRange:range];
-//	[sourceTextView scrollRectToVisible:r];
-//	}
+		let diff = string.findDiff(oldString)
+		sourceTextView.replaceCharactersInRange(NSMakeRange(diff.start, oldString.characters.count - diff.end - diff.start), withString: string)
+
+		sourceTextView.setSelectedRange(range)
+		sourceTextView.scrollRectToVisible(rect)
+	}
 
 //	+ (NSRange) findDiffRange:(NSString *) string1 string2:(NSString *) string2 {
 //	NSDate *methodStart = [NSDate date];
