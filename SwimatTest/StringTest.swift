@@ -1,4 +1,5 @@
 import XCTest
+import Foundation
 
 class StringTest: XCTestCase {
 
@@ -15,9 +16,4 @@ class StringTest: XCTestCase {
 		print(diff)
 		assert(diff == (start: 0, end: 0))
 	}
-}
-
-func == <T: Equatable> (tuple1: (T, T), tuple2: (T, T)) -> Bool
-{
-	return (tuple1.0 == tuple2.0) && (tuple1.1 == tuple2.1)
 }
