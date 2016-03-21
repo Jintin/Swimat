@@ -1,5 +1,4 @@
 import XCTest
-import Swimat
 
 class StringTest: XCTestCase {
 
