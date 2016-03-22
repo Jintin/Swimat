@@ -50,7 +50,7 @@
 
 static NSString *const SWMSwiftParserTestNoNewlineSourceString = @"func a(b:Int){\nreturn (b+1)\n}";
 static NSString *const SWMSwiftParserTestSingleNewlineSourceString = @"func a(b:Int)\n{\nreturn (b+1)\n}";
-static NSString *const SWMSwiftParserTestMultipleNewlineSourceString = @"func a(b:Int)\n\n{\nreturn (b+1)\n}";
+static NSString *const SWMSwiftParserTestMultipleNewlineSourceString = @"func a(b:Int)\n\n\n{\nreturn (b+1)\n}";
 
 - (void)enableBreakBeforeOpeningBraceRule:(SWMBreakBeforeOpeningBraceRule)rule {
     [Prefs setBreakBeforeOpeningBraceRule:rule];
