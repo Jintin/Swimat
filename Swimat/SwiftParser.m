@@ -9,6 +9,7 @@
 bool inSwitch; // TODO: change to stack if need nested
 int switchBlockCount; // change to stack if need nested
 bool indentEmptyLine;
+SWMBreakBeforeOpeningBraceRule breakBeforeOpeningBraceRule;
 NSMutableArray *blockStack;
 NSString *curBlock;
 NSMutableArray *indentStack;
@@ -32,6 +33,7 @@ int curIndent = 0;
 	switchBlockCount = 0;
 	indentString = [Prefs getIndentString];
 	indentEmptyLine = [Prefs isIndentEmptyLine];
+    breakBeforeOpeningBraceRule = [Prefs breakBeforeOpeningBraceRule];
 	
 	newRange = NSMakeRange(range.location, range.length);// TODO need?
 	
@@ -252,19 +254,59 @@ int curIndent = 0;
 		if (![orString isCompleteLine:strIndex curBlock:curBlock]) {
 			onetimeIndent++;
 		}
-		BOOL shouldAddEmtyLine = !([self isEmptyLine] && ([self isNextLineEmpty:strIndex + 1] || [self isNextLineLowerBrackets:strIndex + 1]));
-		if (indentEmptyLine) {
-			[self trimWithIndent];
-		} else {
-			[retString trim];
-		}
-		if (shouldAddEmtyLine) {
+        
+        if (indentEmptyLine) {
+            [self trimWithIndent];
+        } else {
+            [retString trim];
+        }
+        
+        BOOL shouldAddEmptyLine = YES;
+        BOOL shouldIndent = YES;
+        
+        const NSUInteger lastCharIndex = [orString lastCharIndex:(strIndex + 1) defaults:NSNotFound];
+        const unichar lastChar = (lastCharIndex == NSNotFound ? ' ' : [orString characterAtIndex:lastCharIndex]);
+        
+        const NSUInteger nextCharIndex = [orString nextCharIndex:(strIndex + 1) defaults:NSNotFound];
+        const unichar nextChar = (nextCharIndex == NSNotFound ? ' ' : [orString characterAtIndex:nextCharIndex]);
+        
+        const NSUInteger nextCharOrNewlineIndex = [orString nextNonSpaceIndex:(strIndex + 1) defaults:NSNotFound];
+        const unichar nextCharOrNewline = (nextCharOrNewlineIndex == NSNotFound ? ' ' : [orString characterAtIndex:nextCharOrNewlineIndex]);
+        
+        if ((breakBeforeOpeningBraceRule == SWMBreakBeforeOpeningBraceRuleRemove) && (nextChar == '{')) {
+            // There may not be a newline before an opening brace
+            shouldAddEmptyLine = NO;
+            shouldIndent = NO;
+        } else {
+            if ([self isEmptyLine]) {
+                if (nextCharOrNewline == '\n') {
+                    // There may not be more than one consecutive empty line
+                    shouldAddEmptyLine = NO;
+                } else if ([Parser isLowerBrackets:nextCharOrNewline]) {
+                    // There may not be an empty line before a closing bracket
+                    shouldAddEmptyLine = NO;
+                } else if ([Parser isUpperBrackets:lastChar]) {
+                    // There may not be an empty line after an opening bracket
+                    shouldAddEmptyLine = NO;
+                    shouldIndent = NO;
+                }
+            } // else: this line is not empty and a newline is always OK
+        }
+		
+		if (shouldAddEmptyLine) {
 			[self appendString:@"\n"];
 		} else {
 			strIndex++;
 		}
+        
+        NSUInteger nextIndex;
+        if (shouldIndent) {
+            nextIndex = [self addIndent:retString];
+        } else {
+            nextIndex = strIndex;
+        }
 		
-		return [self addIndent:retString];
+        return nextIndex;
 	}
 	
 	return 0;
@@ -597,6 +639,20 @@ int curIndent = 0;
 		}
 		
 		unichar lastChar = [orString lastChar:strIndex - 1 defaults:'\n'];
+        
+        if ((c == '{') && (breakBeforeOpeningBraceRule == SWMBreakBeforeOpeningBraceRuleForce)) {
+            NSUInteger lastNonSpaceIndex = [orString lastNonSpaceIndex:(strIndex - 1) defaults:NSNotFound];
+            if (lastNonSpaceIndex != NSNotFound) {
+                unichar lastNonSpace = [orString characterAtIndex:lastNonSpaceIndex];
+                if (lastNonSpace != '\n') {
+                    // Insert a newline before the brace
+                    [retString appendString:@"\n"];
+                    [self trimWithIndent];
+                    
+                    lastChar = '\n';
+                }
+            }
+        }
 		
 		if ([Parser isLowerBrackets:lastChar]) {
 			if (c == '{') {
@@ -614,21 +670,25 @@ int curIndent = 0;
 					} else if ([Parser isAZ:lastChar] || lastChar == ']'){
 						[self trimWithIndent];
 					}
-				}
-					break;
-				case '{':
-					if (![Parser isUpperBrackets:lastChar]) {
-						[retString keepSpace];
+				} break;
+                    
+                case '{': {
+                    if (![Parser isUpperBrackets:lastChar]) {
+                        [retString keepSpace];
 					}
-					break;
+                } break;
+                    
 				default:
 					break;
 			}
 		}
+        
 		[self appendChar:c];
+        
 		if (c == '{') {
 			[self appendString:@" "];
 		}
+        
 		indent = curIndent + 1;
 		return [orString nextNonSpaceIndex:strIndex defaults:strIndex];
 	} else if ([Parser isLowerBrackets:c]) {
