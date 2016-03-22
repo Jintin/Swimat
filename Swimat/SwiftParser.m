@@ -381,7 +381,7 @@ int curIndent = 0;
 			
 			if (closeIndex != -1) {
 				NSString *checkString = [orString subString:checkIndex endWith:closeIndex + 1];
-				NSString *regex = @"^(<|>|\\(|\\)|\\.|:|\\w|\\s|!|\\?|,)+$";
+				NSString *regex = @"^(<|>|\\[|\\]|\\(|\\)|\\.|:|\\w|\\s|!|\\?|,)+$";
 				NSRange range = [checkString rangeOfString:regex options:NSRegularExpressionSearch];
 				if (range.location != NSNotFound) {
 					strIndex += checkString.length;
