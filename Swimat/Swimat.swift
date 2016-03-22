@@ -11,7 +11,7 @@ class Swimat: NSObject {
 		self.bundle = bundle
 
 		super.init()
-		center.addObserver(self, selector: Selector("createMenuItems"), name: NSApplicationDidFinishLaunchingNotification, object: nil)
+		center.addObserver(self, selector: #selector(Swimat.createMenuItems), name: NSApplicationDidFinishLaunchingNotification, object: nil)
 	}
 
 	deinit {
@@ -27,7 +27,7 @@ class Swimat: NSObject {
 
 		let item = NSApp.mainMenu!.itemWithTitle("Edit")
 		if item != nil {
-			let actionMenuItem = NSMenuItem(title: "Do Action", action: "doMenuAction", keyEquivalent: "")
+			let actionMenuItem = NSMenuItem(title: "Do Action", action: #selector(Swimat.doMenuAction), keyEquivalent: "")
 			actionMenuItem.target = self
 			item!.submenu!.addItem(NSMenuItem.separatorItem())
 			item!.submenu!.addItem(actionMenuItem)
@@ -35,22 +35,18 @@ class Swimat: NSObject {
 	}
 
 	func doMenuAction() {
-		let error = NSError(domain: "Hello World!", code: 42, userInfo: nil)
-		NSAlert(error: error).runModal()
 		let sourceTextView: DVTSourceTextView = DTXcodeUtils.currentSourceTextView()
+		let string = sourceTextView.textStorage!.string
 		let range = sourceTextView.selectedRanges[0].rangeValue
-		print(range)
-//		DVTSourceTextView *sourceTextView = [DTXcodeUtils currentSourceTextView];
-//		NSRange range = [[[sourceTextView selectedRanges] objectAtIndex:0] rangeValue];
-//		SwiftParser *parser = [[SwiftParser alloc] init];
-//
+
+		SwiftParser().format(string, range: range)
 	}
 
 	func setUndo() {
 		let undoManager = DTXcodeUtils.currentSourceCodeDocument().undoManager
 		let sourceTextView = DTXcodeUtils.currentSourceTextView()
 		undoManager?.setActionName("Swimat")
-		undoManager?.registerUndoWithTarget(self, selector: "setText:", object: sourceTextView)
+		undoManager?.registerUndoWithTarget(self, selector: #selector(Swimat.setText(_:)), object: sourceTextView)
 	}
 
 	func setText(sourceTextView: DVTSourceTextView) {
@@ -63,38 +59,9 @@ class Swimat: NSObject {
 		let oldString = source.textStorage!.string
 
 		let diff = string.findDiff(oldString)
-		sourceTextView.replaceCharactersInRange(NSMakeRange(diff.start, oldString.characters.count - diff.end - diff.start), withString: string)
+		sourceTextView.replaceCharactersInRange(NSMakeRange(diff.start, oldString.count - diff.end - diff.start), withString: string)
 
 		sourceTextView.setSelectedRange(range)
 		sourceTextView.scrollRectToVisible(rect)
 	}
-
-//	+ (NSRange) findDiffRange:(NSString *) string1 string2:(NSString *) string2 {
-//	NSDate *methodStart = [NSDate date];
-//	NSUInteger start = 0, end = 0;
-//	NSUInteger minLen = MIN(string1.length, string2.length);
-//	if (minLen == 0) {
-//	return NSMakeRange(0, 0);
-//	}
-//	while ([string1 characterAtIndex:start] == [string2 characterAtIndex:start]) {
-//	if (start < minLen - 1) {
-//	start++;
-//	} else {
-//	break;
-//	}
-//	}
-//	while ([string1 characterAtIndex:string1.length - end - 1] == [string2 characterAtIndex:string2.length - end - 1]) {
-//	if (minLen - end - 1 >= start) {
-//	end++;
-//	} else {
-//	end--;
-//	break;
-//	}
-//	}
-//
-//	NSDate *methodFinish = [NSDate date];
-//	NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
-//	NSLog(@"diff executionTime = %f", executionTime);
-//	return NSMakeRange(start, end);
-//	}
 }

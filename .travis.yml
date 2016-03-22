@@ -1,4 +1,5 @@
 language: swift
+osx_image: xcode7.3
 
 before_install:
   - brew update

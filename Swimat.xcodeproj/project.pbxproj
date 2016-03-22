@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		2F2441901C92AB7800D61E66 /* DTXcodeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F24418D1C92AB7800D61E66 /* DTXcodeUtils.m */; };
+		2F47B40C1CA0ECE800B61747 /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD9B7831CA0DA8F001D7194 /* SwiftParser.swift */; };
+		2FA4BF331CA130DF00F0592A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA4BF321CA130DF00F0592A /* Parser.swift */; };
+		2FA4BF341CA130E300F0592A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA4BF321CA130DF00F0592A /* Parser.swift */; };
+		2FA4BF361CA1330400F0592A /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA4BF351CA1330400F0592A /* ParserTest.swift */; };
 		2FBF23B51C7AD8FA00E45926 /* Swimat.xcscheme in Resources */ = {isa = PBXBuildFile; fileRef = 2FBF23B41C7AD8FA00E45926 /* Swimat.xcscheme */; };
 		2FBF23B71C7AD8FA00E45926 /* Swimat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBF23B61C7AD8FA00E45926 /* Swimat.swift */; };
 		2FBF23B91C7AD8FA00E45926 /* NSObject_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBF23B81C7AD8FA00E45926 /* NSObject_Extension.swift */; };
@@ -15,6 +19,7 @@
 		2FD9B77F1CA020C3001D7194 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD9B77E1CA020C3001D7194 /* Extension.swift */; };
 		2FD9B7801CA0211D001D7194 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD9B77E1CA020C3001D7194 /* Extension.swift */; };
 		2FD9B7821CA0216E001D7194 /* StringTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD9B7811CA0216E001D7194 /* StringTest.swift */; };
+		2FD9B7841CA0DA8F001D7194 /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD9B7831CA0DA8F001D7194 /* SwiftParser.swift */; };
 		2FFED8111C96856800D90D92 /* SwimatTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFED8101C96856800D90D92 /* SwimatTest.swift */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +29,8 @@
 		2F24418D1C92AB7800D61E66 /* DTXcodeUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTXcodeUtils.m; sourceTree = "<group>"; };
 		2F24418E1C92AB7800D61E66 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		2F24418F1C92AB7800D61E66 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2FA4BF321CA130DF00F0592A /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		2FA4BF351CA1330400F0592A /* ParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
 		2FBF23B01C7AD8FA00E45926 /* Swimat.xcplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Swimat.xcplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FBF23B41C7AD8FA00E45926 /* Swimat.xcscheme */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Swimat.xcscheme; path = Swimat.xcodeproj/xcshareddata/xcschemes/Swimat.xcscheme; sourceTree = SOURCE_ROOT; };
 		2FBF23B61C7AD8FA00E45926 /* Swimat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swimat.swift; sourceTree = "<group>"; };
@@ -32,6 +39,7 @@
 		2FBF23CF1C7ADB8B00E45926 /* Swimat-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Swimat-Bridging-Header.h"; path = "../Swimat-Bridging-Header.h"; sourceTree = "<group>"; };
 		2FD9B77E1CA020C3001D7194 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		2FD9B7811CA0216E001D7194 /* StringTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTest.swift; sourceTree = "<group>"; };
+		2FD9B7831CA0DA8F001D7194 /* SwiftParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftParser.swift; sourceTree = "<group>"; };
 		2FFED80E1C96856800D90D92 /* SwimatTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwimatTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FFED8101C96856800D90D92 /* SwimatTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwimatTest.swift; sourceTree = "<group>"; };
 		2FFED8121C96856800D90D92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -88,6 +96,8 @@
 				2FBF23BA1C7AD8FA00E45926 /* Info.plist */,
 				2FBF23B31C7AD8FA00E45926 /* Supporting Files */,
 				2FD9B77E1CA020C3001D7194 /* Extension.swift */,
+				2FD9B7831CA0DA8F001D7194 /* SwiftParser.swift */,
+				2FA4BF321CA130DF00F0592A /* Parser.swift */,
 			);
 			path = Swimat;
 			sourceTree = "<group>";
@@ -106,6 +116,7 @@
 				2FFED8101C96856800D90D92 /* SwimatTest.swift */,
 				2FFED8121C96856800D90D92 /* Info.plist */,
 				2FD9B7811CA0216E001D7194 /* StringTest.swift */,
+				2FA4BF351CA1330400F0592A /* ParserTest.swift */,
 			);
 			path = SwimatTest;
 			sourceTree = "<group>";
@@ -205,7 +216,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FD9B7841CA0DA8F001D7194 /* SwiftParser.swift in Sources */,
 				2FBF23B71C7AD8FA00E45926 /* Swimat.swift in Sources */,
+				2FA4BF331CA130DF00F0592A /* Parser.swift in Sources */,
 				2F2441901C92AB7800D61E66 /* DTXcodeUtils.m in Sources */,
 				2FD9B77F1CA020C3001D7194 /* Extension.swift in Sources */,
 				2FBF23B91C7AD8FA00E45926 /* NSObject_Extension.swift in Sources */,
@@ -216,7 +229,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FA4BF361CA1330400F0592A /* ParserTest.swift in Sources */,
+				2F47B40C1CA0ECE800B61747 /* SwiftParser.swift in Sources */,
 				2FD9B7801CA0211D001D7194 /* Extension.swift in Sources */,
+				2FA4BF341CA130E300F0592A /* Parser.swift in Sources */,
 				2FD9B77D1CA02061001D7194 /* DTXcodeUtils.m in Sources */,
 				2FD9B7821CA0216E001D7194 /* StringTest.swift in Sources */,
 				2FFED8111C96856800D90D92 /* SwimatTest.swift in Sources */,
