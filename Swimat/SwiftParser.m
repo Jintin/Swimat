@@ -289,6 +289,10 @@ int curIndent = 0;
                     // There may not be an empty line after an opening bracket
                     shouldAddEmptyLine = NO;
                     shouldIndent = NO;
+                } else if ([Parser isUpperBrackets:nextChar]) {
+                    // There may not be an empty line before an opening bracket
+                    shouldAddEmptyLine = NO;
+                    shouldIndent = NO;
                 }
             } // else: this line is not empty and a newline is always OK
         }
