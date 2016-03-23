@@ -49,6 +49,32 @@ extension String {
 		}
 		return (start, end)
 	}
+
+	func isUpperBracket() -> Bool {
+		return self == "{" || self == "[" || self == "("
+	}
+
+	func isLowerBracket() -> Bool {
+		return self == "}" || self == "]" || self == ")"
+	}
+
+	func nextIndex(start: Int, checker: Int -> Bool) -> Int {
+		var index = start
+		while index < self.count {
+			if checker(index) {
+				break
+			}
+			index += 1
+		}
+		return index
+	}
+
+	func nextNonSpaceIndex(start: Int) -> Int {
+		return nextIndex(start) {
+			index -> Bool in
+			return self[index] != " " && self[index] != "\t"
+		}
+	}
 }
 
 func == <T: Equatable> (tuple1: (T, T), tuple2: (T, T)) -> Bool

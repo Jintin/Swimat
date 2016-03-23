@@ -4,9 +4,11 @@ class SwiftParser: Parser {
 
 	func format(string: String, range: NSRange) {
 		self.string = string
-		retString = ""
-		strIndex = 0
-		let checkers = [checkString, checkComment]
+		self.retString = ""
+		self.strIndex = 0
+		self.indent = 0
+
+		let checkers = [checkString, checkComment, checkBlock]
 
 		while strIndex < string.count {
 			let char = string[strIndex]
@@ -55,7 +57,8 @@ class SwiftParser: Parser {
 		if char == "/" {
 			if isNext("/") {
 				retString += "// "
-				let startIndex = nextNonSpaceIndex(strIndex + 2)
+				let startIndex = string.nextNonSpaceIndex(strIndex + 2)
+				// TODO test multiple space
 				var index = startIndex
 				while index < string.count {
 					let next = string[index]
@@ -71,6 +74,15 @@ class SwiftParser: Parser {
 				print("")
 				return 1
 			}
+		}
+		return nil
+	}
+
+	func checkBlock(char: String) -> Int? {
+		if char.isUpperBracket() {
+			print("upper")
+		} else if char.isLowerBracket() {
+			print("lower")
 		}
 		return nil
 	}
