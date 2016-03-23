@@ -15,7 +15,7 @@ class SwiftParser: Parser {
 				if let checkIndex = checker(char) {
 					find = true
 					strIndex = checkIndex
-					print("inde:\(strIndex)")
+
 					break
 				}
 			}
@@ -54,8 +54,8 @@ class SwiftParser: Parser {
 	func checkComment(char: String) -> Int? {
 		if char == "/" {
 			if isNext("/") {
-				append("// ")
-				let startIndex = nextNonSpaceIndex()
+				retString += "// "
+				let startIndex = nextNonSpaceIndex(strIndex + 2)
 				var index = startIndex
 				while index < string.count {
 					let next = string[index]
@@ -65,7 +65,7 @@ class SwiftParser: Parser {
 					index += 1
 				}
 				print("line:\"" + string[startIndex ..< index] + "\"")
-				append(string[startIndex ..< index])
+				retString += string[startIndex ..< index]
 				return index
 			} else if isNext("*") {
 				print("")

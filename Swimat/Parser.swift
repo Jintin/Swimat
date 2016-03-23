@@ -13,18 +13,19 @@ class Parser {
 	}
 
 	func append(string: String) {
-		strIndex += string.trim().count
 		retString += string
-	}
-
-	func nextNonSpaceIndex() -> Int {
-		var index = strIndex
-		while index < string.count {
-			if string[index] != " " && string[index] != "\t" {
-				break
-			}
-			index += 1
+		strIndex += string.count
+		Alamofire.request(.GET, URL).responseArray { (response: Response <E, NSError >) in
 		}
-		return index
+
+		func nextNonSpaceIndex(start: Int) -> Int {
+			var index = start
+			while index < string.count {
+				if string[index] != " " && string[index] != "\t" {
+					break
+				}
+				index += 1
+			}
+			return index
+		}
 	}
-}
