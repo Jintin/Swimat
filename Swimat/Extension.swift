@@ -1,7 +1,6 @@
 import Foundation
 
 extension String {
-
 	subscript(i: Int) -> String {
 		if i < self.count {
 			return String(self[self.startIndex.advancedBy(i)])
@@ -50,12 +49,19 @@ extension String {
 		return (start, end)
 	}
 
-	func isUpperBracket() -> Bool {
+	func isUpperBlock() -> Bool {
 		return self == "{" || self == "[" || self == "("
 	}
 
-	func isLowerBracket() -> Bool {
+	func isLowerBlock() -> Bool {
 		return self == "}" || self == "]" || self == ")"
+	}
+
+	func lastChar(index: Int) -> String? {
+		if index < self.count {
+			return self[index]
+		}
+		return nil
 	}
 
 	func nextIndex(start: Int, checker: Int -> Bool) -> Int {
@@ -77,7 +83,6 @@ extension String {
 	}
 }
 
-func == <T: Equatable> (tuple1: (T, T), tuple2: (T, T)) -> Bool
-{
+func == <T: Equatable> (tuple1: (T, T), tuple2: (T, T)) -> Bool {
 	return (tuple1.0 == tuple2.0) && (tuple1.1 == tuple2.1)
 }

@@ -5,7 +5,6 @@ import Cocoa
 var sharedPlugin: Swimat?
 
 class Swimat: NSObject {
-
 	var bundle: NSBundle
 	lazy var center = NSNotificationCenter.defaultCenter()
 
@@ -26,13 +25,11 @@ class Swimat: NSObject {
 
 	func createMenuItems() {
 		removeObserver()
-///Users/Jintin/Developer/iOS/Swimat/Swimat/Swimat.swift:31:47: Use of unresolved identifier 'NSAlphaShiftKeyMask'
 		let item = NSApp.mainMenu!.itemWithTitle("Edit")
 		if item != nil {
-			let actionMenuItem = NSMenuItem(title: "Swimat", action: #selector(Swimat.doMenuAction), keyEquivalent: "l")
+			let actionMenuItem = NSMenuItem(title: "Swimat2", action: #selector(Swimat.doMenuAction), keyEquivalent: "l")
 
 			actionMenuItem.keyEquivalentModifierMask = Int(NSEventModifierFlags.AlphaShiftKeyMask.rawValue | NSEventModifierFlags.CommandKeyMask.rawValue | NSEventModifierFlags.AlternateKeyMask.rawValue)
-//			setKeyEquivalentModifierMask:NSAlphaShiftKeyMask | NSCommandKeyMask | NSAlternateKeyMask];
 			actionMenuItem.target = self
 			item!.submenu!.addItem(NSMenuItem.separatorItem())
 			item!.submenu!.addItem(actionMenuItem)

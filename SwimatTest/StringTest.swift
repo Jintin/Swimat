@@ -3,6 +3,12 @@ import Foundation
 
 class StringTest: XCTestCase {
 
+	func testTrim() {
+		assert(" abc ".trim() == "abc")
+		assert("\tabc\t".trim() == "abc")
+		assert("\nabc\n".trim() == "\nabc\n")
+	}
+
 	func testDiff() {
 		var diff = "abcd".findDiff("abce")
 		print(diff)
