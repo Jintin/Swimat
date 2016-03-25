@@ -83,8 +83,75 @@
 			indentEmptyLineItem.state = NSOffState;
 		}
 		[swimatMenu addItem:indentEmptyLineItem];
+        
+        [swimatMenu addItem:[NSMenuItem separatorItem]];
+        [self appendBreakBeforeOpeningBraceOptionsMenuToMenu:swimatMenu];
 	}
 }
+
+#pragma mark - Menu for rule: break before opening brace
+
+- (void)appendBreakBeforeOpeningBraceOptionsMenuToMenu:(NSMenu *)menu {
+    // Create the menu item
+    NSString *title = NSLocalizedString(@"Break before opening brace", nil);
+    NSMenuItem *breakBeforeOpeningBraceRuleMenuItem = [[NSMenuItem alloc] initWithTitle:title action:nil keyEquivalent:@""];
+    [menu addItem:breakBeforeOpeningBraceRuleMenuItem];
+    
+    // Create the submenu
+    NSMenu *breakBeforeOpeningBraceRuleSubmenu = [[NSMenu alloc] init];
+    NSArray *rules = [self orderedBreakBeforeOpeningBraceRules];
+    for (NSNumber *ruleNumber in rules) {
+        NSMenuItem *menuItem = [self menuItemWithBreakBeforeOpeningBraceRule:ruleNumber.integerValue];
+        [breakBeforeOpeningBraceRuleSubmenu addItem:menuItem];
+        
+        // Set the initial state of the menu item
+        if (ruleNumber.integerValue == [Prefs breakBeforeOpeningBraceRule]) {
+            menuItem.state = NSOnState;
+        } else {
+            menuItem.state = NSOffState;
+        }
+    }
+    
+    [menu setSubmenu:breakBeforeOpeningBraceRuleSubmenu
+             forItem:breakBeforeOpeningBraceRuleMenuItem];
+}
+
+- (NSArray *)orderedBreakBeforeOpeningBraceRules {
+    static NSArray *orderedRules = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        orderedRules = @[ @(SWMBreakBeforeOpeningBraceRuleIgnore),
+                          @(SWMBreakBeforeOpeningBraceRuleRemove),
+                          @(SWMBreakBeforeOpeningBraceRuleForce) ];
+    });
+    
+    return orderedRules;
+}
+
+- (NSMenuItem *)menuItemWithBreakBeforeOpeningBraceRule:(SWMBreakBeforeOpeningBraceRule)rule {
+    NSString *title = [Prefs menuItemTitleForBreakBeforeOpeningBraceRule:rule];
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(updateBreakBeforeOpeningBraceRule:) keyEquivalent:@""];
+    menuItem.target = self;
+    return menuItem;
+}
+
+- (void)updateBreakBeforeOpeningBraceRule:(NSMenuItem *)menuItem {
+    NSArray *siblingMenuItems = menuItem.parentItem.submenu.itemArray;
+    NSInteger selectedMenuItemIndex = [siblingMenuItems indexOfObject:menuItem];
+    NSNumber *ruleNumber = [self orderedBreakBeforeOpeningBraceRules][selectedMenuItemIndex];
+    SWMBreakBeforeOpeningBraceRule rule = ruleNumber.integerValue;
+    [Prefs setBreakBeforeOpeningBraceRule:rule];
+    
+    // First uncheck all related menu items (including the sender)
+    for (NSMenuItem *siblingMenuItem in siblingMenuItems) {
+        siblingMenuItem.state = NSOffState;
+    }
+    
+    // Check the sender
+    menuItem.state = NSOnState;
+}
+
+#pragma mark -
 
 + (void)indentEmptyLine:(NSMenuItem *)menuItem {
 	bool indentEmptyLine = ![Prefs isIndentEmptyLine];
