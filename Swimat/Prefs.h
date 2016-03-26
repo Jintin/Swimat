@@ -7,24 +7,6 @@ extern NSString * const INDENT_TAB;
 extern NSString * const INDENT_SPACE2;
 extern NSString * const INDENT_SPACE4;
 
-/**
- *  Different values for the "break before opening brace" rule. For clarity: this rule only affects '{' ("brace").
- */
-typedef NS_ENUM(NSInteger, SWMBreakBeforeOpeningBraceRule) {
-    /**
-     *  Default rule.
-     */
-    SWMBreakBeforeOpeningBraceRuleIgnore = 0,
-    /**
-     *  Removes all newlines before opening braces.
-     */
-    SWMBreakBeforeOpeningBraceRuleRemove,
-    /**
-     *  Removes and inserts newlines before opening braces so that in the formatted output there is one newline before each opening brace.
-     */
-    SWMBreakBeforeOpeningBraceRuleForce,
-};
-
 +(void) setIndent:(NSString *)value;
 
 +(NSString *) getIndent;
@@ -44,11 +26,5 @@ typedef NS_ENUM(NSInteger, SWMBreakBeforeOpeningBraceRule) {
 +(void) setIndentEmptyLine:(bool) format;
 
 +(bool) isIndentEmptyLine;
-
-+ (void)setBreakBeforeOpeningBraceRule:(SWMBreakBeforeOpeningBraceRule)rule;
-+ (SWMBreakBeforeOpeningBraceRule)breakBeforeOpeningBraceRule;
-
-+ (NSString *)enabledBreakBeforeOpeningBraceRuleMenuItemTitle;
-+ (NSString *)menuItemTitleForBreakBeforeOpeningBraceRule:(SWMBreakBeforeOpeningBraceRule)rule;
 
 @end
