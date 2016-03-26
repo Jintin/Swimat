@@ -9,10 +9,6 @@ NSString * const TAG_INDENT = @"indent";
 NSString * const INDENT_TAB = @"Tab Indent";
 NSString * const INDENT_SPACE2 = @"2 Space Indent";
 NSString * const INDENT_SPACE4 = @"4 Space Indent";
-static NSString *const BREAK_BEFORE_OPENING_BRACE = @"BreakBeforeOpeningBraceRule";
-static NSString *const BREAK_BEFORE_OPENING_BRACE_ITEM_TITLE_IGNORE = @"Ignore";
-static NSString *const BREAK_BEFORE_OPENING_BRACE_ITEM_TITLE_REMOVE = @"Remove";
-static NSString *const BREAK_BEFORE_OPENING_BRACE_ITEM_TITLE_FORCE = @"Force";
 
 +(void) setIndent:(NSString *)value {
 	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -78,45 +74,5 @@ static NSString *const BREAK_BEFORE_OPENING_BRACE_ITEM_TITLE_FORCE = @"Force";
 	return [prefs boolForKey:TAG_INDENT_EMPTY_LINE];
 }
 
-#pragma mark - Formatting rule: Break before opening brace
-
-+ (void)setBreakBeforeOpeningBraceRule:(SWMBreakBeforeOpeningBraceRule)rule {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setInteger:rule forKey:BREAK_BEFORE_OPENING_BRACE];
-    [defaults synchronize];
-}
-
-+ (SWMBreakBeforeOpeningBraceRule)breakBeforeOpeningBraceRule {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    id setting = [defaults objectForKey:BREAK_BEFORE_OPENING_BRACE];
-    if (setting == nil) {
-        // Initialize setting with default rule
-        [defaults setInteger:SWMBreakBeforeOpeningBraceRuleIgnore forKey:BREAK_BEFORE_OPENING_BRACE];
-        [defaults synchronize];
-    }
-    
-    return [defaults integerForKey:BREAK_BEFORE_OPENING_BRACE];
-}
-
-+ (NSString *)menuItemTitleForBreakBeforeOpeningBraceRule:(SWMBreakBeforeOpeningBraceRule)rule {
-    switch (rule) {
-        case SWMBreakBeforeOpeningBraceRuleIgnore: {
-            return NSLocalizedString(BREAK_BEFORE_OPENING_BRACE_ITEM_TITLE_IGNORE, nil);
-        }
-            
-        case SWMBreakBeforeOpeningBraceRuleRemove: {
-            return NSLocalizedString(BREAK_BEFORE_OPENING_BRACE_ITEM_TITLE_REMOVE, nil);
-        }
-            
-        case SWMBreakBeforeOpeningBraceRuleForce: {
-            return NSLocalizedString(BREAK_BEFORE_OPENING_BRACE_ITEM_TITLE_FORCE, nil);
-        }
-    }
-}
-
-+ (NSString *)enabledBreakBeforeOpeningBraceRuleMenuItemTitle {
-    SWMBreakBeforeOpeningBraceRule enabledRule = [self breakBeforeOpeningBraceRule];
-    return [self menuItemTitleForBreakBeforeOpeningBraceRule:enabledRule];
-}
 
 @end

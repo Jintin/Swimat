@@ -30,7 +30,6 @@
 		2FD1EED41BF1BA2B002B56B0 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041DAD1BF1B76800C51207 /* Parser.m */; };
 		2FEF76A21C2B88750017311E /* Prefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FEF76A11C2B88750017311E /* Prefs.m */; };
 		2FEF76A31C2B88750017311E /* Prefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FEF76A11C2B88750017311E /* Prefs.m */; };
-		BF5B43151CA1508F002E7D41 /* SwiftParserTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5B43141CA1508F002E7D41 /* SwiftParserTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,7 +74,6 @@
 		2FD1EECF1BF1B9B1002B56B0 /* StringTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringTest.m; sourceTree = "<group>"; };
 		2FEF76A01C2B88750017311E /* Prefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefs.h; sourceTree = "<group>"; };
 		2FEF76A11C2B88750017311E /* Prefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Prefs.m; sourceTree = "<group>"; };
-		BF5B43141CA1508F002E7D41 /* SwiftParserTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwiftParserTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,19 +129,19 @@
 		2F041D931BF1B5C100C51207 /* Swimat */ = {
 			isa = PBXGroup;
 			children = (
-				2F2F5C731C0B37CB0090D0C5 /* Categories */,
-				2F041D9D1BF1B5C100C51207 /* Info.plist */,
+				2F041D971BF1B5C100C51207 /* Swimat.h */,
+				2F041D981BF1B5C100C51207 /* Swimat.m */,
 				2F041D9A1BF1B5C100C51207 /* NSObject_Extension.h */,
 				2F041D9B1BF1B5C100C51207 /* NSObject_Extension.m */,
+				2F041D9D1BF1B5C100C51207 /* Info.plist */,
+				2F041D941BF1B5C100C51207 /* Supporting Files */,
+				2F2F5C731C0B37CB0090D0C5 /* category */,
+				2F041DA31BF1B6D700C51207 /* SwiftParser.h */,
+				2F041DA41BF1B6D700C51207 /* SwiftParser.m */,
 				2F041DAC1BF1B76800C51207 /* Parser.h */,
 				2F041DAD1BF1B76800C51207 /* Parser.m */,
 				2FEF76A01C2B88750017311E /* Prefs.h */,
 				2FEF76A11C2B88750017311E /* Prefs.m */,
-				2F041D941BF1B5C100C51207 /* Supporting Files */,
-				2F041DA31BF1B6D700C51207 /* SwiftParser.h */,
-				2F041DA41BF1B6D700C51207 /* SwiftParser.m */,
-				2F041D971BF1B5C100C51207 /* Swimat.h */,
-				2F041D981BF1B5C100C51207 /* Swimat.m */,
 			);
 			path = Swimat;
 			sourceTree = "<group>";
@@ -159,17 +157,16 @@
 		2F041DB41BF1B94F00C51207 /* SwimatTest */ = {
 			isa = PBXGroup;
 			children = (
+				2F041DB51BF1B94F00C51207 /* SwimatTest.m */,
 				2F041DB71BF1B94F00C51207 /* Info.plist */,
 				2FD1EECB1BF1B992002B56B0 /* MutableStringTest.m */,
 				2FD1EECD1BF1B9A2002B56B0 /* ParserTest.m */,
 				2FD1EECF1BF1B9B1002B56B0 /* StringTest.m */,
-				BF5B43141CA1508F002E7D41 /* SwiftParserTest.m */,
-				2F041DB51BF1B94F00C51207 /* SwimatTest.m */,
 			);
 			path = SwimatTest;
 			sourceTree = "<group>";
 		};
-		2F2F5C731C0B37CB0090D0C5 /* Categories */ = {
+		2F2F5C731C0B37CB0090D0C5 /* category */ = {
 			isa = PBXGroup;
 			children = (
 				2F2F5C741C0B37F20090D0C5 /* NSMutableString+Common.h */,
@@ -179,7 +176,7 @@
 				2FAF21A01C30E6BB00A1E40A /* NSDocument+Common.h */,
 				2FAF21A11C30E6BB00A1E40A /* NSDocument+Common.m */,
 			);
-			name = Categories;
+			name = category;
 			sourceTree = "<group>";
 		};
 		2FCE0E501C05D2220000DF1B /* DTXcodeUtils */ = {
@@ -311,7 +308,6 @@
 				2F041DB61BF1B94F00C51207 /* SwimatTest.m in Sources */,
 				2FD1EECE1BF1B9A2002B56B0 /* ParserTest.m in Sources */,
 				2FD1EED11BF1BA1F002B56B0 /* SwiftParser.m in Sources */,
-				BF5B43151CA1508F002E7D41 /* SwiftParserTest.m in Sources */,
 				2FD1EED01BF1B9B1002B56B0 /* StringTest.m in Sources */,
 				2F2F5C7A1C0B39140090D0C5 /* NSMutableString+Common.m in Sources */,
 				2F39CCA51C1A7A5A00005EC5 /* DTXcodeUtils.m in Sources */,
