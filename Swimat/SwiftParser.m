@@ -80,15 +80,21 @@ int curIndent = 0;
 	[retString trim];
 	if (newRange.location >= retString.length) {
 		newRange.location = retString.length;
-		NSLog(@"modify range location");
+#if DEBUG
+            NSLog(@"modify range location");
+#endif
 	}
 	if (newRange.location + newRange.length >= retString.length) {
 		newRange.length = retString.length - newRange.location;
+#if DEBUG
 		NSLog(@"modify range length");
+#endif
 	}
 	NSDate *methodFinish = [NSDate date];
 	NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
+#if DEBUG
 	NSLog(@"format executionTime = %f", executionTime);
+#endif
 	return retString;
 }
 
@@ -217,7 +223,9 @@ int curIndent = 0;
 //				SwiftParser *parser = [[SwiftParser alloc] init];
 //				NSString *string = [parser formatString: sub withRange:NSMakeRange(0, sub.length)];
 //				//TODO modify back
+#if DEBUG
 				NSLog(@"sub string '%@' ", sub);
+#endif
 			} else {
 				return index;
 			}
