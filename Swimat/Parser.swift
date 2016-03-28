@@ -5,6 +5,7 @@ class Parser {
 	var retString = ""
 	var strIndex = 0
 	var indent = 0
+	var tempIndent = 0
 
 	func isNext(char: String) -> Bool {
 		return isNextFrom(strIndex, char: char)
@@ -17,10 +18,23 @@ class Parser {
 		return false
 	}
 
-	func spaceWith(string: String) -> Int {
-		retString += " \(string) "
-		strIndex += string.count
-		return strIndex
+	func spaceWith(word: String) -> Int {
+		trimWithIndent()
+		if !retString.lastChar().isSpace() {
+			retString += " "
+		}
+		append(word)
+		retString += " "
+		return string.nextNonSpaceIndex(strIndex)
+	}
+
+	func spaceWithArray(list: [String]) -> Int? {
+		for word in list {
+			if isNext(word) {
+				return spaceWith(word)
+			}
+		}
+		return nil
 	}
 
 	func trimWithIndent() {
@@ -31,7 +45,7 @@ class Parser {
 	}
 
 	func addIndent() {
-		for _ in 0 ..< indent {
+		for _ in 0 ..< indent + tempIndent {
 			retString += "\t"
 		}
 	}

@@ -49,6 +49,11 @@ extension String {
 		return (start, end)
 	}
 
+	func isSymbol() -> Bool {
+		let symbol = ["+", "-", "*"]
+		return symbol.contains(self)
+	}
+
 	func isUpperBlock() -> Bool {
 		return self == "{" || self == "[" || self == "("
 	}
@@ -65,11 +70,11 @@ extension String {
 		return isSpace() || self == "\n"
 	}
 
-	func lastChar() -> String? {
+	func lastChar() -> String {
 		if self.count > 0 {
-			return lastChar(self.count - 1)
+			return self[self.count - 1]
 		}
-		return nil
+		return ""
 	}
 
 	func lastChar(index: Int) -> String? {

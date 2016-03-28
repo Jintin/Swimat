@@ -7,6 +7,7 @@ class SwiftParser: Parser {
 		self.retString = ""
 		self.strIndex = 0
 		self.indent = 0
+		self.tempIndent = 0
 
 		let checkers = [checkString, checkComment, checkBlock, checkNewLine, checkOperator]
 
@@ -33,22 +34,20 @@ class SwiftParser: Parser {
 		var result = ""
 		while index < string.count {
 			let next = string[index]
-
 			if next == "\"" {
 				let quote = findQuote(index)
-
 				index = quote.index
 				result += quote.string
-			} else if next == ")" {
-				result += next
-				break
 			} else {
 				result += next
 			}
-			index += 1
+			if next == ")" {
+				break
+			} else {
+				index += 1
+			}
 		}
 		let subString = SwiftParser().format(result, range: nil)
-		print("block\(start):\(index):" + subString)
 
 		return (subString, index)
 	}
@@ -78,17 +77,64 @@ class SwiftParser: Parser {
 			}
 			index += 1
 		}
-		print("quote\(start):\(index):" + result)
 		return (result, index)
 	}
 
-//	"a+b=c\(d+e"\(f+g)"+h)"
-
 	func checkOperator(char: String) -> Int? {
-		if char == "+" {
-			return spaceWith("+")
+
+		switch char {
+		case "+":
+			let list = ["+++=", "+++", "+=<", "+=", "+"]
+			return spaceWithArray(list)
+		case "-":
+			let list = ["->", "-="]
+			if let index = spaceWithArray(list) {
+				return index
+			} else {
+				// TODO check minus or negative
+				return spaceWith("-")
+			}
+		case "~":
+			let list = ["~=", "~~>"]
+			return spaceWithArray(list)
+		case "*", "/", "%", "^":
+			let list = ["\(char)=", char]
+			return spaceWithArray(list)
+		case "&":
+			let list = ["&+", "&-", "&*", "&/", "&%", "&&=", "&&", "&="]
+			return spaceWithArray(list)
+		case "<":
+			// TODO check generic
+			return nil
+		case ">", "|":
+			let list = [
+				"\(char)\(char)\(char)",
+				"\(char)\(char)=",
+				"\(char)\(char)",
+				"\(char)=",
+				char]
+			return spaceWithArray(list)
+		case "!":
+			let list = ["!==", "!="]
+			return spaceWithArray(list)
+		case "=":
+			let list = ["===", "==", "="]
+			return spaceWithArray(list)
+		case "?":
+			// TODO check ? ?? a?b:c
+			return nil
+		case ":":
+			// TODO check a?b:c
+			return nil
+		case ".":
+			// TODO check
+			return nil
+		case "#":
+			// TODO check
+			return nil
+		default:
+			return nil
 		}
-		return nil
 	}
 
 	func checkString(char: String) -> Int? {
@@ -131,12 +177,11 @@ class SwiftParser: Parser {
 	}
 
 	func checkBlock(char: String) -> Int? {
-		if char.isUpperBlock() {
+		if char == "{" {
 			print("upper")
 			indent += 1
-		} else if char.isLowerBlock() {
+		} else if char == "}" {
 			print("lower")
-
 			if indent != 0 {
 				indent -= 1
 			}
