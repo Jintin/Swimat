@@ -17,9 +17,15 @@ class Parser {
 		return false
 	}
 
+	func spaceWith(string: String) -> Int {
+		retString += " \(string) "
+		strIndex += string.count
+		return strIndex
+	}
+
 	func trimWithIndent() {
 		retString = retString.trim()
-		if retString[retString.count - 1] == "\n" {
+		if retString.lastChar() == "\n" {
 			addIndent()
 		}
 	}

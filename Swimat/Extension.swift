@@ -57,6 +57,21 @@ extension String {
 		return self == "}" || self == "]" || self == ")"
 	}
 
+	func isSpace() -> Bool {
+		return self == " " || self == "\t"
+	}
+
+	func isBlank() -> Bool {
+		return isSpace() || self == "\n"
+	}
+
+	func lastChar() -> String? {
+		if self.count > 0 {
+			return lastChar(self.count - 1)
+		}
+		return nil
+	}
+
 	func lastChar(index: Int) -> String? {
 		if index < self.count {
 			return self[index]

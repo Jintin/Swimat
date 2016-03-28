@@ -41,29 +41,31 @@ class Swimat: NSObject {
 		let string = sourceTextView.textStorage!.string
 		let range = sourceTextView.selectedRanges[0].rangeValue
 
-		SwiftParser().format(string, range: range)
+		let newString = SwiftParser().format(string, range: range)
+		setText(newString, range: range)
 	}
 
 	func setUndo() {
-		let undoManager = DTXcodeUtils.currentSourceCodeDocument().undoManager
-		let sourceTextView = DTXcodeUtils.currentSourceTextView()
-		undoManager?.setActionName("Swimat")
-		undoManager?.registerUndoWithTarget(self, selector: #selector(Swimat.setText(_:)), object: sourceTextView)
+//		let undoManager = DTXcodeUtils.currentSourceCodeDocument().undoManager
+//		let sourceTextView = DTXcodeUtils.currentSourceTextView()
+//		undoManager?.setActionName("Swimat")
+//		undoManager?.registerUndoWithTarget(self, selector: #selector(Swimat.setText(_:)), object: sourceTextView)
 	}
 
-	func setText(sourceTextView: DVTSourceTextView) {
+	func setText(string: String, range: NSRange) {
 		setUndo()
-		let string = sourceTextView.textStorage!.string
-		let range = sourceTextView.selectedRanges[0].rangeValue
+//		let string = sourceTextView.textStorage!.string
+//		let range = sourceTextView.selectedRanges[0].rangeValue
 
 		let source = DTXcodeUtils.currentSourceTextView()
-		let rect = sourceTextView.visibleRect
+		let rect = source.visibleRect
 		let oldString = source.textStorage!.string
 
 		let diff = string.findDiff(oldString)
-		sourceTextView.replaceCharactersInRange(NSMakeRange(diff.start, oldString.count - diff.end - diff.start), withString: string)
+		print(diff)
+		source.replaceCharactersInRange(NSMakeRange(diff.start, oldString.count - diff.end - diff.start), withString: string[diff.start ..< string.count - diff.end])
 
-		sourceTextView.setSelectedRange(range)
-		sourceTextView.scrollRectToVisible(rect)
+		source.setSelectedRange(range)
+		source.scrollRectToVisible(rect)
 	}
 }

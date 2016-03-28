@@ -2,13 +2,13 @@ import Foundation
 
 class SwiftParser: Parser {
 
-	func format(string: String, range: NSRange) {
+	func format(string: String, range: NSRange?) -> String {
 		self.string = string
 		self.retString = ""
 		self.strIndex = 0
 		self.indent = 0
 
-		let checkers = [checkString, checkComment, checkBlock, checkNewLine]
+		let checkers = [checkString, checkComment, checkBlock, checkNewLine, checkOperator]
 
 		while strIndex < string.count {
 			let char = string[strIndex]
@@ -25,10 +25,12 @@ class SwiftParser: Parser {
 			}
 		}
 		print("return:\n" + retString)
+		return retString
 	}
 
 	func findBlock(start: Int) -> (string: String, index: Int) {
 		var index = start
+		var result = ""
 		while index < string.count {
 			let next = string[index]
 
@@ -36,27 +38,38 @@ class SwiftParser: Parser {
 				let quote = findQuote(index)
 
 				index = quote.index
+				result += quote.string
 			} else if next == ")" {
+				result += next
 				break
+			} else {
+				result += next
 			}
 			index += 1
 		}
-		print("block\(start):\(index):" + string[start ... index])
-		return (string[start ... index], index)
+		let subString = SwiftParser().format(result, range: nil)
+		print("block\(start):\(index):" + subString)
+
+		return (subString, index)
 	}
 
 	func findQuote(start: Int) -> (string: String, index: Int) {
 		var escape = false
 		var index = start + 1
+		var result = "\""
 		while index < string.count {
 			let next = string[index]
 
-			if !escape && next == "\"" {
-				break
-			}
 			if escape && next == "(" {
 				let block = findBlock(index)
 				index = block.index
+				result += block.string
+			} else {
+				result += next
+			}
+
+			if !escape && next == "\"" {
+				break
 			}
 			if next == "\\" {
 				escape = !escape
@@ -65,8 +78,17 @@ class SwiftParser: Parser {
 			}
 			index += 1
 		}
-		print("quote\(start):\(index):" + string[start ... index])
-		return (string[start ... index], index)
+		print("quote\(start):\(index):" + result)
+		return (result, index)
+	}
+
+//	"a+b=c\(d+e"\(f+g)"+h)"
+
+	func checkOperator(char: String) -> Int? {
+		if char == "+" {
+			return spaceWith("+")
+		}
+		return nil
 	}
 
 	func checkString(char: String) -> Int? {
