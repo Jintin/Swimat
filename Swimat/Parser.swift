@@ -50,9 +50,10 @@ class Parser {
 		}
 	}
 
-	func append(string: String) {
+	func append(string: String) -> Int {
 		retString += string
 		strIndex += string.count
+		return strIndex
 	}
 
 	func addToNext(start: Int, stopChar: String) -> Int {

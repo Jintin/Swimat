@@ -2,7 +2,7 @@ import Foundation
 
 class SwiftParser: Parser {
 
-	func format(string: String, range: NSRange?) -> String {
+	func format(string: String, range: NSRange?) -> (string: String, range: NSRange?) {
 		self.string = string
 		self.retString = ""
 		self.strIndex = 0
@@ -26,7 +26,7 @@ class SwiftParser: Parser {
 			}
 		}
 		print("return:\n" + retString)
-		return retString
+		return (retString, range)
 	}
 
 	func findBlock(start: Int) -> (string: String, index: Int) {
@@ -34,6 +34,7 @@ class SwiftParser: Parser {
 		var result = ""
 		while index < string.count {
 			let next = string[index]
+
 			if next == "\"" {
 				let quote = findQuote(index)
 				index = quote.index
@@ -47,9 +48,9 @@ class SwiftParser: Parser {
 				index += 1
 			}
 		}
-		let subString = SwiftParser().format(result, range: nil)
+		let obj = SwiftParser().format(result, range: nil)
 
-		return (subString, index)
+		return (obj.string, index)
 	}
 
 	func findQuote(start: Int) -> (string: String, index: Int) {
@@ -69,15 +70,25 @@ class SwiftParser: Parser {
 
 			if !escape && next == "\"" {
 				break
+			} else {
+				index += 1
 			}
 			if next == "\\" {
 				escape = !escape
 			} else {
 				escape = false
 			}
-			index += 1
 		}
 		return (result, index)
+	}
+
+	func checkString(char: String) -> Int? {
+		if char == "\"" {
+			let quote = findQuote(strIndex)
+			retString += quote.string
+			return quote.index + 1
+		}
+		return nil
 	}
 
 	func checkOperator(char: String) -> Int? {
@@ -96,7 +107,11 @@ class SwiftParser: Parser {
 			}
 		case "~":
 			let list = ["~=", "~~>"]
-			return spaceWithArray(list)
+			if let index = spaceWithArray(list) {
+				return index
+			} else {
+				return append("~")
+			}
 		case "*", "/", "%", "^":
 			let list = ["\(char)=", char]
 			return spaceWithArray(list)
@@ -127,26 +142,20 @@ class SwiftParser: Parser {
 			// TODO check a?b:c
 			return nil
 		case ".":
-			// TODO check
-			return nil
+			let list = ["...", "..<"]
+			if let index = spaceWithArray(list) {
+				return index
+			} else {
+				trimWithIndent()
+				append(".")
+				return string.nextNonSpaceIndex(strIndex)
+			}
 		case "#":
 			// TODO check
 			return nil
 		default:
 			return nil
 		}
-	}
-
-	func checkString(char: String) -> Int? {
-		if char == "\"" {
-			let quote = findQuote(strIndex)
-
-			print("string:" + quote.string)
-			retString += quote.string
-
-			return quote.index + 1
-		}
-		return nil
 	}
 
 	func checkComment(char: String) -> Int? {
