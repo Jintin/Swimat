@@ -402,7 +402,7 @@ int curIndent = 0;
 					return strIndex;
 				}
 			}
-			NSArray *array = @[@"<<<", @"<<=", @"<<", @"<=", @"<~~", @"<~", @"<-"];
+			NSArray *array = @[@"<<<", @"<<=", @"<<", @"<=", @"<~~", @"<~", @"<--", @"<-"];
 			NSUInteger findIndex = [self spaceWithArray:array];
 			if (findIndex != -1) {
 				return findIndex;
