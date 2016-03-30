@@ -20,8 +20,10 @@ class Parser {
 
 	func spaceWith(word: String) -> Int {
 		trimWithIndent()
-		if !retString.lastChar().isSpace() {
-			retString += " "
+		if let char = retString.lastChar() {
+			if !char.isSpace() {
+				retString += " "
+			}
 		}
 		append(word)
 		retString += " "
@@ -64,7 +66,6 @@ class Parser {
 			}
 			index += 1
 		}
-		print("next:\"" + string[start ..< index] + "\"")
 		retString += string[start ..< index].trim()
 		return index
 	}

@@ -1,17 +1,14 @@
 import Foundation
 
 extension String {
-	subscript(i: Int) -> String {
-		if i < self.count {
-			return String(self[self.startIndex.advancedBy(i)])
-		} else {
-			return ""
-		}
+	subscript(i: Int) -> Character {
+		return self[startIndex.advancedBy(i)]
 	}
 
 	subscript(r: Range<Int>) -> String {
 		let start = startIndex.advancedBy(r.startIndex)
 		let end = start.advancedBy(r.endIndex - r.startIndex)
+
 		return self[start ..< end]
 	}
 
@@ -26,26 +23,37 @@ extension String {
 	}
 
 	func findDiff(string: String) -> (start: Int, end: Int) {
-		var start = 0
-		var end = 0
-		let minValue = min(self.count, string.count)
-		if minValue == 0 {
+		let methodStart = NSDate()
+		if self.isEmpty || string.isEmpty {
 			return (0, 0)
 		}
-		while self[start] == string[start] {
-			if start < minValue - 1 {
+		var start = 0
+		var end = 0
+		var startIndex = self.startIndex
+		var end1 = self.endIndex.advancedBy(-1)
+		var end2 = string.endIndex.advancedBy(-1)
+		let limit = min(end1, end2)
+
+		while self[startIndex] == string[startIndex] {
+			if startIndex < limit {
+				startIndex = startIndex.successor()
 				start += 1
 			} else {
 				break
 			}
 		}
-		while self[self.count - end - 1] == string[string.count - end - 1] {
-			if minValue - end - 1 >= start {
+		while self[end1] == string[end2] {
+			if end1 >= startIndex || end2 >= startIndex {
+				end1 = end1.predecessor()
+				end2 = end2.predecessor()
 				end += 1
 			} else {
 				break
 			}
 		}
+		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
+		print("diff executionTime = \(executionTime)");
+
 		return (start, end)
 	}
 
@@ -54,30 +62,11 @@ extension String {
 		return symbol.contains(self)
 	}
 
-	func isUpperBlock() -> Bool {
-		return self == "{" || self == "[" || self == "("
+	func lastChar() -> Character? {
+		return characters.last
 	}
 
-	func isLowerBlock() -> Bool {
-		return self == "}" || self == "]" || self == ")"
-	}
-
-	func isSpace() -> Bool {
-		return self == " " || self == "\t"
-	}
-
-	func isBlank() -> Bool {
-		return isSpace() || self == "\n"
-	}
-
-	func lastChar() -> String {
-		if self.count > 0 {
-			return self[self.count - 1]
-		}
-		return ""
-	}
-
-	func lastChar(index: Int) -> String? {
+	func lastChar(index: Int) -> Character? {
 		if index < self.count {
 			return self[index]
 		}
@@ -98,8 +87,27 @@ extension String {
 	func nextNonSpaceIndex(start: Int) -> Int {
 		return nextIndex(start) {
 			index -> Bool in
-			return self[index] != " " && self[index] != "\t"
+			let char = self[index]
+			return !char.isSpace()
 		}
+	}
+}
+
+extension Character {
+	func isUpperBlock() -> Bool {
+		return self == "{" || self == "[" || self == "("
+	}
+
+	func isLowerBlock() -> Bool {
+		return self == "}" || self == "]" || self == ")"
+	}
+
+	func isSpace() -> Bool {
+		return self == " " || self == "\t"
+	}
+
+	func isBlank() -> Bool {
+		return isSpace() || self == "\n"
 	}
 }
 

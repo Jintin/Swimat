@@ -21,5 +21,9 @@ class StringTest: XCTestCase {
 		diff = "abcd".findDiff("dbca")
 		print(diff)
 		assert(diff == (start: 0, end: 0))
+
+		diff = "abcd".findDiff("abcd")
+		print(diff)
+		assert(diff == (start: 3, end: 1))
 	}
 }

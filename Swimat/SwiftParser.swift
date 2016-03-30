@@ -3,16 +3,25 @@ import Foundation
 class SwiftParser: Parser {
 
 	func format(string: String, range: NSRange?) -> (string: String, range: NSRange?) {
+		let methodStart = NSDate()
 		self.string = string
 		self.retString = ""
 		self.strIndex = 0
 		self.indent = 0
 		self.tempIndent = 0
 
-		let checkers = [checkString, checkComment, checkBlock, checkNewLine, checkOperator]
+		let checkers = [
+			checkString,
+			checkComment,
+			checkBlock,
+			checkNewLine,
+			checkOperator
+		]
 
-		while strIndex < string.count {
-			let char = string[strIndex]
+		for (index, char) in string.characters.enumerate() {
+			if index != strIndex {
+				continue
+			}
 			var find = false
 			for checker in checkers {
 				if let checkIndex = checker(char) {
@@ -22,10 +31,13 @@ class SwiftParser: Parser {
 				}
 			}
 			if !find {
-				append(char)
+				retString.append(char)
+				strIndex += 1
 			}
 		}
 		print("return:\n" + retString)
+		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
+		print("format executionTime = \(executionTime)");
 		return (retString, range)
 	}
 
@@ -40,7 +52,7 @@ class SwiftParser: Parser {
 				index = quote.index
 				result += quote.string
 			} else {
-				result += next
+				result.append(next)
 			}
 			if next == ")" {
 				break
@@ -48,7 +60,7 @@ class SwiftParser: Parser {
 				index += 1
 			}
 		}
-		let obj = SwiftParser().format(result, range: nil)
+		let obj = SwiftParser().format(result, range: nil) // TODO no need to new obj
 
 		return (obj.string, index)
 	}
@@ -65,7 +77,7 @@ class SwiftParser: Parser {
 				index = block.index
 				result += block.string
 			} else {
-				result += next
+				result.append(next)
 			}
 
 			if !escape && next == "\"" {
@@ -82,7 +94,7 @@ class SwiftParser: Parser {
 		return (result, index)
 	}
 
-	func checkString(char: String) -> Int? {
+	func checkString(char: Character) -> Int? {
 		if char == "\"" {
 			let quote = findQuote(strIndex)
 			retString += quote.string
@@ -91,7 +103,7 @@ class SwiftParser: Parser {
 		return nil
 	}
 
-	func checkOperator(char: String) -> Int? {
+	func checkOperator(char: Character) -> Int? {
 
 		switch char {
 		case "+":
@@ -113,7 +125,8 @@ class SwiftParser: Parser {
 				return append("~")
 			}
 		case "*", "/", "%", "^":
-			let list = ["\(char)=", char]
+			let a = String(char)
+			let list = ["\(a)=", a]
 			return spaceWithArray(list)
 		case "&":
 			let list = ["&+", "&-", "&*", "&/", "&%", "&&=", "&&", "&="]
@@ -122,12 +135,13 @@ class SwiftParser: Parser {
 			// TODO check generic
 			return nil
 		case ">", "|":
+			let a = String(char)
 			let list = [
-				"\(char)\(char)\(char)",
-				"\(char)\(char)=",
-				"\(char)\(char)",
-				"\(char)=",
-				char]
+				"\(a)\(a)\(a)",
+				"\(a)\(a)=",
+				"\(a)\(a)",
+				"\(a)=",
+				a]
 			return spaceWithArray(list)
 		case "!":
 			let list = ["!==", "!="]
@@ -158,25 +172,22 @@ class SwiftParser: Parser {
 		}
 	}
 
-	func checkComment(char: String) -> Int? {
+	func checkComment(char: Character) -> Int? {
 		if char == "/" {
 			if isNext("//") {
-				print("line")
 				retString += "// "
 				let startIndex = string.nextNonSpaceIndex(strIndex + 2)
 
 				return addToNext(startIndex, stopChar: "\n")
 			} else if isNext("/*") {
-				print("block")
 				return addToNext(strIndex, stopChar: "*/")
 			}
 		}
 		return nil
 	}
 
-	func checkNewLine(char: String) -> Int? {
+	func checkNewLine(char: Character) -> Int? {
 		if char == "\n" {
-			print("new line")
 			retString += "\n"
 			addIndent()
 //			isNext(<#T##char: String##String#>)
@@ -185,12 +196,10 @@ class SwiftParser: Parser {
 		return nil
 	}
 
-	func checkBlock(char: String) -> Int? {
+	func checkBlock(char: Character) -> Int? {
 		if char == "{" {
-			print("upper")
 			indent += 1
 		} else if char == "}" {
-			print("lower")
 			if indent != 0 {
 				indent -= 1
 			}

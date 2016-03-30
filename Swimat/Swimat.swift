@@ -39,15 +39,24 @@ class Swimat: NSObject {
 	}
 
 	func swimatAction() {
+		let methodStart = NSDate()
+
 		let source = DTXcodeUtils.currentSourceTextView()
 		let string = source.textStorage!.string
 		let range = source.selectedRanges[0].rangeValue
+		let executionTime1 = NSDate().timeIntervalSinceDate(methodStart)
 
+		print("total1 executionTime = \(executionTime1)");
 		let result = SwiftParser().format(string, range: range)
 		setText(result.string, range: result.range!)
+
+		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
+		print("total executionTime = \(executionTime)");
 	}
 
 	func setText(string: String, range: NSRange) {
+		let methodStart = NSDate()
+
 		let source = DTXcodeUtils.currentSourceTextView()
 		let rect = source.visibleRect
 		let oldString = source.textStorage!.string
@@ -67,5 +76,8 @@ class Swimat: NSObject {
 
 		source.setSelectedRange(range)
 		source.scrollRectToVisible(rect)
+
+		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
+		print("setText executionTime = \(executionTime)");
 	}
 }
