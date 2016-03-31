@@ -555,6 +555,8 @@ int curIndent = 0;
 			} else if ([self isNext:'>']) {
 				[self appendString:@"#>"];
 				return strIndex;
+			} else if ([self isNext:'!']) {
+				return [self addToEnd:orString edit:retString withIndex:strIndex];
 			}
 			break;
 		default:
