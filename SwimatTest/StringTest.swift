@@ -3,6 +3,22 @@ import Foundation
 
 class StringTest: XCTestCase {
 
+	func testPerformanceExample() {
+		// This is an example of a performance test case.
+		self.measureBlock {
+			// Put the code you want to measure the time of here.
+			for _ in 1 ... 10 {
+				self.testDiff()
+			}
+		}
+	}
+
+	func testRange() {
+		assert("abcde"[1] == "b")
+		assert("abcde"[1 ... 3] == "bcd")
+		assert("abcde"[1 ..< 4] == "bcd")
+	}
+
 	func testTrim() {
 		assert(" abc ".trim() == "abc")
 		assert("\tabc\t".trim() == "abc")
