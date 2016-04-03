@@ -6,15 +6,21 @@ extension String {
 	}
 
 	subscript(r: Range<Int>) -> String {
-		let start = startIndex.advancedBy(r.startIndex)
-		let end = start.advancedBy(r.endIndex - r.startIndex)
 
+		let start = startIndex.advancedBy(r.startIndex)
+		let end = startIndex.advancedBy(r.endIndex)
 		return self[start ..< end]
 	}
 
 	var count: Int {
 		get {
-			return self.characters.count
+			return characters.count
+		}
+	}
+
+	var lastChar: Character? {
+		get {
+			return characters.last
 		}
 	}
 
@@ -27,11 +33,13 @@ extension String {
 		if self.isEmpty || string.isEmpty {
 			return (0, 0)
 		}
+
 		var start = 0
 		var end = 0
 		var startIndex = self.startIndex
-		var end1 = self.endIndex.advancedBy(-1)
-		var end2 = string.endIndex.advancedBy(-1)
+		var end1 = endIndex.predecessor()
+		var end2 = string.endIndex.predecessor()
+
 		let limit = min(end1, end2)
 
 		while self[startIndex] == string[startIndex] {
@@ -42,8 +50,9 @@ extension String {
 				break
 			}
 		}
+
 		while self[end1] == string[end2] {
-			if end1 >= startIndex || end2 >= startIndex {
+			if end1 >= startIndex && end2 >= startIndex {
 				end1 = end1.predecessor()
 				end2 = end2.predecessor()
 				end += 1
@@ -51,6 +60,7 @@ extension String {
 				break
 			}
 		}
+
 		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
 		print("diff executionTime = \(executionTime)");
 
@@ -62,29 +72,18 @@ extension String {
 		return symbol.contains(self)
 	}
 
-	func lastChar() -> Character? {
-		return characters.last
-	}
-
-	func lastChar(index: Int) -> Character? {
-		if index < self.count {
-			return self[index]
-		}
-		return nil
-	}
-
-	func nextIndex(start: Int, checker: Int -> Bool) -> Int {
+	func nextIndex(start: String.Index, checker: String.Index -> Bool) -> String.Index {
 		var index = start
-		while index < self.count {
+		while index < endIndex {
 			if checker(index) {
 				break
 			}
-			index += 1
+			index = index.successor()
 		}
 		return index
 	}
 
-	func nextNonSpaceIndex(start: Int) -> Int {
+	func nextNonSpaceIndex(start: String.Index) -> String.Index {
 		return nextIndex(start) {
 			index -> Bool in
 			let char = self[index]
