@@ -151,7 +151,7 @@ int curIndent = 0;
 -(NSUInteger) checkComment:(unichar) c {
 	if (c == '/') {
 		if ([self isNext:'/']) {
-			[retString keepSpace];
+//			[retString keepSpace];
 			return [self lineComment:true];
 		} else if ([self isNext:'*']) {
 			NSUInteger nextIndex = [orString nextIndex:strIndex search:@"*/" defaults:orString.length];
