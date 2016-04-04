@@ -3,21 +3,11 @@ import Foundation
 
 class StringTest: XCTestCase {
 
-	func testPerformanceExample() {
-		// This is an example of a performance test case.
-		self.measureBlock {
-			// Put the code you want to measure the time of here.
-			for _ in 1 ... 10 {
-				self.testDiff()
-			}
-		}
-	}
-
-	func testRange() {
-		assert("abcde"[1] == "b")
-		assert("abcde"[1 ... 3] == "bcd")
-		assert("abcde"[1 ..< 4] == "bcd")
-	}
+//	func testRange() {
+//		assert("abcde"[1] == "b")
+//		assert("abcde"[1 ... 3] == "bcd")
+//		assert("abcde"[1 ..< 4] == "bcd")
+//	}
 
 	func testTrim() {
 		assert(" abc ".trim() == "abc")
@@ -26,20 +16,24 @@ class StringTest: XCTestCase {
 	}
 
 	func testDiff() {
-		var diff = "abcd".findDiff("abce")
-		print(diff)
-		assert(diff == (start: 3, end: 0))
+		let string = "abcd"
+		func index(start: Int, end1: Int, end2: Int) -> (range1: Range<String.Index>, range2: Range<String.Index>) {
+			let range1 = string.startIndex.advancedBy(start) ..< string.startIndex.advancedBy(end1)
+			let range2 = string.startIndex.advancedBy(start) ..< string.startIndex.advancedBy(end2)
 
-		diff = "acd".findDiff("abcd")
-		print(diff)
-		assert(diff == (start: 1, end: 2))
+			return (range1, range2)
+		}
 
-		diff = "abcd".findDiff("dbca")
-		print(diff)
-		assert(diff == (start: 0, end: 0))
+		var diff = string.findDiff("abce")
+		assert(diff! == index(3, end1: 4, end2: 4))
 
-		diff = "abcd".findDiff("abcd")
-		print(diff)
-		assert(diff == (start: 3, end: 1))
+		diff = "acd".findDiff(string)
+		assert(diff! == index(1, end1: 1, end2: 2))
+
+		diff = string.findDiff("acd")
+		assert(diff! == index(1, end1: 2, end2: 1))
+
+		diff = string.findDiff(string)
+		assert(diff == nil)
 	}
 }

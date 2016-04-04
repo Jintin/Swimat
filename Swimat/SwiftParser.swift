@@ -2,6 +2,9 @@ import Foundation
 
 class SwiftParser: Parser {
 
+	var range: Range<String.Index>?
+	var checkCursor: (() -> Void)?
+
 	func format(string: String, range: NSRange?) -> (string: String, range: NSRange?) {
 		let methodStart = NSDate()
 		self.string = string
@@ -9,17 +12,21 @@ class SwiftParser: Parser {
 		self.strIndex = string.startIndex
 		self.indent = 0
 		self.tempIndent = 0
+		if range != nil {
+			self.checkCursor = checkCursorStart
+		}
+		self.range = string.rangeFromNSRange(range)
 
 		let checkers = [
-			checkString,
-			checkComment,
 			checkBlock,
 			checkNewLine,
+			checkComment,
 			checkOperator,
+			checkString,
 			checkDefault
 		]
-
 		while strIndex < string.endIndex {
+
 			let char = string[strIndex]
 			for checker in checkers {
 				if let checkIndex = checker(char) {
@@ -27,11 +34,77 @@ class SwiftParser: Parser {
 					break
 				}
 			}
+			checkCursor?()
 		}
-//		print("result:\(retString)")
 		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
-		print("format executionTime = \(executionTime)");
-		return (retString, range)
+		print("format  executionTime = \(executionTime)");
+
+		return (retString, retString.nsRangeFromRange(self.range))
+	}
+
+	func getPosition(start: String.Index, now: String.Index) -> String.Index {
+		var cursor = start
+		var target = now
+		var diff = 0
+		
+		while strIndex > cursor {
+			if !string[cursor].isSpace() {
+				diff += 1
+			}
+			cursor = cursor.successor()
+		}
+
+		while diff > 0 {
+			diff -= 1
+			if retString[target].isSpace() {
+				target = retString.lastNonSpaceIndex(target)
+			}
+			target = target.predecessor()
+		}
+		
+		return target.successor()
+	}
+
+	func checkCursorStart() {
+		if strIndex >= range?.startIndex {
+			var target = retString.endIndex.predecessor()
+			let cursor = range!.startIndex
+			if cursor == string.startIndex {
+				checkCursor = checkCursorEnd
+				return
+			} else if cursor == string.endIndex{
+				checkCursor = checkCursorEnd
+				range?.startIndex = retString.endIndex
+				range?.endIndex = retString.endIndex
+				return
+			}
+			target = getPosition(cursor, now: target)
+
+			if range?.startIndex == range?.endIndex {
+				range?.endIndex = target
+				checkCursor = nil
+			} else {
+				checkCursor = checkCursorEnd
+			}
+			range?.startIndex = target
+		}
+	}
+
+	func checkCursorEnd() {
+		if strIndex >= range?.endIndex {
+			let target = retString.endIndex.predecessor()
+			let cursor = range!.endIndex
+			if cursor == string.startIndex {
+				checkCursor = nil
+				return
+			} else if cursor == string.endIndex{
+				checkCursor = nil
+				range?.endIndex = retString.endIndex
+				return
+			}
+			range?.endIndex = getPosition(cursor, now: target)
+			checkCursor = nil
+		}
 	}
 
 	func findBlock(start: String.Index) -> (string: String, index: String.Index) {
@@ -44,13 +117,13 @@ class SwiftParser: Parser {
 				let quote = findQuote(index)
 				index = quote.index
 				result += quote.string
+				continue
 			} else {
 				result.append(next)
 			}
+			index = index.successor()
 			if next == ")" {
 				break
-			} else {
-				index = index.successor()
 			}
 		}
 		let obj = SwiftParser().format(result, range: nil) // TODO no need to new obj
@@ -69,14 +142,15 @@ class SwiftParser: Parser {
 				let block = findBlock(index)
 				index = block.index
 				result += block.string
+				escape = false
+				continue
 			} else {
 				result.append(next)
 			}
 
+			index = index.successor()
 			if !escape && next == "\"" {
-				break
-			} else {
-				index = index.successor()
+				return (result, index)
 			}
 			if next == "\\" {
 				escape = !escape
@@ -84,14 +158,14 @@ class SwiftParser: Parser {
 				escape = false
 			}
 		}
-		return (result, index)
+		return (result, string.endIndex.predecessor())
 	}
 
 	func checkString(char: Character) -> String.Index? {
 		if char == "\"" {
 			let quote = findQuote(strIndex)
 			retString += quote.string
-			return quote.index.successor()
+			return quote.index
 		}
 		return nil
 	}
@@ -167,12 +241,9 @@ class SwiftParser: Parser {
 
 	func checkComment(char: Character) -> String.Index? {
 		if char == "/" {
-			if isNext("//") {
-				retString += "// "
-				let startIndex = string.nextNonSpaceIndex(strIndex.advancedBy(2))
-
-				return addToNext(startIndex, stopChar: "\n")
-			} else if isNext("/*") {
+			if isNextString("//") {
+				return addToNext(strIndex, stopChar: "\n")
+			} else if isNextString("/*") {
 				return addToNext(strIndex, stopChar: "*/")
 			}
 		}

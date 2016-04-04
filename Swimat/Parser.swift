@@ -7,23 +7,20 @@ class Parser {
 	var indent = 0
 	var tempIndent = 0
 
-	func isNext(string: String) -> Bool {
-		return isNextFrom(strIndex, word: string)
+	func isNextString(string: String) -> Bool {
+		return isNextString(strIndex, word: string)
 	}
 
-//	func isNextFrom(start: String.Index, word: Character) -> Bool {
-//		if word != string[start] {
-//			return false
-//		}
-//		return true
-//	}
-
-	func isNextFrom(start: String.Index, word: String) -> Bool {
+	func isNextString(start: String.Index, word: String) -> Bool {
 		var index = start
 		for char in word.characters {
+			if index == string.endIndex {
+				return false
+			}
 			if char != string[index] {
 				return false
 			}
+
 			index = index.successor()
 		}
 		return true
@@ -40,7 +37,7 @@ class Parser {
 
 	func spaceWithArray(list: [String]) -> String.Index? {
 		for word in list {
-			if isNext(word) {
+			if isNextString(word) {
 				return spaceWith(word)
 			}
 		}
@@ -76,7 +73,7 @@ class Parser {
 	func addToNext(start: String.Index, stopChar: String) -> String.Index {
 		var index = start
 		while index < string.endIndex {
-			if isNextFrom(index, word: stopChar) {
+			if isNextString(index, word: stopChar) {
 				break
 			}
 			index = index.successor()

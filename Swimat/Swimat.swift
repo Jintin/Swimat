@@ -48,31 +48,28 @@ class Swimat: NSObject {
 		setText(result.string, range: result.range!)
 
 		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
-		print("total executionTime = \(executionTime)");
+		print("total   executionTime = \(executionTime)");
 	}
 
 	func setText(string: String, range: NSRange) {
 		let methodStart = NSDate()
 
 		let source = DTXcodeUtils.currentSourceTextView()
-		let rect = source.visibleRect
 		let oldString = source.textStorage!.string
-		let oldRange = source.selectedRanges[0].rangeValue
 
-		if let undoManager = DTXcodeUtils.currentSourceCodeDocument().undoManager {
-			undoManager.registerUndoWithTarget(self, handler: {
-				Swimat -> Void in
-				self.setText(oldString, range: oldRange)
-			})
-			undoManager.setActionName(name)
+		if let diff = string.findDiff(oldString) {
+			let oldRange = source.selectedRanges[0].rangeValue
+			if let undoManager = DTXcodeUtils.currentSourceCodeDocument().undoManager {
+				undoManager.registerUndoWithTarget(self) {
+					Swimat -> Void in
+
+					self.setText(oldString, range: oldRange)
+				}
+				undoManager.setActionName(name)
+			}
+			source.replaceCharactersInRange(oldString.nsRangeFromRange(diff.range2)!, withString: string[diff.range1])
+			source.setSelectedRange(range)
 		}
-
-		let diff = string.findDiff(oldString)
-
-		source.replaceCharactersInRange(NSMakeRange(diff.start, oldString.count - diff.end - diff.start), withString: string[diff.start ..< string.count - diff.end])
-
-		source.setSelectedRange(range)
-		source.scrollRectToVisible(rect)
 
 		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
 		print("setText executionTime = \(executionTime)");

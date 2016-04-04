@@ -1,16 +1,16 @@
 import Foundation
 
 extension String {
-	subscript(i: Int) -> Character {
-		return self[startIndex.advancedBy(i)]
-	}
-
-	subscript(r: Range<Int>) -> String {
-
-		let start = startIndex.advancedBy(r.startIndex)
-		let end = startIndex.advancedBy(r.endIndex)
-		return self[start ..< end]
-	}
+//	subscript(i: Int) -> Character {
+//		return self[startIndex.advancedBy(i)]
+//	}
+//
+//	subscript(r: Range<Int >) -> String {
+//
+//		let start = startIndex.advancedBy(r.startIndex)
+//		let end = startIndex.advancedBy(r.endIndex)
+//		return self[start ..< end]
+//	}
 
 	var count: Int {
 		get {
@@ -28,43 +28,77 @@ extension String {
 		return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 	}
 
-	func findDiff(string: String) -> (start: Int, end: Int) {
+	func findDiff(string: String) -> (range1: Range<String.Index>, range2: Range<String.Index>)? {
 		let methodStart = NSDate()
 		if self.isEmpty || string.isEmpty {
-			return (0, 0)
+			return nil
 		}
 
-		var start = 0
-		var end = 0
-		var startIndex = self.startIndex
+		var start1 = startIndex
+		var start2 = string.startIndex
 		var end1 = endIndex.predecessor()
 		var end2 = string.endIndex.predecessor()
 
-		let limit = min(end1, end2)
-
-		while self[startIndex] == string[startIndex] {
-			if startIndex < limit {
-				startIndex = startIndex.successor()
-				start += 1
+		while self[start1] == string[start2] {
+			if start1 < end1 && start2 < end2 {
+				start1 = start1.successor()
+				start2 = start2.successor()
 			} else {
 				break
 			}
 		}
 
 		while self[end1] == string[end2] {
-			if end1 >= startIndex && end2 >= startIndex {
+			if end1 >= start1 && end2 >= start2 {
 				end1 = end1.predecessor()
 				end2 = end2.predecessor()
-				end += 1
 			} else {
 				break
 			}
 		}
+		end1 = end1.successor()
+		end2 = end2.successor()
 
 		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
-		print("diff executionTime = \(executionTime)");
+		print("diff    executionTime = \(executionTime)");
+		if start1 == end1 && start1 == end2 {
+			return nil
+		}
+		return (start1 ..< end1, start2 ..< end2)
+	}
 
-		return (start, end)
+	func rangeFromNSRange(nsRange: NSRange?) -> Range<String.Index>? {
+		if let range = nsRange {
+//			let from = startIndex.advancedBy(range.location)
+//			let to = from.advancedBy(range.length)
+//
+//			return from ..< to
+
+			let from16 = utf16.startIndex.advancedBy(range.location, limit: utf16.endIndex)
+			let to16 = from16.advancedBy(range.length, limit: utf16.endIndex)
+			if let from = String.Index(from16, within: self),
+				let to = String.Index(to16, within: self) {
+					return from ..< to
+			}
+		}
+		return nil
+	}
+
+	func nsRangeFromRange(strRange: Range<String.Index>?) -> NSRange? {
+		if let range = strRange {
+//			let loc = startIndex.distanceTo(range.startIndex)
+//			let len = range.startIndex.distanceTo(range.endIndex)
+//
+//			return NSMakeRange(loc, len)
+
+			let utf16view = self.utf16
+
+			let from = String.UTF16View.Index(range.startIndex, within: utf16view)
+			let to = String.UTF16View.Index(range.endIndex, within: utf16view)
+
+			return NSMakeRange(utf16view.startIndex.distanceTo(from), from.distanceTo(to))
+		}
+		return nil
 	}
 
 	func isSymbol() -> Bool {
@@ -84,11 +118,23 @@ extension String {
 	}
 
 	func nextNonSpaceIndex(start: String.Index) -> String.Index {
-		return nextIndex(start) {
-			index -> Bool in
-			let char = self[index]
-			return !char.isSpace()
+		return nextIndex(start) { !self[$0].isSpace() }
+	}
+
+	func lastIndex(start: String.Index, checker: String.Index -> Bool) -> String.Index {
+		var index = start
+		while index > startIndex {
+			print(index)
+			if checker(index) {
+				break
+			}
+			index = index.predecessor()
 		}
+		return index
+	}
+
+	func lastNonSpaceIndex(start: String.Index) -> String.Index {
+		return lastIndex(start) { !self[$0].isSpace() }
 	}
 }
 
