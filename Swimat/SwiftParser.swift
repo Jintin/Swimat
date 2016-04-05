@@ -1,26 +1,54 @@
 import Foundation
 
-class SwiftParser: Parser {
+class SwiftParser {
 
-	var range: Range<String.Index>?
+	let OPERATOR_LIST: [Character: [String]] = [
+		"+": ["+=<", "+=", "+++=", "+++", "+"],
+		"-": ["->", "-="],
+		"*": ["*=", "*"],
+		"/": ["/=", "/"],
+		"~": ["~=", "~~>"],
+		"%": ["%=", "%"],
+		"^": ["^=", "^"],
+		"&": ["&&=", "&&", "&=", "&+", "&-", "&*", "&/", "&%"],
+		"<": ["<<<", "<<=", "<<", "<=", "<~~", "<~", "<--", "<-"],
+		">": [">>>", ">>=", ">>", ">=", ">"],
+		"|": ["|||", "||=", "||", "|=", "|"],
+		"!": ["!==", "!="],
+		"=": ["===", "==", "="],
+		".": ["...", "..<"]
+	]
+	let INDENT_CHAR: Character
+	let string: String
+	var retString: String
+	var strIndex: String.Index
+	var indent: Int
+	var tempIndent: Int
+	var range: Range<String.Index>
 	var checkCursor: (() -> Void)?
 
-	func format(string: String, range: NSRange?) -> (string: String, range: NSRange?) {
-		let methodStart = NSDate()
+	init(string: String, range: NSRange? = nil) {
 		self.string = string
 		self.retString = ""
 		self.strIndex = string.startIndex
 		self.indent = 0
 		self.tempIndent = 0
+		self.INDENT_CHAR = "\t"
+
 		if range != nil {
+			self.range = string.rangeFromNSRange(range)!
 			self.checkCursor = checkCursorStart
+		} else {
+			self.range = string.startIndex ..< string.startIndex
 		}
-		self.range = string.rangeFromNSRange(range)
+	}
+
+	func format() -> (string: String, range: NSRange?) {
+		let methodStart = NSDate()
 
 		let checkers = [
 			checkBlock,
 			checkNewLine,
-			checkComment,
 			checkOperator,
 			checkString,
 			checkDefault
@@ -46,8 +74,9 @@ class SwiftParser: Parser {
 		var cursor = start
 		var target = now
 		var diff = 0
-		
+
 		while strIndex > cursor {
+			// TODO: if space is in quote it should be count
 			if !string[cursor].isSpace() {
 				diff += 1
 			}
@@ -61,49 +90,42 @@ class SwiftParser: Parser {
 			}
 			target = target.predecessor()
 		}
-		
+
 		return target.successor()
 	}
 
 	func checkCursorStart() {
-		if strIndex >= range?.startIndex {
-			var target = retString.endIndex.predecessor()
-			let cursor = range!.startIndex
+		if strIndex >= range.startIndex {
+			checkCursor = checkCursorEnd
+			let cursor = range.startIndex
 			if cursor == string.startIndex {
-				checkCursor = checkCursorEnd
 				return
-			} else if cursor == string.endIndex{
-				checkCursor = checkCursorEnd
-				range?.startIndex = retString.endIndex
-				range?.endIndex = retString.endIndex
-				return
-			}
-			target = getPosition(cursor, now: target)
-
-			if range?.startIndex == range?.endIndex {
-				range?.endIndex = target
+			} else if cursor == string.endIndex {
 				checkCursor = nil
-			} else {
-				checkCursor = checkCursorEnd
+				range.startIndex = retString.endIndex
+				range.endIndex = retString.endIndex
+				return
 			}
-			range?.startIndex = target
+
+			let target = getPosition(cursor, now: retString.endIndex.predecessor())
+			if range.startIndex == range.endIndex {
+				checkCursor = nil
+				range.endIndex = target
+			}
+			range.startIndex = target
 		}
 	}
 
 	func checkCursorEnd() {
-		if strIndex >= range?.endIndex {
-			let target = retString.endIndex.predecessor()
-			let cursor = range!.endIndex
-			if cursor == string.startIndex {
-				checkCursor = nil
-				return
-			} else if cursor == string.endIndex{
-				checkCursor = nil
-				range?.endIndex = retString.endIndex
-				return
-			}
-			range?.endIndex = getPosition(cursor, now: target)
+		if strIndex >= range.endIndex {
 			checkCursor = nil
+			let cursor = range.endIndex
+			if cursor == string.endIndex {
+				range.endIndex = retString.endIndex
+			} else {
+				let target = retString.endIndex.predecessor()
+				range.endIndex = getPosition(cursor, now: target)
+			}
 		}
 	}
 
@@ -126,7 +148,7 @@ class SwiftParser: Parser {
 				break
 			}
 		}
-		let obj = SwiftParser().format(result, range: nil) // TODO no need to new obj
+		let obj = SwiftParser(string: result).format() // TODO: no need to new obj
 
 		return (obj.string, index)
 	}
@@ -170,61 +192,65 @@ class SwiftParser: Parser {
 		return nil
 	}
 
+	func findGeneric(start: String.Index) -> (string: String, index: String.Index)? {
+		var index = start.successor()
+		var count = 1
+		var result = "<"
+		while index < string.endIndex {
+			let next = string[index]
+			if next == "<" {
+				count += 1
+			} else if next == ">" {
+				count -= 1
+				if count == 0 {
+					return (result, index)
+				}
+			}
+			result.append(next)
+			index = index.successor()
+		}
+		return nil
+	}
+
 	func checkOperator(char: Character) -> String.Index? {
 
 		switch char {
-		case "+":
-			let list = ["+++=", "+++", "+=<", "+=", "+"]
-			return spaceWithArray(list)
+		case "+", "*", "%", "^", "&", ">", "|", "!", "=":
+			return spaceWithArray(OPERATOR_LIST[char]!)
 		case "-":
-			let list = ["->", "-="]
-			if let index = spaceWithArray(list) {
+			if let index = spaceWithArray(OPERATOR_LIST[char]!) {
 				return index
 			} else {
-				// TODO check minus or negative
+				// TODO: check minus or negative
 				return spaceWith("-")
 			}
 		case "~":
-			let list = ["~=", "~~>"]
-			if let index = spaceWithArray(list) {
+			if let index = spaceWithArray(OPERATOR_LIST[char]!) {
 				return index
-			} else {
-				return append("~")
 			}
-		case "*", "/", "%", "^":
-			let a = String(char)
-			let list = ["\(a)=", a]
-			return spaceWithArray(list)
-		case "&":
-			let list = ["&+", "&-", "&*", "&/", "&%", "&&=", "&&", "&="]
-			return spaceWithArray(list)
+			return append("~")
+		case "/":
+			if isNextString("//") {
+				return addToNext(strIndex, stopChar: "\n")
+			} else if isNextString("/*") {
+				return addToNext(strIndex, stopChar: "*/")
+			}
+			return spaceWithArray(OPERATOR_LIST[char]!)
 		case "<":
-			// TODO check generic
+			// TODO: check generic
 			return nil
-		case ">", "|":
-			let a = String(char)
-			let list = [
-				"\(a)\(a)\(a)",
-				"\(a)\(a)=",
-				"\(a)\(a)",
-				"\(a)=",
-				a]
-			return spaceWithArray(list)
-		case "!":
-			let list = ["!==", "!="]
-			return spaceWithArray(list)
-		case "=":
-			let list = ["===", "==", "="]
-			return spaceWithArray(list)
 		case "?":
-			// TODO check ? ?? a?b:c
+			if isNextString("??") {
+				return spaceWith("??")
+			}
+			// TODO: check ? ?? a?b:c
 			return nil
 		case ":":
-			// TODO check a?b:c
-			return nil
+			// TODO: check a?b:c
+			append(": ")
+			return string.nextNonSpaceIndex(strIndex)
 		case ".":
-			let list = ["...", "..<"]
-			if let index = spaceWithArray(list) {
+			if let index = spaceWithArray(OPERATOR_LIST[char]!) {
 				return index
 			} else {
 				trimWithIndent()
@@ -232,22 +258,11 @@ class SwiftParser: Parser {
 				return string.nextNonSpaceIndex(strIndex)
 			}
 		case "#":
-			// TODO check
+			// TODO: check
 			return nil
 		default:
 			return nil
 		}
-	}
-
-	func checkComment(char: Character) -> String.Index? {
-		if char == "/" {
-			if isNextString("//") {
-				return addToNext(strIndex, stopChar: "\n")
-			} else if isNextString("/*") {
-				return addToNext(strIndex, stopChar: "*/")
-			}
-		}
-		return nil
 	}
 
 	func checkNewLine(char: Character) -> String.Index? {

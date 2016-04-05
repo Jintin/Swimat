@@ -1,16 +1,11 @@
 import Foundation
 
-class Parser {
-	var string = ""
-	var retString = ""
-	var strIndex = "".startIndex
-	var indent = 0
-	var tempIndent = 0
+extension SwiftParser {
 
 	func isNextString(string: String) -> Bool {
 		return isNextString(strIndex, word: string)
 	}
-
+	
 	func isNextString(start: String.Index, word: String) -> Bool {
 		var index = start
 		for char in word.characters {
@@ -20,12 +15,12 @@ class Parser {
 			if char != string[index] {
 				return false
 			}
-
+			
 			index = index.successor()
 		}
 		return true
 	}
-
+	
 	func spaceWith(word: String) -> String.Index {
 		if !trimWithIndent() {
 			retString += " "
@@ -34,7 +29,7 @@ class Parser {
 		retString += " "
 		return string.nextNonSpaceIndex(strIndex)
 	}
-
+	
 	func spaceWithArray(list: [String]) -> String.Index? {
 		for word in list {
 			if isNextString(word) {
@@ -43,7 +38,7 @@ class Parser {
 		}
 		return nil
 	}
-
+	
 	func trimWithIndent() -> Bool {
 		if let last = retString.lastChar {
 			if last.isSpace() {
@@ -55,21 +50,22 @@ class Parser {
 		}
 		return false
 	}
-
+	
 	func addIndent() -> Bool {
 		// TODO repeat better alg
-		for _ in 0 ..< indent + tempIndent {
-			retString += "\t"
-		}
+		retString += String(count: indent + tempIndent, repeatedValue: INDENT_CHAR)
+//		for _ in 0 ..< indent + tempIndent {
+//			retString += "\t"
+//		}
 		return indent + tempIndent > 0
 	}
-
+	
 	func append(string: String) -> String.Index {
 		retString += string
 		strIndex = strIndex.advancedBy(string.count)
 		return strIndex
 	}
-
+	
 	func addToNext(start: String.Index, stopChar: String) -> String.Index {
 		var index = start
 		while index < string.endIndex {

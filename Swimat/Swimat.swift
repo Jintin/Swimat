@@ -44,7 +44,7 @@ class Swimat: NSObject {
 		let source = DTXcodeUtils.currentSourceTextView()
 		let string = source.textStorage!.string
 		let range = source.selectedRanges[0].rangeValue
-		let result = SwiftParser().format(string, range: range)
+		let result = SwiftParser(string: string, range: range).format()
 		setText(result.string, range: result.range!)
 
 		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
