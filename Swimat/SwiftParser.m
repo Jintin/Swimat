@@ -261,10 +261,10 @@ int curIndent = 0;
             [retString trim];
         }
         
-        BOOL shouldAddEmptyLine = YES;
+        BOOL shouldAddNewline = YES;
         BOOL shouldIndent = YES;
         
-        const NSUInteger lastCharIndex = [orString lastCharIndex:(strIndex + 1) defaults:NSNotFound];
+        const NSUInteger lastCharIndex = [orString lastCharIndex:strIndex defaults:NSNotFound];
         const unichar lastChar = (lastCharIndex == NSNotFound ? ' ' : [orString characterAtIndex:lastCharIndex]);
         
         const NSUInteger nextCharIndex = [orString nextCharIndex:(strIndex + 1) defaults:NSNotFound];
@@ -273,34 +273,38 @@ int curIndent = 0;
         const NSUInteger nextCharOrNewlineIndex = [orString nextNonSpaceIndex:(strIndex + 1) defaults:NSNotFound];
         const unichar nextCharOrNewline = (nextCharOrNewlineIndex == NSNotFound ? ' ' : [orString characterAtIndex:nextCharOrNewlineIndex]);
         
+        const BOOL isEmptyLine = [self isEmptyLine];
         if ((breakBeforeOpeningBraceRule == SWMBreakBeforeOpeningBraceRuleRemove) && (nextChar == '{')) {
             // There may not be a newline before an opening brace
-            shouldAddEmptyLine = NO;
+            shouldAddNewline = NO;
             shouldIndent = NO;
         } else {
-            if ([self isEmptyLine]) {
+            if (isEmptyLine) {
                 if (nextCharOrNewline == '\n') {
                     // There may not be more than one consecutive empty line
-                    shouldAddEmptyLine = NO;
+                    shouldAddNewline = NO;
                 } else if ([Parser isLowerBrackets:nextCharOrNewline]) {
                     // There may not be an empty line before a closing bracket
-                    shouldAddEmptyLine = NO;
-                } else if ([Parser isUpperBrackets:lastChar]) {
-                    // There may not be an empty line after an opening bracket
-                    shouldAddEmptyLine = NO;
-                    shouldIndent = NO;
+                    shouldAddNewline = NO;
                 } else if ([Parser isUpperBrackets:nextChar]) {
                     // There may not be an empty line before an opening bracket
-                    shouldAddEmptyLine = NO;
+                    shouldAddNewline = NO;
                     shouldIndent = NO;
+                } else if ([Parser isUpperBrackets:lastChar]) {
+                    // There may not be an empty line after an opening bracket
+                    shouldAddNewline = NO;
+                    
+                    if (indentEmptyLine) {
+                        shouldIndent = NO;
+                    }
                 }
             } // else: this line is not empty and a newline is always OK
         }
 		
-		if (shouldAddEmptyLine) {
-			[self appendString:@"\n"];
+		if (shouldAddNewline) {
+            [self appendString:@"\n"];
 		} else {
-			strIndex++;
+			strIndex += 1;
 		}
         
         NSUInteger nextIndex;
@@ -649,9 +653,15 @@ int curIndent = 0;
             if (lastNonSpaceIndex != NSNotFound) {
                 unichar lastNonSpace = [orString characterAtIndex:lastNonSpaceIndex];
                 if (lastNonSpace != '\n') {
+                    // Trim the current line
+                    if (indentEmptyLine) {
+                        [self trimWithIndent];
+                    } else {
+                        [retString trim];
+                    }
+                    
                     // Insert a newline before the brace
                     [retString appendString:@"\n"];
-                    [self trimWithIndent];
                     
                     lastChar = '\n';
                 }
