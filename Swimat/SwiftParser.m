@@ -320,6 +320,8 @@ int curIndent = 0;
 				[self spaceWith:@"->"];
 			} else if ([self isNext:'=']) { // -=
 				[self spaceWith:@"-="];
+			} else if ([self isNextString:@"-<<"]) {
+				[self spaceWith:@"-<<"];
 			} else { // -
 				NSArray *checkChar = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@"<",@">",@":",@"(",@"{",@"?",@"!",@"=",@","];
 				unichar last = [orString lastChar:strIndex - 1 defaults:' '];
@@ -402,7 +404,7 @@ int curIndent = 0;
 					return strIndex;
 				}
 			}
-			NSArray *array = @[@"<<<", @"<<=", @"<<", @"<=", @"<~~", @"<~", @"<--", @"<-", @"<*>"];
+			NSArray *array = @[@"<<<", @"<<=", @"<<", @"<=", @"<~~", @"<~", @"<--", @"<-<", @"<-", @"<*>", @"<^>", @"<||?", @"<||", @"<|?", @"<|>", @"<|"];
 			NSUInteger findIndex = [self spaceWithArray:array];
 			if (findIndex != -1) {
 				return findIndex;
@@ -410,6 +412,10 @@ int curIndent = 0;
 			return [self spaceWith:@"<"];
 		}
 		case '>':
+		{
+			NSArray *array = @[@">>>", @">>=", @">>-", @">>", @">=", @">->", @">"];
+			return [self spaceWithArray:array];
+		}
 		case '|':
 		{
 			NSArray *array = @[[NSString stringWithFormat:@"%c%c%c", c, c, c],
