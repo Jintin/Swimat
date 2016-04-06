@@ -107,6 +107,14 @@ extension String {
 	}
 
 	func nextIndex(start: String.Index, checker: String.Index -> Bool) -> String.Index {
+
+//		for index in start ..< endIndex {
+//			if checker(index) {
+//				return index
+//			}
+//		}
+//		return endIndex
+		
 		var index = start
 		while index < endIndex {
 			if checker(index) {
@@ -115,6 +123,7 @@ extension String {
 			index = index.successor()
 		}
 		return index
+	
 	}
 
 	func nextNonSpaceIndex(start: String.Index) -> String.Index {
@@ -124,7 +133,6 @@ extension String {
 	func lastIndex(start: String.Index, checker: String.Index -> Bool) -> String.Index {
 		var index = start
 		while index > startIndex {
-			print(index)
 			if checker(index) {
 				break
 			}

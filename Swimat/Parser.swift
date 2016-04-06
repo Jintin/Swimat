@@ -5,22 +5,11 @@ extension SwiftParser {
 	func isNextString(string: String) -> Bool {
 		return isNextString(strIndex, word: string)
 	}
-	
+
 	func isNextString(start: String.Index, word: String) -> Bool {
-		var index = start
-		for char in word.characters {
-			if index == string.endIndex {
-				return false
-			}
-			if char != string[index] {
-				return false
-			}
-			
-			index = index.successor()
-		}
-		return true
+		return string.substringFromIndex(start).hasPrefix(word)
 	}
-	
+
 	func spaceWith(word: String) -> String.Index {
 		if !trimWithIndent() {
 			retString += " "
@@ -29,7 +18,7 @@ extension SwiftParser {
 		retString += " "
 		return string.nextNonSpaceIndex(strIndex)
 	}
-	
+
 	func spaceWithArray(list: [String]) -> String.Index? {
 		for word in list {
 			if isNextString(word) {
@@ -38,7 +27,7 @@ extension SwiftParser {
 		}
 		return nil
 	}
-	
+
 	func trimWithIndent() -> Bool {
 		if let last = retString.lastChar {
 			if last.isSpace() {
@@ -50,7 +39,7 @@ extension SwiftParser {
 		}
 		return false
 	}
-	
+
 	func addIndent() -> Bool {
 		// TODO repeat better alg
 		retString += String(count: indent + tempIndent, repeatedValue: INDENT_CHAR)
@@ -59,13 +48,13 @@ extension SwiftParser {
 //		}
 		return indent + tempIndent > 0
 	}
-	
+
 	func append(string: String) -> String.Index {
 		retString += string
 		strIndex = strIndex.advancedBy(string.count)
 		return strIndex
 	}
-	
+
 	func addToNext(start: String.Index, stopChar: String) -> String.Index {
 		var index = start
 		while index < string.endIndex {
