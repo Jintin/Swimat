@@ -1,0 +1,12 @@
+class Foo {
+    // MARK: - properties
+    
+    let bar = "bar"
+    
+    // MARK: - methods
+    
+    func fooBar() -> String
+    {
+        return "foobar"
+    }
+}
