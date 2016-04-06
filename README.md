@@ -23,6 +23,7 @@ There are preferences in the [Edit] -> [Swimat] menu.
 - Indent type(tab, 2 space, 4 space)
 - Auto format when Save or Build
 - Indent empty line
+- Remove/Force/Ignore line breaks before opening braces
 
 ## Contributing
 Bug reports and pull requests are welcome on GitHub at [https://github.com/Jintin/Swimat](https://github.com/Jintin/Swimat).
