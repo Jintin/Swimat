@@ -260,16 +260,57 @@ int curIndent = 0;
 		if (![orString isCompleteLine:strIndex curBlock:curBlock]) {
 			onetimeIndent++;
 		}
-		BOOL shouldAddEmtyLine = !([self isEmptyLine] && ([self isNextLineEmpty:strIndex + 1] || [self isNextLineLowerBrackets:strIndex + 1]));
-		if (indentEmptyLine) {
-			[self trimWithIndent];
+        
+        if (indentEmptyLine) {
+            [self trimWithIndent];
+        } else {
+            [retString trim];
+        }
+        
+        BOOL shouldAddNewline = YES;
+        BOOL shouldIndent = YES;
+        
+        const NSUInteger lastCharIndex = [orString lastCharIndex:strIndex defaults:NSNotFound];
+        const unichar lastChar = (lastCharIndex == NSNotFound ? ' ' : [orString characterAtIndex:lastCharIndex]);
+        
+        const NSUInteger nextCharIndex = [orString nextCharIndex:(strIndex + 1) defaults:NSNotFound];
+        const unichar nextChar = (nextCharIndex == NSNotFound ? ' ' : [orString characterAtIndex:nextCharIndex]);
+        
+        const NSUInteger nextCharOrNewlineIndex = [orString nextNonSpaceIndex:(strIndex + 1) defaults:NSNotFound];
+        const unichar nextCharOrNewline = (nextCharOrNewlineIndex == NSNotFound ? ' ' : [orString characterAtIndex:nextCharOrNewlineIndex]);
+        
+        const BOOL isEmptyLine = [self isEmptyLine];
+        if ((breakBeforeOpeningBraceRule == SWMBreakBeforeOpeningBraceRuleRemove) && (nextChar == '{')) {
+            // There may not be a newline before an opening brace
+            shouldAddNewline = NO;
+            shouldIndent = NO;
+        } else {
+            if (isEmptyLine) {
+                if (nextCharOrNewline == '\n') {
+                    // There may not be more than one consecutive empty line
+                    shouldAddNewline = NO;
+                } else if ([Parser isLowerBrackets:nextCharOrNewline]) {
+                    // There may not be an empty line before a closing bracket
+                    shouldAddNewline = NO;
+                } else if ([Parser isUpperBrackets:nextChar]) {
+                    // There may not be an empty line before an opening bracket
+                    shouldAddNewline = NO;
+                    shouldIndent = NO;
+                } else if ([Parser isUpperBrackets:lastChar]) {
+                    // There may not be an empty line after an opening bracket
+                    shouldAddNewline = NO;
+                    
+                    if (indentEmptyLine) {
+                        shouldIndent = NO;
+                    }
+                }
+            } // else: this line is not empty and a newline is always OK
+        }
+		
+		if (shouldAddNewline) {
+            [self appendString:@"\n"];
 		} else {
-			[retString trim];
-		}
-		if (shouldAddEmtyLine) {
-			[self appendString:@"\n"];
-		} else {
-			strIndex++;
+			strIndex += 1;
 		}
 		
 		return [self addIndent:retString];
@@ -613,6 +654,26 @@ int curIndent = 0;
 		}
 		
 		unichar lastChar = [orString lastChar:strIndex - 1 defaults:'\n'];
+        
+        if ((c == '{') && (breakBeforeOpeningBraceRule == SWMBreakBeforeOpeningBraceRuleForce)) {
+            NSUInteger lastNonSpaceIndex = [orString lastNonSpaceIndex:(strIndex - 1) defaults:NSNotFound];
+            if (lastNonSpaceIndex != NSNotFound) {
+                unichar lastNonSpace = [orString characterAtIndex:lastNonSpaceIndex];
+                if (lastNonSpace != '\n') {
+                    // Trim the current line
+                    if (indentEmptyLine) {
+                        [self trimWithIndent];
+                    } else {
+                        [retString trim];
+                    }
+                    
+                    // Insert a newline before the brace
+                    [retString appendString:@"\n"];
+                    
+                    lastChar = '\n';
+                }
+            }
+        }
 		
 		if ([Parser isLowerBrackets:lastChar]) {
 			if (c == '{') {
