@@ -33,11 +33,10 @@ extension String {
 		if self.isEmpty || string.isEmpty {
 			return nil
 		}
-		
+
 		let start = commonPrefixWithString(string, options: .AnchoredSearch).endIndex.predecessor()
 		var end1 = endIndex.predecessor()
 		var end2 = string.endIndex.predecessor()
-		
 		while self[end1] == string[end2] {
 			if end1 >= start && end2 >= start {
 				end1 = end1.predecessor()
@@ -48,7 +47,7 @@ extension String {
 		}
 		end1 = end1.successor()
 		end2 = end2.successor()
-	
+
 		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
 		print("diff    executionTime = \(executionTime)");
 		if start == end1 && start == end2 {
@@ -128,6 +127,16 @@ extension String {
 }
 
 extension Character {
+
+	func isAZ() -> Bool {
+		switch self {
+		case "A" ... "z", "0" ... "9":
+			return true
+		default:
+			return false
+		}
+	}
+
 	func isUpperBlock() -> Bool {
 		return self == "{" || self == "[" || self == "("
 	}
