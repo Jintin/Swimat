@@ -33,23 +33,13 @@ extension String {
 		if self.isEmpty || string.isEmpty {
 			return nil
 		}
-
-		var start1 = startIndex
-		var start2 = string.startIndex
+		
+		let start = commonPrefixWithString(string, options: .AnchoredSearch).endIndex.predecessor()
 		var end1 = endIndex.predecessor()
 		var end2 = string.endIndex.predecessor()
-
-		while self[start1] == string[start2] {
-			if start1 < end1 && start2 < end2 {
-				start1 = start1.successor()
-				start2 = start2.successor()
-			} else {
-				break
-			}
-		}
-
+		
 		while self[end1] == string[end2] {
-			if end1 >= start1 && end2 >= start2 {
+			if end1 >= start && end2 >= start {
 				end1 = end1.predecessor()
 				end2 = end2.predecessor()
 			} else {
@@ -58,13 +48,13 @@ extension String {
 		}
 		end1 = end1.successor()
 		end2 = end2.successor()
-
+	
 		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
 		print("diff    executionTime = \(executionTime)");
-		if start1 == end1 && start1 == end2 {
+		if start == end1 && start == end2 {
 			return nil
 		}
-		return (start1 ..< end1, start2 ..< end2)
+		return (start ..< end1, start ..< end2)
 	}
 
 	func rangeFromNSRange(nsRange: NSRange?) -> Range<String.Index>? {
@@ -107,14 +97,6 @@ extension String {
 	}
 
 	func nextIndex(start: String.Index, checker: String.Index -> Bool) -> String.Index {
-
-//		for index in start ..< endIndex {
-//			if checker(index) {
-//				return index
-//			}
-//		}
-//		return endIndex
-		
 		var index = start
 		while index < endIndex {
 			if checker(index) {
@@ -123,11 +105,10 @@ extension String {
 			index = index.successor()
 		}
 		return index
-	
 	}
 
-	func nextNonSpaceIndex(start: String.Index) -> String.Index {
-		return nextIndex(start) { !self[$0].isSpace() }
+	func nextNonSpaceIndex(index: String.Index) -> String.Index {
+		return nextIndex(index) { !self[$0].isSpace() }
 	}
 
 	func lastIndex(start: String.Index, checker: String.Index -> Bool) -> String.Index {

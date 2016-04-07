@@ -85,6 +85,7 @@ class SwiftParser {
 
 		while diff > 0 {
 			diff -= 1
+			print(retString[target])
 			if retString[target].isSpace() {
 				target = retString.lastNonSpaceIndex(target)
 			}
@@ -151,6 +152,7 @@ class SwiftParser {
 		let obj = SwiftParser(string: result).format() // TODO: no need to new obj
 
 		return (obj.string, index)
+//		return (result,index)
 	}
 
 	func findQuote(start: String.Index) -> (string: String, index: String.Index) {
@@ -198,15 +200,30 @@ class SwiftParser {
 		var result = "<"
 		while index < string.endIndex {
 			let next = string[index]
-			if next == "<" {
+
+			switch next {
+			case "A" ... "z", "0" ... "9", ",", " ", "[", "]", ".", "?", ":":
+				result.append(next)
+			case "<":
 				count += 1
-			} else if next == ">" {
+				result.append(next)
+			case ">":
 				count -= 1
+				result.append(next)
 				if count == 0 {
-					return (result, index)
+//					print("generic:\(result)")
+					return (result, index.successor())
+				} else if count < 0 {
+					return nil
 				}
+			case "(":
+				let block = findBlock(index)
+				index = block.index
+				result += block.string
+			default:
+				return nil
 			}
-			result.append(next)
+
 			index = index.successor()
 		}
 		return nil
@@ -238,6 +255,10 @@ class SwiftParser {
 			return spaceWithArray(OPERATOR_LIST[char]!)
 		case "<":
 			// TODO: check generic
+			if let result = findGeneric(strIndex) {
+				retString += result.string
+				return result.index
+			}
 			return spaceWithArray(OPERATOR_LIST[char]!)
 		case "?":
 			if isNextString("??") {
@@ -252,11 +273,10 @@ class SwiftParser {
 		case ".":
 			if let index = spaceWithArray(OPERATOR_LIST[char]!) {
 				return index
-			} else {
-				trimWithIndent()
-				append(".")
-				return string.nextNonSpaceIndex(strIndex)
 			}
+			trimWithIndent()
+			append(".")
+			return string.nextNonSpaceIndex(strIndex)
 		case "#":
 			// TODO: check
 			return nil
