@@ -9,6 +9,7 @@
 bool inSwitch; // TODO: change to stack if need nested
 int switchBlockCount; // change to stack if need nested
 bool indentEmptyLine;
+SWMBreakBeforeOpeningBraceRule breakBeforeOpeningBraceRule;
 NSMutableArray *blockStack;
 NSString *curBlock;
 NSMutableArray *indentStack;
@@ -32,7 +33,8 @@ int curIndent = 0;
 	switchBlockCount = 0;
 	indentString = [Prefs getIndentString];
 	indentEmptyLine = [Prefs isIndentEmptyLine];
-	
+	breakBeforeOpeningBraceRule = [Prefs breakBeforeOpeningBraceRule];
+    
 	newRange = NSMakeRange(range.location, range.length);// TODO need?
 	
 	while (strIndex < string.length) {
@@ -313,7 +315,14 @@ int curIndent = 0;
 			strIndex += 1;
 		}
 		
-		return [self addIndent:retString];
+        NSUInteger nextIndex;
+        if (shouldIndent) {
+            nextIndex = [self addIndent:retString];
+        } else {
+            nextIndex = strIndex;
+        }
+        
+        return nextIndex;
 	}
 	
 	return 0;
