@@ -104,8 +104,19 @@ int curIndent = 0;
 	}
 	NSUInteger index1 = strIndex - 1;
 	NSUInteger index2 = [retString lastNonSpaceIndex:retString.length - 1 defaults:0];
+	if (index2 == 0) {
+		return 0;
+	}
 	if (strIndex >= orString.length) {
 		index1 = orString.length - 1;
+	}
+	int spaceCount = 0;
+	while(rangeIndex - spaceCount - 1!= 0) {
+		unichar c = [orString characterAtIndex:rangeIndex - spaceCount - 1];
+		if (![Parser isSpace:c]) {
+			break;
+		}
+		spaceCount++;
 	}
 	
 	bool samevalue = true;
@@ -128,6 +139,16 @@ int curIndent = 0;
 			return 0;
 		}
 	}
+	while (spaceCount != 0 && index2 + 1 < retString.length) {
+		unichar check = [retString characterAtIndex:index2 + 1];
+		if ([Parser isSpace:check]) {
+			spaceCount--;
+			index2++;
+		} else {
+			break;
+		}
+	}
+	
 	return index2 + 1;
 }
 
