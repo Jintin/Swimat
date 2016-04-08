@@ -107,6 +107,7 @@ extension String {
 	}
 
 	func nextNonSpaceIndex(index: String.Index) -> String.Index {
+//		return index
 		return nextIndex(index) { !self[$0].isSpace() }
 	}
 

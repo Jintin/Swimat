@@ -140,6 +140,9 @@ class SwiftParser {
 			}
 			return spaceWithArray(SwiftParser.OPERATOR_LIST[char]!)!
 		case "<":
+			if isNextString("<#") {
+				return append("<#")
+			}
 			if let result = findGeneric(strIndex) {
 				retString += result.string
 				return result.index
@@ -168,16 +171,40 @@ class SwiftParser {
 			append(char)
 			return string.nextNonSpaceIndex(strIndex)
 		case "#":
-			// TODO: check
+			if isNextString("#if") {
+				indent += 1
+				return append("#if")
+			} else if isNextString("#else") {
+				indent -= 1
+				trimWithIndent()
+				append("#else")
+				indent += 1
+				return strIndex
+			} else if isNextString("#endif") {
+				indent -= 1
+				trimWithIndent()
+				return append("#endif")
+			} else if isNextString("#>") {
+				return append("#>")
+			} else if isNextString("#!") {
+				return addToNext(strIndex, stopChar: "\n")
+			}
 			break
 		case "\"":
 			let quote = findQuote(strIndex)
 			retString += quote.string
 			return quote.index
 		case "\n":
-			retString += "\n"
+			append(char)
 			addIndent()
-			return string.nextNonSpaceIndex(strIndex.successor())
+			return string.nextNonSpaceIndex(strIndex)
+		case " ", "\t":
+			if let last = retString.lastChar {
+				if !last.isSpace() {
+					retString += " "
+				}
+			}
+			return string.nextNonSpaceIndex(strIndex)
 		case ",":
 			retString += ", "
 			return string.nextNonSpaceIndex(strIndex.successor())
@@ -196,7 +223,7 @@ class SwiftParser {
 		}
 		return checkDefault(char)
 	}
-	
+
 	func checkDefault(char: Character) -> String.Index {
 		append(char)
 		while strIndex < string.endIndex {
