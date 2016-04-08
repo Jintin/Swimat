@@ -330,7 +330,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jintin.Swimat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Swimat/Swimat-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				WRAPPER_EXTENSION = xcplugin;
 			};
 			name = Debug;

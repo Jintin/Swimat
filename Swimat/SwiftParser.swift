@@ -2,7 +2,7 @@ import Foundation
 
 class SwiftParser {
 
-	static let OPERATOR_LIST: [Character: [String]] = [
+	private static let OPERATOR_LIST: [Character: [String]] = [
 		"+": ["+=<", "+=", "+++=", "+++", "+"],
 		"-": ["->", "-=", "-<<"],
 		"*": ["*=", "*"],
@@ -46,23 +46,9 @@ class SwiftParser {
 	func format() -> (string: String, range: NSRange?) {
 		let methodStart = NSDate()
 
-		let checkers = [
-			checkBlock,
-			checkNewLine,
-			checkComma,
-			checkOperator,
-			checkString,
-			checkDefault
-		]
 		while strIndex < string.endIndex {
-
 			let char = string[strIndex]
-			for checker in checkers {
-				if let checkIndex = checker(char) {
-					strIndex = checkIndex
-					break
-				}
-			}
+			strIndex = checkChar(char)
 			checkCursor?()
 		}
 		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
@@ -129,20 +115,11 @@ class SwiftParser {
 		}
 	}
 
-	func checkString(char: Character) -> String.Index? {
-		if char == "\"" {
-			let quote = findQuote(strIndex)
-			retString += quote.string
-			return quote.index
-		}
-		return nil
-	}
-
-	func checkOperator(char: Character) -> String.Index? {
+	func checkChar(char: Character) -> String.Index {
 
 		switch char {
-		case "+", "*", "%", "^", "&", ">", "|", "!", "=":
-			return spaceWithArray(SwiftParser.OPERATOR_LIST[char]!)
+		case "+", "*", "%", "^", "&", ">", "|", "=":
+			return spaceWithArray(SwiftParser.OPERATOR_LIST[char]!)!
 		case "-":
 			if let index = spaceWithArray(SwiftParser.OPERATOR_LIST[char]!) {
 				return index
@@ -161,23 +138,28 @@ class SwiftParser {
 			} else if isNextString("/*") {
 				return addToNext(strIndex, stopChar: "*/")
 			}
-			return spaceWithArray(SwiftParser.OPERATOR_LIST[char]!)
+			return spaceWithArray(SwiftParser.OPERATOR_LIST[char]!)!
 		case "<":
 			if let result = findGeneric(strIndex) {
 				retString += result.string
 				return result.index
 			}
-			return spaceWithArray(SwiftParser.OPERATOR_LIST[char]!)
+			return spaceWithArray(SwiftParser.OPERATOR_LIST[char]!)!
 		case "?":
 			if isNextString("??") {
 				return spaceWith("??")
 			}
 			// TODO: check ? ?? a?b:c
-			return nil
+			break
 		case ":":
 			// TODO: check a?b:c
 			append(": ")
 			return string.nextNonSpaceIndex(strIndex)
+		case "!":
+			if let index = spaceWithArray(SwiftParser.OPERATOR_LIST[char]!) {
+				return index
+			}
+			return append("!")
 		case ".":
 			if let index = spaceWithArray(SwiftParser.OPERATOR_LIST[char]!) {
 				return index
@@ -187,42 +169,35 @@ class SwiftParser {
 			return string.nextNonSpaceIndex(strIndex)
 		case "#":
 			// TODO: check
-			return nil
-		default:
-			return nil
-		}
-	}
-
-	func checkNewLine(char: Character) -> String.Index? {
-		if char == "\n" {
+			break
+		case "\"":
+			let quote = findQuote(strIndex)
+			retString += quote.string
+			return quote.index
+		case "\n":
 			retString += "\n"
 			addIndent()
 			return string.nextNonSpaceIndex(strIndex.successor())
-		}
-		return nil
-	}
-
-	func checkComma(char: Character) -> String.Index? {
-		if char == "," {
+		case ",":
 			retString += ", "
 			return string.nextNonSpaceIndex(strIndex.successor())
+		case "{", "}":
+			if char == "{" {
+				indent += 1
+			} else if char == "}" {
+				if indent != 0 {
+					indent -= 1
+				}
+				trimWithIndent()
+			}
+			break
+		default:
+			break
 		}
-		return nil
+		return checkDefault(char)
 	}
 	
-	func checkBlock(char: Character) -> String.Index? {
-		if char == "{" {
-			indent += 1
-		} else if char == "}" {
-			if indent != 0 {
-				indent -= 1
-			}
-			trimWithIndent()
-		}
-		return nil
-	}
-
-	func checkDefault(char: Character) -> String.Index? {
+	func checkDefault(char: Character) -> String.Index {
 		retString.append(char)
 		strIndex = strIndex.successor()
 		while strIndex < string.endIndex {
