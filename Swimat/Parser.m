@@ -69,11 +69,13 @@
 	return -1;
 }
 
--(void) trimWithIndent { //TODO merge with addIndent
-	[retString trim];
+-(int) trimWithIndent { //TODO merge with addIndent
+	int count = [retString trim];
 	if (retString.length > 0 && [retString characterAtIndex:retString.length - 1] == '\n') {
 		[self addIndent:retString withCount:indent + onetimeIndent];
+		return 0;
 	}
+	return count;
 }
 
 -(void) addIndent:(NSMutableString *)editString withCount:(int) count{

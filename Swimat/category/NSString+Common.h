@@ -33,11 +33,6 @@
 -(NSUInteger) nextIndex:(NSUInteger) index defaults:(NSUInteger) value compare: (bool(^)(NSString *, NSUInteger)) checker;
 
 /**
- @brief find next "
- */
--(NSUInteger) nextQuoteIndex:(NSUInteger) index;
-
-/**
  @brief find next space index
  */
 -(NSUInteger) nextSpaceIndex:(NSUInteger) index defaults:(NSUInteger) value;

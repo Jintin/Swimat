@@ -38,7 +38,7 @@
 
 -(NSUInteger) spaceWithArray:(NSArray *) array;
 
--(void) trimWithIndent;
+-(int) trimWithIndent;
 
 -(void) addIndent:(NSMutableString *)editString withCount:(int) count;
 

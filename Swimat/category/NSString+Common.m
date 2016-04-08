@@ -115,27 +115,6 @@
 	return value;
 }
 
--(NSUInteger) nextQuoteIndex:(NSUInteger) index {
-	bool escape = false;
-	do {
-		unichar next = [self characterAtIndex:index];
-		
-		if (next == '"' && !escape) {
-			return index;
-		}
-		if (next == '\\') {
-			escape = !escape;
-		} else {
-			escape = false;
-		}
-	} while (++index < self.length);
-	if (index != self.length) {
-		return index;
-	} else {
-		return -1;
-	}
-}
-
 -(NSUInteger) nextSpaceIndex:(NSUInteger) index defaults:(NSUInteger) value {
 	return [self nextIndex:index defaults:value compare:^bool(NSString *next, NSUInteger curIndex){
 		return [next isEqualToString:@" "] || [next isEqualToString:@"\t"];

@@ -127,7 +127,9 @@
 }
 
 + (void)formatString {
+#if DEBUG
 	NSDate *methodStart = [NSDate date];
+#endif
 	NSString *ext = [DTXcodeUtils currentSourceCodeDocument].fileURL.pathExtension;
 	NSArray *acceptFormat = @[@"swift", @"playground"];
 	if ([acceptFormat containsObject:ext]) {
@@ -142,9 +144,11 @@
 		[alert setMessageText: @"Only support swift now"];
 		[alert runModal];
 	}
+#if DEBUG
 	NSDate *methodFinish = [NSDate date];
 	NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
 	NSLog(@"total executionTime = %f", executionTime);
+#endif
 }
 
 + (void)setUndo {
@@ -177,7 +181,9 @@
 }
 
 + (NSRange) findDiffRange:(NSString *) string1 string2:(NSString *) string2 {
+#if DEBUG
 	NSDate *methodStart = [NSDate date];
+#endif
 	NSUInteger start = 0, end = 0;
 	NSUInteger minLen = MIN(string1.length, string2.length);
 	if (minLen == 0) {
@@ -198,10 +204,11 @@
 			break;
 		}
 	}
-	
+#if DEBUG
 	NSDate *methodFinish = [NSDate date];
 	NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
 	NSLog(@"diff executionTime = %f", executionTime);
+#endif
 	return NSMakeRange(start, end);
 }
 

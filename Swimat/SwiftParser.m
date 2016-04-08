@@ -80,15 +80,21 @@ int curIndent = 0;
 	[retString trim];
 	if (newRange.location >= retString.length) {
 		newRange.location = retString.length;
-		NSLog(@"modify range location");
+#if DEBUG
+            NSLog(@"modify range location");
+#endif
 	}
 	if (newRange.location + newRange.length >= retString.length) {
 		newRange.length = retString.length - newRange.location;
+#if DEBUG
 		NSLog(@"modify range length");
+#endif
 	}
 	NSDate *methodFinish = [NSDate date];
 	NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];
+#if DEBUG
 	NSLog(@"format executionTime = %f", executionTime);
+#endif
 	return retString;
 }
 
@@ -145,6 +151,7 @@ int curIndent = 0;
 -(NSUInteger) checkComment:(unichar) c {
 	if (c == '/') {
 		if ([self isNext:'/']) {
+//			[retString keepSpace];
 			return [self lineComment:true];
 		} else if ([self isNext:'*']) {
 			NSUInteger nextIndex = [orString nextIndex:strIndex search:@"*/" defaults:orString.length];
@@ -166,17 +173,83 @@ int curIndent = 0;
 			return nextIndex;
 		}
 	}
-	
 	return 0;
+}
+
+-(NSUInteger) findNextEscape:(NSUInteger) index {
+//	NSMutableString *tempString = [NSMutableString string];
+	bool escape = false;
+	int count = 1;
+	while (count != 0 && ++index < orString.length) {
+		unichar next = [orString characterAtIndex:index];
+		if (!escape) {
+			if (next == '(') {
+				count++;
+			} else if (next == ')') {
+				count--;
+			} else if (next == '"') {
+				index = [self findNextQuote:index];
+			}
+		}
+		
+		if (next == '\\') {
+			escape = !escape;
+		} else {
+			escape = false;
+		}
+	}
+	if (index < orString.length) {
+		return index;
+	} else {
+		return -1;
+	}
+	
+}
+
+-(NSUInteger) findNextQuote:(NSUInteger) index {
+//	NSMutableString *tempString = [NSMutableString string];
+	bool escape = false;
+	while (++index < orString.length) {
+		unichar next = [orString characterAtIndex:index];
+		if (next == '"' && !escape) {
+			return index;
+		}
+		if (next == '(' && escape) {
+			NSUInteger start = index;
+			index = [self findNextEscape:index];
+			
+			if (index != -1) {
+				NSString *sub = [orString subString:start + 1 endWith:index];
+//				SwiftParser *parser = [[SwiftParser alloc] init];
+//				NSString *string = [parser formatString: sub withRange:NSMakeRange(0, sub.length)];
+//				//TODO modify back
+#if DEBUG
+				NSLog(@"sub string '%@' ", sub);
+#endif
+			} else {
+				return index;
+			}
+			escape = false;
+		}
+		if (next == '\\') {
+			escape = !escape;
+		} else {
+			escape = false;
+		}
+	}
+	return -1;
 }
 
 -(NSUInteger) checkQuote:(unichar) c {
 	if (c == '"') {
-		NSUInteger nextIndex = [orString nextQuoteIndex:strIndex + 1] + 1;
+		NSUInteger nextIndex = [self findNextQuote:strIndex] + 1;
+
 		if (nextIndex == 0) {
 			nextIndex = orString.length;
 		}
-		[retString appendString:[orString substringWithRange:NSMakeRange(strIndex, nextIndex - strIndex)]];
+		NSString *quoteString = [orString substringWithRange:NSMakeRange(strIndex, nextIndex - strIndex)];
+		
+		[retString appendString:quoteString];
 		return nextIndex;
 	}
 	return 0;
@@ -247,6 +320,8 @@ int curIndent = 0;
 				[self spaceWith:@"->"];
 			} else if ([self isNext:'=']) { // -=
 				[self spaceWith:@"-="];
+			} else if ([self isNextString:@"-<<"]) {
+				[self spaceWith:@"-<<"];
 			} else { // -
 				NSArray *checkChar = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@"<",@">",@":",@"(",@"{",@"?",@"!",@"=",@","];
 				unichar last = [orString lastChar:strIndex - 1 defaults:' '];
@@ -299,45 +374,48 @@ int curIndent = 0;
 		}
 		case '<':
 		{
-			NSArray *array = @[@"<<<", @"<<=", @"<<", @"<=", @"<~~", @"<-"];
+			if ([self isNext:'#']) {
+				[self appendString:@"<#"];
+				return strIndex;
+			}
+			NSUInteger checkIndex = strIndex;
+			__block int checkCount = 0;
+			NSUInteger closeIndex = [orString nextIndex:checkIndex defaults:-1 compare:^bool(NSString *next, NSUInteger curIndex){
+				if ([next isEqualToString:@"<"]) {
+					checkCount++;
+				} else if ([next isEqualToString:@">"]) {
+					return --checkCount == 0;
+				}
+				return false;
+			}];
+			
+			if (closeIndex != -1) {
+				NSString *checkString = [orString subString:checkIndex endWith:closeIndex + 1];
+				NSString *regex = @"^(<|>|\\[|\\]|\\(|\\)|\\.|:|\\w|\\s|!|\\?|,)+$";
+				NSRange range = [checkString rangeOfString:regex options:NSRegularExpressionSearch];
+				if (range.location != NSNotFound) {
+					strIndex += checkString.length;
+					checkString = [checkString stringByReplacingOccurrencesOfString:@"," withString:@", "];
+					checkString = [checkString stringByReplacingOccurrencesOfString:@":" withString:@": "];
+					while ([checkString containsString:@"  "]) {
+						checkString = [checkString stringByReplacingOccurrencesOfString:@"  " withString:@" "];
+					}
+					[retString appendString:checkString];
+					return strIndex;
+				}
+			}
+			NSArray *array = @[@"<<<", @"<<=", @"<<", @"<=", @"<~~", @"<~", @"<--", @"<-<", @"<-", @"<*>", @"<^>", @"<||?", @"<||", @"<|?", @"<|>", @"<|"];
 			NSUInteger findIndex = [self spaceWithArray:array];
 			if (findIndex != -1) {
 				return findIndex;
-			} else {
-				if ([self isNext:'#']) {
-					[self appendString:@"<#"];
-					return strIndex;
-				}
-				NSUInteger checkIndex = strIndex;
-				__block int checkCount = 0;
-				NSUInteger closeIndex = [orString nextIndex:checkIndex defaults:-1 compare:^bool(NSString *next, NSUInteger curIndex){
-					if ([next isEqualToString:@"<"]) {
-						checkCount++;
-					} else if ([next isEqualToString:@">"]) {
-						return --checkCount == 0;
-					}
-					return false;
-				}];
-				
-				if (closeIndex != -1) {
-					NSString *checkString = [orString subString:checkIndex endWith:closeIndex + 1];
-					NSString *regex = @"^(<|>|\\.|:|\\w|\\s|!|\\?|,)+$";
-					NSRange range = [checkString rangeOfString:regex options:NSRegularExpressionSearch];
-					if (range.location != NSNotFound) {
-						strIndex += checkString.length;
-						checkString = [checkString stringByReplacingOccurrencesOfString:@"," withString:@", "];
-						checkString = [checkString stringByReplacingOccurrencesOfString:@":" withString:@": "];
-						while ([checkString containsString:@"  "]) {
-							checkString = [checkString stringByReplacingOccurrencesOfString:@"  " withString:@" "];
-						}
-						[retString appendString:checkString];
-						return strIndex;
-					}
-				}
-				return [self spaceWith:@"<"];
 			}
+			return [self spaceWith:@"<"];
 		}
 		case '>':
+		{
+			NSArray *array = @[@">>>", @">>=", @">>-", @">>", @">=", @">->", @">"];
+			return [self spaceWithArray:array];
+		}
 		case '|':
 		{
 			NSArray *array = @[[NSString stringWithFormat:@"%c%c%c", c, c, c],
@@ -364,10 +442,10 @@ int curIndent = 0;
 			return findIndex;
 		}
 		case '?':
-			if ([self isNext:'?']) {
-				[self spaceWith:@"??"];
-				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
-			}
+			//			if ([self isNext:'?']) { // how to distingush two optional ?? or null check ??
+			//				[self spaceWith:@"??"];
+			//				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
+			//			}
 			return 0;
 		case ':':
 		{
@@ -445,6 +523,7 @@ int curIndent = 0;
 				}
 				[self spaceWith:@":"];
 			} else {
+				[self trimWithIndent];
 				[self appendString:@": "];
 			}
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
@@ -482,6 +561,8 @@ int curIndent = 0;
 			} else if ([self isNext:'>']) {
 				[self appendString:@"#>"];
 				return strIndex;
+			} else if ([self isNext:'!']) {
+				return [self addToEnd:orString edit:retString withIndex:strIndex];
 			}
 			break;
 		default:
@@ -527,8 +608,6 @@ int curIndent = 0;
 		curBlock = [NSString stringWithFormat:@"%c", c];
 		[blockStack addObject:curBlock];
 		
-		indent = curIndent + 1;
-		
 		if (inSwitch && c == '{') {
 			switchBlockCount++;
 		}
@@ -566,6 +645,7 @@ int curIndent = 0;
 		if (c == '{') {
 			[self appendString:@" "];
 		}
+		indent = curIndent + 1;
 		return [orString nextNonSpaceIndex:strIndex defaults:strIndex];
 	} else if ([Parser isLowerBrackets:c]) {
 		if (inSwitch && c == '}') {
@@ -585,7 +665,10 @@ int curIndent = 0;
 		unichar lastChar = [retString characterAtIndex:retString.length - 1];
 		if ([Parser isLowerBrackets:lastChar]) {
 			[retString deleteCharactersInRange:NSMakeRange(retString.length - 1, 1)];
-			[self trimWithIndent];
+			int count = [self trimWithIndent];
+			if (count != 0) {
+				[retString appendFormat:@"%c", ' '];
+			}
 			[retString appendFormat:@"%c", lastChar];
 		}
 		
@@ -598,7 +681,7 @@ int curIndent = 0;
 		[self appendChar:c];
 		
 		unichar next = [orString nextChar:strIndex defaults:' '];
-		if (next == '?' || next == ':') {
+		if (next == '?' || next == ':' || [Parser isLowerBrackets:next]) {
 			return strIndex;
 		} else if (next != '.' && next != '!' && next != ';') {
 			[retString keepSpace];

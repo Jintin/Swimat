@@ -15,6 +15,6 @@
 /**
  @brief remove trailing space
  */
--(void) trim;
+-(int) trim;
 
 @end

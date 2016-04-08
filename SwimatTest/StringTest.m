@@ -46,10 +46,6 @@
 	}]);
 }
 
-- (void) testNextQuote {
-	XCTAssertTrue(4 == [@"\"abc\"" nextQuoteIndex:1]);
-}
-
 - (void) testNextSpace {
 	XCTAssertTrue(3 == [@"abc e" nextSpaceIndex:1 defaults:-1]);
 }
