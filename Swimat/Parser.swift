@@ -54,6 +54,12 @@ extension SwiftParser {
 		strIndex = strIndex.advancedBy(string.count)
 		return strIndex
 	}
+	
+	func append(char: Character) -> String.Index {
+		retString.append(char)
+		strIndex = strIndex.successor()
+		return strIndex
+	}
 
 	func addToNext(start: String.Index, stopChar: String) -> String.Index {
 		var index = start

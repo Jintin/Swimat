@@ -131,7 +131,7 @@ class SwiftParser {
 			if let index = spaceWithArray(SwiftParser.OPERATOR_LIST[char]!) {
 				return index
 			}
-			return append("~")
+			return append(char)
 		case "/":
 			if isNextString("//") {
 				return addToNext(strIndex, stopChar: "\n")
@@ -159,13 +159,13 @@ class SwiftParser {
 			if let index = spaceWithArray(SwiftParser.OPERATOR_LIST[char]!) {
 				return index
 			}
-			return append("!")
+			return append(char)
 		case ".":
 			if let index = spaceWithArray(SwiftParser.OPERATOR_LIST[char]!) {
 				return index
 			}
 			trimWithIndent()
-			append(".")
+			append(char)
 			return string.nextNonSpaceIndex(strIndex)
 		case "#":
 			// TODO: check
@@ -198,14 +198,12 @@ class SwiftParser {
 	}
 	
 	func checkDefault(char: Character) -> String.Index {
-		retString.append(char)
-		strIndex = strIndex.successor()
+		append(char)
 		while strIndex < string.endIndex {
 
 			let next = string[strIndex]
 			if next.isAZ() {
-				retString.append(next)
-				strIndex = strIndex.successor()
+				append(next)
 			} else {
 				break
 			}
