@@ -1,24 +1,34 @@
 import Foundation
 
 extension SwiftParser {
-
+	
+	func isNextChar(char: Character) -> Bool {
+		if strIndex < string.endIndex{
+			return string[strIndex.successor()] == char
+		} else {
+			return false
+		}
+	}
+	
 	func isNextString(string: String) -> Bool {
 		return isNextString(strIndex, word: string)
 	}
-
+	
 	func isNextString(start: String.Index, word: String) -> Bool {
 		return string.substringFromIndex(start).hasPrefix(word)
 	}
-
+	
 	func spaceWith(word: String) -> String.Index {
-		if !trimWithIndent() {
-			retString += " "
+		if let last = retString.lastChar {
+			if !last.isSpace(){
+				retString += " "
+			}
 		}
 		append(word)
 		retString += " "
 		return string.nextNonSpaceIndex(strIndex)
 	}
-
+	
 	func spaceWithArray(list: [String]) -> String.Index? {
 		for word in list {
 			if isNextString(word) {
@@ -27,28 +37,22 @@ extension SwiftParser {
 		}
 		return nil
 	}
-
-	func trimWithIndent() -> Bool {
+	
+	func trimWithIndent() {
 		if let last = retString.lastChar {
 			if last.isSpace() {
 				retString = retString.trim()
 			}
 		}
 		if retString.lastChar == "\n" {
-			return addIndent()
+			addIndent()
 		}
-		return false
 	}
-
-	func addIndent() -> Bool {
-		// TODO repeat better alg
+	
+	func addIndent() {
 		retString += String(count: indent + tempIndent, repeatedValue: INDENT_CHAR)
-//		for _ in 0 ..< indent + tempIndent {
-//			retString += "\t"
-//		}
-		return indent + tempIndent > 0
 	}
-
+	
 	func append(string: String) -> String.Index {
 		retString += string
 		strIndex = strIndex.advancedBy(string.count)
@@ -60,11 +64,23 @@ extension SwiftParser {
 		strIndex = strIndex.successor()
 		return strIndex
 	}
-
-	func addToNext(start: String.Index, stopChar: String) -> String.Index {
+	
+	func addToNext(start: String.Index, stopWord: String) -> String.Index {
 		var index = start
 		while index < string.endIndex {
-			if isNextString(index, word: stopChar) {
+			if isNextString(index, word: stopWord) {
+				break
+			}
+			index = index.successor()
+		}
+		retString += string[start ..< index]
+		return index
+	}
+	
+	func addToNext(start: String.Index, stopChar: Character) -> String.Index {
+		var index = start
+		while index < string.endIndex {
+			if string[index] == stopChar {
 				break
 			}
 			index = index.successor()

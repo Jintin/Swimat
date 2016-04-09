@@ -133,14 +133,14 @@ class SwiftParser {
 			}
 			return append(char)
 		case "/":
-			if isNextString("//") {
+			if isNextChar("/") {
 				return addToNext(strIndex, stopChar: "\n")
-			} else if isNextString("/*") {
-				return addToNext(strIndex, stopChar: "*/")
+			} else if isNextChar("*") {
+				return addToNext(strIndex, stopWord: "*/")
 			}
 			return spaceWithArray(SwiftParser.OPERATOR_LIST[char]!)!
 		case "<":
-			if isNextString("<#") {
+			if isNextChar("#") {
 				return append("<#")
 			}
 			if let result = findGeneric(strIndex) {
@@ -149,15 +149,15 @@ class SwiftParser {
 			}
 			return spaceWithArray(SwiftParser.OPERATOR_LIST[char]!)!
 		case "?":
-			if isNextString("??") {
+			if isNextChar("?") {
 				return spaceWith("??")
 			}
 			// TODO: check ? ?? a?b:c
 			break
 		case ":":
-			// TODO: check a?b:c
-			append(": ")
-			return string.nextNonSpaceIndex(strIndex)
+			trimWithIndent()
+			retString += ": "
+			return string.nextNonSpaceIndex(strIndex.successor())
 		case "!":
 			if let index = spaceWithArray(SwiftParser.OPERATOR_LIST[char]!) {
 				return index
@@ -184,9 +184,9 @@ class SwiftParser {
 				indent -= 1
 				trimWithIndent()
 				return append("#endif")
-			} else if isNextString("#>") {
+			} else if isNextChar(">") {
 				return append("#>")
-			} else if isNextString("#!") {
+			} else if isNextChar("!") {
 				return addToNext(strIndex, stopChar: "\n")
 			}
 			break
