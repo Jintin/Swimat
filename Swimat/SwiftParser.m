@@ -297,7 +297,10 @@ int curIndent = 0;
                 } else if ([Parser isUpperBrackets:nextChar]) {
                     // There may not be an empty line before an opening bracket
                     shouldAddNewline = NO;
-                    shouldIndent = NO;
+                    
+                    if (indentEmptyLine) {
+                        shouldIndent = NO;
+                    }
                 } else if ([Parser isUpperBrackets:lastChar]) {
                     // There may not be an empty line after an opening bracket
                     shouldAddNewline = NO;
@@ -670,14 +673,11 @@ int curIndent = 0;
                 unichar lastNonSpace = [orString characterAtIndex:lastNonSpaceIndex];
                 if (lastNonSpace != '\n') {
                     // Trim the current line
-                    if (indentEmptyLine) {
-                        [self trimWithIndent];
-                    } else {
-                        [retString trim];
-                    }
+                    [retString trim];
                     
                     // Insert a newline before the brace
                     [retString appendString:@"\n"];
+                    [self addIndent:retString];
                     
                     lastChar = '\n';
                 }
