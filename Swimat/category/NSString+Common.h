@@ -32,6 +32,8 @@
  */
 -(NSUInteger) nextIndex:(NSUInteger) index defaults:(NSUInteger) value compare: (bool(^)(NSString *, NSUInteger)) checker;
 
+-(NSUInteger) nextCharIndex:(NSUInteger) index defaults:(NSUInteger) value;
+
 /**
  @brief find next space index
  */
@@ -56,6 +58,11 @@
  @brief find last index of string
  */
 -(NSUInteger) lastIndex:(NSUInteger) index defaults:(NSUInteger) value compare: (bool(^)(NSString *, NSUInteger)) checker;
+
+/**
+ @brief find last character
+ */
+-(NSUInteger) lastCharIndex:(NSUInteger) index defaults:(NSUInteger) value;
 
 /**
  @brief find last space
