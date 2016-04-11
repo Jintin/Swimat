@@ -8,4 +8,8 @@ class Foo {
     func fooBar() -> String {
         return "foobar"
     }
+    
+    func fooBar2() -> String {
+        return "foobar"
+    }
 }

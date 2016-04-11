@@ -5,7 +5,11 @@ class Foo {
 
     // MARK: - methods
 
-    func fooBar() -> String
+    func fooBar() -> String {
+        return "foobar"
+    }
+
+    func fooBar2() -> String
     {
         return "foobar"
     }
