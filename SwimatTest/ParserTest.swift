@@ -4,9 +4,8 @@ import Foundation
 class ParserTest: XCTestCase {
 
 	func testNextString() {
-		let parser = Parser()
+		let parser = SwiftParser(string: "abcde")
 
-		parser.string = "abcde"
 		parser.strIndex = parser.string.startIndex.advancedBy(1)
 		assert(parser.isNextString("bcde") == true)
 		assert(parser.isNextString("bcdf") == false)

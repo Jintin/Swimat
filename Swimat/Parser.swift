@@ -20,7 +20,7 @@ extension SwiftParser {
 	
 	func spaceWith(word: String) -> String.Index {
 		if let last = retString.lastChar {
-			if !last.isSpace(){
+			if !last.isSpace() {
 				retString += " "
 			}
 		}

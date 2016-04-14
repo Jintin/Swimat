@@ -3,12 +3,6 @@ import Foundation
 
 class StringTest: XCTestCase {
 
-//	func testRange() {
-//		assert("abcde"[1] == "b")
-//		assert("abcde"[1 ... 3] == "bcd")
-//		assert("abcde"[1 ..< 4] == "bcd")
-//	}
-
 	func testTrim() {
 		assert(" abc ".trim() == "abc")
 		assert("\tabc\t".trim() == "abc")
@@ -24,16 +18,30 @@ class StringTest: XCTestCase {
 			return (range1, range2)
 		}
 
-		var diff = string.findDiff("abce")
+		var diff = "abcd".findDiff("abce")
 		assert(diff! == index(3, end1: 4, end2: 4))
 
-		diff = "acd".findDiff(string)
+		diff = "acd".findDiff("abcd")
 		assert(diff! == index(1, end1: 1, end2: 2))
 
-		diff = string.findDiff("acd")
+		diff = "abcd".findDiff("acd")
 		assert(diff! == index(1, end1: 2, end2: 1))
 
-		diff = string.findDiff(string)
+		diff = "abcd".findDiff("abcd")
 		assert(diff == nil)
+	}
+
+	func testLastWord() {
+		assert("".lastWord() == "")
+		assert(" ".lastWord() == "")
+		assert("a".lastWord() == "a")
+		assert("a ".lastWord() == "a")
+		assert(" a".lastWord() == "a")
+		assert("aa ".lastWord() == "aa")
+		assert("\naa\n".lastWord() == "aa")
+	}
+	
+	func testNextIndex() {
+		
 	}
 }

@@ -124,7 +124,24 @@ class SwiftParser {
 			if let index = spaceWithArray(SwiftParser.OPERATOR_LIST[char]!) {
 				return index
 			} else {
-				// TODO: check minus or negative
+				var negative = false
+				if retString.count > 0 {
+					let last = retString.lastNonSpaceChar(retString.endIndex.predecessor())
+					if last.isAZ() {
+						let keys = ["case", "return", "if", "for", "while"]
+						if keys.contains(retString.lastWord()) {
+							negative = true
+						}
+					} else {
+						let keys: [Character] = ["+", "-", "*", "/", "&", "|", "^", "<", ">", ":", "(", "{", "?", "!", "=", ","]
+						if keys.contains(last) {
+							negative = true
+						}
+					}
+				}
+				if negative {
+					return append("-")
+				}
 				return spaceWith("-")
 			}
 		case "~":
@@ -266,6 +283,7 @@ extension SwiftParser {
 			}
 		}
 		let obj = SwiftParser(string: result).format() // TODO: no need to new obj
+
 		return (obj.string, index)
 	}
 

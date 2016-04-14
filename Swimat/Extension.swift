@@ -1,16 +1,6 @@
 import Foundation
 
 extension String {
-//	subscript(i: Int) -> Character {
-//		return self[startIndex.advancedBy(i)]
-//	}
-//
-//	subscript(r: Range<Int >) -> String {
-//
-//		let start = startIndex.advancedBy(r.startIndex)
-//		let end = startIndex.advancedBy(r.endIndex)
-//		return self[start ..< end]
-//	}
 
 	var count: Int {
 		get {
@@ -24,6 +14,20 @@ extension String {
 		}
 	}
 
+	func lastWord() -> String {
+		if count > 0 {
+			let end = lastNonBlankIndex(endIndex)
+			if end != startIndex || !self[end].isBlank() {
+				let start = lastIndex(end) { self[$0].isBlank() }
+				if self[start].isBlank() {
+					return self[start.successor() ... end]
+				}
+				return self[start ... end]
+			}
+		}
+		return ""
+	}
+
 	func trim() -> String {
 		return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 	}
@@ -34,7 +38,7 @@ extension String {
 			return nil
 		}
 
-		let start = commonPrefixWithString(string, options: .AnchoredSearch).endIndex.predecessor()
+		let start = commonPrefixWithString(string, options: .AnchoredSearch).endIndex
 		var end1 = endIndex.predecessor()
 		var end2 = string.endIndex.predecessor()
 		while self[end1] == string[end2] {
@@ -58,10 +62,6 @@ extension String {
 
 	func rangeFromNSRange(nsRange: NSRange?) -> Range<String.Index>? {
 		if let range = nsRange {
-//			let from = startIndex.advancedBy(range.location)
-//			let to = from.advancedBy(range.length)
-//
-//			return from ..< to
 
 			let from16 = utf16.startIndex.advancedBy(range.location, limit: utf16.endIndex)
 			let to16 = from16.advancedBy(range.length, limit: utf16.endIndex)
@@ -75,10 +75,6 @@ extension String {
 
 	func nsRangeFromRange(strRange: Range<String.Index>?) -> NSRange? {
 		if let range = strRange {
-//			let loc = startIndex.distanceTo(range.startIndex)
-//			let len = range.startIndex.distanceTo(range.endIndex)
-//
-//			return NSMakeRange(loc, len)
 
 			let utf16view = self.utf16
 
@@ -88,11 +84,6 @@ extension String {
 			return NSMakeRange(utf16view.startIndex.distanceTo(from), from.distanceTo(to))
 		}
 		return nil
-	}
-
-	func isSymbol() -> Bool {
-		let symbol = ["+", "-", "*"]
-		return symbol.contains(self)
 	}
 
 	func nextIndex(start: String.Index, checker: String.Index -> Bool) -> String.Index {
@@ -107,23 +98,30 @@ extension String {
 	}
 
 	func nextNonSpaceIndex(index: String.Index) -> String.Index {
-//		return index
 		return nextIndex(index) { !self[$0].isSpace() }
 	}
 
 	func lastIndex(start: String.Index, checker: String.Index -> Bool) -> String.Index {
 		var index = start
 		while index > startIndex {
+			index = index.predecessor()
 			if checker(index) {
 				break
 			}
-			index = index.predecessor()
 		}
 		return index
 	}
 
 	func lastNonSpaceIndex(start: String.Index) -> String.Index {
 		return lastIndex(start) { !self[$0].isSpace() }
+	}
+	
+	func lastNonSpaceChar(start:String.Index) -> Character {
+		return self[lastNonSpaceIndex(start)]
+	}
+
+	func lastNonBlankIndex(start: String.Index) -> String.Index {
+		return lastIndex(start) { !self[$0].isBlank() }
 	}
 }
 
