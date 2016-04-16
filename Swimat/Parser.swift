@@ -3,8 +3,9 @@ import Foundation
 extension SwiftParser {
 	
 	func isNextChar(char: Character) -> Bool {
-		if strIndex < string.endIndex{
-			return string[strIndex.successor()] == char
+		let next = strIndex.successor()
+		if next < string.endIndex {
+			return string[next] == char
 		} else {
 			return false
 		}
@@ -19,14 +20,8 @@ extension SwiftParser {
 	}
 	
 	func spaceWith(word: String) -> String.Index {
-		if let last = retString.lastChar {
-			if !last.isSpace() {
-				retString += " "
-			}
-		}
-		append(word)
-		retString += " "
-		return string.nextNonSpaceIndex(strIndex)
+		retString.spaceWith(word)
+		return string.nextNonSpaceIndex(strIndex.advancedBy(word.count))
 	}
 	
 	func spaceWithArray(list: [String]) -> String.Index? {

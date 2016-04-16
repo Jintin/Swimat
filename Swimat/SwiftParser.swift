@@ -168,9 +168,12 @@ class SwiftParser {
 		case "?":
 			if isNextChar("?") {
 				return spaceWith("??")
+			} else if let tenary = findTenary(strIndex) {
+				retString.spaceWith(tenary.string)
+				return tenary.index
+			} else {
+				return append(char)
 			}
-			// TODO: check ? ?? a?b:c
-			break
 		case ":":
 			trimWithIndent()
 			retString += ": "
@@ -184,7 +187,6 @@ class SwiftParser {
 			if let index = spaceWithArray(SwiftParser.OPERATOR_LIST[char]!) {
 				return index
 			}
-			trimWithIndent()
 			append(char)
 			return string.nextNonSpaceIndex(strIndex)
 		case "#":
@@ -315,6 +317,46 @@ extension SwiftParser {
 			}
 		}
 		return (result, string.endIndex.predecessor())
+	}
+
+	func findTenary(index: String.Index) -> (string: String, index: String.Index)? {
+		let start = string.nextNonSpaceIndex(index.successor())
+		guard let firstObj = findObject(start) else {
+			return nil
+		}
+		let middle = string.nextNonSpaceIndex(firstObj.index)
+		guard string[middle] == ":" else {
+			return nil
+		}
+		let end = string.nextNonSpaceIndex(middle.successor())
+		guard let secondObj = findObject(end) else {
+			return nil
+		}
+		return ("? \(firstObj.string) : \(secondObj.string)", secondObj.index)
+	}
+
+	func findObject(start: String.Index) -> (string: String, index: String.Index)? {
+		var index = start
+		var result = ""
+		while index < string.endIndex {
+			let next = string[index]
+			let list: [Character] = ["?", "!", "."]
+			if next.isAZ() || next.isOneOf(list) { // TODO check complex case
+				result.append(next)
+			} else if next == "(" {
+				let block = findBlock(index)
+				index = block.index
+				result += block.string
+				continue
+			} else {
+				if result.isEmpty {
+					return nil
+				}
+				return (result, index)
+			}
+			index = index.successor()
+		}
+		return nil
 	}
 
 	func findGeneric(start: String.Index) -> (string: String, index: String.Index)? {

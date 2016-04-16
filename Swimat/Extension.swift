@@ -32,6 +32,15 @@ extension String {
 		return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 	}
 
+	mutating func spaceWith(word: String) {
+		if let last = lastChar {
+			if !last.isBlank() {
+				self += " "
+			}
+		}
+		self += "\(word) "
+	}
+
 	func findDiff(string: String) -> (range1: Range<String.Index>, range2: Range<String.Index>)? {
 		let methodStart = NSDate()
 		if self.isEmpty || string.isEmpty {
@@ -115,8 +124,8 @@ extension String {
 	func lastNonSpaceIndex(start: String.Index) -> String.Index {
 		return lastIndex(start) { !self[$0].isSpace() }
 	}
-	
-	func lastNonSpaceChar(start:String.Index) -> Character {
+
+	func lastNonSpaceChar(start: String.Index) -> Character {
 		return self[lastNonSpaceIndex(start)]
 	}
 
@@ -150,6 +159,10 @@ extension Character {
 
 	func isBlank() -> Bool {
 		return isSpace() || self == "\n"
+	}
+
+	func isOneOf(list: [Character]) -> Bool {
+		return list.contains(self)
 	}
 }
 

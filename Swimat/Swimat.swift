@@ -67,7 +67,11 @@ class Swimat: NSObject {
 				}
 				undoManager.setActionName(name)
 			}
-			source.replaceCharactersInRange(oldString.nsRangeFromRange(diff.range2)!, withString: string[diff.range1])
+			
+			let selRange = oldString.nsRangeFromRange(diff.range2)!
+			
+			let diffString = string[diff.range1]
+			source.replaceCharactersInRange(selRange, withString: diffString)
 			source.setSelectedRange(range)
 		}
 
