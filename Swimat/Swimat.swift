@@ -39,21 +39,24 @@ class Swimat: NSObject {
 	}
 
 	func swimatAction() {
-		let methodStart = NSDate()
-
+		#if DEBUG
+			let methodStart = NSDate()
+		#endif
 		let source = DTXcodeUtils.currentSourceTextView()
 		let string = source.textStorage!.string
 		let range = source.selectedRanges[0].rangeValue
 		let result = SwiftParser(string: string, range: range).format()
 		setText(result.string, range: result.range!)
-
-		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
-		print("total   executionTime = \(executionTime)");
+		#if DEBUG
+			let executionTime = NSDate().timeIntervalSinceDate(methodStart)
+			print("total   executionTime = \(executionTime)");
+		#endif
 	}
 
 	func setText(string: String, range: NSRange) {
-		let methodStart = NSDate()
-
+		#if DEBUG
+			let methodStart = NSDate()
+		#endif
 		let source = DTXcodeUtils.currentSourceTextView()
 		let oldString = source.textStorage!.string
 
@@ -67,15 +70,16 @@ class Swimat: NSObject {
 				}
 				undoManager.setActionName(name)
 			}
-			
+
 			let selRange = oldString.nsRangeFromRange(diff.range2)!
-			
+
 			let diffString = string[diff.range1]
 			source.replaceCharactersInRange(selRange, withString: diffString)
 			source.setSelectedRange(range)
 		}
-
-		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
-		print("setText executionTime = \(executionTime)");
+		#if DEBUG
+			let executionTime = NSDate().timeIntervalSinceDate(methodStart)
+			print("setText executionTime = \(executionTime)");
+		#endif
 	}
 }

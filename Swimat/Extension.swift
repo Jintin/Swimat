@@ -42,7 +42,9 @@ extension String {
 	}
 
 	func findDiff(string: String) -> (range1: Range<String.Index>, range2: Range<String.Index>)? {
-		let methodStart = NSDate()
+		#if DEBUG
+			let methodStart = NSDate()
+		#endif
 		if self.isEmpty || string.isEmpty {
 			return nil
 		}
@@ -60,9 +62,10 @@ extension String {
 		}
 		end1 = end1.successor()
 		end2 = end2.successor()
-
-		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
-		print("diff    executionTime = \(executionTime)");
+		#if DEBUG
+			let executionTime = NSDate().timeIntervalSinceDate(methodStart)
+			print("diff    executionTime = \(executionTime)");
+		#endif
 		if start == end1 && start == end2 {
 			return nil
 		}

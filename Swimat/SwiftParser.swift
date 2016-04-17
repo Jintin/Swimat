@@ -44,16 +44,18 @@ class SwiftParser {
 	}
 
 	func format() -> (string: String, range: NSRange?) {
-		let methodStart = NSDate()
-
+		#if DEBUG
+			let methodStart = NSDate()
+		#endif
 		while strIndex < string.endIndex {
 			let char = string[strIndex]
 			strIndex = checkChar(char)
 			checkCursor?()
 		}
-		let executionTime = NSDate().timeIntervalSinceDate(methodStart)
-		print("format  executionTime = \(executionTime)");
-
+		#if DEBUG
+			let executionTime = NSDate().timeIntervalSinceDate(methodStart)
+			print("format  executionTime = \(executionTime)");
+		#endif
 		return (retString, retString.nsRangeFromRange(self.range))
 	}
 
