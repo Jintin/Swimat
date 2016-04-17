@@ -30,6 +30,14 @@
 		2FD1EED41BF1BA2B002B56B0 /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F041DAD1BF1B76800C51207 /* Parser.m */; };
 		2FEF76A21C2B88750017311E /* Prefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FEF76A11C2B88750017311E /* Prefs.m */; };
 		2FEF76A31C2B88750017311E /* Prefs.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FEF76A11C2B88750017311E /* Prefs.m */; };
+		BF6F695A1CB4DC4100DAEB78 /* breakBeforeOpeningBrace in Resources */ = {isa = PBXBuildFile; fileRef = BF6F69561CB4DC3700DAEB78 /* breakBeforeOpeningBrace */; };
+		BF6F695B1CB4DC4100DAEB78 /* breakBeforeOpeningBrace_force in Resources */ = {isa = PBXBuildFile; fileRef = BF6F69571CB4DC3700DAEB78 /* breakBeforeOpeningBrace_force */; };
+		BF6F695C1CB4DC4100DAEB78 /* breakBeforeOpeningBrace_ignore in Resources */ = {isa = PBXBuildFile; fileRef = BF6F69581CB4DC3700DAEB78 /* breakBeforeOpeningBrace_ignore */; };
+		BF6F695D1CB4DC4100DAEB78 /* breakBeforeOpeningBrace_remove in Resources */ = {isa = PBXBuildFile; fileRef = BF6F69591CB4DC3700DAEB78 /* breakBeforeOpeningBrace_remove */; };
+		BF6F69611CB4E0F200DAEB78 /* breakBeforeOpeningBrace_force_noindent in Resources */ = {isa = PBXBuildFile; fileRef = BF6F695E1CB4E0F200DAEB78 /* breakBeforeOpeningBrace_force_noindent */; };
+		BF6F69621CB4E0F200DAEB78 /* breakBeforeOpeningBrace_ignore_noindent in Resources */ = {isa = PBXBuildFile; fileRef = BF6F695F1CB4E0F200DAEB78 /* breakBeforeOpeningBrace_ignore_noindent */; };
+		BF6F69631CB4E0F200DAEB78 /* breakBeforeOpeningBrace_remove_noindent in Resources */ = {isa = PBXBuildFile; fileRef = BF6F69601CB4E0F200DAEB78 /* breakBeforeOpeningBrace_remove_noindent */; };
+		BFA3B3961CB7B5B900AB694E /* SwiftParserTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA3B3951CB7B5B900AB694E /* SwiftParserTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +82,14 @@
 		2FD1EECF1BF1B9B1002B56B0 /* StringTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringTest.m; sourceTree = "<group>"; };
 		2FEF76A01C2B88750017311E /* Prefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefs.h; sourceTree = "<group>"; };
 		2FEF76A11C2B88750017311E /* Prefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Prefs.m; sourceTree = "<group>"; };
+		BF6F69561CB4DC3700DAEB78 /* breakBeforeOpeningBrace */ = {isa = PBXFileReference; lastKnownFileType = text; path = breakBeforeOpeningBrace; sourceTree = "<group>"; };
+		BF6F69571CB4DC3700DAEB78 /* breakBeforeOpeningBrace_force */ = {isa = PBXFileReference; lastKnownFileType = text; path = breakBeforeOpeningBrace_force; sourceTree = "<group>"; };
+		BF6F69581CB4DC3700DAEB78 /* breakBeforeOpeningBrace_ignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = breakBeforeOpeningBrace_ignore; sourceTree = "<group>"; };
+		BF6F69591CB4DC3700DAEB78 /* breakBeforeOpeningBrace_remove */ = {isa = PBXFileReference; lastKnownFileType = text; path = breakBeforeOpeningBrace_remove; sourceTree = "<group>"; };
+		BF6F695E1CB4E0F200DAEB78 /* breakBeforeOpeningBrace_force_noindent */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = breakBeforeOpeningBrace_force_noindent; sourceTree = "<group>"; };
+		BF6F695F1CB4E0F200DAEB78 /* breakBeforeOpeningBrace_ignore_noindent */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = breakBeforeOpeningBrace_ignore_noindent; sourceTree = "<group>"; };
+		BF6F69601CB4E0F200DAEB78 /* breakBeforeOpeningBrace_remove_noindent */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = breakBeforeOpeningBrace_remove_noindent; sourceTree = "<group>"; };
+		BFA3B3951CB7B5B900AB694E /* SwiftParserTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwiftParserTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,11 +173,13 @@
 		2F041DB41BF1B94F00C51207 /* SwimatTest */ = {
 			isa = PBXGroup;
 			children = (
-				2F041DB51BF1B94F00C51207 /* SwimatTest.m */,
+				BF6F69451CB4D71C00DAEB78 /* Swift */,
 				2F041DB71BF1B94F00C51207 /* Info.plist */,
 				2FD1EECB1BF1B992002B56B0 /* MutableStringTest.m */,
 				2FD1EECD1BF1B9A2002B56B0 /* ParserTest.m */,
 				2FD1EECF1BF1B9B1002B56B0 /* StringTest.m */,
+				BFA3B3951CB7B5B900AB694E /* SwiftParserTest.m */,
+				2F041DB51BF1B94F00C51207 /* SwimatTest.m */,
 			);
 			path = SwimatTest;
 			sourceTree = "<group>";
@@ -187,6 +205,20 @@
 				2FCE0E531C05D2910000DF1B /* DTXcodeUtils.m */,
 			);
 			name = DTXcodeUtils;
+			sourceTree = "<group>";
+		};
+		BF6F69451CB4D71C00DAEB78 /* Swift */ = {
+			isa = PBXGroup;
+			children = (
+				BF6F69561CB4DC3700DAEB78 /* breakBeforeOpeningBrace */,
+				BF6F69571CB4DC3700DAEB78 /* breakBeforeOpeningBrace_force */,
+				BF6F695E1CB4E0F200DAEB78 /* breakBeforeOpeningBrace_force_noindent */,
+				BF6F69581CB4DC3700DAEB78 /* breakBeforeOpeningBrace_ignore */,
+				BF6F695F1CB4E0F200DAEB78 /* breakBeforeOpeningBrace_ignore_noindent */,
+				BF6F69591CB4DC3700DAEB78 /* breakBeforeOpeningBrace_remove */,
+				BF6F69601CB4E0F200DAEB78 /* breakBeforeOpeningBrace_remove_noindent */,
+			);
+			name = Swift;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,6 +308,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF6F695A1CB4DC4100DAEB78 /* breakBeforeOpeningBrace in Resources */,
+				BF6F695B1CB4DC4100DAEB78 /* breakBeforeOpeningBrace_force in Resources */,
+				BF6F695C1CB4DC4100DAEB78 /* breakBeforeOpeningBrace_ignore in Resources */,
+				BF6F69621CB4E0F200DAEB78 /* breakBeforeOpeningBrace_ignore_noindent in Resources */,
+				BF6F69611CB4E0F200DAEB78 /* breakBeforeOpeningBrace_force_noindent in Resources */,
+				BF6F69631CB4E0F200DAEB78 /* breakBeforeOpeningBrace_remove_noindent in Resources */,
+				BF6F695D1CB4DC4100DAEB78 /* breakBeforeOpeningBrace_remove in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +347,7 @@
 				2F041DB61BF1B94F00C51207 /* SwimatTest.m in Sources */,
 				2FD1EECE1BF1B9A2002B56B0 /* ParserTest.m in Sources */,
 				2FD1EED11BF1BA1F002B56B0 /* SwiftParser.m in Sources */,
+				BFA3B3961CB7B5B900AB694E /* SwiftParserTest.m in Sources */,
 				2FD1EED01BF1B9B1002B56B0 /* StringTest.m in Sources */,
 				2F2F5C7A1C0B39140090D0C5 /* NSMutableString+Common.m in Sources */,
 				2F39CCA51C1A7A5A00005EC5 /* DTXcodeUtils.m in Sources */,
