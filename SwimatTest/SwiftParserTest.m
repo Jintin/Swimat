@@ -91,28 +91,28 @@ static NSString *const SWMSwiftParserTestMultipleNewlineSourceString = @"func a(
     XCTAssertEqual(outputCount, 0);
 }
 
-- (void)test_breakBeforeOpeningBraceRuleIgnore {
-    [Prefs setIndentEmptyLine:YES];
-    [Prefs setIndent:INDENT_SPACE4];
-    [self enableBreakBeforeOpeningBraceRule:SWMBreakBeforeOpeningBraceRuleIgnore];
-    
-    NSString *input = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace"];
-    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
-    
-    NSString *expected = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace_ignore"];
-    XCTAssert([output isEqualToString:expected]);
-}
+//- (void)test_breakBeforeOpeningBraceRuleIgnore {
+//    [Prefs setIndentEmptyLine:YES];
+//    [Prefs setIndent:INDENT_SPACE4];
+//    [self enableBreakBeforeOpeningBraceRule:SWMBreakBeforeOpeningBraceRuleIgnore];
+//    
+//    NSString *input = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace"];
+//    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
+//    
+//    NSString *expected = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace_ignore"];
+//    XCTAssert([output isEqualToString:expected]);
+//}
 
-- (void)test_breakBeforeOpeningBraceRuleIgnore_noIndentationOfEmptyLines {
-    [Prefs setIndentEmptyLine:NO];
-    [self enableBreakBeforeOpeningBraceRule:SWMBreakBeforeOpeningBraceRuleIgnore];
-    
-    NSString *input = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace"];
-    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
-    
-    NSString *expected = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace_ignore_noindent"];
-    XCTAssert([output isEqualToString:expected]);
-}
+//- (void)test_breakBeforeOpeningBraceRuleIgnore_noIndentationOfEmptyLines {
+//    [Prefs setIndentEmptyLine:NO];
+//    [self enableBreakBeforeOpeningBraceRule:SWMBreakBeforeOpeningBraceRuleIgnore];
+//    
+//    NSString *input = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace"];
+//    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
+//    
+//    NSString *expected = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace_ignore_noindent"];
+//    XCTAssert([output isEqualToString:expected]);
+//}
 
 #pragma mark Remove
 
@@ -149,28 +149,28 @@ static NSString *const SWMSwiftParserTestMultipleNewlineSourceString = @"func a(
     XCTAssertEqual(outputCount, 0);
 }
 
-- (void)test_breakBeforeOpeningBraceRuleRemove {
-    [Prefs setIndentEmptyLine:YES];
-    [Prefs setIndent:INDENT_SPACE4];
-    [self enableBreakBeforeOpeningBraceRule:SWMBreakBeforeOpeningBraceRuleRemove];
-    
-    NSString *input = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace"];
-    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
-    
-    NSString *expected = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace_remove"];
-    XCTAssert([output isEqualToString:expected]);
-}
+//- (void)test_breakBeforeOpeningBraceRuleRemove {
+//    [Prefs setIndentEmptyLine:YES];
+//    [Prefs setIndent:INDENT_SPACE4];
+//    [self enableBreakBeforeOpeningBraceRule:SWMBreakBeforeOpeningBraceRuleRemove];
+//    
+//    NSString *input = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace"];
+//    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
+//    
+//    NSString *expected = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace_remove"];
+//    XCTAssert([output isEqualToString:expected]);
+//}
 
-- (void)test_breakBeforeOpeningBraceRuleRemove_noIndentationOfEmptyLines {
-    [Prefs setIndentEmptyLine:NO];
-    [self enableBreakBeforeOpeningBraceRule:SWMBreakBeforeOpeningBraceRuleRemove];
-    
-    NSString *input = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace"];
-    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
-    
-    NSString *expected = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace_remove_noindent"];
-    XCTAssert([output isEqualToString:expected]);
-}
+//- (void)test_breakBeforeOpeningBraceRuleRemove_noIndentationOfEmptyLines {
+//    [Prefs setIndentEmptyLine:NO];
+//    [self enableBreakBeforeOpeningBraceRule:SWMBreakBeforeOpeningBraceRuleRemove];
+//    
+//    NSString *input = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace"];
+//    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
+//    
+//    NSString *expected = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace_remove_noindent"];
+//    XCTAssert([output isEqualToString:expected]);
+//}
 
 #pragma mark Force
 
@@ -207,28 +207,28 @@ static NSString *const SWMSwiftParserTestMultipleNewlineSourceString = @"func a(
     XCTAssertEqual(outputCount, 1);
 }
 
-- (void)test_breakBeforeOpeningBraceRuleForce {
-    [Prefs setIndentEmptyLine:YES];
-    [Prefs setIndent:INDENT_SPACE4];
-    [self enableBreakBeforeOpeningBraceRule:SWMBreakBeforeOpeningBraceRuleForce];
-    
-    NSString *input = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace"];
-    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
-    
-    NSString *expected = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace_force"];
-    XCTAssert([output isEqualToString:expected]);
-}
+//- (void)test_breakBeforeOpeningBraceRuleForce {
+//    [Prefs setIndentEmptyLine:YES];
+//    [Prefs setIndent:INDENT_SPACE4];
+//    [self enableBreakBeforeOpeningBraceRule:SWMBreakBeforeOpeningBraceRuleForce];
+//    
+//    NSString *input = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace"];
+//    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
+//    
+//    NSString *expected = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace_force"];
+//    XCTAssert([output isEqualToString:expected]);
+//}
 
-- (void)test_breakBeforeOpeningBraceRuleForce_noIndentationOfEmptyLines {
-    [Prefs setIndentEmptyLine:NO];
-    [self enableBreakBeforeOpeningBraceRule:SWMBreakBeforeOpeningBraceRuleForce];
-    
-    NSString *input = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace"];
-    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
-    
-    NSString *expected = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace_force_noindent"];
-    XCTAssert([output isEqualToString:expected]);
-}
+//- (void)test_breakBeforeOpeningBraceRuleForce_noIndentationOfEmptyLines {
+//    [Prefs setIndentEmptyLine:NO];
+//    [self enableBreakBeforeOpeningBraceRule:SWMBreakBeforeOpeningBraceRuleForce];
+//    
+//    NSString *input = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace"];
+//    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
+//    
+//    NSString *expected = [self stringFromSwiftFileNamed:@"breakBeforeOpeningBrace_force_noindent"];
+//    XCTAssert([output isEqualToString:expected]);
+//}
 
 #pragma mark - Helpers
 
