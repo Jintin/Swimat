@@ -1,7 +1,6 @@
 import Foundation
 
 class SwiftParser {
-
 	private static let OPERATOR_LIST: [Character: [String]] = [
 		"+": ["+=<", "+=", "+++=", "+++", "+"],
 		"-": ["->", "-=", "-<<"],
@@ -20,19 +19,19 @@ class SwiftParser {
 	]
 	let INDENT_CHAR: Character
 	let string: String
-	var retString: String
+	var retString = ""
 	var strIndex: String.Index
-	var indent: Int
-	var tempIndent: Int
+	var indentStack = [Int]()
+	var indent = 0
+	var tempIndent = 0
 	var range: Range<String.Index>
 	var checkCursor: (() -> Void)?
+	var inSwitch = false
+	var switchCount = 0
 
 	init(string: String, range: NSRange? = nil) {
 		self.string = string
-		self.retString = ""
 		self.strIndex = string.startIndex
-		self.indent = 0
-		self.tempIndent = 0
 		self.INDENT_CHAR = "\t"
 
 		if range != nil {
@@ -72,15 +71,24 @@ class SwiftParser {
 			cursor = cursor.successor()
 		}
 
+		let modify = diff > 0
+		if modify {
+			target = target.predecessor()
+		}
 		while diff > 0 {
 			diff -= 1
 			if retString[target].isSpace() {
 				target = retString.lastNonSpaceIndex(target)
 			}
-			target = target.predecessor()
+			if target > strIndex {
+				target = target.predecessor()
+			}
+		}
+		if modify {
+			target = target.successor()
 		}
 
-		return target.successor()
+		return target
 	}
 
 	func checkCursorStart() {
@@ -95,7 +103,7 @@ class SwiftParser {
 				return
 			}
 
-			let target = getPosition(cursor, now: retString.endIndex.predecessor())
+			let target = getPosition(cursor, now: retString.endIndex)
 			if range.startIndex == range.endIndex {
 				checkCursor = nil
 				range.endIndex = target
@@ -111,14 +119,12 @@ class SwiftParser {
 			if cursor == string.endIndex {
 				range.endIndex = retString.endIndex
 			} else {
-				let target = retString.endIndex.predecessor()
-				range.endIndex = getPosition(cursor, now: target)
+				range.endIndex = getPosition(cursor, now: retString.endIndex)
 			}
 		}
 	}
 
 	func checkChar(char: Character) -> String.Index {
-
 		switch char {
 		case "+", "*", "%", "^", "&", ">", "|", "=":
 			return spaceWithArray(SwiftParser.OPERATOR_LIST[char]!)!
@@ -171,7 +177,7 @@ class SwiftParser {
 			if isNextChar("?") {
 				return spaceWith("??")
 			} else if let tenary = findTenary(strIndex) {
-				retString.spaceWith(tenary.string)
+				retString += tenary.string
 				return tenary.index
 			} else {
 				return append(char)
@@ -216,25 +222,31 @@ class SwiftParser {
 			retString += quote.string
 			return quote.index
 		case "\n":
+			retString = retString.trim()
+			checkLineEnd()
 			append(char)
 			addIndent()
 			return string.nextNonSpaceIndex(strIndex)
 		case " ", "\t":
-			if let last = retString.lastChar {
-				if !last.isSpace() {
-					retString += " "
-				}
-			}
-			return string.nextNonSpaceIndex(strIndex)
+			keepSpace()
+			return strIndex.successor()
 		case ",":
 			retString += ", "
 			return string.nextNonSpaceIndex(strIndex.successor())
-		case "{", "}":
-			if char == "{" {
-				indent += 1
-			} else if char == "}" {
-				if indent != 0 {
-					indent -= 1
+		case "{", "}", "[", "]", "(", ")":
+			if char.isUpperBlock() {
+				indentStack.append(indent)
+				indent += tempIndent + 1
+				if inSwitch {
+					switchCount += 1
+				}
+			} else if char.isLowerBlock() {
+				indent = indentStack.popLast() ?? 0
+				if inSwitch {
+					switchCount -= 1
+					if switchCount == 0 {
+						inSwitch = false
+					}
 				}
 				trimWithIndent()
 			}
@@ -248,7 +260,6 @@ class SwiftParser {
 	func checkDefault(char: Character) -> String.Index {
 		append(char)
 		while strIndex < string.endIndex {
-
 			let next = string[strIndex]
 			if next.isAZ() {
 				append(next)
@@ -258,10 +269,24 @@ class SwiftParser {
 		}
 		return strIndex
 	}
+
+	func checkLineEnd() {
+		tempIndent = 0
+		if let last = retString.lastChar {
+			switch last {
+			case ":":
+				if !inSwitch {
+					tempIndent += 1
+				}
+				break
+			default:
+				break
+			}
+		}
+	}
 }
 
 extension SwiftParser {
-
 	func findBlock(start: String.Index) -> (string: String, index: String.Index) {
 		var index = start.successor()
 		var result = "("

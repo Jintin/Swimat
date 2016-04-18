@@ -1,7 +1,6 @@
 import Foundation
 
 extension String {
-
 	var count: Int {
 		get {
 			return characters.count
@@ -29,16 +28,20 @@ extension String {
 	}
 
 	func trim() -> String {
-		return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-	}
+//		var index = endIndex.predecessor()
+//		while self[index].isSpace() {
+//
+//			removeAtIndex(index)
+//			if index > startIndex {
+//				index = index.predecessor()
+//			}
+//		}
 
-	mutating func spaceWith(word: String) {
-		if let last = lastChar {
-			if !last.isBlank() {
-				self += " "
-			}
-		}
-		self += "\(word) "
+//		if let last = lastChar {
+//			if last.isSpace() {
+		return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+//			}
+//		}
 	}
 
 	func findDiff(string: String) -> (range1: Range<String.Index>, range2: Range<String.Index>)? {
@@ -53,7 +56,7 @@ extension String {
 		var end1 = endIndex.predecessor()
 		var end2 = string.endIndex.predecessor()
 		while self[end1] == string[end2] {
-			if end1 >= start && end2 >= start {
+			if end1 > start && end2 > start {
 				end1 = end1.predecessor()
 				end2 = end2.predecessor()
 			} else {
@@ -74,7 +77,6 @@ extension String {
 
 	func rangeFromNSRange(nsRange: NSRange?) -> Range<String.Index>? {
 		if let range = nsRange {
-
 			let from16 = utf16.startIndex.advancedBy(range.location, limit: utf16.endIndex)
 			let to16 = from16.advancedBy(range.length, limit: utf16.endIndex)
 			if let from = String.Index(from16, within: self),
@@ -87,7 +89,6 @@ extension String {
 
 	func nsRangeFromRange(strRange: Range<String.Index>?) -> NSRange? {
 		if let range = strRange {
-
 			let utf16view = self.utf16
 
 			let from = String.UTF16View.Index(range.startIndex, within: utf16view)
@@ -116,10 +117,10 @@ extension String {
 	func lastIndex(start: String.Index, checker: String.Index -> Bool) -> String.Index {
 		var index = start
 		while index > startIndex {
-			index = index.predecessor()
 			if checker(index) {
 				break
 			}
+			index = index.predecessor()
 		}
 		return index
 	}
@@ -138,10 +139,9 @@ extension String {
 }
 
 extension Character {
-
 	func isAZ() -> Bool {
 		switch self {
-		case "A" ... "z", "0" ... "9":
+		case "A" ... "Z", "a" ... "z", "0" ... "9":
 			return true
 		default:
 			return false
