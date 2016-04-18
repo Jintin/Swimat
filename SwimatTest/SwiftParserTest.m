@@ -20,6 +20,10 @@
 
 - (void)setUp {
     [super setUp];
+    
+    [Prefs setIndent:INDENT_SPACE4];
+    [Prefs setIndentEmptyLine:YES];
+    
     self.parser = [[SwiftParser alloc] init];
 }
 
@@ -28,22 +32,16 @@
     [super tearDown];
 }
 
-- (void)logSourceCodeString:(NSString *)string label:(NSString *)label {
-    NSString *labelWithDelimiter = (label != nil ? [NSString stringWithFormat:@"\n\n%@:\n", label] : @"\n");
-    NSLog(@"%@%@\n\n", labelWithDelimiter, string);
-}
-
-- (void)logInput:(NSString *)string {
-    [self logSourceCodeString:string label:@"Input"];
-}
-
-- (void)logOutput:(NSString *)string {
-    [self logSourceCodeString:string label:@"Output"];
-}
-
 - (void)logInput:(NSString *)inputString output:(NSString *)outputString {
-    [self logInput:inputString];
-    [self logOutput:outputString];
+    NSLog(@"\n\n<-- INPUT:\n\n%@\n\n--> OUTPUT:\n\n%@\n\n", [self stringShowingInvisibles:inputString], [self stringShowingInvisibles:outputString]);
+}
+
+- (NSString *)stringShowingInvisibles:(NSString *)string {
+    NSMutableString *stringShowingInvisibles = [NSMutableString stringWithString:string];
+    [stringShowingInvisibles replaceOccurrencesOfString:@" " withString:@"_" options:0 range:NSMakeRange(0, stringShowingInvisibles.length)];
+    [stringShowingInvisibles replaceOccurrencesOfString:@"\n" withString:@"\\n\n" options:0 range:NSMakeRange(0, stringShowingInvisibles.length)];
+    [stringShowingInvisibles replaceOccurrencesOfString:@"\t" withString:@"\\t\t" options:0 range:NSMakeRange(0, stringShowingInvisibles.length)];
+    return [NSString stringWithString:stringShowingInvisibles];
 }
 
 #pragma mark - Formatting rule: Break before opening brace
@@ -159,6 +157,44 @@ static NSString *const SWMSwiftParserTestMultipleNewlineSourceString = @"func a(
     
     NSInteger outputCount = [self numberOfNewlinesInString:output betweenFirstOccurrenceOfSubstring:@")" andFirstOccurrenceOfSubstring:@"{"];
     XCTAssertEqual(outputCount, 1);
+}
+
+#pragma mark - Newlines
+
+- (void)test_parserShouldRemoveEmptyLineBeforeOpeningBrace {
+    NSString *input = @"if a == 1\n\n{\nlet b = a\n}";
+    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
+    [self logInput:input output:output];
+    
+    const NSInteger newlineCount = [self numberOfNewlinesInString:output betweenFirstOccurrenceOfSubstring:@"a == 1" andFirstOccurrenceOfSubstring:@"{"];
+    XCTAssert(newlineCount < 2); // Make sure there is no empty line, if there are one or two newlines depends on the "break before opening brace" rule!
+}
+
+- (void)test_parserShouldRemoveEmptyLineBeforeClosingBrace {
+    NSString *input = @"if a == 1 {\nlet b = a\n\n}";
+    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
+    [self logInput:input output:output];
+    
+    const NSInteger newlineCount = [self numberOfNewlinesInString:output betweenFirstOccurrenceOfSubstring:@"b = a" andFirstOccurrenceOfSubstring:@"}"];
+    XCTAssertEqual(newlineCount, 1);
+}
+
+- (void)test_parserShouldRemoveEmptyLineAfterOpeningBrace {
+    NSString *input = @"if a == 1 {\n\nlet b = a\n}";
+    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
+    [self logInput:input output:output];
+    
+    const NSInteger newlineCount = [self numberOfNewlinesInString:output betweenFirstOccurrenceOfSubstring:@"{" andFirstOccurrenceOfSubstring:@"b = a"];
+    XCTAssertEqual(newlineCount, 1);
+}
+
+- (void)test_parserShouldReduceConsecutiveNewlinesToOne {
+    NSString *input = @"let a = 1\n\n\n\nlet b = a + 1";
+    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
+    [self logInput:input output:output];
+    
+    const NSInteger newlineCount = [self numberOfNewlinesInString:output betweenFirstOccurrenceOfSubstring:@"= 1" andFirstOccurrenceOfSubstring:@"let b"];
+    XCTAssertEqual(newlineCount, 2);
 }
 
 #pragma mark - Helpers
