@@ -41,9 +41,9 @@ static NSString *const BREAK_BEFORE_OPENING_BRACE_ITEM_TITLE_FORCE = @"Force";
 	} else if ([tag isEqualToString:INDENT_SPACE2]) {
 		return @"  ";
 	} else if ([tag isEqualToString:INDENT_SPACE3]) {
-		return @"	";
+		return @"   ";
 	} else if ([tag isEqualToString:INDENT_SPACE4]) {
-		return @"	";
+		return @"    ";
 	}
 	return @"\t";
 }
