@@ -427,10 +427,18 @@ int curIndent = 0;
 			}
 			return 0;
 		}
+		case '^':
+			if ([self isNext:'=']) {
+				[self spaceWith:[NSString stringWithFormat:@"%c=", c]];
+				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
+				
+			} else {
+				[self appendString:@"^ "];
+				return strIndex;
+			}
 		case '*':
 		case '/':
 		case '%':
-		case '^':
 			if ([self isNext:'=']) { // *=, /=, >=, <=
 				[self spaceWith:[NSString stringWithFormat:@"%c=", c]];
 			} else { // * /
