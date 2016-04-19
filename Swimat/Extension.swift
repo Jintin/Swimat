@@ -6,16 +6,16 @@ extension String {
 			return characters.count
 		}
 	}
-
+	
 	var lastChar: Character? {
 		get {
 			return characters.last
 		}
 	}
-
+	
 	func lastWord() -> String {
 		if count > 0 {
-			let end = lastNonBlankIndex(endIndex)
+			let end = lastNonBlankIndex(endIndex.predecessor())
 			if end != startIndex || !self[end].isBlank() {
 				let start = lastIndex(end) { self[$0].isBlank() }
 				if self[start].isBlank() {
@@ -26,11 +26,11 @@ extension String {
 		}
 		return ""
 	}
-
+	
 	func trim() -> String {
 		return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 	}
-
+	
 	func findDiff(string: String) -> (range1: Range<String.Index>, range2: Range<String.Index>)? {
 		#if DEBUG
 			let methodStart = NSDate()
@@ -38,12 +38,12 @@ extension String {
 		if self.isEmpty || string.isEmpty {
 			return nil
 		}
-
+		
 		let start = commonPrefixWithString(string, options: .AnchoredSearch).endIndex
 		var end1 = endIndex.predecessor()
 		var end2 = string.endIndex.predecessor()
 		while self[end1] == string[end2] {
-			if end1 > start && end2 > start {
+			if end1 >= start && end2 >= start {
 				end1 = end1.predecessor()
 				end2 = end2.predecessor()
 			} else {
@@ -61,7 +61,7 @@ extension String {
 		}
 		return (start ..< end1, start ..< end2)
 	}
-
+	
 	func rangeFromNSRange(nsRange: NSRange?) -> Range<String.Index>? {
 		if let range = nsRange {
 			let from16 = utf16.startIndex.advancedBy(range.location, limit: utf16.endIndex)
@@ -73,19 +73,19 @@ extension String {
 		}
 		return nil
 	}
-
+	
 	func nsRangeFromRange(strRange: Range<String.Index>?) -> NSRange? {
 		if let range = strRange {
 			let utf16view = self.utf16
-
+			
 			let from = String.UTF16View.Index(range.startIndex, within: utf16view)
 			let to = String.UTF16View.Index(range.endIndex, within: utf16view)
-
+			
 			return NSMakeRange(utf16view.startIndex.distanceTo(from), from.distanceTo(to))
 		}
 		return nil
 	}
-
+	
 	func nextIndex(start: String.Index, checker: String.Index -> Bool) -> String.Index {
 		var index = start
 		while index < endIndex {
@@ -96,11 +96,11 @@ extension String {
 		}
 		return index
 	}
-
+	
 	func nextNonSpaceIndex(index: String.Index) -> String.Index {
 		return nextIndex(index) { !self[$0].isSpace() }
 	}
-
+	
 	func lastIndex(start: String.Index, checker: String.Index -> Bool) -> String.Index {
 		var index = start
 		while index > startIndex {
@@ -111,20 +111,19 @@ extension String {
 		}
 		return index
 	}
-
+	
 	func lastNonSpaceIndex(start: String.Index) -> String.Index {
 		return lastIndex(start) { !self[$0].isSpace() }
 	}
-
+	
 	func lastNonSpaceChar(start: String.Index) -> Character {
 		return self[lastNonSpaceIndex(start)]
 	}
-
+	
 	func lastNonBlankIndex(start: String.Index) -> String.Index {
 		return lastIndex(start) { !self[$0].isBlank() }
 	}
 }
-
 
 extension String {
 	func findBlock(start: String.Index) -> (string: String, index: String.Index) {
@@ -167,6 +166,7 @@ extension String {
 				let block = findBlock(index)
 				index = block.index
 				result += block.string
+				
 				escape = false
 				continue
 			} else {
@@ -188,18 +188,18 @@ extension String {
 	
 	func findTenary(index: String.Index) -> (string: String, index: String.Index)? {
 		let start = self.nextNonSpaceIndex(index.successor())
-		guard let firstObj = findObject(start) else {
+		guard let first = findObject(start) else {
 			return nil
 		}
-		let middle = self.nextNonSpaceIndex(firstObj.index)
+		let middle = self.nextNonSpaceIndex(first.index)
 		guard self[middle] == ":" else {
 			return nil
 		}
 		let end = self.nextNonSpaceIndex(middle.successor())
-		guard let secondObj = findObject(end) else {
+		guard let second = findObject(end) else {
 			return nil
 		}
-		return ("? \(firstObj.string) : \(secondObj.string)", secondObj.index)
+		return ("? \(first.string) : \(second.string)", second.index)
 	}
 	
 	func findObject(start: String.Index) -> (string: String, index: String.Index)? {
@@ -272,19 +272,19 @@ extension Character {
 			return false
 		}
 	}
-
+	
 	func isUpperBlock() -> Bool {
 		return self == "{" || self == "[" || self == "("
 	}
-
+	
 	func isLowerBlock() -> Bool {
 		return self == "}" || self == "]" || self == ")"
 	}
-
+	
 	func isSpace() -> Bool {
 		return self == " " || self == "\t"
 	}
-
+	
 	func isBlank() -> Bool {
 		return isSpace() || self == "\n"
 	}

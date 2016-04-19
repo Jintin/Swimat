@@ -136,12 +136,12 @@ class SwiftParser {
 				if retString.count > 0 {
 					let last = retString.lastNonSpaceChar(retString.endIndex.predecessor())
 					if last.isAZ() {
-						let keys = ["case", "return", "if", "for", "while"]
+						let keys = ["case", "return", "if", "for", "while", "in"]
 						if keys.contains(retString.lastWord()) {
 							negative = true
 						}
 					} else {
-						let keys: [Character] = ["+", "-", "*", "/", "&", "|", "^", "<", ">", ":", "(", "{", "?", "!", "=", ","]
+						let keys: [Character] = ["+", "-", "*", "/", "&", "|", "^", "<", ">", ":", "(", "{", "?", "!", "=", ",", "."]
 						if keys.contains(last) {
 							negative = true
 						}
