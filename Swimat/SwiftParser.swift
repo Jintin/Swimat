@@ -168,7 +168,7 @@ class SwiftParser {
 			if isNextChar("#") {
 				return append("<#")
 			}
-			if let result = findGeneric(strIndex) {
+			if let result = string.findGeneric(strIndex) {
 				retString += result.string
 				return result.index
 			}
@@ -176,7 +176,8 @@ class SwiftParser {
 		case "?":
 			if isNextChar("?") {
 				return spaceWith("??")
-			} else if let tenary = findTenary(strIndex) {
+			} else if let tenary = string.findTenary(strIndex) {
+				keepSpace()
 				retString += tenary.string
 				return tenary.index
 			} else {
@@ -218,7 +219,7 @@ class SwiftParser {
 			}
 			break
 		case "\"":
-			let quote = findQuote(strIndex)
+			let quote = string.findQuote(strIndex)
 			retString += quote.string
 			return quote.index
 		case "\n":
@@ -283,142 +284,5 @@ class SwiftParser {
 				break
 			}
 		}
-	}
-}
-
-extension SwiftParser {
-	func findBlock(start: String.Index) -> (string: String, index: String.Index) {
-		var index = start.successor()
-		var result = "("
-		while index < string.endIndex {
-			let next = string[index]
-
-			if next == "\"" {
-				let quote = findQuote(index)
-				index = quote.index
-				result += quote.string
-				continue
-			} else if next == "(" {
-				let block = findBlock(index)
-				index = block.index
-				result += block.string
-				continue
-			} else {
-				result.append(next)
-			}
-			index = index.successor()
-			if next == ")" {
-				break
-			}
-		}
-		let obj = SwiftParser(string: result).format() // TODO: no need to new obj
-
-		return (obj.string, index)
-	}
-
-	func findQuote(start: String.Index) -> (string: String, index: String.Index) {
-		var escape = false
-		var index = start.successor()
-		var result = "\""
-		while index < string.endIndex {
-			let next = string[index]
-
-			if escape && next == "(" {
-				let block = findBlock(index)
-				index = block.index
-				result += block.string
-				escape = false
-				continue
-			} else {
-				result.append(next)
-			}
-
-			index = index.successor()
-			if !escape && next == "\"" {
-				return (result, index)
-			}
-			if next == "\\" {
-				escape = !escape
-			} else {
-				escape = false
-			}
-		}
-		return (result, string.endIndex.predecessor())
-	}
-
-	func findTenary(index: String.Index) -> (string: String, index: String.Index)? {
-		let start = string.nextNonSpaceIndex(index.successor())
-		guard let firstObj = findObject(start) else {
-			return nil
-		}
-		let middle = string.nextNonSpaceIndex(firstObj.index)
-		guard string[middle] == ":" else {
-			return nil
-		}
-		let end = string.nextNonSpaceIndex(middle.successor())
-		guard let secondObj = findObject(end) else {
-			return nil
-		}
-		return ("? \(firstObj.string) : \(secondObj.string)", secondObj.index)
-	}
-
-	func findObject(start: String.Index) -> (string: String, index: String.Index)? {
-		var index = start
-		var result = ""
-		while index < string.endIndex {
-			let next = string[index]
-			let list: [Character] = ["?", "!", "."]
-			if next.isAZ() || next.isOneOf(list) { // TODO check complex case
-				result.append(next)
-			} else if next == "(" {
-				let block = findBlock(index)
-				index = block.index
-				result += block.string
-				continue
-			} else {
-				if result.isEmpty {
-					return nil
-				}
-				return (result, index)
-			}
-			index = index.successor()
-		}
-		return nil
-	}
-
-	func findGeneric(start: String.Index) -> (string: String, index: String.Index)? {
-		var index = start.successor()
-		var count = 1
-		var result = "<"
-		while index < string.endIndex {
-			let next = string[index]
-
-			switch next {
-			case "A" ... "z", "0" ... "9", ",", " ", "[", "]", ".", "?", ":":
-				result.append(next)
-			case "<":
-				count += 1
-				result.append(next)
-			case ">":
-				count -= 1
-				result.append(next)
-				if count == 0 {
-					// print("generic:\(result)")
-					return (result, index.successor())
-				} else if count < 0 {
-					return nil
-				}
-			case "(":
-				let block = findBlock(index)
-				index = block.index
-				result += block.string
-				continue
-			default:
-				return nil
-			}
-
-			index = index.successor()
-		}
-		return nil
 	}
 }

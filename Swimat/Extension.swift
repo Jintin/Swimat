@@ -28,20 +28,7 @@ extension String {
 	}
 
 	func trim() -> String {
-//		var index = endIndex.predecessor()
-//		while self[index].isSpace() {
-//
-//			removeAtIndex(index)
-//			if index > startIndex {
-//				index = index.predecessor()
-//			}
-//		}
-
-//		if let last = lastChar {
-//			if last.isSpace() {
 		return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-//			}
-//		}
 	}
 
 	func findDiff(string: String) -> (range1: Range<String.Index>, range2: Range<String.Index>)? {
@@ -138,6 +125,144 @@ extension String {
 	}
 }
 
+
+extension String {
+	func findBlock(start: String.Index) -> (string: String, index: String.Index) {
+		var index = start.successor()
+		var result = "("
+		while index < self.endIndex {
+			let next = self[index]
+			
+			if next == "\"" {
+				let quote = findQuote(index)
+				index = quote.index
+				result += quote.string
+				continue
+			} else if next == "(" {
+				let block = findBlock(index)
+				index = block.index
+				result += block.string
+				continue
+			} else {
+				result.append(next)
+			}
+			index = index.successor()
+			if next == ")" {
+				break
+			}
+		}
+		let obj = SwiftParser(string: result).format() // TODO: no need to new obj
+		
+		return (obj.string, index)
+	}
+	
+	func findQuote(start: String.Index) -> (string: String, index: String.Index) {
+		var escape = false
+		var index = start.successor()
+		var result = "\""
+		while index < self.endIndex {
+			let next = self[index]
+			
+			if escape && next == "(" {
+				let block = findBlock(index)
+				index = block.index
+				result += block.string
+				escape = false
+				continue
+			} else {
+				result.append(next)
+			}
+			
+			index = index.successor()
+			if !escape && next == "\"" {
+				return (result, index)
+			}
+			if next == "\\" {
+				escape = !escape
+			} else {
+				escape = false
+			}
+		}
+		return (result, self.endIndex.predecessor())
+	}
+	
+	func findTenary(index: String.Index) -> (string: String, index: String.Index)? {
+		let start = self.nextNonSpaceIndex(index.successor())
+		guard let firstObj = findObject(start) else {
+			return nil
+		}
+		let middle = self.nextNonSpaceIndex(firstObj.index)
+		guard self[middle] == ":" else {
+			return nil
+		}
+		let end = self.nextNonSpaceIndex(middle.successor())
+		guard let secondObj = findObject(end) else {
+			return nil
+		}
+		return ("? \(firstObj.string) : \(secondObj.string)", secondObj.index)
+	}
+	
+	func findObject(start: String.Index) -> (string: String, index: String.Index)? {
+		var index = start
+		var result = ""
+		while index < self.endIndex {
+			let next = self[index]
+			let list: [Character] = ["?", "!", "."]
+			if next.isAZ() || list.contains(next) { // TODO check complex case
+				result.append(next)
+			} else if next == "(" {
+				let block = findBlock(index)
+				index = block.index
+				result += block.string
+				continue
+			} else {
+				if result.isEmpty {
+					return nil
+				}
+				return (result, index)
+			}
+			index = index.successor()
+		}
+		return nil
+	}
+	
+	func findGeneric(start: String.Index) -> (string: String, index: String.Index)? {
+		var index = start.successor()
+		var count = 1
+		var result = "<"
+		while index < self.endIndex {
+			let next = self[index]
+			
+			switch next {
+			case "A" ... "z", "0" ... "9", ",", " ", "[", "]", ".", "?", ":":
+				result.append(next)
+			case "<":
+				count += 1
+				result.append(next)
+			case ">":
+				count -= 1
+				result.append(next)
+				if count == 0 {
+					// print("generic:\(result)")
+					return (result, index.successor())
+				} else if count < 0 {
+					return nil
+				}
+			case "(":
+				let block = findBlock(index)
+				index = block.index
+				result += block.string
+				continue
+			default:
+				return nil
+			}
+			
+			index = index.successor()
+		}
+		return nil
+	}
+}
+
 extension Character {
 	func isAZ() -> Bool {
 		switch self {
@@ -163,12 +288,4 @@ extension Character {
 	func isBlank() -> Bool {
 		return isSpace() || self == "\n"
 	}
-
-	func isOneOf(list: [Character]) -> Bool {
-		return list.contains(self)
-	}
-}
-
-func == <T: Equatable> (tuple1: (T, T), tuple2: (T, T)) -> Bool {
-	return (tuple1.0 == tuple2.0) && (tuple1.1 == tuple2.1)
 }
