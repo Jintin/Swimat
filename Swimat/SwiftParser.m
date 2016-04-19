@@ -397,9 +397,9 @@ int curIndent = 0;
 			} else if ([self isNextString:@"-<<"]) {
 				[self spaceWith:@"-<<"];
 			} else { // -
-				NSArray *checkChar = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@"<",@">",@":",@"(",@"{",@"?",@"!",@"=",@","];
+				NSArray *checkChar = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@"<",@">",@":",@"(",@"{",@"?",@"!",@"=",@",",@"."];
 				unichar last = [orString lastChar:strIndex - 1 defaults:' '];
-				NSArray *checkWord = @[@"case", @"return", @"if", @"for", @"while"];
+				NSArray *checkWord = @[@"case", @"return", @"if", @"for", @"while", @"in"];
 				NSString *lastWord = [orString lastWord:strIndex - 1];
 				
 				bool isNegative = false;
@@ -718,9 +718,10 @@ int curIndent = 0;
 					NSString *preStr = [orString lastWord:strIndex - 1];
 					if ([controlsArray containsObject:preStr]) {
 						[retString keepSpace];
-					} else if ([Parser isAZ:lastChar] || lastChar == ']'){
-						[self trimWithIndent];
 					}
+//					else if ([Parser isAZ:lastChar] || lastChar == ']'){
+//						[self trimWithIndent];
+//					}
 				}
 					break;
 				case '{':
