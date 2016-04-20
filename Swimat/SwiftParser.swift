@@ -28,12 +28,12 @@ class SwiftParser {
 	var checkCursor: (() -> Void)?
 	var inSwitch = false
 	var switchCount = 0
-
+	
 	init(string: String, range: NSRange? = nil) {
 		self.string = string
 		self.strIndex = string.startIndex
 		self.INDENT_CHAR = "\t"
-
+		
 		if range != nil {
 			self.range = string.rangeFromNSRange(range)!
 			self.checkCursor = checkCursorStart
@@ -41,7 +41,7 @@ class SwiftParser {
 			self.range = string.startIndex ..< string.startIndex
 		}
 	}
-
+	
 	func format() -> (string: String, range: NSRange?) {
 		#if DEBUG
 			let methodStart = NSDate()
@@ -57,12 +57,12 @@ class SwiftParser {
 		#endif
 		return (retString, retString.nsRangeFromRange(self.range))
 	}
-
+	
 	func getPosition(start: String.Index, now: String.Index) -> String.Index {
 		var cursor = start
 		var target = now
 		var diff = 0
-
+		
 		while strIndex > cursor {
 			// TODO: if space is in quote it should be count
 			if !string[cursor].isSpace() {
@@ -70,7 +70,7 @@ class SwiftParser {
 			}
 			cursor = cursor.successor()
 		}
-
+		
 		let modify = diff > 0
 		if modify {
 			target = target.predecessor()
@@ -87,10 +87,10 @@ class SwiftParser {
 		if modify {
 			target = target.successor()
 		}
-
+		
 		return target
 	}
-
+	
 	func checkCursorStart() {
 		if strIndex >= range.startIndex {
 			checkCursor = checkCursorEnd
@@ -102,7 +102,7 @@ class SwiftParser {
 				range = retString.endIndex ..< retString.endIndex
 				return
 			}
-
+			
 			let target = getPosition(cursor, now: retString.endIndex)
 			if range.startIndex == range.endIndex {
 				checkCursor = nil
@@ -111,7 +111,7 @@ class SwiftParser {
 			range.startIndex = target
 		}
 	}
-
+	
 	func checkCursorEnd() {
 		if strIndex >= range.endIndex {
 			checkCursor = nil
@@ -123,7 +123,7 @@ class SwiftParser {
 			}
 		}
 	}
-
+	
 	func checkChar(char: Character) -> String.Index {
 		switch char {
 		case "+", "*", "%", "^", "&", ">", "|", "=":
@@ -175,7 +175,7 @@ class SwiftParser {
 			return spaceWithArray(SwiftParser.OPERATOR_LIST[char]!)!
 		case "?":
 			if isNextChar("?") {
-				return spaceWith("??")
+				return append("??") // TODO: check double optional or nil check
 			} else if let tenary = string.findTenary(strIndex) {
 				keepSpace()
 				retString += tenary.string
@@ -234,30 +234,42 @@ class SwiftParser {
 		case ",":
 			retString += ", "
 			return string.nextNonSpaceIndex(strIndex.successor())
-		case "{", "}", "[", "]", "(", ")":
-			if char.isUpperBlock() {
-				indentStack.append(indent)
-				indent += tempIndent + 1
-				if inSwitch {
-					switchCount += 1
-				}
-			} else if char.isLowerBlock() {
-				indent = indentStack.popLast() ?? 0
-				if inSwitch {
-					switchCount -= 1
-					if switchCount == 0 {
-						inSwitch = false
-					}
-				}
-				trimWithIndent()
+		case "{", "[", "(":
+			indentStack.append(indent)
+			indent += tempIndent + 1
+			if inSwitch {
+				switchCount += 1
 			}
-			break
+			if char == "{" {
+				keepSpace()
+				retString += "{ "
+				return strIndex.successor()
+			} else {
+				return append(char)
+			}
+		case "}", "]", ")":
+			indent = indentStack.popLast() ?? 0
+			if inSwitch {
+				switchCount -= 1
+				if switchCount == 0 {
+					inSwitch = false
+				}
+			}
+			
+			if char == "}" {
+				trimWithIndent()//TODO change to newline check
+				keepSpace()
+				retString += "} "
+				return strIndex.successor()
+			} else {
+				return append(char)
+			}
 		default:
 			break
 		}
 		return checkDefault(char)
 	}
-
+	
 	func checkDefault(char: Character) -> String.Index {
 		append(char)
 		while strIndex < string.endIndex {
@@ -270,7 +282,7 @@ class SwiftParser {
 		}
 		return strIndex
 	}
-
+	
 	func checkLineEnd() {
 		tempIndent = 0
 		if let last = retString.lastChar {
