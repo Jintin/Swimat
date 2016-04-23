@@ -10,6 +10,7 @@
 		2F2441901C92AB7800D61E66 /* DTXcodeUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F24418D1C92AB7800D61E66 /* DTXcodeUtils.m */; };
 		2F2C1DB21CC4E3BD004D1C15 /* Prefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C1DB11CC4E3BD004D1C15 /* Prefs.swift */; };
 		2F47B40C1CA0ECE800B61747 /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD9B7831CA0DA8F001D7194 /* SwiftParser.swift */; };
+		2F841FC41CCB0D9600CDA8CD /* Prefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C1DB11CC4E3BD004D1C15 /* Prefs.swift */; };
 		2FA4BF331CA130DF00F0592A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA4BF321CA130DF00F0592A /* Parser.swift */; };
 		2FA4BF341CA130E300F0592A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA4BF321CA130DF00F0592A /* Parser.swift */; };
 		2FA4BF361CA1330400F0592A /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA4BF351CA1330400F0592A /* ParserTest.swift */; };
@@ -239,6 +240,7 @@
 				2FA4BF341CA130E300F0592A /* Parser.swift in Sources */,
 				2FD9B77D1CA02061001D7194 /* DTXcodeUtils.m in Sources */,
 				2FD9B7821CA0216E001D7194 /* StringTest.swift in Sources */,
+				2F841FC41CCB0D9600CDA8CD /* Prefs.swift in Sources */,
 				2FFED8111C96856800D90D92 /* SwimatTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -329,6 +331,7 @@
 				DEPLOYMENT_LOCATION = YES;
 				DSTROOT = "$(HOME)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = Swimat/Info.plist;
 				INSTALL_PATH = "/Library/Application Support/Developer/Shared/Xcode/Plug-ins";
 				LD_RUNPATH_SEARCH_PATHS = "$(DT_TOOLCHAIN_DIR)/usr/lib/swift/macosx";

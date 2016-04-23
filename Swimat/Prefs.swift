@@ -1,40 +1,69 @@
 import Foundation
 
 class Prefs {
-	private static let INDENT = "indent"
-	private static let INDENT_DEFAULT = "\t"
 
-	private static let SAVE_TRIGGER = "save_trigger"
-	private static let BUILD_TRIGGER = "save_trigger"
-	
-	func setIndent(indent: String) {
-		let userDefault = NSUserDefaults.standardUserDefaults()
-		userDefault.setObject(indent, forKey: Prefs.INDENT)
-	}
+	private static let Indent = "indent"
+	private static let IndentDefault = "\t"
+	static let IndentTitle = ["Tab Indent", "2 Space Indent", "3 Space Indent", "4 Space Indent"]
+	static let IndentTable = ["Tab Indent": "\t", "2 Space Indent": "  ", "3 Space Indent": "   ", "4 Space Indent": "    "]
+	private static let SaveTrigger = "save_trigger"
+	private static let BuildTrigger = "build_trigger"
+	private static let IndentEmptyLine = "indent_emptyline"
 
-	func getIndent() -> String {
-		let userDefault = NSUserDefaults.standardUserDefaults()
-		return userDefault.stringForKey(Prefs.INDENT) ?? Prefs.INDENT_DEFAULT
+	static func setIndent(indent: String) {
+		setString(Indent, value: indent)
 	}
 
-	func saveTrigger(trigger: Bool) {
-		let userDefault = NSUserDefaults.standardUserDefaults()
-		userDefault.setBool(trigger, forKey: Prefs.SAVE_TRIGGER)
+	static func getIndent() -> String {
+		return getString(Indent, defValue: IndentDefault)
 	}
-	
-	func isSaveTrigger() -> Bool {
-		let userDefault = NSUserDefaults.standardUserDefaults()
-		return userDefault.boolForKey(Prefs.SAVE_TRIGGER) ?? false
+
+	static func saveTrigger(trigger: Bool) {
+		setBool(SaveTrigger, value: trigger)
 	}
-	
-	func buildTrigger(trigger: Bool) {
-		let userDefault = NSUserDefaults.standardUserDefaults()
-		userDefault.setBool(trigger, forKey: Prefs.BUILD_TRIGGER)
+
+	static func isSaveTrigger() -> Bool {
+		return getBool(SaveTrigger, defValue: false)
 	}
-	
-	func isBuildTrigger() -> Bool {
+
+	static func buildTrigger(trigger: Bool) {
+		setBool(BuildTrigger, value: trigger)
+	}
+
+	static func isBuildTrigger() -> Bool {
+		return getBool(BuildTrigger, defValue: false)
+	}
+
+	static func indentEmptyLine(trigger: Bool) {
+		setBool(IndentEmptyLine, value: trigger)
+	}
+
+	static func isIndentEmptyLine() -> Bool {
+		return getBool(IndentEmptyLine, defValue: false)
+	}
+
+}
+
+extension Prefs { // MARK: base function
+
+	static func getBool(tag: String, defValue: Bool) -> Bool {
 		let userDefault = NSUserDefaults.standardUserDefaults()
-		return userDefault.boolForKey(Prefs.BUILD_TRIGGER) ?? false
+		return userDefault.boolForKey(tag) ?? defValue
+	}
+
+	static func setBool(tag: String, value: Bool) {
+		let userDefault = NSUserDefaults.standardUserDefaults()
+		userDefault.setBool(value, forKey: tag)
+	}
+
+	static func getString(tag: String, defValue: String) -> String {
+		let userDefault = NSUserDefaults.standardUserDefaults()
+		return userDefault.stringForKey(tag) ?? defValue
+	}
+
+	static func setString(tag: String, value: String) {
+		let userDefault = NSUserDefaults.standardUserDefaults()
+		userDefault.setObject(value, forKey: tag)
 	}
 
 }

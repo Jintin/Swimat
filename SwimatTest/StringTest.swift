@@ -4,14 +4,16 @@ import Foundation
 class StringTest: XCTestCase {
 
 	func testTrim() {
-		assert(" abc ".trim() == "abc")
-		assert("\tabc\t".trim() == "abc")
-		assert("\nabc\n".trim() == "\nabc\n")
+		assert("abc ".trim() == "abc")
+		assert("abc\t".trim() == "abc")
+		assert("abc\n".trim() == "abc\n")
 	}
 
 	func testDiff() {
 		let string = "abcd"
+
 		func index(start: Int, end1: Int, end2: Int) -> (range1: Range<String.Index>, range2: Range<String.Index>) {
+
 			let range1 = string.startIndex.advancedBy(start) ..< string.startIndex.advancedBy(end1)
 			let range2 = string.startIndex.advancedBy(start) ..< string.startIndex.advancedBy(end2)
 
@@ -40,8 +42,8 @@ class StringTest: XCTestCase {
 		assert("aa ".lastWord() == "aa")
 		assert("\naa\n".lastWord() == "aa")
 	}
-	
-	func testNextIndex() {
-		
+
+	func testNextStringIndex() {
 	}
+
 }

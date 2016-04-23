@@ -1,6 +1,7 @@
 import Foundation
 
 extension SwiftParser {
+
 	func isNextChar(char: Character) -> Bool {
 		let next = strIndex.successor()
 		if next < string.endIndex {
@@ -22,14 +23,14 @@ extension SwiftParser {
 	func isNextString(start: String.Index, word: String) -> Bool {
 		return string.substringFromIndex(start).hasPrefix(word)
 	}
-	
+
 	func keepSpace() {
 		if let last = retString.lastChar where !last.isBlank() {
 			retString += " "
 		}
 	}
 
-	func spaceWith(word: String = "") -> String.Index {
+	func spaceWith(word: String) -> String.Index {
 		keepSpace()
 		retString += "\(word) "
 		return string.nextNonSpaceIndex(strIndex.advancedBy(word.count))
@@ -60,25 +61,26 @@ extension SwiftParser {
 		} else if isNextWord("switch") {
 			inSwitch = true
 		}
-		retString += String(count: indent + tempIndent, repeatedValue: INDENT_CHAR)
+		for _ in 0 ..< indent + tempIndent {
+			retString += indentChar
+		}
 	}
 
-	func append(string: String) -> String.Index {
+	func addString(string: String) -> String.Index {
 		retString += string
-		strIndex = strIndex.advancedBy(string.count)
-		return strIndex
+		return strIndex.advancedBy(string.count)
 	}
 
-	func append(char: Character) -> String.Index {
+	func addChar(char: Character) -> String.Index {
 		retString.append(char)
-		strIndex = strIndex.successor()
-		return strIndex
+		return strIndex.successor()
 	}
 
 	func addToNext(start: String.Index, stopWord: String) -> String.Index {
 		var index = start
 		while index < string.endIndex {
 			if isNextString(index, word: stopWord) {
+				index = index.advancedBy(stopWord.count)
 				break
 			}
 			index = index.successor()
@@ -91,6 +93,7 @@ extension SwiftParser {
 		var index = start
 		while index < string.endIndex {
 			if string[index] == stopChar {
+				index = index.successor()
 				break
 			}
 			index = index.successor()
@@ -98,4 +101,5 @@ extension SwiftParser {
 		retString += string[start ..< index]
 		return index
 	}
+
 }

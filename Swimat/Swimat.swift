@@ -5,7 +5,10 @@ import Cocoa
 var sharedPlugin: Swimat?
 
 class Swimat: NSObject {
-	let name = "Swimat2"
+
+	let name = "Swimat5"
+	let SaveTrigger = "Format when Save"
+	let BuildTrigger = "Format when Build"
 
 	var bundle: NSBundle
 	lazy var center = NSNotificationCenter.defaultCenter()
@@ -27,18 +30,70 @@ class Swimat: NSObject {
 
 	func createMenuItems() {
 		removeObserver()
-		if let item = NSApp.mainMenu!.itemWithTitle("Edit") {
-			let swimatItem = NSMenuItem(title: name, action: #selector(swimatAction), keyEquivalent: "l")
-
-			swimatItem.keyEquivalentModifierMask = Int(NSEventModifierFlags.AlphaShiftKeyMask.rawValue | NSEventModifierFlags.CommandKeyMask.rawValue | NSEventModifierFlags.AlternateKeyMask.rawValue)
-			swimatItem.target = self
-
-			item.submenu!.addItem(.separatorItem())
-			item.submenu!.addItem(swimatItem)
+		guard let editItem = NSApp.mainMenu!.itemWithTitle("Edit") else {
+			return
 		}
+		let swimatMenu = NSMenu.init(title: name)
+		let swimatItem = NSMenuItem.init(title: name, action: nil, keyEquivalent: "")
+		swimatItem.submenu = swimatMenu
+		editItem.submenu!.addItem(.separatorItem())
+		editItem.submenu!.addItem(swimatItem)
+
+		let formatItem = NSMenuItem(title: "Format", action: #selector(formatAction), keyEquivalent: "l")
+
+		formatItem.keyEquivalentModifierMask = Int(NSEventModifierFlags.AlphaShiftKeyMask.rawValue | NSEventModifierFlags.CommandKeyMask.rawValue | NSEventModifierFlags.AlternateKeyMask.rawValue)
+		formatItem.target = self
+		swimatMenu.addItem(formatItem)
+
+		swimatMenu.addItem(.separatorItem())
+
+		let indentType = Prefs.getIndent()
+		for title in Prefs.IndentTitle {
+			let item = NSMenuItem(title: title, action: #selector(indentAction), keyEquivalent: "")
+			if Prefs.IndentTable[title]! == indentType {
+				item.state = NSOnState
+			}
+			item.target = self
+			swimatMenu.addItem(item)
+		}
+
+		swimatMenu.addItem(.separatorItem())
+		let saveItem = NSMenuItem(title: SaveTrigger, action: #selector(updateBool), keyEquivalent: "")
+		saveItem.target = self
+		saveItem.state = Prefs.isSaveTrigger() ? NSOnState : NSOffState
+		swimatMenu.addItem(saveItem)
+		let buildItem = NSMenuItem(title: BuildTrigger, action: #selector(updateBool), keyEquivalent: "")
+		buildItem.target = self
+		buildItem.state = Prefs.isBuildTrigger() ? NSOnState : NSOffState
+		swimatMenu.addItem(buildItem)
 	}
 
-	func swimatAction() {
+	func updateBool(menuItem: NSMenuItem) {
+		let state = menuItem.state != NSOnState
+		switch menuItem.title {
+		case SaveTrigger:
+			Prefs.saveTrigger(state)
+			break
+		case BuildTrigger:
+			Prefs.buildTrigger(state)
+			break
+		default:
+			break
+		}
+		menuItem.state = state ? NSOnState : NSOffState
+	}
+
+	func indentAction(menuItem: NSMenuItem) {
+		Prefs.setIndent(Prefs.IndentTable[menuItem.title]!)
+		for item in menuItem.parentItem!.submenu!.itemArray {
+			if item.action == #selector(indentAction) {
+				item.state = NSOffState
+			}
+		}
+		menuItem.state = NSOnState
+	}
+
+	func formatAction() {
 		#if DEBUG
 			let methodStart = NSDate()
 		#endif
@@ -49,7 +104,7 @@ class Swimat: NSObject {
 		setText(result.string, range: result.range!)
 		#if DEBUG
 			let executionTime = NSDate().timeIntervalSinceDate(methodStart)
-			print("total   executionTime = \(executionTime)");
+			print("\(#function) executionTime = \(executionTime)")
 		#endif
 	}
 
@@ -79,7 +134,8 @@ class Swimat: NSObject {
 		}
 		#if DEBUG
 			let executionTime = NSDate().timeIntervalSinceDate(methodStart)
-			print("setText executionTime = \(executionTime)");
+			print("\(#function)  executionTime = \(executionTime)")
 		#endif
 	}
+
 }

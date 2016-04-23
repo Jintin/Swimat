@@ -12,4 +12,5 @@ class ParserTest: XCTestCase {
 		parser.strIndex = parser.string.startIndex
 		assert(parser.isNextString("a") == true)
 	}
+
 }
