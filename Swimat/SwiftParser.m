@@ -314,18 +314,18 @@ int curIndent = 0;
                     shouldAddNewline = NO;
                 } else if ([Parser isLowerBrackets:nextCharOrNewline]) {
                     // There may not be an empty line before a closing bracket
-                    shouldAddNewline = NO;
+//                    shouldAddNewline = NO;
                 } else if ([Parser isUpperBrackets:nextChar]) {
                     // There may not be an empty line before an opening bracket
                     shouldAddNewline = NO;
-                    
+					
                     if (indentEmptyLine) {
                         shouldIndent = NO;
                     }
                 } else if ([Parser isUpperBrackets:lastChar]) {
                     // There may not be an empty line after an opening bracket
-                    shouldAddNewline = NO;
-                    
+//                    shouldAddNewline = NO;
+					
                     if (indentEmptyLine) {
                         shouldIndent = NO;
                     }
