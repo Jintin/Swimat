@@ -170,23 +170,24 @@ static NSString *const SWMSwiftParserTestMultipleNewlineSourceString = @"func a(
     XCTAssert(newlineCount < 2); // Make sure there is no empty line, if there are one or two newlines depends on the "break before opening brace" rule!
 }
 
-- (void)test_parserShouldRemoveEmptyLineBeforeClosingBrace {
-    NSString *input = @"if a == 1 {\nlet b = a\n\n}";
-    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
-    [self logInput:input output:output];
-    
-    const NSInteger newlineCount = [self numberOfNewlinesInString:output betweenFirstOccurrenceOfSubstring:@"b = a" andFirstOccurrenceOfSubstring:@"}"];
-    XCTAssertEqual(newlineCount, 1);
-}
-
-- (void)test_parserShouldRemoveEmptyLineAfterOpeningBrace {
-    NSString *input = @"if a == 1 {\n\nlet b = a\n}";
-    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
-    [self logInput:input output:output];
-    
-    const NSInteger newlineCount = [self numberOfNewlinesInString:output betweenFirstOccurrenceOfSubstring:@"{" andFirstOccurrenceOfSubstring:@"b = a"];
-    XCTAssertEqual(newlineCount, 1);
-}
+// TOOD: only need NewlinesToOne
+//- (void)test_parserShouldRemoveEmptyLineBeforeClosingBrace {
+//    NSString *input = @"if a == 1 {\nlet b = a\n\n}";
+//    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
+//    [self logInput:input output:output];
+//    
+//    const NSInteger newlineCount = [self numberOfNewlinesInString:output betweenFirstOccurrenceOfSubstring:@"b = a" andFirstOccurrenceOfSubstring:@"}"];
+//    XCTAssertEqual(newlineCount, 1);
+//}
+// TOOD: only need NewlinesToOne
+//- (void)test_parserShouldRemoveEmptyLineAfterOpeningBrace {
+//    NSString *input = @"if a == 1 {\n\nlet b = a\n}";
+//    NSString *output = [self.parser formatString:input withRange:NSMakeRange(0, input.length)];
+//    [self logInput:input output:output];
+//    
+//    const NSInteger newlineCount = [self numberOfNewlinesInString:output betweenFirstOccurrenceOfSubstring:@"{" andFirstOccurrenceOfSubstring:@"b = a"];
+//    XCTAssertEqual(newlineCount, 1);
+//}
 
 - (void)test_parserShouldReduceConsecutiveNewlinesToOne {
     NSString *input = @"let a = 1\n\n\n\nlet b = a + 1";
