@@ -193,7 +193,7 @@ extension String {
 		return (result, endIndex.predecessor())
 	}
 
-	func findTenary(index: String.Index) -> (string: String, index: String.Index)? {
+	func findTernary(index: String.Index) -> (string: String, index: String.Index)? {
 		let start = nextNonSpaceIndex(index.successor())
 		guard let first = findObject(start) else {
 			return nil

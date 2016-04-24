@@ -184,10 +184,10 @@ class SwiftParser {
 			if isNextChar("?") {
 				// TODO: check double optional or nil check
 				return addString("??")
-			} else if let tenary = string.findTenary(strIndex) {
+			} else if let ternary = string.findTernary(strIndex) {
 				keepSpace()
-				retString += tenary.string
-				return tenary.index
+				retString += ternary.string
+				return ternary.index
 			} else {
 				return addChar(char)
 			}
