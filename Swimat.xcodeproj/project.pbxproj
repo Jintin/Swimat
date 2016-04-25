@@ -11,6 +11,7 @@
 		2F2C1DB21CC4E3BD004D1C15 /* Prefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C1DB11CC4E3BD004D1C15 /* Prefs.swift */; };
 		2F47B40C1CA0ECE800B61747 /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD9B7831CA0DA8F001D7194 /* SwiftParser.swift */; };
 		2F841FC41CCB0D9600CDA8CD /* Prefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2C1DB11CC4E3BD004D1C15 /* Prefs.swift */; };
+		2F841FC71CCDF91800CDA8CD /* NSDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F841FC61CCDF91800CDA8CD /* NSDocument.swift */; };
 		2FA4BF331CA130DF00F0592A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA4BF321CA130DF00F0592A /* Parser.swift */; };
 		2FA4BF341CA130E300F0592A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA4BF321CA130DF00F0592A /* Parser.swift */; };
 		2FA4BF361CA1330400F0592A /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA4BF351CA1330400F0592A /* ParserTest.swift */; };
@@ -32,6 +33,7 @@
 		2F24418E1C92AB7800D61E66 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		2F24418F1C92AB7800D61E66 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2F2C1DB11CC4E3BD004D1C15 /* Prefs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prefs.swift; sourceTree = "<group>"; };
+		2F841FC61CCDF91800CDA8CD /* NSDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDocument.swift; sourceTree = "<group>"; };
 		2FA4BF321CA130DF00F0592A /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		2FA4BF351CA1330400F0592A /* ParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
 		2FBF23B01C7AD8FA00E45926 /* Swimat.xcplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Swimat.xcplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +97,7 @@
 			children = (
 				2F24418A1C92AB7800D61E66 /* DTXcodeUtils */,
 				2FBF23B61C7AD8FA00E45926 /* Swimat.swift */,
+				2F841FC61CCDF91800CDA8CD /* NSDocument.swift */,
 				2FBF23B81C7AD8FA00E45926 /* NSObject_Extension.swift */,
 				2FBF23BA1C7AD8FA00E45926 /* Info.plist */,
 				2FBF23B31C7AD8FA00E45926 /* Supporting Files */,
@@ -223,6 +226,7 @@
 				2F2C1DB21CC4E3BD004D1C15 /* Prefs.swift in Sources */,
 				2FD9B7841CA0DA8F001D7194 /* SwiftParser.swift in Sources */,
 				2FBF23B71C7AD8FA00E45926 /* Swimat.swift in Sources */,
+				2F841FC71CCDF91800CDA8CD /* NSDocument.swift in Sources */,
 				2FA4BF331CA130DF00F0592A /* Parser.swift in Sources */,
 				2F2441901C92AB7800D61E66 /* DTXcodeUtils.m in Sources */,
 				2FD9B77F1CA020C3001D7194 /* Extension.swift in Sources */,

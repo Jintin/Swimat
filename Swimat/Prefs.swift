@@ -7,7 +7,6 @@ class Prefs {
 	static let IndentTitle = ["Tab Indent", "2 Space Indent", "3 Space Indent", "4 Space Indent"]
 	static let IndentTable = ["Tab Indent": "\t", "2 Space Indent": "  ", "3 Space Indent": "   ", "4 Space Indent": "    "]
 	private static let SaveTrigger = "save_trigger"
-	private static let BuildTrigger = "build_trigger"
 	private static let IndentEmptyLine = "indent_emptyline"
 
 	static func setIndent(indent: String) {
@@ -24,14 +23,6 @@ class Prefs {
 
 	static func isSaveTrigger() -> Bool {
 		return getBool(SaveTrigger, defValue: false)
-	}
-
-	static func buildTrigger(trigger: Bool) {
-		setBool(BuildTrigger, value: trigger)
-	}
-
-	static func isBuildTrigger() -> Bool {
-		return getBool(BuildTrigger, defValue: false)
 	}
 
 	static func indentEmptyLine(trigger: Bool) {

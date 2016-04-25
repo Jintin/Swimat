@@ -6,9 +6,8 @@ var sharedPlugin: Swimat?
 
 class Swimat: NSObject {
 
-	let name = "Swimat5"
+	let name = "Swimat"
 	let SaveTrigger = "Format when Save"
-	let BuildTrigger = "Format when Build"
 
 	var bundle: NSBundle
 	lazy var center = NSNotificationCenter.defaultCenter()
@@ -39,7 +38,7 @@ class Swimat: NSObject {
 		editItem.submenu!.addItem(.separatorItem())
 		editItem.submenu!.addItem(swimatItem)
 
-		let formatItem = NSMenuItem(title: "Format", action: #selector(formatAction), keyEquivalent: "l")
+		let formatItem = NSMenuItem(title: "Format", action: #selector(Swimat.formatAction), keyEquivalent: "l")
 
 		formatItem.keyEquivalentModifierMask = Int(NSEventModifierFlags.AlphaShiftKeyMask.rawValue | NSEventModifierFlags.CommandKeyMask.rawValue | NSEventModifierFlags.AlternateKeyMask.rawValue)
 		formatItem.target = self
@@ -62,10 +61,6 @@ class Swimat: NSObject {
 		saveItem.target = self
 		saveItem.state = Prefs.isSaveTrigger() ? NSOnState : NSOffState
 		swimatMenu.addItem(saveItem)
-		let buildItem = NSMenuItem(title: BuildTrigger, action: #selector(updateBool), keyEquivalent: "")
-		buildItem.target = self
-		buildItem.state = Prefs.isBuildTrigger() ? NSOnState : NSOffState
-		swimatMenu.addItem(buildItem)
 	}
 
 	func updateBool(menuItem: NSMenuItem) {
@@ -73,9 +68,6 @@ class Swimat: NSObject {
 		switch menuItem.title {
 		case SaveTrigger:
 			Prefs.saveTrigger(state)
-			break
-		case BuildTrigger:
-			Prefs.buildTrigger(state)
 			break
 		default:
 			break
@@ -97,11 +89,16 @@ class Swimat: NSObject {
 		#if DEBUG
 			let methodStart = NSDate()
 		#endif
-		let source = DTXcodeUtils.currentSourceTextView()
-		let string = source.textStorage!.string
-		let range = source.selectedRanges[0].rangeValue
-		let result = SwiftParser(string: string, range: range).format()
-		setText(result.string, range: result.range!)
+		if let ext = DTXcodeUtils.currentSourceCodeDocument()?.fileURL?.pathExtension {
+			let acceptList = ["swift", "playground"]
+			if acceptList.contains(ext) {
+				let source = DTXcodeUtils.currentSourceTextView()
+				let string = source.textStorage!.string
+				let range = source.selectedRanges[0].rangeValue
+				let result = SwiftParser(string: string, range: range).format()
+				setText(result.string, range: result.range!)
+			}
+		}
 		#if DEBUG
 			let executionTime = NSDate().timeIntervalSinceDate(methodStart)
 			print("\(#function) executionTime = \(executionTime)")

@@ -129,7 +129,7 @@ extension String {
 		return findBlock(start, startSign: "(", endSign: ")")
 	}
 
-	func findSqare(start: String.Index) -> (string: String, index: String.Index) {
+	func findSquare(start: String.Index) -> (string: String, index: String.Index) {
 		return findBlock(start, startSign: "[", endSign: "]")
 	}
 
@@ -218,7 +218,7 @@ extension String {
 			if next.isAZ() || list.contains(next) { // TODO: check complex case
 				result.append(next)
 			} else if next == "[" {
-				let block = findSqare(index)
+				let block = findSquare(index)
 				index = block.index
 				result += block.string
 				continue
