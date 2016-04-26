@@ -8,6 +8,7 @@ class Prefs {
 	static let IndentTable = ["Tab Indent": "\t", "2 Space Indent": "  ", "3 Space Indent": "   ", "4 Space Indent": "    "]
 	private static let SaveTrigger = "save_trigger"
 	private static let IndentEmptyLine = "indent_emptyline"
+	private static let SmartLine = "smart_line"
 
 	static func setIndent(indent: String) {
 		setString(Indent, value: indent)
@@ -31,6 +32,14 @@ class Prefs {
 
 	static func isIndentEmptyLine() -> Bool {
 		return getBool(IndentEmptyLine, defValue: false)
+	}
+
+	static func setSmartLine(value: Bool) {
+		setBool(SmartLine, value: value)
+	}
+
+	static func isSmartLine() -> Bool {
+		return getBool(SmartLine, defValue: false)
 	}
 
 }

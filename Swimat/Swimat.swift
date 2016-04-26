@@ -8,6 +8,7 @@ class Swimat: NSObject {
 
 	let name = "Swimat"
 	let SaveTrigger = "Format when Save"
+	let SmartLine = "Smart Line"
 
 	var bundle: NSBundle
 	lazy var center = NSNotificationCenter.defaultCenter()
@@ -32,8 +33,8 @@ class Swimat: NSObject {
 		guard let editItem = NSApp.mainMenu!.itemWithTitle("Edit") else {
 			return
 		}
-		let swimatMenu = NSMenu.init(title: name)
-		let swimatItem = NSMenuItem.init(title: name, action: nil, keyEquivalent: "")
+		let swimatMenu = NSMenu(title: name)
+		let swimatItem = NSMenuItem(title: name, action: nil, keyEquivalent: "")
 		swimatItem.submenu = swimatMenu
 		editItem.submenu!.addItem(.separatorItem())
 		editItem.submenu!.addItem(swimatItem)
@@ -57,17 +58,26 @@ class Swimat: NSObject {
 		}
 
 		swimatMenu.addItem(.separatorItem())
-		let saveItem = NSMenuItem(title: SaveTrigger, action: #selector(updateBool), keyEquivalent: "")
+		let saveItem = NSMenuItem(title: SaveTrigger, action: #selector(toggleMenu), keyEquivalent: "")
 		saveItem.target = self
 		saveItem.state = Prefs.isSaveTrigger() ? NSOnState : NSOffState
 		swimatMenu.addItem(saveItem)
+
+		//		swimatMenu.addItem(.separatorItem())
+		//		let saveItem = NSMenuItem(title: SmartLine, action: #selector(toggleMenu), keyEquivalent: "")
+		//		saveItem.target = self
+		//		saveItem.state = Prefs.isSmartLine() ? NSOnState : NSOffState
+		//		swimatMenu.addItem(saveItem)
 	}
 
-	func updateBool(menuItem: NSMenuItem) {
+	func toggleMenu(menuItem: NSMenuItem) {
 		let state = menuItem.state != NSOnState
 		switch menuItem.title {
 		case SaveTrigger:
 			Prefs.saveTrigger(state)
+			break
+		case SmartLine:
+			Prefs.setSmartLine(state)
 			break
 		default:
 			break
