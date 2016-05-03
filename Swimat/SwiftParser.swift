@@ -11,7 +11,7 @@ class SwiftParser {
 		"~": ["~=", "~~>"],
 		"%": ["%=", "%"],
 		"^": ["^="],
-		"&": ["&&=", "&&", "&=", "&+", "&-", "&*", "&/", "&%"],
+		"&": ["&&=", "&&&", "&&", "&=", "&+", "&-", "&*", "&/", "&%"],
 		"<": ["<<<", "<<=", "<<", "<=", "<~~", "<~", "<--", "<-<", "<-", "<^>", "<|>", "<*>", "<||?", "<||", "<|?", "<|", "<"],
 		">": [">>>", ">>=", ">>-", ">>", ">=", ">->", ">"],
 		"|": ["|||", "||=", "||", "|=", "|"],
@@ -20,7 +20,7 @@ class SwiftParser {
 		".": ["...", "..<"]
 	]
 
-	private static let NegativeCheckSigns: [Character] = ["+", "-", "*", "/", "&", "|", "^", "<", ">", ":", "(", "{", "?", "!", "=", ",", "."]
+	private static let NegativeCheckSigns: [Character] = ["+", "-", "*", "/", "&", "|", "^", "<", ">", ":", "(", "[", "{", "?", "!", "=", ",", "."]
 	private static let NegativeCheckKeys = ["case", "return", "if", "for", "while", "in"]
 
 	let indentChar: String
@@ -88,9 +88,8 @@ class SwiftParser {
 		return (retString, retString.nsRangeFromRange(range))
 	}
 
-	func getPosition(start: String.Index, now: String.Index) -> String.Index {
-		var cursor = start
-		var target = now
+	func getPosition(start: String.Index) -> String.Index {
+		var cursor = start // range position
 		var diff = 0
 
 		while strIndex > cursor {
@@ -101,10 +100,7 @@ class SwiftParser {
 			cursor = cursor.successor()
 		}
 
-		let modify = diff > 0
-		if modify {
-			target = target.predecessor()
-		}
+		var target = retString.endIndex.predecessor()
 		while diff > 0 {
 			diff -= 1
 			if retString[target].isSpace() {
@@ -114,11 +110,8 @@ class SwiftParser {
 				target = target.predecessor()
 			}
 		}
-		if modify {
-			target = target.successor()
-		}
 
-		return target
+		return target.successor()
 	}
 
 	func checkCursorStart() {
@@ -133,7 +126,7 @@ class SwiftParser {
 				return
 			}
 
-			let target = getPosition(cursor, now: retString.endIndex)
+			let target = getPosition(cursor)
 			if range.startIndex == range.endIndex {
 				checkCursor = nil
 				range.endIndex = target
@@ -149,7 +142,7 @@ class SwiftParser {
 			if cursor == string.endIndex {
 				range.endIndex = retString.endIndex
 			} else {
-				range.endIndex = getPosition(cursor, now: retString.endIndex)
+				range.endIndex = getPosition(cursor)
 			}
 		}
 	}
@@ -262,7 +255,7 @@ class SwiftParser {
 			blockStack.append(block)
 			blockType = BlockType.from(char)
 			indent += tempIndent + 1
-			if inSwitch {
+			if inSwitch && char == "{" {
 				switchCount += 1
 			}
 			if char == "{" {
@@ -282,7 +275,7 @@ class SwiftParser {
 			} else {
 				indent = 0
 			}
-			if inSwitch {
+			if inSwitch && char == "}" {
 				switchCount -= 1
 				if switchCount == 0 {
 					inSwitch = false
