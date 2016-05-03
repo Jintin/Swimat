@@ -397,7 +397,7 @@ int curIndent = 0;
 			} else if ([self isNextString:@"-<<"]) {
 				[self spaceWith:@"-<<"];
 			} else { // -
-				NSArray *checkChar = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@"<",@">",@":",@"(",@"{",@"?",@"!",@"=",@",",@"."];
+				NSArray *checkChar = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@"<",@">",@":",@"(",@"{",@"[",@"?",@"!",@"=",@",",@"."];
 				unichar last = [orString lastChar:strIndex - 1 defaults:' '];
 				NSArray *checkWord = @[@"case", @"return", @"if", @"for", @"while", @"in"];
 				NSString *lastWord = [orString lastWord:strIndex - 1];
@@ -433,7 +433,7 @@ int curIndent = 0;
 				return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
 				
 			} else {
-				[self appendString:@"^ "];
+				[self appendString:@"^"];
 				return strIndex;
 			}
 		case '*':
@@ -447,7 +447,7 @@ int curIndent = 0;
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
 		case '&':
 		{
-			NSArray *array = @[@"&+", @"&-", @"&*", @"&/", @"&%", @"&&=", @"&&", @"&="];
+			NSArray *array = @[@"&+", @"&-", @"&*", @"&/", @"&%", @"&&=", @"&&&", @"&&", @"&="];
 			NSUInteger findIndex = [self spaceWithArray:array];
 			if (findIndex != -1) {
 				return findIndex;
