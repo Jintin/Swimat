@@ -174,7 +174,6 @@ class SwiftParser {
 				return spaceWith("-")
 			}
 		case "~", "^", ".", "!", "&":
-			// TODO: check next if operator first
 			if let index = spaceWithArray(SwiftParser.OperatorList[char]!) {
 				return index
 			}
@@ -251,7 +250,7 @@ class SwiftParser {
 			retString += ", "
 			return string.nextNonSpaceIndex(strIndex.successor())
 		case "{", "[", "(":
-			let block = Block(indent: indent + tempIndent, type: blockType)
+			let block = Block(indent: indent, type: blockType)
 			blockStack.append(block)
 			blockType = BlockType.from(char)
 			indent += tempIndent + 1

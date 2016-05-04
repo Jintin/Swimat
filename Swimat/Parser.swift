@@ -61,6 +61,7 @@ extension SwiftParser {
 		} else if isNextWord("switch") {
 			inSwitch = true
 		}
+
 		for _ in 0 ..< indent + tempIndent {
 			retString += indentChar
 		}
