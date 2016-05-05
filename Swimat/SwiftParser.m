@@ -291,7 +291,6 @@ int curIndent = 0;
         }
         
         BOOL shouldAddNewline = YES;
-        BOOL shouldIndent = YES;
         
         const NSUInteger lastCharIndex = [orString lastCharIndex:strIndex defaults:NSNotFound];
         const unichar lastChar = (lastCharIndex == NSNotFound ? ' ' : [orString characterAtIndex:lastCharIndex]);
@@ -306,29 +305,20 @@ int curIndent = 0;
         if ((breakBeforeOpeningBraceRule == SWMBreakBeforeOpeningBraceRuleRemove) && (nextChar == '{')) {
             // There may not be a newline before an opening brace
             shouldAddNewline = NO;
-            shouldIndent = NO;
         } else {
             if (isEmptyLine) {
                 if (nextCharOrNewline == '\n') {
                     // There may not be more than one consecutive empty line
                     shouldAddNewline = NO;
                 } else if ([Parser isLowerBrackets:nextCharOrNewline]) {
-                    // There may not be an empty line before a closing bracket
-//                    shouldAddNewline = NO;
+					
                 } else if ([Parser isUpperBrackets:nextChar]) {
                     // There may not be an empty line before an opening bracket
                     shouldAddNewline = NO;
 					
-                    if (indentEmptyLine) {
-                        shouldIndent = NO;
-                    }
+                 
                 } else if ([Parser isUpperBrackets:lastChar]) {
-                    // There may not be an empty line after an opening bracket
-//                    shouldAddNewline = NO;
 					
-                    if (indentEmptyLine) {
-                        shouldIndent = NO;
-                    }
                 }
             } // else: this line is not empty and a newline is always OK
         }
@@ -340,7 +330,9 @@ int curIndent = 0;
 		}
 		
         NSUInteger nextIndex;
-        if (shouldIndent) {
+		NSUInteger next = [orString nextNonSpaceIndex:strIndex defaults:-1];
+		
+        if (indentEmptyLine || next == -1 || [orString characterAtIndex:next] != '\n') {
             nextIndex = [self addIndent:retString];
         } else {
             nextIndex = strIndex;
