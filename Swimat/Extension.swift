@@ -37,10 +37,11 @@ extension String {
 		}
 
 		let start = commonPrefixWithString(string, options: .AnchoredSearch).endIndex
+
 		var end1 = endIndex.predecessor()
 		var end2 = string.endIndex.predecessor()
 		while self[end1] == string[end2] {
-			if end1 >= start && end2 >= start {
+			if end1 > start && end2 > start {
 				end1 = end1.predecessor()
 				end2 = end2.predecessor()
 			} else {
@@ -64,8 +65,8 @@ extension String {
 			let from16 = utf16.startIndex.advancedBy(range.location, limit: utf16.endIndex)
 			let to16 = from16.advancedBy(range.length, limit: utf16.endIndex)
 			if let from = String.Index(from16, within: self),
-			to = String.Index(to16, within: self) {
-				return from ..< to
+				to = String.Index(to16, within: self) {
+					return from ..< to
 			}
 		}
 		return nil

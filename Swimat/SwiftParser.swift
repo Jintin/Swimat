@@ -1,6 +1,5 @@
 import Foundation
 
-
 class SwiftParser {
 
 	private static let OperatorList: [Character: [String]] = [
@@ -56,6 +55,7 @@ class SwiftParser {
 
 	struct Block {
 		let indent: Int
+		let tempIndent: Int
 		let type: BlockType
 	}
 
@@ -94,24 +94,25 @@ class SwiftParser {
 
 		while strIndex > cursor {
 			// TODO: if space is in quote it should be count
+
 			if !string[cursor].isSpace() {
 				diff += 1
 			}
 			cursor = cursor.successor()
 		}
-
-		var target = retString.endIndex.predecessor()
-		while diff > 0 {
-			diff -= 1
-			if retString[target].isSpace() {
-				target = retString.lastNonSpaceIndex(target)
-			}
-			if target > strIndex {
+		if retString.endIndex != retString.startIndex {
+			var target = retString.endIndex.predecessor()
+			while diff > 0 {
+				diff -= 1
+				if retString[target].isSpace() {
+					target = retString.lastNonSpaceIndex(target)
+				}
 				target = target.predecessor()
 			}
+			return target.successor()
 		}
 
-		return target.successor()
+		return retString.endIndex
 	}
 
 	func checkCursorStart() {
@@ -130,8 +131,17 @@ class SwiftParser {
 			if range.startIndex == range.endIndex {
 				checkCursor = nil
 				range.endIndex = target
+				range.startIndex = target
+			} else {
+				var temp = string.substringToIndex((cursor))
+				// TODO cannot decrement startIndex
+				if target == retString.startIndex {
+					temp += retString.substringFromIndex(target)
+				} else {
+					temp += retString.substringFromIndex(retString.lastNonSpaceIndex(target.predecessor()).successor())
+				}
+				retString = temp;
 			}
-			range.startIndex = target
 		}
 	}
 
@@ -143,6 +153,8 @@ class SwiftParser {
 				range.endIndex = retString.endIndex
 			} else {
 				range.endIndex = getPosition(cursor)
+				retString = retString.substringToIndex(retString.nextNonSpaceIndex(range.endIndex)) + string.substringFromIndex(cursor)
+				strIndex = string.endIndex
 			}
 		}
 	}
@@ -250,7 +262,7 @@ class SwiftParser {
 			retString += ", "
 			return string.nextNonSpaceIndex(strIndex.successor())
 		case "{", "[", "(":
-			let block = Block(indent: indent, type: blockType)
+			let block = Block(indent: indent, tempIndent: tempIndent, type: blockType)
 			blockStack.append(block)
 			blockType = BlockType.from(char)
 			indent += tempIndent + 1
@@ -270,6 +282,7 @@ class SwiftParser {
 		case "}", "]", ")":
 			if let block = blockStack.popLast() {
 				indent = block.indent
+				tempIndent = block.tempIndent
 				blockType = block.type
 			} else {
 				indent = 0
@@ -333,6 +346,7 @@ class SwiftParser {
 			}
 			return nil
 		}
+
 		if let last = retString.lastChar {
 			if let result = check(last) {
 				tempIndent = result
@@ -340,16 +354,21 @@ class SwiftParser {
 			}
 		}
 
-		let next = string.nextNonSpaceIndex(strIndex)
-		if next < string.endIndex {
-			if let result = check(string[next]) {
-				tempIndent = result
-				return
+		if strIndex < string.endIndex {
+			let next = string.nextNonSpaceIndex(strIndex.successor())
+			if next < string.endIndex {
+				if let result = check(string[next]) {
+					tempIndent = result
+					return
+				}
+				if string[next] == "?" {
+					tempIndent = 1
+					return
+				}
 			}
+			tempIndent = 0
+			// TODO: check next if ? :
+
 		}
-		tempIndent = 0
-		// TODO: check next if ? :
-
 	}
-
 }
