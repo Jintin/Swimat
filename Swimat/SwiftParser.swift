@@ -92,7 +92,7 @@ class SwiftParser {
 		var diff = 0
 
 		while strIndex > cursor {
-			// TODO: if space is in quote it should be count
+				// TODO: if space is in quote it should be count
 
 			if !string[cursor].isSpace() {
 				diff += 1
@@ -116,9 +116,14 @@ class SwiftParser {
 
 	func checkCursorStart() {
 		if strIndex >= range.startIndex {
-			checkCursor = checkCursorEnd
 			let cursor = range.startIndex
+			if cursor == range.endIndex {
+				checkCursor = nil
+			} else {
+				checkCursor = checkCursorEnd
+			}
 			if cursor == string.startIndex {
+
 				return
 			} else if cursor == string.endIndex {
 				checkCursor = nil
@@ -133,12 +138,12 @@ class SwiftParser {
 				range.startIndex = target
 			} else {
 				var temp = string.substringToIndex((cursor))
-				// TODO cannot decrement startIndex
-				if target == retString.startIndex {
-					temp += retString.substringFromIndex(target)
-				} else {
-					temp += retString.substringFromIndex(retString.lastNonSpaceIndex(target.predecessor()).successor())
-				}
+					// TODO cannot decrement startIndex
+					if target == retString.startIndex {
+						temp += retString.substringFromIndex(target)
+					} else {
+						temp += retString.substringFromIndex(retString.lastNonSpaceIndex(target.predecessor()).successor())
+					}
 				retString = temp;
 			}
 		}
@@ -218,8 +223,8 @@ class SwiftParser {
 			return spaceWithArray(SwiftParser.OperatorList[char]!)!
 		case "?":
 			if isNextChar("?") {
-				// TODO: check double optional or nil check
-				return addString("??")
+					// TODO: check double optional or nil check
+					return addString("??")
 			} else if let ternary = string.findTernary(strIndex) {
 				keepSpace()
 				retString += ternary.string
@@ -375,7 +380,7 @@ class SwiftParser {
 				}
 			}
 			tempIndent = 0
-			// TODO: check next if ? :
+				// TODO: check next if ? :
 
 		}
 	}
