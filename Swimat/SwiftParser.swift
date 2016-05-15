@@ -15,8 +15,7 @@ class SwiftParser {
 		">": [">>>", ">>=", ">>-", ">>", ">=", ">->", ">"],
 		"|": ["|||", "||=", "||", "|=", "|"],
 		"!": ["!==", "!="],
-		"=": ["===", "==", "="],
-		".": ["...", "..<"]
+		"=": ["===", "==", "="]
 	]
 
 	private static let NegativeCheckSigns: [Character] = ["+", "-", "*", "/", "&", "|", "^", "<", ">", ":", "(", "[", "{", "?", "!", "=", ",", "."]
@@ -185,9 +184,18 @@ class SwiftParser {
 				}
 				return spaceWith("-")
 			}
-		case "~", "^", ".", "!", "&":
+		case "~", "^", "!", "&":
 			if let index = spaceWithArray(SwiftParser.OperatorList[char]!) {
 				return index
+			}
+			return addChar(char)
+		case ".":
+			if isNextChar(".") {
+				if isNextString("...") {
+					return addString("...")
+				} else if isNextString("..<") {
+					return addString("..<")
+				}
 			}
 			return addChar(char)
 		case "/":
