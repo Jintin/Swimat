@@ -606,7 +606,8 @@ int curIndent = 0;
 			if (orString.length >= strIndex + 3) {
 				NSString *leading = [orString substringWithRange:NSMakeRange(strIndex, 3)];
 				if ([leading isEqualToString:@"..."] || [leading isEqualToString:@"..<"]) {
-					[self spaceWith:leading];
+					[self appendString:leading];
+					return strIndex;
 				} else {
 					[self appendString:@"."];
 				}
