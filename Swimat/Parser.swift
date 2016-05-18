@@ -90,11 +90,10 @@ extension SwiftParser {
 		return index
 	}
 
-	func addToNext(start: String.Index, stopChar: Character) -> String.Index {
+	func addToLineEnd(start: String.Index) -> String.Index {
 		var index = start
 		while index < string.endIndex {
-			if string[index] == stopChar {
-				index = index.successor()
+			if string[index] == "\n" {
 				break
 			}
 			index = index.successor()

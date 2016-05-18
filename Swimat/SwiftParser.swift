@@ -1,3 +1,4 @@
+
 import Foundation
 
 class SwiftParser {
@@ -92,7 +93,7 @@ class SwiftParser {
 		var diff = 0
 
 		while strIndex > cursor {
-				// TODO: if space is in quote it should be count
+			// TODO: if space is in quote it should be count
 
 			if !string[cursor].isSpace() {
 				diff += 1
@@ -138,12 +139,12 @@ class SwiftParser {
 				range.startIndex = target
 			} else {
 				var temp = string.substringToIndex((cursor))
-					// TODO cannot decrement startIndex
-					if target == retString.startIndex {
-						temp += retString.substringFromIndex(target)
-					} else {
-						temp += retString.substringFromIndex(retString.lastNonSpaceIndex(target.predecessor()).successor())
-					}
+				// TODO cannot decrement startIndex
+				if target == retString.startIndex {
+					temp += retString.substringFromIndex(target)
+				} else {
+					temp += retString.substringFromIndex(retString.lastNonSpaceIndex(target.predecessor()).successor())
+				}
 				retString = temp;
 			}
 		}
@@ -205,9 +206,7 @@ class SwiftParser {
 			return addChar(char)
 		case "/":
 			if isNextChar("/") {
-				strIndex = addToNext(strIndex, stopChar: "\n")
-				addIndent()
-				return strIndex
+				return addToLineEnd(strIndex)
 			} else if isNextChar("*") {
 				return addToNext(strIndex, stopWord: "*/")
 			}
@@ -223,8 +222,8 @@ class SwiftParser {
 			return spaceWithArray(SwiftParser.OperatorList[char]!)!
 		case "?":
 			if isNextChar("?") {
-					// TODO: check double optional or nil check
-					return addString("??")
+				//TODO: check double optional or nil check
+				return addString("??")
 			} else if let ternary = string.findTernary(strIndex) {
 				keepSpace()
 				retString += ternary.string
@@ -252,9 +251,7 @@ class SwiftParser {
 			} else if isNextChar(">") {
 				return addString("#>")
 			} else if isNextChar("!") {
-				strIndex = addToNext(strIndex, stopChar: "\n")
-				addIndent()
-				return strIndex
+				return addToLineEnd(strIndex)
 			}
 			break
 		case "\"":
@@ -265,7 +262,9 @@ class SwiftParser {
 			retString = retString.trim()
 			checkLineEnd()
 			strIndex = addChar(char)
-			addIndent()
+			if !isNextString("//") {
+				addIndent()
+			}
 			return string.nextNonSpaceIndex(strIndex)
 		case " ", "\t":
 			keepSpace()
@@ -344,8 +343,10 @@ class SwiftParser {
 		let check = {
 			(char: Character) -> Int? in
 			switch char {
-			case "+", "-", "*", "/", "=", ".":
+			case "+", "-", "*", "=", ".":
 				return 1
+			case "/": //TODO check word, nor char
+				break
 			case ":":
 				if !self.inSwitch {
 					return 1
@@ -380,7 +381,7 @@ class SwiftParser {
 				}
 			}
 			tempIndent = 0
-				// TODO: check next if ? :
+			// TODO: check next if ? :
 
 		}
 	}
