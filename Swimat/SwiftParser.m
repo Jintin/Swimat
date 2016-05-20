@@ -779,7 +779,8 @@ int curIndent = 0;
 		} else if (next != '.' && next != '!' && next != ';') {
 			[retString keepSpace];
 		}
-		return [orString nextNonSpaceIndex:strIndex defaults:strIndex];
+		return strIndex;
+//		[orString nextNonSpaceIndex:strIndex defaults:strIndex];
 	}
 	
 	return 0;
