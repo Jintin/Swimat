@@ -11,6 +11,22 @@ extension SwiftParser {
 		}
 	}
 
+	func isBetween(texts: (first: String, last: String)...) -> Bool {
+		if strIndex < string.endIndex {
+			for text in texts {
+				if isLastWord(text.first) && isNextWord(text.last) {
+					return true
+				}
+			}
+		}
+		return false
+	}
+
+	func isLastWord(word: String) -> Bool {
+		let index = string.lastNonSpaceIndex(strIndex)
+		return string.substringToIndex(index).hasSuffix(word)
+	}
+
 	func isNextString(string: String) -> Bool {
 		return isNextString(strIndex, word: string)
 	}

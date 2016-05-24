@@ -264,6 +264,11 @@ class SwiftParser {
 			strIndex = addChar(char)
 			if !isNextString("//") {
 				addIndent()
+				if isBetween(("if", "let"), ("guard", "let")) {
+					retString += indentChar
+				} else if isNextWord("else") {
+					retString += indentChar
+				}
 			}
 			return string.nextNonSpaceIndex(strIndex)
 		case " ", "\t":
