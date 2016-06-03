@@ -283,14 +283,14 @@ class SwiftParser {
 			return string.nextNonSpaceIndex(strIndex.successor())
 		case "{", "[", "(":
 			let position = newlineIndex.distanceTo(strIndex) - indent - tempIndent
+			let block = Block(indent: indent, tempIndent: tempIndent, position: position, type: blockType)
+			blockStack.append(block)
 			blockType = BlockType.from(char)
 			if blockType == .Parentheses {
 				indent += tempIndent
 			} else {
 				indent += tempIndent + 1
 			}
-			let block = Block(indent: indent, tempIndent: tempIndent, position: position, type: blockType)
-			blockStack.append(block)
 			if inSwitch && char == "{" {
 				switchCount += 1
 			}
@@ -305,8 +305,7 @@ class SwiftParser {
 				return addChar(char)
 			}
 		case "}", "]", ")":
-			blockStack.popLast()
-			if let block = blockStack.last {
+			if let block = blockStack.popLast() {
 				indent = block.indent
 				tempIndent = block.tempIndent
 				blockType = block.type
