@@ -13,8 +13,10 @@ extension SwiftParser {
 
 	func isBetween(texts: (first: String, last: String)...) -> Bool {
 		if strIndex < string.endIndex {
+			let last = string.substringToIndex(string.lastNonSpaceIndex(strIndex))
+			let next = string.substringFromIndex(string.nextNonSpaceIndex(strIndex))
 			for text in texts {
-				if isLastWord(text.first) && isNextWord(text.last) {
+				if last.hasSuffix(text.first) && next.hasPrefix(text.last) {
 					return true
 				}
 			}
@@ -22,13 +24,19 @@ extension SwiftParser {
 		return false
 	}
 
-	func isLastWord(word: String) -> Bool {
-		let index = string.lastNonSpaceIndex(strIndex)
-		return string.substringToIndex(index).hasSuffix(word)
-	}
-
 	func isNextString(string: String) -> Bool {
 		return isNextString(strIndex, word: string)
+	}
+
+	func isNextWords(words: String...) -> Bool {
+		let start = string.nextNonSpaceIndex(strIndex)
+		let subString = string.substringFromIndex(start)
+		for text in words {
+			if subString.hasPrefix(text) {
+				return true
+			}
+		}
+		return false
 	}
 
 	func isNextWord(word: String) -> Bool {
@@ -36,8 +44,14 @@ extension SwiftParser {
 		return isNextString(index, word: word)
 	}
 
-	func isNextString(start: String.Index, word: String) -> Bool {
-		return string.substringFromIndex(start).hasPrefix(word)
+	func isNextString(start: String.Index, word: String...) -> Bool {
+		let subString = string.substringFromIndex(start)
+		for text in word {
+			if subString.hasPrefix(text) {
+				return true
+			}
+		}
+		return false
 	}
 
 	func keepSpace() {
@@ -71,7 +85,7 @@ extension SwiftParser {
 
 	func addIndent() {
 		if inSwitch {
-			if isNextWord("case") || isNextWord("default:") {
+			if isNextWords("case", "default:") {
 				tempIndent -= 1
 			}
 		} else if isNextWord("switch") {
@@ -81,6 +95,14 @@ extension SwiftParser {
 		for _ in 0 ..< indent + tempIndent {
 			retString += indentChar
 		}
+		if let block = blockStack.last {
+			if block.type == .Parentheses {
+				for _ in 0 ..< block.position {
+					retString += " "
+				}
+			}
+		}
+
 	}
 
 	func addString(string: String) -> String.Index {

@@ -1,4 +1,3 @@
-
 import Foundation
 
 class SwiftParser {
@@ -34,6 +33,7 @@ class SwiftParser {
 	var checkCursor: (() -> Void)?
 	var inSwitch = false
 	var switchCount = 0
+	var newlineIndex: String.Index
 
 	enum BlockType: Character {
 		case Parentheses = "(", Square = "[", Curly = "{"
@@ -56,12 +56,14 @@ class SwiftParser {
 	struct Block {
 		let indent: Int
 		let tempIndent: Int
+		let position: Int
 		let type: BlockType
 	}
 
 	init(string: String, range: NSRange? = nil) {
 		self.string = string
 		strIndex = string.startIndex
+		newlineIndex = string.startIndex
 		indentChar = Prefs.getIndent()
 
 		if range != nil {
@@ -139,13 +141,13 @@ class SwiftParser {
 				range.startIndex = target
 			} else {
 				var temp = string.substringToIndex((cursor))
-				// TODO cannot decrement startIndex
+				// TODO: cannot decrement startIndex
 				if target == retString.startIndex {
 					temp += retString.substringFromIndex(target)
 				} else {
 					temp += retString.substringFromIndex(retString.lastNonSpaceIndex(target.predecessor()).successor())
 				}
-				retString = temp;
+				retString = temp
 			}
 		}
 	}
@@ -222,7 +224,7 @@ class SwiftParser {
 			return spaceWithArray(SwiftParser.OperatorList[char]!)!
 		case "?":
 			if isNextChar("?") {
-				//TODO: check double optional or nil check
+				// TODO: check double optional or nil check
 				return addString("??")
 			} else if let ternary = string.findTernary(strIndex) {
 				keepSpace()
@@ -259,6 +261,7 @@ class SwiftParser {
 			retString += quote.string
 			return quote.index
 		case "\n":
+			newlineIndex = strIndex
 			retString = retString.trim()
 			checkLineEnd()
 			strIndex = addChar(char)
@@ -279,10 +282,15 @@ class SwiftParser {
 			retString += ", "
 			return string.nextNonSpaceIndex(strIndex.successor())
 		case "{", "[", "(":
-			let block = Block(indent: indent, tempIndent: tempIndent, type: blockType)
-			blockStack.append(block)
+			let position = newlineIndex.distanceTo(strIndex) - indent - tempIndent
 			blockType = BlockType.from(char)
-			indent += tempIndent + 1
+			if blockType == .Parentheses {
+				indent += tempIndent
+			} else {
+				indent += tempIndent + 1
+			}
+			let block = Block(indent: indent, tempIndent: tempIndent, position: position, type: blockType)
+			blockStack.append(block)
 			if inSwitch && char == "{" {
 				switchCount += 1
 			}
@@ -297,12 +305,15 @@ class SwiftParser {
 				return addChar(char)
 			}
 		case "}", "]", ")":
-			if let block = blockStack.popLast() {
+			blockStack.popLast()
+			if let block = blockStack.last {
 				indent = block.indent
 				tempIndent = block.tempIndent
 				blockType = block.type
 			} else {
 				indent = 0
+				tempIndent = 0
+				blockType = .Curly
 			}
 			if inSwitch && char == "}" {
 				switchCount -= 1
@@ -313,7 +324,7 @@ class SwiftParser {
 
 			trimWithIndent() // TODO: change to newline check
 			if char == "}" {
-				keepSpace() // TODO: if last is not lower bracelet
+				keepSpace()
 				let next = strIndex.successor()
 				if next < string.endIndex && string[next].isAZ() {
 					retString += "} "
@@ -350,7 +361,7 @@ class SwiftParser {
 			switch char {
 			case "+", "-", "*", "=", ".":
 				return 1
-			case "/": //TODO check word, nor char
+			case "/": // TODO: check word, nor char
 				break
 			case ":":
 				if !self.inSwitch {
@@ -390,4 +401,5 @@ class SwiftParser {
 
 		}
 	}
+
 }
