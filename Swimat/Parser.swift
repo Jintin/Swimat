@@ -96,7 +96,7 @@ extension SwiftParser {
 			retString += indentChar
 		}
 		if let block = blockStack.last {
-			if block.type == .Parentheses {
+			if blockType == .Parentheses {
 				for _ in 0 ..< block.position {
 					retString += " "
 				}
