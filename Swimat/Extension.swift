@@ -11,6 +11,7 @@ extension String {
 	}
 
 	func lastWord() -> String {
+
 		if count > 0 {
 			let end = lastNonBlankIndex(endIndex.predecessor())
 			if end != startIndex || !self[end].isBlank() {
@@ -67,7 +68,7 @@ extension String {
 			if let from = String.Index(from16, within: self),
 				to = String.Index(to16, within: self) {
 					return from ..< to
-			}
+				}
 		}
 		return nil
 	}

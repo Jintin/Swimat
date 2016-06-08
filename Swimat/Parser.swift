@@ -11,12 +11,13 @@ extension SwiftParser {
 		}
 	}
 
-	func isBetween(texts: (first: String, last: String)...) -> Bool {
+	func isBetween(texts: (first: String, last: String)...) -> Bool { //TODO:check word, not position
 		if strIndex < string.endIndex {
-			let last = string.substringToIndex(string.lastNonSpaceIndex(strIndex))
+//			let last = string.substringToIndex(string.lastNonSpaceIndex(strIndex))
+			let last = retString.lastWord()
 			let next = string.substringFromIndex(string.nextNonSpaceIndex(strIndex))
 			for text in texts {
-				if last.hasSuffix(text.first) && next.hasPrefix(text.last) {
+				if next.hasPrefix(text.last) && last == text.first {
 					return true
 				}
 			}
