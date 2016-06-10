@@ -105,8 +105,14 @@ class Swimat: NSObject {
 				let source = DTXcodeUtils.currentSourceTextView()
 				let string = source.textStorage!.string
 				let range = source.selectedRanges[0].rangeValue
-				let result = SwiftParser(string: string, range: range).format()
-				setText(result.string, range: result.range!)
+				do {
+					let result = try SwiftParser(string: string, range: range).format()
+					setText(result.string, range: result.range!)
+				} catch {
+					let alert = NSAlert()
+					alert.messageText = "Error occur when formatting"
+					alert.runModal()
+				}
 			}
 		}
 		#if DEBUG
@@ -119,7 +125,7 @@ class Swimat: NSObject {
 		#if DEBUG
 			let methodStart = NSDate()
 		#endif
-		let source = DTXcodeUtils.currentSourceTextView()
+			let source = DTXcodeUtils.currentSourceTextView()
 		let oldString = source.textStorage!.string
 
 		if let diff = string.findDiff(oldString) {

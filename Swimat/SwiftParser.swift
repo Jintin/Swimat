@@ -2,6 +2,10 @@ import Foundation
 
 class SwiftParser {
 
+	enum FormatError: ErrorType {
+		case StringError
+	}
+
 	private static let OperatorList: [Character: [String]] = [
 		"+": ["+=<", "+=", "+++=", "+++", "+"],
 		"-": ["->", "-=", "-<<"],
@@ -74,10 +78,10 @@ class SwiftParser {
 		}
 	}
 
-	func format() -> (string: String, range: NSRange?) {
+	func format() throws -> (string: String, range: NSRange?) {
 		while strIndex < string.endIndex {
 			let char = string[strIndex]
-			strIndex = checkChar(char)
+			strIndex = try checkChar(char)
 			checkCursor?()
 		}
 		retString = retString.trim()
@@ -166,7 +170,7 @@ class SwiftParser {
 		}
 	}
 
-	func checkChar(char: Character) -> String.Index {
+	func checkChar(char: Character) throws -> String.Index {
 		switch char {
 		case "+", "*", "%", ">", "|", "=":
 			return spaceWithArray(SwiftParser.OperatorList[char]!)!
@@ -217,7 +221,7 @@ class SwiftParser {
 			if isNextChar("#") {
 				return addString("<#")
 			}
-			if let result = string.findGeneric(strIndex) {
+			if let result = try string.findGeneric(strIndex) {
 				retString += result.string
 				return result.index
 			}
@@ -226,7 +230,7 @@ class SwiftParser {
 			if isNextChar("?") {
 				// TODO: check double optional or nil check
 				return addString("??")
-			} else if let ternary = string.findTernary(strIndex) {
+			} else if let ternary = try string.findTernary(strIndex) {
 				keepSpace()
 				retString += ternary.string
 				return ternary.index
@@ -257,7 +261,7 @@ class SwiftParser {
 			}
 			break
 		case "\"":
-			let quote = string.findQuote(strIndex)
+			let quote = try string.findQuote(strIndex)
 			retString += quote.string
 			return quote.index
 		case "\n":

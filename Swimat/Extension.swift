@@ -127,27 +127,27 @@ extension String {
 
 extension String {
 
-	func findParentheses(start: String.Index) -> (string: String, index: String.Index) {
-		return findBlock(start, startSign: "(", endSign: ")")
+	func findParentheses(start: String.Index) throws -> (string: String, index: String.Index) {
+		return try findBlock(start, startSign: "(", endSign: ")")
 	}
 
-	func findSquare(start: String.Index) -> (string: String, index: String.Index) {
-		return findBlock(start, startSign: "[", endSign: "]")
+	func findSquare(start: String.Index) throws -> (string: String, index: String.Index) {
+		return try findBlock(start, startSign: "[", endSign: "]")
 	}
 
-	func findBlock(start: String.Index, startSign: String, endSign: Character) -> (string: String, index: String.Index) {
+	func findBlock(start: String.Index, startSign: String, endSign: Character) throws -> (string: String, index: String.Index) {
 		var index = start.successor()
 		var result = startSign
 		while index < endIndex {
 			let next = self[index]
 
 			if next == "\"" {
-				let quote = findQuote(index)
+				let quote = try findQuote(index)
 				index = quote.index
 				result += quote.string
 				continue
 			} else if next == "(" {
-				let block = findParentheses(index)
+				let block = try findParentheses(index)
 				index = block.index
 				result += block.string
 				continue
@@ -160,19 +160,22 @@ extension String {
 			}
 		}
 		// TODO: no need to new obj
-		let obj = SwiftParser(string: result).format()
+		let obj = try SwiftParser(string: result).format()
 		return (obj.string, index)
 	}
 
-	func findQuote(start: String.Index) -> (string: String, index: String.Index) {
+	func findQuote(start: String.Index) throws -> (string: String, index: String.Index) {
 		var escape = false
 		var index = start.successor()
 		var result = "\""
 		while index < endIndex {
 			let next = self[index]
+			if next == "\n" {
+				throw SwiftParser.FormatError.StringError
+			}
 
 			if escape && next == "(" {
-				let block = findParentheses(index)
+				let block = try findParentheses(index)
 				index = block.index
 				result += block.string
 
@@ -195,9 +198,9 @@ extension String {
 		return (result, endIndex.predecessor())
 	}
 
-	func findTernary(index: String.Index) -> (string: String, index: String.Index)? {
+	func findTernary(index: String.Index) throws -> (string: String, index: String.Index)? {
 		let start = nextNonSpaceIndex(index.successor())
-		guard let first = findObject(start) else {
+		guard let first = try findObject(start) else {
 			return nil
 		}
 		let middle = nextNonSpaceIndex(first.index)
@@ -205,13 +208,13 @@ extension String {
 			return nil
 		}
 		let end = nextNonSpaceIndex(middle.successor())
-		guard let second = findObject(end) else {
+		guard let second = try findObject(end) else {
 			return nil
 		}
 		return ("? \(first.string) : \(second.string)", second.index)
 	}
 
-	func findObject(start: String.Index) -> (string: String, index: String.Index)? {
+	func findObject(start: String.Index) throws -> (string: String, index: String.Index)? {
 		var index = start
 		var result = ""
 		while index < endIndex {
@@ -220,17 +223,17 @@ extension String {
 			if next.isAZ() || list.contains(next) { // TODO: check complex case
 				result.append(next)
 			} else if next == "[" {
-				let block = findSquare(index)
+				let block = try findSquare(index)
 				index = block.index
 				result += block.string
 				continue
 			} else if next == "(" {
-				let block = findParentheses(index)
+				let block = try findParentheses(index)
 				index = block.index
 				result += block.string
 				continue
 			} else if next == "\"" {
-				let quote = findQuote(index)
+				let quote = try findQuote(index)
 				index = quote.index
 				result += quote.string
 				continue
@@ -245,7 +248,7 @@ extension String {
 		return nil
 	}
 
-	func findGeneric(start: String.Index) -> (string: String, index: String.Index)? {
+	func findGeneric(start: String.Index) throws -> (string: String, index: String.Index)? {
 		var index = start.successor()
 		var count = 1
 		var result = "<"
@@ -267,12 +270,12 @@ extension String {
 					return nil
 				}
 			case "\"":
-				let quote = findQuote(index)
+				let quote = try findQuote(index)
 				index = quote.index
 				result += quote.string
 				continue
 			case "(":
-				let block = findParentheses(index)
+				let block = try findParentheses(index)
 				index = block.index
 				result += block.string
 				continue
