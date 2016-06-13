@@ -389,7 +389,7 @@ int curIndent = 0;
 			} else if ([self isNextString:@"-<<"]) {
 				[self spaceWith:@"-<<"];
 			} else { // -
-				NSArray *checkChar = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@"<",@">",@":",@"(",@"{",@"[",@"?",@"!",@"=",@",",@"."];
+				NSArray *checkChar = @[@"+",@"-",@"*",@"/",@"&",@"|",@"^",@"<",@">",@":",@"(",@"{",@"[",@"=",@",",@"."];
 				unichar last = [orString lastChar:strIndex - 1 defaults:' '];
 				NSArray *checkWord = @[@"case", @"return", @"if", @"for", @"while", @"in"];
 				NSString *lastWord = [orString lastWord:strIndex - 1];
