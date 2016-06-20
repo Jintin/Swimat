@@ -24,6 +24,7 @@ class SwiftParser {
 
 	private static let NegativeCheckSigns: [Character] = ["+", "-", "*", "/", "&", "|", "^", "<", ">", ":", "(", "[", "{", "=", ",", "."]
 	private static let NegativeCheckKeys = ["case", "return", "if", "for", "while", "in"]
+	private static let Numbers: [Character] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 	let indentChar: String
 	let string: String
@@ -178,20 +179,27 @@ class SwiftParser {
 			if let index = spaceWithArray(SwiftParser.OperatorList[char]!) {
 				return index
 			} else {
-				var negative = false
+				var noSpace = false
 				if retString.count > 0 {
+					// check scientific notation
+					if strIndex != string.endIndex {
+						if string[strIndex.predecessor()] == "e" && SwiftParser.Numbers.contains(string[strIndex.successor()]) {
+							noSpace = true
+						}
+					}
+					// check negative
 					let last = retString.lastNonSpaceChar(retString.endIndex.predecessor())
 					if last.isAZ() {
 						if SwiftParser.NegativeCheckKeys.contains(retString.lastWord()) {
-							negative = true
+							noSpace = true
 						}
 					} else {
 						if SwiftParser.NegativeCheckSigns.contains(last) {
-							negative = true
+							noSpace = true
 						}
 					}
 				}
-				if negative {
+				if noSpace {
 					return addChar(char)
 				}
 				return spaceWith("-")
