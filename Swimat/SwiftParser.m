@@ -395,16 +395,22 @@ int curIndent = 0;
 				NSString *lastWord = [orString lastWord:strIndex - 1];
 				
 				bool isNegative = false;
+				bool isScience = false;
 				if ([checkChar containsObject:[NSString stringWithFormat:@"%c", last]]) {
 					isNegative = true;
 				} else if ([checkWord containsObject:lastWord]) {
 					isNegative = true;
+				} else if ([orString characterAtIndex:strIndex - 1] == 'e') {
+					isScience = true;
 				}
 				if (isNegative) {
 					if (![Parser isUpperBrackets:last] && ![Parser isBlank:[retString characterAtIndex:retString.length - 1]]) {
 						[retString keepSpace];
 					}
 					[self appendString:@"-"];
+				} else if (isScience) {
+					[self appendString:@"-"];
+					return strIndex;
 				} else {
 					[self spaceWith:@"-"];
 				}
