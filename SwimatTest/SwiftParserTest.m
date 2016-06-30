@@ -75,7 +75,7 @@ static NSString *const SWMSwiftParserTestMultipleNewlineSourceString = @"func a(
     [self logInput:input output:output];
  
     NSInteger outputCount = [self numberOfNewlinesInString:output betweenFirstOccurrenceOfSubstring:@")" andFirstOccurrenceOfSubstring:@"{"];
-    XCTAssertEqual(outputCount, 1);
+    XCTAssertEqual(outputCount, 2);
 }
 
 - (void)test_breakBeforeOpeningBraceRuleIgnore_shouldDoNothing_ifThereIsNoNewline {
@@ -156,7 +156,7 @@ static NSString *const SWMSwiftParserTestMultipleNewlineSourceString = @"func a(
     [self logInput:input output:output];
     
     NSInteger outputCount = [self numberOfNewlinesInString:output betweenFirstOccurrenceOfSubstring:@")" andFirstOccurrenceOfSubstring:@"{"];
-    XCTAssertEqual(outputCount, 1);
+    XCTAssertEqual(outputCount, 2);
 }
 
 #pragma mark - Newlines
