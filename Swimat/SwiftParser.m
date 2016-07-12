@@ -230,7 +230,6 @@ int curIndent = 0;
 }
 
 -(NSUInteger) findNextQuote:(NSUInteger) index {
-//	NSMutableString *tempString = [NSMutableString string];
 	bool escape = false;
 	while (++index < orString.length) {
 		unichar next = [orString characterAtIndex:index];
@@ -243,9 +242,6 @@ int curIndent = 0;
 			
 			if (index != -1) {
 				NSString *sub = [orString subString:start + 1 endWith:index];
-//				SwiftParser *parser = [[SwiftParser alloc] init];
-//				NSString *string = [parser formatString: sub withRange:NSMakeRange(0, sub.length)];
-//				//TODO modify back
 #if DEBUG
 				NSLog(@"sub string '%@' ", sub);
 #endif
@@ -313,20 +309,20 @@ int curIndent = 0;
 		
 		if (shouldAddNewline) {
             [self appendString:@"\n"];
+			NSUInteger nextIndex;
+			NSUInteger next = [orString nextNonSpaceIndex:strIndex defaults:-1];
+			
+			if (indentEmptyLine || next == -1 || [orString characterAtIndex:next] != '\n') {
+				nextIndex = [self addIndent:retString];
+			} else {
+				nextIndex = strIndex;
+			}
+			
+			return nextIndex;
 		} else {
-			strIndex += 1;
+			return strIndex + 1;
 		}
 		
-        NSUInteger nextIndex;
-		NSUInteger next = [orString nextNonSpaceIndex:strIndex defaults:-1];
-		
-        if (indentEmptyLine || next == -1 || [orString characterAtIndex:next] != '\n') {
-            nextIndex = [self addIndent:retString];
-        } else {
-            nextIndex = strIndex;
-        }
-        
-        return nextIndex;
 	}
 	
 	return 0;
