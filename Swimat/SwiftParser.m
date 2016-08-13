@@ -180,6 +180,10 @@ int curIndent = 0;
 			NSUInteger nextIndex = [orString nextIndex:strIndex search:@"*/" defaults:orString.length];
 			
 			NSString *subString = [orString substringWithRange:NSMakeRange(strIndex, nextIndex - strIndex)];
+			if ([self isNextString:@"/**"]) {
+				[retString appendString:subString];
+				return nextIndex;
+			}
 			NSMutableString *orderStr = [NSMutableString string];
 			NSUInteger subIndex = 0;
 			while (subIndex < subString.length) {
