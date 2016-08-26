@@ -217,6 +217,12 @@ extension String {
     func findObject(start: String.Index) throws -> (string: String, index: String.Index)? {
         var index = start
         var result = ""
+
+        if self[index] == "-" {
+            index = index.successor()
+            result = "-"
+        }
+
         while index < endIndex {
             let next = self[index]
             let list: [Character] = ["?", "!", "."]
