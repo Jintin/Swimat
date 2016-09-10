@@ -406,7 +406,7 @@ int curIndent = 0;
 			return [orString nextNonSpaceIndex:strIndex defaults:orString.length];
 		case '~':
 		{
-			NSArray *array = @[@"~=", @"~~>"];
+			NSArray *array = @[@"~=", @"~~>", @"~>"];
 			NSUInteger findIndex = [self spaceWithArray:array];
 			if (findIndex != -1) {
 				return findIndex;
