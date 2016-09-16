@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
+	<string>en</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIconFile</key>
@@ -15,30 +15,18 @@
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
-	<string>BNDL</string>
+	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>DVTPlugInCompatibilityUUIDs</key>
-	<array>
-		<string>ACA8656B-FEA8-4B6D-8E4A-93F4C95C362C</string>
-		<string>C4A681B0-4A26-480E-93EC-1218098B9AA0</string>
-		<string>AD68E85B-441B-4301-B564-A45E4919A6AD</string>
-		<string>A16FF353-8441-459E-A50C-B071F53F51B7</string>
-		<string>9F75337B-21B4-4ADC-B558-F9CADF7073A7</string>
-		<string>E969541F-E6F9-4D25-8158-72DC3545A6C6</string>
-		<string>7FDF5C7A-131F-4ABB-9EDC-8C5F8F0B8A90</string>
-	</array>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2016 jintin. All rights reserved.</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
-	<string>Swimat</string>
-	<key>XC4Compatible</key>
-	<true/>
-	<key>XCPluginHasUI</key>
-	<false/>
+	<string>NSApplication</string>
 </dict>
 </plist>

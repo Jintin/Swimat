@@ -26,7 +26,7 @@ class SwiftParser {
     private static let NegativeCheckKeys = ["case", "return", "if", "for", "while", "in"]
     private static let Numbers: [Character] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
-    let indentChar: String
+    static var indentChar: String = ""
     let string: String
     var retString = ""
     var strIndex: String.Index
@@ -38,7 +38,7 @@ class SwiftParser {
     var checkCursor: (() -> Void)?
     var inSwitch = false
     var switchCount = 0
-    var newlineIndex: String.Index
+    var newlineIndex = 0
 
     enum BlockType: Character {
         case Parentheses = "(", Square = "[", Curly = "{"
@@ -61,15 +61,14 @@ class SwiftParser {
     struct Block {
         let indent: Int
         let tempIndent: Int
-        let position: Int
+        let indentCount: Int
         let type: BlockType
     }
 
-    init(string: String, range: NSRange? = nil) {
+    init(string: String, indentChar: String = SwiftParser.indentChar, range: NSRange? = nil) {
         self.string = string
         strIndex = string.startIndex
-        newlineIndex = string.startIndex
-        indentChar = Prefs.getIndent()
+        SwiftParser.indentChar = indentChar
 
         if range != nil {
             self.range = string.rangeFromNSRange(range)!
@@ -273,16 +272,16 @@ class SwiftParser {
             retString += quote.string
             return quote.index
         case "\n":
-            newlineIndex = strIndex
             retString = retString.trim()
+            newlineIndex = retString.count
             checkLineEnd()
             strIndex = addChar(char)
             if !isNextString("//") {
                 addIndent()
                 if isBetween(("if", "let"), ("guard", "let")) {
-                    retString += indentChar
+                    retString += SwiftParser.indentChar
                 } else if isNextWord("else") {
-                    retString += indentChar
+                    retString += SwiftParser.indentChar
                 }
             }
             return string.nextNonSpaceIndex(strIndex)
@@ -294,8 +293,8 @@ class SwiftParser {
             retString += ", "
             return string.nextNonSpaceIndex(strIndex.successor())
         case "{", "[", "(":
-            let position = newlineIndex.distanceTo(strIndex) - indent - tempIndent
-            let block = Block(indent: indent, tempIndent: tempIndent, position: position, type: blockType)
+            let count = retString.count - newlineIndex - (indent + tempIndent) * SwiftParser.indentChar.count
+            let block = Block(indent: indent, tempIndent: tempIndent, indentCount: count, type: blockType)
             blockStack.append(block)
             blockType = BlockType.from(char)
             if blockType == .Parentheses {
@@ -414,3 +413,4 @@ class SwiftParser {
     }
 
 }
+

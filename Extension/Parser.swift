@@ -4,6 +4,9 @@ extension SwiftParser {
 
     func isNextChar(char: Character) -> Bool {
         let next = strIndex.successor()
+        print("next\(next)")
+        print("string.endIndex\(string.endIndex)")
+
         if next < string.endIndex {
             return string[next] == char
         } else {
@@ -94,16 +97,14 @@ extension SwiftParser {
         }
 
         for _ in 0 ..< indent + tempIndent {
-            retString += indentChar
+            retString += SwiftParser.indentChar
         }
         if let block = blockStack.last {
             if blockType == .Parentheses {
-                for _ in 0 ..< block.position {
-                    retString += " "
-                }
+//                retString += SwiftParser.indentChar
+                retString += String(count: block.indentCount, repeatedValue: " " as Character)
             }
         }
-
     }
 
     func addString(string: String) -> String.Index {
