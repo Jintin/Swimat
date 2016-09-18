@@ -13,6 +13,8 @@ There are two ways to install:
 - Download archive file and unzip. [Download link](https://github.com/Jintin/Swimat/releases/download/1.0/Swimat.zip)
 - Clone `extension` branch and archive to Mac App.
 
+Currently the Source Editor Extension feature in Xcode 8 is not very stable. You may find that the command is sometimes not showing up, or not available(grayed out). Please try again if you have a problem, or leave an issue to us.
+
 ## Usage
 In the menu open **[Editor] -> [Swimat] -> [Format]** or add hot-key you like.
 
