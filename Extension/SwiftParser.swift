@@ -22,7 +22,7 @@ class SwiftParser {
         "=": ["===", "==", "="]
     ]
 
-    private static let NegativeCheckSigns: [Character] = ["+", "-", "*", "/", "&", "|", "^", "<", ">", ":", "(", "[", "{", "=", ",", "."]
+    private static let NegativeCheckSigns: [Character] = ["+", "-", "*", "/", "&", "|", "^", "<", ">", ":", "(", "[", "{", "=", ",", ".", "?"]
     private static let NegativeCheckKeys = ["case", "return", "if", "for", "while", "in"]
     private static let Numbers: [Character] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
