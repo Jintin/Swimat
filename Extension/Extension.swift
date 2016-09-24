@@ -11,13 +11,12 @@ extension String {
     }
 
     func lastWord() -> String {
-
         if count > 0 {
-            let end = lastNonBlankIndex(endIndex.predecessor())
+            let end = lastNonBlankIndex(index(before: endIndex))
             if end != startIndex || !self[end].isBlank() {
                 let start = lastStringIndex(end) { $0.isBlank() }
                 if self[start].isBlank() {
-                    return self[start.successor() ... end]
+                    return self[index(after: start) ... end]
                 }
                 return self[start ... end]
             }
@@ -26,100 +25,44 @@ extension String {
     }
 
     func trim() -> String {
-        return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        return trimmingCharacters(in: .whitespaces)
     }
 
-    func findDiff(string: String) -> (range1: Range<String.Index>, range2: Range<String.Index>)? {
-        #if DEBUG
-            let methodStart = NSDate()
-        #endif
-        if isEmpty || string.isEmpty {
-            return nil
-        }
-
-        let start = commonPrefixWithString(string, options: .AnchoredSearch).endIndex
-
-        var end1 = endIndex.predecessor()
-        var end2 = string.endIndex.predecessor()
-        while self[end1] == string[end2] {
-            if end1 > start && end2 > start {
-                end1 = end1.predecessor()
-                end2 = end2.predecessor()
-            } else {
-                break
-            }
-        }
-        end1 = end1.successor()
-        end2 = end2.successor()
-        #if DEBUG
-            let executionTime = NSDate().timeIntervalSinceDate(methodStart)
-            print("\(#function) executionTime = \(executionTime)")
-        #endif
-        if start == end1 && start == end2 {
-            return nil
-        }
-        return (start ..< end1, start ..< end2)
-    }
-
-    func rangeFromNSRange(nsRange: NSRange?) -> Range<String.Index>? {
-        if let range = nsRange {
-            let from16 = utf16.startIndex.advancedBy(range.location, limit: utf16.endIndex)
-            let to16 = from16.advancedBy(range.length, limit: utf16.endIndex)
-            if let from = String.Index(from16, within: self),
-                to = String.Index(to16, within: self) {
-                    return from ..< to
-                }
-        }
-        return nil
-    }
-
-    func nsRangeFromRange(strRange: Range<String.Index>?) -> NSRange? {
-        if let range = strRange {
-            let utf16view = utf16
-
-            let from = String.UTF16View.Index(range.startIndex, within: utf16view)
-            let to = String.UTF16View.Index(range.endIndex, within: utf16view)
-
-            return NSMakeRange(utf16view.startIndex.distanceTo(from), from.distanceTo(to))
-        }
-        return nil
-    }
-
-    func nextStringIndex(start: String.Index, @noescape checker: Character -> Bool) -> String.Index {
+    func nextStringIndex(_ start: String.Index, checker: (Character) -> Bool) -> String.Index {
         var index = start
         while index < endIndex {
             if checker(self[index]) {
                 break
             }
-            index = index.successor()
+            index = characters.index(after: index)
         }
         return index
     }
 
-    func nextNonSpaceIndex(index: String.Index) -> String.Index {
+    func nextNonSpaceIndex(_ index: String.Index) -> String.Index {
         return nextStringIndex(index) { !$0.isSpace() }
     }
 
-    func lastStringIndex(start: String.Index, @noescape checker: Character -> Bool) -> String.Index {
+    func lastStringIndex(_ start: String.Index, checker: (Character) -> Bool) -> String.Index {
         var index = start
         while index > startIndex {
             if checker(self[index]) {
                 break
             }
-            index = index.predecessor()
+            index = characters.index(before: index)
         }
         return index
     }
 
-    func lastNonSpaceIndex(start: String.Index) -> String.Index {
+    func lastNonSpaceIndex(_ start: String.Index) -> String.Index {
         return lastStringIndex(start) { !$0.isSpace() }
     }
 
-    func lastNonSpaceChar(start: String.Index) -> Character {
+    func lastNonSpaceChar(_ start: String.Index) -> Character {
         return self[lastNonSpaceIndex(start)]
     }
 
-    func lastNonBlankIndex(start: String.Index) -> String.Index {
+    func lastNonBlankIndex(_ start: String.Index) -> String.Index {
         return lastStringIndex(start) { !$0.isBlank() }
     }
 
@@ -127,16 +70,16 @@ extension String {
 
 extension String {
 
-    func findParentheses(start: String.Index) throws -> (string: String, index: String.Index) {
+    func findParentheses(_ start: String.Index) throws -> (string: String, index: String.Index) {
         return try findBlock(start, startSign: "(", endSign: ")")
     }
 
-    func findSquare(start: String.Index) throws -> (string: String, index: String.Index) {
+    func findSquare(_ start: String.Index) throws -> (string: String, index: String.Index) {
         return try findBlock(start, startSign: "[", endSign: "]")
     }
 
-    func findBlock(start: String.Index, startSign: String, endSign: Character) throws -> (string: String, index: String.Index) {
-        var index = start.successor()
+    func findBlock(_ start: String.Index, startSign: String, endSign: Character) throws -> (string: String, index: String.Index) {
+        var index = characters.index(after: start)
         var result = startSign
         while index < endIndex {
             let next = self[index]
@@ -154,24 +97,24 @@ extension String {
             } else {
                 result.append(next)
             }
-            index = index.successor()
+            index = characters.index(after: index)
             if next == endSign {
                 break
             }
         }
         // TODO: no need to new obj
         let obj = try SwiftParser(string: result).format()
-        return (obj.string, index)
+        return (obj, index)
     }
 
-    func findQuote(start: String.Index) throws -> (string: String, index: String.Index) {
+    func findQuote(_ start: String.Index) throws -> (string: String, index: String.Index) {
         var escape = false
-        var index = start.successor()
+        var index = characters.index(after: start)
         var result = "\""
         while index < endIndex {
             let next = self[index]
             if next == "\n" {
-                throw SwiftParser.FormatError.StringError
+                throw SwiftParser.FormatError.stringError
             }
 
             if escape && next == "(" {
@@ -185,7 +128,7 @@ extension String {
                 result.append(next)
             }
 
-            index = index.successor()
+            index = characters.index(after: index)
             if !escape && next == "\"" {
                 return (result, index)
             }
@@ -195,11 +138,11 @@ extension String {
                 escape = false
             }
         }
-        return (result, endIndex.predecessor())
+        return (result, characters.index(before: endIndex))
     }
 
-    func findTernary(index: String.Index) throws -> (string: String, index: String.Index)? {
-        let start = nextNonSpaceIndex(index.successor())
+    func findTernary(_ index: String.Index) throws -> (string: String, index: String.Index)? {
+        let start = nextNonSpaceIndex(characters.index(after: index))
         guard let first = try findObject(start) else {
             return nil
         }
@@ -207,19 +150,19 @@ extension String {
         guard self[middle] == ":" else {
             return nil
         }
-        let end = nextNonSpaceIndex(middle.successor())
+        let end = nextNonSpaceIndex(characters.index(after: middle))
         guard let second = try findObject(end) else {
             return nil
         }
         return ("? \(first.string) : \(second.string)", second.index)
     }
 
-    func findObject(start: String.Index) throws -> (string: String, index: String.Index)? {
+    func findObject(_ start: String.Index) throws -> (string: String, index: String.Index)? {
         var index = start
         var result = ""
 
         if self[index] == "-" {
-            index = index.successor()
+            index = characters.index(after: index)
             result = "-"
         }
 
@@ -249,13 +192,13 @@ extension String {
                 }
                 return (result, index)
             }
-            index = index.successor()
+            index = characters.index(after: index)
         }
         return nil
     }
 
-    func findGeneric(start: String.Index) throws -> (string: String, index: String.Index)? {
-        var index = start.successor()
+    func findGeneric(_ start: String.Index) throws -> (string: String, index: String.Index)? {
+        var index = characters.index(after: start)
         var count = 1
         var result = "<"
         while index < endIndex {
@@ -271,7 +214,7 @@ extension String {
                 count -= 1
                 result.append(next)
                 if count == 0 {
-                    return (result, index.successor())
+                    return (result, characters.index(after: index))
                 } else if count < 0 {
                     return nil
                 }
@@ -289,7 +232,7 @@ extension String {
                 return nil
             }
 
-            index = index.successor()
+            index = characters.index(after: index)
         }
         return nil
     }

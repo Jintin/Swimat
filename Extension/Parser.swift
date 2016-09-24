@@ -2,10 +2,8 @@ import Foundation
 
 extension SwiftParser {
 
-    func isNextChar(char: Character) -> Bool {
-        let next = strIndex.successor()
-        print("next\(next)")
-        print("string.endIndex\(string.endIndex)")
+    func isNextChar(_ char: Character) -> Bool {
+        let next = string.index(after: strIndex)
 
         if next < string.endIndex {
             return string[next] == char
@@ -14,11 +12,10 @@ extension SwiftParser {
         }
     }
 
-    func isBetween(texts: (first: String, last: String)...) -> Bool { //TODO:check word, not position
+    func isBetween(_ texts: (first: String, last: String)...) -> Bool { //TODO:check word, not position
         if strIndex < string.endIndex {
-//			let last = string.substringToIndex(string.lastNonSpaceIndex(strIndex))
             let last = retString.lastWord()
-            let next = string.substringFromIndex(string.nextNonSpaceIndex(strIndex))
+            let next = string.substring(from: string.nextNonSpaceIndex(strIndex))
             for text in texts {
                 if next.hasPrefix(text.last) && last == text.first {
                     return true
@@ -28,13 +25,13 @@ extension SwiftParser {
         return false
     }
 
-    func isNextString(string: String) -> Bool {
+    func isNextString(_ string: String) -> Bool {
         return isNextString(strIndex, word: string)
     }
 
-    func isNextWords(words: String...) -> Bool {
+    func isNextWords(_ words: String...) -> Bool {
         let start = string.nextNonSpaceIndex(strIndex)
-        let subString = string.substringFromIndex(start)
+        let subString = string.substring(from: start)
         for text in words {
             if subString.hasPrefix(text) {
                 return true
@@ -43,13 +40,13 @@ extension SwiftParser {
         return false
     }
 
-    func isNextWord(word: String) -> Bool {
+    func isNextWord(_ word: String) -> Bool {
         let index = string.nextNonSpaceIndex(strIndex)
         return isNextString(index, word: word)
     }
 
-    func isNextString(start: String.Index, word: String...) -> Bool {
-        let subString = string.substringFromIndex(start)
+    func isNextString(_ start: String.Index, word: String...) -> Bool {
+        let subString = string.substring(from: start)
         for text in word {
             if subString.hasPrefix(text) {
                 return true
@@ -59,18 +56,18 @@ extension SwiftParser {
     }
 
     func keepSpace() {
-        if let last = retString.lastChar where !last.isBlank() {
+        if let last = retString.lastChar, !last.isBlank() {
             retString += " "
         }
     }
 
-    func spaceWith(word: String) -> String.Index {
+    func spaceWith(_ word: String) -> String.Index {
         keepSpace()
         retString += "\(word) "
-        return string.nextNonSpaceIndex(strIndex.advancedBy(word.count))
+        return string.nextNonSpaceIndex(string.index(strIndex, offsetBy: word.count))
     }
 
-    func spaceWithArray(list: [String]) -> String.Index? {
+    func spaceWithArray(_ list: [String]) -> String.Index? {
         for word in list {
             if isNextString(word) {
                 return spaceWith(word)
@@ -100,43 +97,44 @@ extension SwiftParser {
             retString += SwiftParser.indentChar
         }
         if let block = blockStack.last {
-            if blockType == .Parentheses {
+            if blockType == .parentheses {
 //                retString += SwiftParser.indentChar
-                retString += String(count: block.indentCount, repeatedValue: " " as Character)
+                retString += String(repeating: " ", count: block.indentCount)
             }
         }
     }
 
-    func addString(string: String) -> String.Index {
+    func addString(_ string: String) -> String.Index {
         retString += string
-        return strIndex.advancedBy(string.count)
+        return self.string.index(strIndex, offsetBy: string.count)
     }
 
-    func addChar(char: Character) -> String.Index {
+    func addChar(_ char: Character) -> String.Index {
         retString.append(char)
-        return strIndex.successor()
+        return string.index(after: strIndex)
     }
 
-    func addToNext(start: String.Index, stopWord: String) -> String.Index {
+    func addToNext(_ start: String.Index, stopWord: String) -> String.Index {
         var index = start
+
         while index < string.endIndex {
             if isNextString(index, word: stopWord) {
-                index = index.advancedBy(stopWord.count)
+                index = string.index(index, offsetBy: stopWord.count)
                 break
             }
-            index = index.successor()
+            index = string.index(after: index)
         }
         retString += string[start ..< index]
         return index
     }
 
-    func addToLineEnd(start: String.Index) -> String.Index {
+    func addToLineEnd(_ start: String.Index) -> String.Index {
         var index = start
         while index < string.endIndex {
             if string[index] == "\n" {
                 break
             }
-            index = index.successor()
+            index = string.index(after: index)
         }
         retString += string[start ..< index]
         return index

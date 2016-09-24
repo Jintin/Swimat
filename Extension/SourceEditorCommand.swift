@@ -3,19 +3,25 @@ import XcodeKit
 
 class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 
-    func performCommandWithInvocation(invocation: XCSourceEditorCommandInvocation, completionHandler: (NSError?) -> Void) {
+    func perform(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -> Swift.Void) {
 
-        var indent = ""
         if invocation.buffer.usesTabsForIndentation {
-            indent = "\t"
+            SwiftParser.indentChar = "\t"
         } else {
-            indent = String(count: invocation.buffer.indentationWidth, repeatedValue: " " as Character)
+            SwiftParser.indentChar = String(repeating: " ", count: invocation.buffer.indentationWidth)
         }
 
-        let parser = SwiftParser(string: invocation.buffer.completeBuffer, indentChar: indent)
+        let parser = SwiftParser(string: invocation.buffer.completeBuffer)
         do {
             let result = try parser.format()
-            invocation.buffer.lines[0] = result.string
+            let lines = result.components(separatedBy: "\n")
+            for i in 0 ..< invocation.buffer.lines.count {
+                if let line = invocation.buffer.lines[i] as? String {
+                    if lines[i] + "\n" != line {
+                        invocation.buffer.lines[i] = lines[i] + "\n"
+                    }
+                }
+            }
             completionHandler(nil)
         } catch {
             completionHandler(error as NSError)
@@ -23,4 +29,3 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
     }
 
 }
-
