@@ -124,7 +124,7 @@ class SwiftParser {
             return addChar(char)
         case "/":
             if isNextChar("/") {
-                return addToLineEnd(strIndex)
+                return addToLineEnd()
             } else if isNextChar("*") {
                 return addToNext(strIndex, stopWord: "*/")
             }
@@ -169,7 +169,7 @@ class SwiftParser {
             } else if isNextChar(">") {
                 return addString("#>")
             } else if isNextChar("!") {
-                return addToLineEnd(strIndex)
+                return addToLineEnd()
             }
             break
         case "\"":
@@ -177,19 +177,7 @@ class SwiftParser {
             retString += quote.string
             return quote.index
         case "\n":
-            retString = retString.trim()
-            newlineIndex = retString.count
-            checkLineEnd()
-            strIndex = addChar(char)
-            if !isNextString("//") {
-                addIndent()
-                if isBetween(("if", "let"), ("guard", "let")) {
-                    retString += SwiftParser.indentChar
-                } else if isNextWord("else") {
-                    retString += SwiftParser.indentChar
-                }
-            }
-            return string.nextNonSpaceIndex(strIndex)
+            return checkLine(char)
         case " ", "\t":
             keepSpace()
             return string.index(after: strIndex)
@@ -237,8 +225,8 @@ class SwiftParser {
                 }
             }
 
-            trimWithIndent() // TODO: change to newline check
             if char == "}" {
+                trimWithIndent(ignoreTemp: true) // TODO: change to newline check
                 keepSpace()
                 let next = string.index(after: strIndex)
                 if next < string.endIndex && string[next].isAZ() {
@@ -248,12 +236,31 @@ class SwiftParser {
                 }
                 return next
             } else {
+                trimWithIndent()
                 return addChar(char)
             }
         default:
             return checkDefault(char)
         }
         return checkDefault(char)
+    }
+
+    func checkLine(_ char: Character, checkLast: Bool = true) -> String.Index {
+        retString = retString.trim()
+        newlineIndex = retString.count
+        if checkLast {
+            checkLineEnd()
+        }
+        strIndex = addChar(char)
+        if !isNextString("//") {
+            addIndent()
+            if isBetween(("if", "let"), ("guard", "let")) {
+                retString += SwiftParser.indentChar
+            } else if isNextWord("else") {
+                retString += SwiftParser.indentChar
+            }
+        }
+        return string.nextNonSpaceIndex(strIndex)
     }
 
     func checkDefault(_ char: Character) -> String.Index {

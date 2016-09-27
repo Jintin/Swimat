@@ -76,15 +76,15 @@ extension SwiftParser {
         return nil
     }
 
-    func trimWithIndent() {
+    func trimWithIndent(ignoreTemp: Bool = false) {
         retString = retString.trim()
 
         if retString.lastChar == "\n" {
-            addIndent()
+            addIndent(ignoreTemp: ignoreTemp)
         }
     }
 
-    func addIndent() {
+    func addIndent(ignoreTemp: Bool = false) {
         if inSwitch {
             if isNextWords("case", "default:") {
                 tempIndent -= 1
@@ -93,9 +93,7 @@ extension SwiftParser {
             inSwitch = true
         }
 
-        for _ in 0 ..< indent + tempIndent {
-            retString += SwiftParser.indentChar
-        }
+        retString += String(repeating: SwiftParser.indentChar, count: indent + (ignoreTemp ? 0 : tempIndent))
         if let block = blockStack.last {
             if blockType == .parentheses {
 //                retString += SwiftParser.indentChar
@@ -128,16 +126,21 @@ extension SwiftParser {
         return index
     }
 
-    func addToLineEnd(_ start: String.Index) -> String.Index {
-        var index = start
-        while index < string.endIndex {
-            if string[index] == "\n" {
+    func addToLineEnd() -> String.Index {
+        let start = strIndex
+        var findNewLine = false
+        while strIndex < string.endIndex {
+            if string[strIndex] == "\n" {
+                findNewLine = true
                 break
             }
-            index = string.index(after: index)
+            strIndex = string.index(after: strIndex)
         }
-        retString += string[start ..< index]
-        return index
+        retString += string[start ..< strIndex]
+        if findNewLine {
+            strIndex = checkLine("\n", checkLast: false)
+        }
+        return strIndex
     }
 
 }
