@@ -101,7 +101,7 @@ extension SwiftParser {
             }
         }
     }
-
+    
     func addString(_ string: String) -> String.Index {
         retString += string
         return self.string.index(strIndex, offsetBy: string.count)

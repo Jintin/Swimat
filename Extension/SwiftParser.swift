@@ -250,6 +250,8 @@ class SwiftParser {
         newlineIndex = retString.count
         if checkLast {
             checkLineEnd()
+        } else {
+            tempIndent = 0
         }
         strIndex = addChar(char)
         if !isNextString("//") {
