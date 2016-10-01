@@ -8,13 +8,12 @@ An Xcode plug-in to format your Swift code.
 ![](./README/preview.gif)
 
 ## Installation
-There are two ways to install:
-- Clone `extension` branch and archive to Mac App.
+Clone `extension` branch and archive to Mac App.
 
-Currently the Source Editor Extension feature in Xcode 8 is not very stable. You may find that the command is sometimes not showing up, or not available(grayed out). Please try again if you have a problem, or leave an issue to us.
+Currently the Source Editor Extension feature in Xcode 8 is not very stable. You may find that the command is sometimes not showing up, or not available (grayed out). Please try again or create an issue if you have a problem.
 
 ## Usage
-In the menu open **[Editor] -> [Swimat] -> [Format]** or add hot-key you like.
+In the menu open **[Editor] -> [Swimat] -> [Format]** or map it to a hot-key you like in Xcode's Key Binding preferences.
 
 ## Contributing
 Bug reports and pull requests are welcome on GitHub at [https://github.com/Jintin/Swimat](https://github.com/Jintin/Swimat).
