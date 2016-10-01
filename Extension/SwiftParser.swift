@@ -282,7 +282,7 @@ class SwiftParser {
             let count = retString.count - newlineIndex - (indent + tempIndent) * SwiftParser.indentChar.count
             let block = Block(indent: indent, tempIndent: tempIndent, indentCount: count, type: blockType)
             blockStack.append(block)
-			blockType = BlockType(rawValue: char) ?? .Curly
+            blockType = BlockType(rawValue: char) ?? .Curly
             if blockType == .Parentheses {
                 indent += tempIndent
             } else {
