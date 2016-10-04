@@ -39,20 +39,6 @@ class SwiftParser {
 
     enum BlockType: Character {
         case parentheses = "(", square = "[", curly = "{"
-
-        static func from(_ char: Character) -> BlockType {
-            switch char {
-            case "(":
-                return .parentheses
-            case "[":
-                return .square
-            case "{":
-                return .curly
-            default:
-                return .curly
-            }
-        }
-
     }
 
     struct Block {
@@ -189,7 +175,7 @@ class SwiftParser {
             let count = retString.count - newlineIndex - (indent + tempIndent) * SwiftParser.indentChar.count
             let block = Block(indent: indent, tempIndent: tempIndent, indentCount: count, type: blockType)
             blockStack.append(block)
-            blockType = BlockType.from(char)
+            blockType = BlockType(rawValue: char) ?? .curly
             if blockType == .parentheses {
                 indent += tempIndent
             } else {
