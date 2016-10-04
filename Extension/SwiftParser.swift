@@ -142,16 +142,16 @@ class SwiftParser {
         case "#":
             if isNextString("#if") {
                 indent += 1
-                return addString("#if")
+                return addToLineEnd() //TODO: bypass like '#if swift(>=3)'
             } else if isNextString("#else") {
                 indent -= 1
                 trimWithIndent()
                 indent += 1
-                return addString("#else")
+                return addToLineEnd() //bypass like '#if swift(>=3)'
             } else if isNextString("#endif") {
                 indent -= 1
                 trimWithIndent()
-                return addString("#endif")
+                return addToLineEnd() //bypass like '#if swift(>=3)'
             } else if isNextChar(">") {
                 return addString("#>")
             } else if isNextChar("!") {
