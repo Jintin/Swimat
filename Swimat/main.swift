@@ -25,7 +25,7 @@ var force = false
 var lookingForIndent = false
 
 func printToError(_ string: String) {
-	guard let data = string.data(using: .utf8) else {
+	guard let data = "\(string)\n".data(using: .utf8) else {
 		return
 	}
 	FileHandle.standardError.write(data)
