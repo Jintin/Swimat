@@ -1,11 +1,3 @@
-//
-//  main.swift
-//  swimat
-//
-//  Created by Saagar Jha on 10/7/16.
-//  Copyright © 2016 jintin. All rights reserved.
-//
-
 import CoreServices
 import Foundation
 
