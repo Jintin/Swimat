@@ -9,6 +9,9 @@
 import CoreServices
 import Foundation
 
+let invalidOption: Int32 = 1
+let invalidIndent: Int32 = 2
+
 var indentSize = 0
 var indent: String {
 	if indentSize <= 0 {
@@ -21,6 +24,13 @@ var force = false
 
 var lookingForIndent = false
 
+func printToError(_ string: String) {
+	guard let data = string.data(using: .utf8) else {
+		return
+	}
+	FileHandle.standardError.write(data)
+}
+
 for var argument in CommandLine.arguments.dropFirst() {
 	if argument.hasPrefix("-") {
 		argument.remove(at: argument.startIndex)
@@ -30,12 +40,14 @@ for var argument in CommandLine.arguments.dropFirst() {
 		case "i":
 			lookingForIndent = true
 		default:
-			fatalError("-\(argument) is not a valid option.\nValid options are -i and -f.")
+			printToError("-\(argument) is not a valid option.\nValid options are -i and -f.")
+			exit(invalidOption)
 		}
 	} else {
 		if (lookingForIndent) {
 			guard let size = Int(argument) else {
-				fatalError("\(argument) is not a valid indent size. Exiting.")
+				printToError("\(argument) is not a valid indent size. Exiting.")
+				exit(invalidIndent)
 			}
 			indentSize = size
 			lookingForIndent = false
