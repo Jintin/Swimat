@@ -18,12 +18,13 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 
         let parser = SwiftParser(string: invocation.buffer.completeBuffer)
         do {
-            let result = try parser.format()
-            let lines = result.components(separatedBy: "\n")
-            for i in 0 ..< invocation.buffer.lines.count {
-                if let line = invocation.buffer.lines[i] as? String {
-                    if lines[i] + "\n" != line {
-                        invocation.buffer.lines[i] = lines[i] + "\n"
+            let newLines = try parser.format().components(separatedBy: "\n")
+            let lines = invocation.buffer.lines
+            for i in 0 ..< lines.count {
+                if let line = lines[i] as? String {
+                    let newLine = newLines[i] + "\n"
+                    if newLine != line {
+                        lines[i] = newLine
                     }
                 }
             }

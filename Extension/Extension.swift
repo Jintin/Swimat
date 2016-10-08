@@ -242,12 +242,22 @@ extension String {
 extension Character {
 
     func isAZ() -> Bool {
-        switch self {
-        case "A" ... "Z", "a" ... "z", "0" ... "9":
+//        [0.009290, 0.000007, 0.000006, 0.000006, 0.000006, 0.000007, 0.000006, 0.000006, 0.000006, 0.000006],
+//        switch self {
+//        case "A" ... "Z", "a" ... "z", "0" ... "9":
+//            return true
+//        default:
+//            return false
+//        }
+//        [0.007204, 0.000005, 0.000003, 0.000003, 0.000003, 0.000003, 0.000003, 0.000003, 0.000003, 0.000003]
+        if self >= "a" && self <= "z" {
             return true
-        default:
-            return false
+        } else if self >= "A" && self <= "Z" {
+            return true
+        } else if self >= "0" && self <= "9" {
+            return true
         }
+        return false
     }
 
     func isUpperBlock() -> Bool {

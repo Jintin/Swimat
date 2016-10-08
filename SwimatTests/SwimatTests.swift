@@ -1,11 +1,3 @@
-//
-//  SwimatTests.swift
-//  SwimatTests
-//
-//  Created by Jintin on 9/15/16.
-//  Copyright © 2016 jintin. All rights reserved.
-//
-
 import XCTest
 @testable import Swimat
 
