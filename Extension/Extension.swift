@@ -70,15 +70,15 @@ extension String {
 
 extension String {
 
-    func findParentheses(_ start: String.Index) throws -> (string: String, index: String.Index) {
-        return try findBlock(start, startSign: "(", endSign: ")")
+    func findParentheses(_ start: String.Index, needFormat: Bool = true) throws -> (string: String, index: String.Index) {
+        return try findBlock(start, startSign: "(", endSign: ")", needFormat: needFormat)
     }
 
-    func findSquare(_ start: String.Index) throws -> (string: String, index: String.Index) {
-        return try findBlock(start, startSign: "[", endSign: "]")
+    func findSquare(_ start: String.Index, needFormat: Bool = true) throws -> (string: String, index: String.Index) {
+        return try findBlock(start, startSign: "[", endSign: "]", needFormat: needFormat)
     }
 
-    func findBlock(_ start: String.Index, startSign: String, endSign: Character) throws -> (string: String, index: String.Index) {
+    func findBlock(_ start: String.Index, startSign: String, endSign: Character, needFormat: Bool) throws -> (string: String, index: String.Index) {
         var index = characters.index(after: start)
         var result = startSign
         while index < endIndex {
@@ -90,7 +90,7 @@ extension String {
                 result += quote.string
                 continue
             } else if next == "(" {
-                let block = try findParentheses(index)
+                let block = try findParentheses(index, needFormat: false)
                 index = block.index
                 result += block.string
                 continue
@@ -103,8 +103,12 @@ extension String {
             }
         }
         // TODO: no need to new obj
-        let obj = try SwiftParser(string: result).format()
-        return (obj, index)
+        if needFormat {
+            let obj = try SwiftParser(string: result).format()
+            return (obj, index)
+        } else {
+            return (result, index)
+        }
     }
 
     func findQuote(_ start: String.Index) throws -> (string: String, index: String.Index) {
@@ -171,28 +175,26 @@ extension String {
             let list: [Character] = ["?", "!", "."]
             if next.isAZ() || list.contains(next) { // TODO: check complex case
                 result.append(next)
+                index = characters.index(after: index)
             } else if next == "[" {
                 let block = try findSquare(index)
                 index = block.index
                 result += block.string
-                continue
             } else if next == "(" {
                 let block = try findParentheses(index)
                 index = block.index
                 result += block.string
-                continue
             } else if next == "\"" {
                 let quote = try findQuote(index)
                 index = quote.index
                 result += quote.string
-                continue
             } else {
                 if result.isEmpty {
                     return nil
                 }
                 return (result, index)
             }
-            index = characters.index(after: index)
+
         }
         return nil
     }
