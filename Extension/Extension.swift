@@ -34,7 +34,7 @@ extension String {
             if checker(self[index]) {
                 break
             }
-            index = characters.index(after: index)
+            index = self.index(after: index)
         }
         return index
     }
@@ -49,7 +49,7 @@ extension String {
             if checker(self[index]) {
                 break
             }
-            index = characters.index(before: index)
+            index = self.index(before: index)
         }
         return index
     }
@@ -79,7 +79,7 @@ extension String {
     }
 
     func findBlock(_ start: String.Index, startSign: String, endSign: Character, needFormat: Bool) throws -> (string: String, index: String.Index) {
-        var index = characters.index(after: start)
+        var index = self.index(after: start)
         var result = startSign
         while index < endIndex {
             let next = self[index]
@@ -97,7 +97,7 @@ extension String {
             } else {
                 result.append(next)
             }
-            index = characters.index(after: index)
+            index = self.index(after: index)
             if next == endSign {
                 break
             }
@@ -113,7 +113,7 @@ extension String {
 
     func findQuote(_ start: String.Index) throws -> (string: String, index: String.Index) {
         var escape = false
-        var index = characters.index(after: start)
+        var index = self.index(after: start)
         var result = "\""
         while index < endIndex {
             let next = self[index]
@@ -132,7 +132,7 @@ extension String {
                 result.append(next)
             }
 
-            index = characters.index(after: index)
+            index = self.index(after: index)
             if !escape && next == "\"" {
                 return (result, index)
             }
@@ -142,11 +142,11 @@ extension String {
                 escape = false
             }
         }
-        return (result, characters.index(before: endIndex))
+        return (result, self.index(before: endIndex))
     }
 
     func findTernary(_ index: String.Index) throws -> (string: String, index: String.Index)? {
-        let start = nextNonSpaceIndex(characters.index(after: index))
+        let start = nextNonSpaceIndex(self.index(after: index))
         guard let first = try findObject(start) else {
             return nil
         }
@@ -154,7 +154,7 @@ extension String {
         guard self[middle] == ":" else {
             return nil
         }
-        let end = nextNonSpaceIndex(characters.index(after: middle))
+        let end = nextNonSpaceIndex(self.index(after: middle))
         guard let second = try findObject(end) else {
             return nil
         }
@@ -166,7 +166,7 @@ extension String {
         var result = ""
 
         if self[index] == "-" {
-            index = characters.index(after: index)
+            index = self.index(after: index)
             result = "-"
         }
 
@@ -175,7 +175,7 @@ extension String {
             let list: [Character] = ["?", "!", "."]
             if next.isAZ() || list.contains(next) { // TODO: check complex case
                 result.append(next)
-                index = characters.index(after: index)
+                index = self.index(after: index)
             } else if next == "[" {
                 let block = try findSquare(index)
                 index = block.index
@@ -192,15 +192,13 @@ extension String {
                 if result.isEmpty {
                     return nil
                 }
-                return (result, index)
             }
-
         }
         return nil
     }
 
     func findGeneric(_ start: String.Index) throws -> (string: String, index: String.Index)? {
-        var index = characters.index(after: start)
+        var index = self.index(after: start)
         var count = 1
         var result = "<"
         while index < endIndex {
@@ -216,7 +214,7 @@ extension String {
                 count -= 1
                 result.append(next)
                 if count == 0 {
-                    return (result, characters.index(after: index))
+                    return (result, self.index(after: index))
                 } else if count < 0 {
                     return nil
                 }
@@ -234,7 +232,7 @@ extension String {
                 return nil
             }
 
-            index = characters.index(after: index)
+            index = self.index(after: index)
         }
         return nil
     }
@@ -260,6 +258,10 @@ extension Character {
             return true
         }
         return false
+    }
+
+    func isOperator() -> Bool {
+        return self == "+" || self == "-" || self == "*" || self == "/"
     }
 
     func isUpperBlock() -> Bool {
