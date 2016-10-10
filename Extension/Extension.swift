@@ -12,7 +12,7 @@ extension String {
 
     func lastWord() -> String {
         if count > 0 {
-            let end = lastNonBlankIndex(index(before: endIndex))
+            let end = lastNonBlankIndex(endIndex)
             if end != startIndex || !self[end].isBlank() {
                 let start = lastStringIndex(end) { $0.isBlank() }
                 if self[start].isBlank() {
@@ -46,10 +46,10 @@ extension String {
     func lastStringIndex(_ start: String.Index, checker: (Character) -> Bool) -> String.Index {
         var index = start
         while index > startIndex {
+            index = self.index(before: index)
             if checker(self[index]) {
                 break
             }
-            index = self.index(before: index)
         }
         return index
     }

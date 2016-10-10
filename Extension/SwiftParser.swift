@@ -78,7 +78,7 @@ class SwiftParser {
                         }
                     }
                     // check negative
-                    let last = retString.lastNonSpaceChar(retString.index(before: retString.endIndex))
+                    let last = retString.lastNonSpaceChar(retString.endIndex)
                     if last.isAZ() {
                         if SwiftParser.NegativeCheckKeys.contains(retString.lastWord()) {
                             noSpace = true
