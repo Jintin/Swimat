@@ -73,7 +73,7 @@ class SwiftParser {
                 if retString.count > 0 {
                     // check scientific notation
                     if strIndex != string.endIndex {
-                        if retString.lastChar == "e" && SwiftParser.Numbers.contains(string[string.index(after: strIndex)]) {
+                        if retString.last == "e" && SwiftParser.Numbers.contains(string[string.index(after: strIndex)]) {
                             noSpace = true
                         }
                     }
@@ -136,7 +136,9 @@ class SwiftParser {
                 return addChar(char)
             }
         case ":":
-            trimWithIndent()
+            if retString.last.isSpace() {
+                trimWithIndent()
+            }
             retString += ": "
             return string.nextNonSpaceIndex(string.index(after: strIndex))
         case "#":
@@ -168,7 +170,9 @@ class SwiftParser {
             keepSpace()
             return string.index(after: strIndex)
         case ",":
-            trimWithIndent()
+            if retString.last.isSpace() {
+                trimWithIndent()
+            }
             retString += ", "
             return string.nextNonSpaceIndex(string.index(after: strIndex))
         case "{", "[", "(":
@@ -185,7 +189,7 @@ class SwiftParser {
                 switchCount += 1
             }
             if char == "{" {
-                if let last = retString.lastChar, !last.isUpperBlock() {
+                if !retString.last.isUpperBlock() {
                     keepSpace()
                 }
 
@@ -287,11 +291,9 @@ class SwiftParser {
             return nil
         }
 
-        if let last = retString.lastChar {
-            if let result = check(last) {
-                tempIndent = result
-                return
-            }
+        if let result = check(retString.last) {
+            tempIndent = result
+            return
         }
 
         if strIndex < string.endIndex {

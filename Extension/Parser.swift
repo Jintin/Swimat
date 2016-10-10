@@ -56,7 +56,7 @@ extension SwiftParser {
     }
 
     func keepSpace() {
-        if let last = retString.lastChar, !last.isBlank() {
+        if !retString.last.isBlank() {
             retString += " "
         }
     }
@@ -79,7 +79,7 @@ extension SwiftParser {
     func trimWithIndent(ignoreTemp: Bool = false) {
         retString = retString.trim()
 
-        if retString.lastChar == "\n" {
+        if retString.last == "\n" {
             addIndent(ignoreTemp: ignoreTemp)
         }
     }
@@ -102,7 +102,7 @@ extension SwiftParser {
             }
         }
     }
-    
+
     func addString(_ string: String) -> String.Index {
         retString += string
         return self.string.index(strIndex, offsetBy: string.count)

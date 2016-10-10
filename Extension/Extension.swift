@@ -6,8 +6,8 @@ extension String {
         return characters.count
     }
 
-    var lastChar: Character? {
-        return characters.last
+    var last: Character {
+        return characters.last ?? "\0" as Character
     }
 
     func lastWord() -> String {
@@ -189,12 +189,13 @@ extension String {
                 index = quote.index
                 result += quote.string
             } else {
-                if result.isEmpty {
-                    return nil
-                }
+                break
             }
         }
-        return nil
+        if result.isEmpty {
+            return nil
+        }
+        return (result, index)
     }
 
     func findGeneric(_ start: String.Index) throws -> (string: String, index: String.Index)? {
@@ -205,8 +206,12 @@ extension String {
             let next = self[index]
 
             switch next {
-            case "A" ... "z", "0" ... "9", ",", " ", "[", "]", ".", "?", ":":
+            case "A" ... "z", "0" ... "9", " ", "[", "]", ".", "?", ":":
                 result.append(next)
+            case ",":
+                result.append(", ")
+                index = nextNonSpaceIndex(self.index(after: index))
+                continue
             case "<":
                 count += 1
                 result.append(next)
