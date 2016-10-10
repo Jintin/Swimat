@@ -164,8 +164,9 @@ extension String {
         guard let second = try findObject(end) else {
             return nil
         }
-        return ("? \(first.string) : \(second.string)", second.index)
+        return ("? " + first.string + " : " + second.string, second.index)
     }
+
 
     func findObject(_ start: String.Index) throws -> (string: String, index: String.Index)? {
         var index = start
@@ -175,10 +176,9 @@ extension String {
             index = self.index(after: index)
             result = "-"
         }
-
+        let list: [Character] = ["?", "!", "."]
         while index < endIndex {
             let next = self[index]
-            let list: [Character] = ["?", "!", "."]
             if next.isAZ() || list.contains(next) { // TODO: check complex case
                 result.append(next)
                 index = self.index(after: index)

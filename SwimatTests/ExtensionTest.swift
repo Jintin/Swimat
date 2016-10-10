@@ -117,11 +117,11 @@ class ExtensionTest: XCTestCase {
 
     // MARK: basic char
     func testIsAZ() {
-        measure() {
-            let a: Character = "a"
-            assert(a.isAZ() == true)
-            let b: Character = "="
-            assert(b.isAZ() == false)
+        let values = [
+            "a" as Character: true,
+            "=" as Character: false]
+        for (a, b) in values {
+            assert(a.isAZ() == b)
         }
     }
 
