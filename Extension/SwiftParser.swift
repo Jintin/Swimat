@@ -73,7 +73,7 @@ class SwiftParser {
                 if retString.count > 0 {
                     // check scientific notation
                     if strIndex != string.endIndex {
-                        if string[string.index(before: strIndex)] == "e" && SwiftParser.Numbers.contains(string[string.index(after: strIndex)]) {
+                        if retString.lastChar == "e" && SwiftParser.Numbers.contains(string[string.index(after: strIndex)]) {
                             noSpace = true
                         }
                     }
