@@ -15,10 +15,12 @@ extension SwiftParser {
     func isBetween(_ texts: (first: String, last: String)...) -> Bool { //TODO:check word, not position
         if strIndex < string.endIndex {
             let last = retString.lastWord()
-            let next = string.substring(from: string.nextNonSpaceIndex(strIndex))
+            let startIndex = string.nextNonSpaceIndex(strIndex)
             for text in texts {
-                if next.hasPrefix(text.last) && last == text.first {
-                    return true
+                if let endIndex = string.index(startIndex, offsetBy: text.last.count, limitedBy: string.endIndex), let _ = string.range(of: text.last, options: [], range: startIndex ..< endIndex) {
+                    if last == text.first {
+                        return true
+                    }
                 }
             }
         }
@@ -31,10 +33,9 @@ extension SwiftParser {
 
     func isNextWords(_ words: String...) -> Bool {
         let start = string.nextNonSpaceIndex(strIndex)
-        let subString = string.substring(from: start)
         for text in words {
-            if subString.hasPrefix(text) {
-                return true
+            if let endIndex = string.index(start, offsetBy: text.count, limitedBy: string.endIndex), let _ = string.range(of: text, options: [], range: start ..< endIndex) {
+                    return true
             }
         }
         return false
@@ -46,9 +47,8 @@ extension SwiftParser {
     }
 
     func isNextString(_ start: String.Index, word: String...) -> Bool {
-        let subString = string.substring(from: start)
         for text in word {
-            if subString.hasPrefix(text) {
+            if let endIndex = string.index(start, offsetBy: text.count, limitedBy: string.endIndex), let _ = string.range(of: text, options: [], range: start ..< endIndex) {
                 return true
             }
         }
@@ -108,28 +108,23 @@ extension SwiftParser {
     }
 
     func addToNext(_ start: String.Index, stopWord: String) -> String.Index {
-        var index = start
-
-        while index < string.endIndex {
-            if isNextString(index, word: stopWord) {
-                index = string.index(index, offsetBy: stopWord.count)
-                break
-            }
-            index = string.index(after: index)
+        if let result = string.range(of: stopWord, options: [], range: start ..< string.endIndex) {
+            retString += string[start ..< result.upperBound]
+            return result.upperBound
         }
-        retString += string[start ..< index]
-        return index
+        retString += string[start ..< string.endIndex]
+        return string.endIndex
     }
 
     func addToLineEnd() -> String.Index {
         let start = strIndex
         var findNewLine = false
-        while strIndex < string.endIndex {
-            if string[strIndex] == "\n" {
-                findNewLine = true
-                break
-            }
-            strIndex = string.index(after: strIndex)
+
+        if let result = string.range(of: "\n", options: [], range: start ..< string.endIndex) {
+            findNewLine = true
+            strIndex = result.lowerBound
+        } else {
+            strIndex = string.endIndex
         }
         retString += string[start ..< strIndex]
         if findNewLine {
