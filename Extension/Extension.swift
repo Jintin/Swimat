@@ -28,6 +28,12 @@ extension String {
         return trimmingCharacters(in: .whitespaces)
     }
 
+    mutating func keepSpace() {
+        if !last.isBlank() {
+            append(" ")
+        }
+    }
+
     func nextStringIndex(_ start: String.Index, checker: (Character) -> Bool) -> String.Index {
         var index = start
         while index < endIndex {

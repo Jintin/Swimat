@@ -55,14 +55,8 @@ extension SwiftParser {
         return false
     }
 
-    func keepSpace() {
-        if !retString.last.isBlank() {
-            retString += " "
-        }
-    }
-
     func spaceWith(_ word: String) -> String.Index {
-        keepSpace()
+        retString.keepSpace()
         retString += "\(word) "
         return string.nextNonSpaceIndex(string.index(strIndex, offsetBy: word.count))
     }

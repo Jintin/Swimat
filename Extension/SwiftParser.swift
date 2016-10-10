@@ -129,7 +129,7 @@ class SwiftParser {
                 // TODO: check double optional or nil check
                 return addString("??")
             } else if let ternary = try string.findTernary(strIndex) {
-                keepSpace()
+                retString.keepSpace()
                 retString += ternary.string
                 return ternary.index
             } else {
@@ -167,7 +167,7 @@ class SwiftParser {
         case "\n":
             return checkLine(char)
         case " ", "\t":
-            keepSpace()
+            retString.keepSpace()
             return string.index(after: strIndex)
         case ",":
             if retString.last.isSpace() {
@@ -190,7 +190,7 @@ class SwiftParser {
             }
             if char == "{" {
                 if !retString.last.isUpperBlock() {
-                    keepSpace()
+                    retString.keepSpace()
                 }
 
                 retString += "{ "
@@ -217,7 +217,7 @@ class SwiftParser {
 
             if char == "}" {
                 trimWithIndent(ignoreTemp: true) // TODO: change to newline check
-                keepSpace()
+                retString.keepSpace()
                 let next = string.index(after: strIndex)
                 if next < string.endIndex && string[next].isAZ() {
                     retString += "} "
