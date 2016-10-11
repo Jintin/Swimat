@@ -1,29 +1,40 @@
 import Foundation
 
+enum BlockType: Character {
+    case parentheses = "(", square = "[", curly = "{"
+}
+
+struct Block {
+    let indent: Int
+    let tempIndent: Int
+    let indentCount: Int
+    let type: BlockType
+}
+
+enum FormatError: Error {
+    case stringError
+}
+
+fileprivate  let OperatorList: [Character: [String]] = [
+    "+": ["+=<", "+=", "+++=", "+++", "+"],
+    "-": ["->", "-=", "-<<"],
+    "*": ["*=", "*"],
+    "/": ["/=", "/"],
+    "~": ["~=", "~~>", "~>"],
+    "%": ["%=", "%"],
+    "^": ["^="],
+    "&": ["&&=", "&&&", "&&", "&=", "&+", "&-", "&*", "&/", "&%"],
+    "<": ["<<<", "<<=", "<<", "<=", "<~~", "<~", "<--", "<-<", "<-", "<^>", "<|>", "<*>", "<||?", "<||", "<|?", "<|", "<"],
+    ">": [">>>", ">>=", ">>-", ">>", ">=", ">->", ">"],
+    "|": ["|||", "||=", "||", "|=", "|"],
+    "!": ["!==", "!="],
+    "=": ["===", "==", "="]
+]
+fileprivate  let NegativeCheckSigns: [Character] = ["+", "-", "*", "/", "&", "|", "^", "<", ">", ":", "(", "[", "{", "=", ",", ".", "?"]
+fileprivate  let NegativeCheckKeys = ["case", "return", "if", "for", "while", "in"]
+fileprivate  let Numbers: [Character] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
 class SwiftParser {
-
-    enum FormatError: Error {
-        case stringError
-    }
-
-    fileprivate static let OperatorList: [Character: [String]] = [
-        "+": ["+=<", "+=", "+++=", "+++", "+"],
-        "-": ["->", "-=", "-<<"],
-        "*": ["*=", "*"],
-        "/": ["/=", "/"],
-        "~": ["~=", "~~>", "~>"],
-        "%": ["%=", "%"],
-        "^": ["^="],
-        "&": ["&&=", "&&&", "&&", "&=", "&+", "&-", "&*", "&/", "&%"],
-        "<": ["<<<", "<<=", "<<", "<=", "<~~", "<~", "<--", "<-<", "<-", "<^>", "<|>", "<*>", "<||?", "<||", "<|?", "<|", "<"],
-        ">": [">>>", ">>=", ">>-", ">>", ">=", ">->", ">"],
-        "|": ["|||", "||=", "||", "|=", "|"],
-        "!": ["!==", "!="],
-        "=": ["===", "==", "="]
-    ]
-    fileprivate static let NegativeCheckSigns: [Character] = ["+", "-", "*", "/", "&", "|", "^", "<", ">", ":", "(", "[", "{", "=", ",", ".", "?"]
-    fileprivate static let NegativeCheckKeys = ["case", "return", "if", "for", "while", "in"]
-    fileprivate static let Numbers: [Character] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
     static var indentChar: String = ""
     let string: String
@@ -36,17 +47,6 @@ class SwiftParser {
     var inSwitch = false
     var switchCount = 0
     var newlineIndex = 0
-
-    enum BlockType: Character {
-        case parentheses = "(", square = "[", curly = "{"
-    }
-
-    struct Block {
-        let indent: Int
-        let tempIndent: Int
-        let indentCount: Int
-        let type: BlockType
-    }
 
     init(string: String) {
         self.string = string
@@ -64,27 +64,27 @@ class SwiftParser {
     func checkChar(_ char: Character) throws -> String.Index {
         switch char {
         case "+", "*", "%", ">", "|", "=":
-            return spaceWithArray(SwiftParser.OperatorList[char]!)!
+            return spaceWithArray(OperatorList[char]!)!
         case "-":
-            if let index = spaceWithArray(SwiftParser.OperatorList[char]!) {
+            if let index = spaceWithArray(OperatorList[char]!) {
                 return index
             } else {
                 var noSpace = false
                 if retString.count > 0 {
                     // check scientific notation
                     if strIndex != string.endIndex {
-                        if retString.last == "e" && SwiftParser.Numbers.contains(string[string.index(after: strIndex)]) {
+                        if retString.last == "e" && Numbers.contains(string[string.index(after: strIndex)]) {
                             noSpace = true
                         }
                     }
                     // check negative
                     let last = retString.lastNonSpaceChar(retString.endIndex)
                     if last.isAZ() {
-                        if SwiftParser.NegativeCheckKeys.contains(retString.lastWord()) {
+                        if NegativeCheckKeys.contains(retString.lastWord()) {
                             noSpace = true
                         }
                     } else {
-                        if SwiftParser.NegativeCheckSigns.contains(last) {
+                        if NegativeCheckSigns.contains(last) {
                             noSpace = true
                         }
                     }
@@ -95,7 +95,7 @@ class SwiftParser {
                 return spaceWith("-")
             }
         case "~", "^", "!", "&":
-            if let index = spaceWithArray(SwiftParser.OperatorList[char]!) {
+            if let index = spaceWithArray(OperatorList[char]!) {
                 return index
             }
             return addChar(char)
@@ -114,7 +114,7 @@ class SwiftParser {
             } else if isNextChar("*") {
                 return addToNext(strIndex, stopWord: "*/")
             }
-            return spaceWithArray(SwiftParser.OperatorList[char]!)!
+            return spaceWithArray(OperatorList[char]!)!
         case "<":
             if isNextChar("#") {
                 return addString("<#")
@@ -123,7 +123,7 @@ class SwiftParser {
                 retString += result.string
                 return result.index
             }
-            return spaceWithArray(SwiftParser.OperatorList[char]!)!
+            return spaceWithArray(OperatorList[char]!)!
         case "?":
             if isNextChar("?") {
                 // TODO: check double optional or nil check

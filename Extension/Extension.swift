@@ -124,7 +124,7 @@ extension String {
         while index < endIndex {
             let next = self[index]
             if next == "\n" {
-                throw SwiftParser.FormatError.stringError
+                throw FormatError.stringError
             }
 
             if escape && next == "(" {

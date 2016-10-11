@@ -14,11 +14,10 @@ extension SwiftParser {
 
     func isBetween(_ texts: (first: String, last: String)...) -> Bool { //TODO:check word, not position
         if strIndex < string.endIndex {
-            let last = retString.lastWord()
             let startIndex = string.nextNonSpaceIndex(strIndex)
             for text in texts {
                 if let endIndex = string.index(startIndex, offsetBy: text.last.count, limitedBy: string.endIndex), let _ = string.range(of: text.last, options: [], range: startIndex ..< endIndex) {
-                    if last == text.first {
+                    if retString.lastWord() == text.first {// TODO: cache last word
                         return true
                     }
                 }
