@@ -2,16 +2,12 @@ import Foundation
 
 extension String {
 
-    var count: Int {
-        return characters.count
-    }
-
     var last: Character {
         return characters.last ?? "\0" as Character
     }
 
     func lastWord() -> String {
-        if count > 0 {
+        if !isEmpty {
             let end = lastNonBlankIndex(endIndex)
             if end != startIndex || !self[end].isBlank() {
                 let start = lastStringIndex(end) { $0.isBlank() }

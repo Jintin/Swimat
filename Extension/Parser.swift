@@ -12,12 +12,12 @@ extension SwiftParser {
         }
     }
 
-    func isBetween(_ texts: (first: String, last: String)...) -> Bool { //TODO:check word, not position
+    func isBetween(_ texts: (start: String, end: String, endLength: Int)...) -> Bool { //TODO:check word, not position
         if strIndex < string.endIndex {
             let startIndex = string.nextNonSpaceIndex(strIndex)
             for text in texts {
-                if let endIndex = string.index(startIndex, offsetBy: text.last.count, limitedBy: string.endIndex), let _ = string.range(of: text.last, options: [], range: startIndex ..< endIndex) {
-                    if retString.lastWord() == text.first {// TODO: cache last word
+                if let endIndex = string.index(startIndex, offsetBy: text.endLength, limitedBy: string.endIndex), let _ = string.range(of: text.end, options: [], range: startIndex ..< endIndex) {
+                    if retString.lastWord() == text.start { //TODO: cache last word
                         return true
                     }
                 }
@@ -26,51 +26,50 @@ extension SwiftParser {
         return false
     }
 
-    func isNextString(_ string: String) -> Bool {
-        return isNextString(strIndex, word: string)
-    }
-
-    func isNextWords(_ words: String...) -> Bool {
-        let start = string.nextNonSpaceIndex(strIndex)
-        for text in words {
-            if let endIndex = string.index(start, offsetBy: text.count, limitedBy: string.endIndex), let _ = string.range(of: text, options: [], range: start ..< endIndex) {
-                    return true
-            }
+    func isNextWord(_ str: String, length: Int) -> Bool {
+        let index = string.nextNonSpaceIndex(strIndex)
+        if let endIndex = string.index(index, offsetBy: length, limitedBy: string.endIndex), let _ = string.range(of: str, options: [], range: index ..< endIndex) {
+            return true
         }
         return false
     }
 
-    func isNextWord(_ word: String) -> Bool {
+    func isNextWords(_ words: (str: String, length: Int)...) -> Bool {
         let index = string.nextNonSpaceIndex(strIndex)
-        return isNextString(index, word: word)
-    }
-
-    func isNextString(_ start: String.Index, word: String...) -> Bool {
-        for text in word {
-            if let endIndex = string.index(start, offsetBy: text.count, limitedBy: string.endIndex), let _ = string.range(of: text, options: [], range: start ..< endIndex) {
+        for text in words {
+            if let endIndex = string.index(index, offsetBy: text.length, limitedBy: string.endIndex), let _ = string.range(of: text.str, options: [], range: index ..< endIndex) {
                 return true
             }
         }
         return false
     }
 
-    func spaceWith(_ word: String) -> String.Index {
-        retString.keepSpace()
-        retString += word + " "
-        return string.nextNonSpaceIndex(string.index(strIndex, offsetBy: word.count))
+    func isNextString(_ str: String, length: Int) -> Bool {
+        if let endIndex = string.index(strIndex, offsetBy: length, limitedBy: string.endIndex), let _ = string.range(of: str, options: [], range: strIndex ..< endIndex) {
+            return true
+        }
+        return false
     }
 
-    func spaceWithArray(_ list: [String]) -> String.Index? {
-        for word in list {
-            if isNextString(word) {
-                return spaceWith(word)
+    func spaceWith(_ word: String, length: Int) -> String.Index {
+        retString.keepSpace()
+        retString += word + " "
+        return string.nextNonSpaceIndex(string.index(strIndex, offsetBy: length))
+    }
+
+    func spaceWithArray(_ words: [StringObj]) -> String.Index? {
+        for word in words {
+            if isNextString(word.str, length: word.length) {
+                return spaceWith(word.str, length: word.length)
             }
         }
         return nil
     }
 
     func trimWithIndent(ignoreTemp: Bool = false) {
-        retString = retString.trim()
+        if retString.last.isSpace() {
+            retString = retString.trim()
+        }
 
         if retString.last == "\n" {
             addIndent(ignoreTemp: ignoreTemp)
@@ -79,10 +78,10 @@ extension SwiftParser {
 
     func addIndent(ignoreTemp: Bool = false) {
         if inSwitch {
-            if isNextWords("case", "default:") {
+            if isNextWords(("case", length: 4), ("default:", length: 8)) {
                 tempIndent -= 1
             }
-        } else if isNextWord("switch") {
+        } else if isNextWord("switch", length: 6) {
             inSwitch = true
         }
 
@@ -96,9 +95,9 @@ extension SwiftParser {
         }
     }
 
-    func addString(_ string: String) -> String.Index {
+    func addString(_ string: String, length: Int) -> String.Index {
         retString += string
-        return self.string.index(strIndex, offsetBy: string.count)
+        return self.string.index(strIndex, offsetBy: length)
     }
 
     func addChar(_ char: Character) -> String.Index {
