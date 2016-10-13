@@ -36,8 +36,8 @@ extension SwiftParser {
 
     func isNextWords(_ words: (str: String, length: Int)...) -> Bool {
         let index = string.nextNonSpaceIndex(strIndex)
-        for text in words {
-            if let endIndex = string.index(index, offsetBy: text.length, limitedBy: string.endIndex), let _ = string.range(of: text.str, options: [], range: index ..< endIndex) {
+        for word in words {
+            if let endIndex = string.index(index, offsetBy: word.length, limitedBy: string.endIndex), let _ = string.range(of: word.str, options: [], range: index ..< endIndex) {
                 return true
             }
         }
