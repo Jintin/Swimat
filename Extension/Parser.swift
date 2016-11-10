@@ -88,7 +88,7 @@ extension SwiftParser {
         retString += String(repeating: SwiftParser.indentChar, count: indent + (ignoreTemp ? 0 : tempIndent))
 
         if let block = blockStack.last {
-            if !ignoreTemp && blockType == .parentheses {
+            if !ignoreTemp {
 //                retString += SwiftParser.indentChar
                 retString += String(repeating: " ", count: block.indentCount)
             }

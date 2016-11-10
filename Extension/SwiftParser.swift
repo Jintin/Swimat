@@ -205,8 +205,14 @@ class SwiftParser {
             retString += ", "
             return string.nextNonSpaceIndex(string.index(after: strIndex))
         case "{", "[", "(":
-            let count = retString.distance(from: newlineIndex, to: retString.endIndex) - (indent + tempIndent) * SwiftParser.indentSize - 1
-            let block = Block(indent: indent, tempIndent: tempIndent, indentCount: count, type: blockType)
+            var indentCount = 0
+            if let block = blockStack.last {
+                indentCount += block.indentCount
+            }
+            if char == "(" {
+                indentCount += retString.distance(from: newlineIndex, to: retString.endIndex) - (indent + tempIndent) * SwiftParser.indentSize - 1
+            }
+            let block = Block(indent: indent, tempIndent: tempIndent, indentCount: indentCount, type: blockType)
             blockStack.append(block)
             blockType = BlockType(rawValue: char) ?? .curly
             if blockType == .parentheses {
