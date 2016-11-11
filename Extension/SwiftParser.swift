@@ -6,8 +6,9 @@ enum BlockType: Character {
 
 struct Block {
     let indent: Int
-    let tempIndent: Int
-    let indentCount: Int
+    let extraIndent: Int
+    let lineIndent: Int
+    let alignIndent: Int
     let type: BlockType
 }
 
@@ -71,10 +72,12 @@ class SwiftParser {
     var blockStack = [Block]()
     var blockType: BlockType = .curly
     var indent = 0
-    var tempIndent = 0
+    var extraIndent = 0
     var inSwitch = false
     var switchCount = 0
     var newlineIndex: String.Index
+    var lineIndent = 1
+    var alignIndent = 0
 
     init(string: String) {
         self.string = string
@@ -165,9 +168,7 @@ class SwiftParser {
                 return addChar(char)
             }
         case ":":
-            if retString.last.isSpace() {
-                trimWithIndent()
-            }
+            trimWithIndent()
             retString += ": "
             return string.nextNonSpaceIndex(string.index(after: strIndex))
         case "#":
@@ -199,27 +200,28 @@ class SwiftParser {
             retString.keepSpace()
             return string.index(after: strIndex)
         case ",":
-            if retString.last.isSpace() {
-                trimWithIndent()
-            }
+            trimWithIndent()
             retString += ", "
             return string.nextNonSpaceIndex(string.index(after: strIndex))
         case "{", "[", "(":
-            var indentCount = 0
-            if let block = blockStack.last {
-                indentCount += block.indentCount
-            }
-            if char == "(" {
-                indentCount += retString.distance(from: newlineIndex, to: retString.endIndex) - (indent + tempIndent) * SwiftParser.indentSize - 1
-            }
-            let block = Block(indent: indent, tempIndent: tempIndent, indentCount: indentCount, type: blockType)
+            let block = Block(indent: indent, extraIndent: extraIndent, lineIndent: lineIndent, alignIndent: alignIndent, type: blockType)
             blockStack.append(block)
+
             blockType = BlockType(rawValue: char) ?? .curly
-            if blockType == .parentheses {
-                indent += tempIndent
-            } else {
-                indent += tempIndent + 1
+
+            if char == "(" {
+                alignIndent = retString.distance(from: newlineIndex, to: retString.endIndex) - (indent + extraIndent) * SwiftParser.indentSize - 1
+            } else if char == "{" {
+                alignIndent = 0
             }
+
+            if char != "(" {
+                indent += lineIndent
+            }
+            indent += extraIndent
+
+            lineIndent = 0
+
             if inSwitch && char == "{" {
                 switchCount += 1
             }
@@ -236,12 +238,16 @@ class SwiftParser {
         case "}", "]", ")":
             if let block = blockStack.popLast() {
                 indent = block.indent
-                tempIndent = block.tempIndent
+                extraIndent = block.extraIndent
+                lineIndent = block.lineIndent
                 blockType = block.type
+                alignIndent = block.alignIndent
             } else {
                 indent = 0
-                tempIndent = 0
+                extraIndent = 0
                 blockType = .curly
+                lineIndent = 1
+                alignIndent = 0
             }
             if inSwitch && char == "}" {
                 switchCount -= 1
@@ -271,15 +277,14 @@ class SwiftParser {
     }
 
     func checkLine(_ char: Character, checkLast: Bool = true) -> String.Index {
-        if retString.last.isSpace() {
-            retString = retString.trim()
-        }
+        trim()
         newlineIndex = retString.endIndex
         if checkLast {
             checkLineEnd()
         } else {
-            tempIndent = 0
+            extraIndent = 0
         }
+        lineIndent = 1
         strIndex = addChar(char)
         if !isNextString("//", length: 2) {
             addIndent()
@@ -329,7 +334,7 @@ class SwiftParser {
         }
 
         if let result = check(retString.last) {
-            tempIndent = result
+            extraIndent = result
             return
         }
 
@@ -337,15 +342,15 @@ class SwiftParser {
             let next = string.nextNonSpaceIndex(string.index(after: strIndex))
             if next < string.endIndex {
                 if let result = check(string[next]) {
-                    tempIndent = result
+                    extraIndent = result
                     return
                 }
                 if string[next] == "?" {
-                    tempIndent = 1
+                    extraIndent = 1
                     return
                 }
             }
-            tempIndent = 0
+            extraIndent = 0
             // TODO: check next if ? :
         }
     }

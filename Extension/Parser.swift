@@ -66,11 +66,14 @@ extension SwiftParser {
         return nil
     }
 
-    func trimWithIndent(ignoreTemp: Bool = false) {
+    func trim() {
         if retString.last.isSpace() {
             retString = retString.trim()
         }
+    }
 
+    func trimWithIndent(ignoreTemp: Bool = false) {
+        trim()
         if retString.last == "\n" {
             addIndent(ignoreTemp: ignoreTemp)
         }
@@ -79,19 +82,16 @@ extension SwiftParser {
     func addIndent(ignoreTemp: Bool = false) {
         if inSwitch {
             if isNextWords(("case", length: 4), ("default:", length: 8)) {
-                tempIndent -= 1
+                extraIndent -= 1
             }
         } else if isNextWord("switch", length: 6) {
             inSwitch = true
         }
 
-        retString += String(repeating: SwiftParser.indentChar, count: indent + (ignoreTemp ? 0 : tempIndent))
+        retString += String(repeating: SwiftParser.indentChar, count: indent + (ignoreTemp ? 0 : extraIndent))
 
-        if let block = blockStack.last {
-            if !ignoreTemp {
-//                retString += SwiftParser.indentChar
-                retString += String(repeating: " ", count: block.indentCount)
-            }
+        if !ignoreTemp {
+            retString += String(repeating: " ", count: alignIndent)
         }
     }
 
