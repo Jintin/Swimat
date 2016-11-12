@@ -58,6 +58,7 @@ class SwiftParser {
     var indent = Indent()
     var indentStack = [Indent]()
     var newlineIndex: String.Index
+    var isNextSwitch: Bool = false
 
     init(string: String) {
         self.string = string
@@ -189,6 +190,10 @@ class SwiftParser {
             indent = Indent(with: indent, offset: leading, type: IndentType(rawValue: char))
 
             if indent.block == .curly {
+                if isNextSwitch {
+                    indent.inSwitch = true
+                    isNextSwitch = false
+                }
                 if !retString.last.isUpperBlock() {
                     retString.keepSpace()
                 }

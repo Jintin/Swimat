@@ -85,7 +85,7 @@ extension SwiftParser {
                 indent.extra -= 1
             }
         } else if isNextWord("switch", length: 6) {
-            indent.inSwitch = true
+            isNextSwitch = true
         }
 
         retString += String(repeating: Indent.char, count: indent.count + (ignoreTemp ? 0 : indent.extra))

@@ -29,12 +29,11 @@ class Indent {
         self.block = type ?? .curly
         self.count = indent.count
         self.extra = indent.extra
+        self.inSwitch = false
         if block == .curly {
             self.leading = 0
-            self.inSwitch = indent.inSwitch
         } else {
             self.leading = indent.leading
-            self.inSwitch = false
         }
 
         if self.block != .parentheses && !indent.indentAdd {
