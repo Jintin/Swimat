@@ -80,18 +80,18 @@ extension SwiftParser {
     }
 
     func addIndent(ignoreTemp: Bool = false) {
-        if inSwitch {
+        if indent.inSwitch {
             if isNextWords(("case", length: 4), ("default:", length: 8)) {
-                extraIndent -= 1
+                indent.extra -= 1
             }
         } else if isNextWord("switch", length: 6) {
-            inSwitch = true
+            indent.inSwitch = true
         }
 
-        retString += String(repeating: SwiftParser.indentChar, count: indent + (ignoreTemp ? 0 : extraIndent))
+        retString += String(repeating: Indent.char, count: indent.count + (ignoreTemp ? 0 : indent.extra))
 
         if !ignoreTemp {
-            retString += String(repeating: " ", count: alignIndent)
+            retString += String(repeating: " ", count: indent.leading)
         }
     }
 

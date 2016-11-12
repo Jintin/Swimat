@@ -10,6 +10,8 @@
 		2F151A241D8B9A3F00513FEE /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A231D8B9A3F00513FEE /* SwiftParser.swift */; };
 		2F151A261D8B9A6500513FEE /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A251D8B9A6500513FEE /* Parser.swift */; };
 		2F151A281D8B9B9100513FEE /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A271D8B9B9100513FEE /* Extension.swift */; };
+		2F1A96741DD6AF3700CEB5C7 /* Indent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1A96731DD6AF3700CEB5C7 /* Indent.swift */; };
+		2F1A96751DD6AF3700CEB5C7 /* Indent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1A96731DD6AF3700CEB5C7 /* Indent.swift */; };
 		2F2BDB331DA90DA0009A137B /* ExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2BDB321DA90DA0009A137B /* ExtensionTest.swift */; };
 		2F2BDB341DA90DEE009A137B /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A271D8B9B9100513FEE /* Extension.swift */; };
 		2F2BDB351DA90E6C009A137B /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A231D8B9A3F00513FEE /* SwiftParser.swift */; };
@@ -59,6 +61,7 @@
 		2F151A231D8B9A3F00513FEE /* SwiftParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftParser.swift; sourceTree = "<group>"; };
 		2F151A251D8B9A6500513FEE /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		2F151A271D8B9B9100513FEE /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		2F1A96731DD6AF3700CEB5C7 /* Indent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Indent.swift; sourceTree = "<group>"; };
 		2F2BDB321DA90DA0009A137B /* ExtensionTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionTest.swift; sourceTree = "<group>"; };
 		2F5745D91D8A83C500094D06 /* Swimat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Swimat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F5745DC1D8A83C500094D06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -162,6 +165,7 @@
 				2F151A231D8B9A3F00513FEE /* SwiftParser.swift */,
 				2F151A251D8B9A6500513FEE /* Parser.swift */,
 				2F151A271D8B9B9100513FEE /* Extension.swift */,
+				2F1A96731DD6AF3700CEB5C7 /* Indent.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -323,6 +327,7 @@
 				2F2BDB341DA90DEE009A137B /* Extension.swift in Sources */,
 				2F5745ED1D8A83C500094D06 /* SwimatTests.swift in Sources */,
 				2F2BDB361DA90E6F009A137B /* Parser.swift in Sources */,
+				2F1A96741DD6AF3700CEB5C7 /* Indent.swift in Sources */,
 				2F2BDB351DA90E6C009A137B /* SwiftParser.swift in Sources */,
 				2F2BDB331DA90DA0009A137B /* ExtensionTest.swift in Sources */,
 			);
@@ -335,6 +340,7 @@
 				2F151A281D8B9B9100513FEE /* Extension.swift in Sources */,
 				2F151A261D8B9A6500513FEE /* Parser.swift in Sources */,
 				2F151A241D8B9A3F00513FEE /* SwiftParser.swift in Sources */,
+				2F1A96751DD6AF3700CEB5C7 /* Indent.swift in Sources */,
 				2F5746031D8A83E600094D06 /* SourceEditorExtension.swift in Sources */,
 				2F5746051D8A83E600094D06 /* SourceEditorCommand.swift in Sources */,
 			);

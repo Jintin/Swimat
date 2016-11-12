@@ -28,6 +28,9 @@ class ExtensionTest: XCTestCase {
         assert(a.nextNonSpaceIndex(a.startIndex) == a.index(after: a.startIndex))
         let b = "abc"
         assert(b.nextNonSpaceIndex(a.startIndex) == b.startIndex)
+        let c = "   "
+        print(c.nextNonSpaceIndex(a.startIndex))
+        assert(c.nextNonSpaceIndex(a.startIndex) == c.endIndex)
     }
 
     func testLastStringIndex() {

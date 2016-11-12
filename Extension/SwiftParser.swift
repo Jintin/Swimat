@@ -1,17 +1,5 @@
 import Foundation
 
-enum BlockType: Character {
-    case parentheses = "(", square = "[", curly = "{"
-}
-
-struct Block {
-    let indent: Int
-    let extraIndent: Int
-    let lineIndent: Int
-    let alignIndent: Int
-    let type: BlockType
-}
-
 enum FormatError: Error {
     case stringError
 }
@@ -64,20 +52,12 @@ fileprivate let Numbers: [Character] = ["0", "1", "2", "3", "4", "5", "6", "7", 
 
 class SwiftParser {
 
-    static var indentChar: String = ""
-    static var indentSize: Int = 0
     let string: String
     var retString = ""
     var strIndex: String.Index
-    var blockStack = [Block]()
-    var blockType: BlockType = .curly
-    var indent = 0
-    var extraIndent = 0
-    var inSwitch = false
-    var switchCount = 0
+    var indent = Indent()
+    var indentStack = [Indent]()
     var newlineIndex: String.Index
-    var lineIndent = 1
-    var alignIndent = 0
 
     init(string: String) {
         self.string = string
@@ -173,15 +153,15 @@ class SwiftParser {
             return string.nextNonSpaceIndex(string.index(after: strIndex))
         case "#":
             if isNextString("#if", length: 3) {
-                indent += 1
+                indent.count += 1
                 return addToLineEnd() //TODO: bypass like '#if swift(>=3)'
             } else if isNextString("#else", length: 5) {
-                indent -= 1
+                indent.count -= 1
                 trimWithIndent()
-                indent += 1
+                indent.count += 1
                 return addToLineEnd() //bypass like '#if swift(>=3)'
             } else if isNextString("#endif", length: 6) {
-                indent -= 1
+                indent.count -= 1
                 trimWithIndent()
                 return addToLineEnd() //bypass like '#if swift(>=3)'
             } else if isNextChar(">") {
@@ -204,28 +184,11 @@ class SwiftParser {
             retString += ", "
             return string.nextNonSpaceIndex(string.index(after: strIndex))
         case "{", "[", "(":
-            let block = Block(indent: indent, extraIndent: extraIndent, lineIndent: lineIndent, alignIndent: alignIndent, type: blockType)
-            blockStack.append(block)
+            indentStack.append(indent)
+            let leading = retString.distance(from: newlineIndex, to: retString.endIndex)
+            indent = Indent(with: indent, offset: leading, type: IndentType(rawValue: char))
 
-            blockType = BlockType(rawValue: char) ?? .curly
-
-            if char == "(" {
-                alignIndent = retString.distance(from: newlineIndex, to: retString.endIndex) - (indent + extraIndent) * SwiftParser.indentSize - 1
-            } else if char == "{" {
-                alignIndent = 0
-            }
-
-            if char != "(" {
-                indent += lineIndent
-            }
-            indent += extraIndent
-
-            lineIndent = 0
-
-            if inSwitch && char == "{" {
-                switchCount += 1
-            }
-            if char == "{" {
+            if indent.block == .curly {
                 if !retString.last.isUpperBlock() {
                     retString.keepSpace()
                 }
@@ -236,26 +199,11 @@ class SwiftParser {
                 return addChar(char)
             }
         case "}", "]", ")":
-            if let block = blockStack.popLast() {
-                indent = block.indent
-                extraIndent = block.extraIndent
-                lineIndent = block.lineIndent
-                blockType = block.type
-                alignIndent = block.alignIndent
+            if let last = indentStack.popLast() {
+                indent = last
             } else {
-                indent = 0
-                extraIndent = 0
-                blockType = .curly
-                lineIndent = 1
-                alignIndent = 0
+                indent = Indent()
             }
-            if inSwitch && char == "}" {
-                switchCount -= 1
-                if switchCount == 0 {
-                    inSwitch = false
-                }
-            }
-
             if char == "}" {
                 trimWithIndent(ignoreTemp: true) // TODO: change to newline check
                 retString.keepSpace()
@@ -282,16 +230,17 @@ class SwiftParser {
         if checkLast {
             checkLineEnd()
         } else {
-            extraIndent = 0
+            indent.extra = 0
         }
-        lineIndent = 1
+        indent.indentAdd = false
+        indent.extraAdd = false
         strIndex = addChar(char)
         if !isNextString("//", length: 2) {
             addIndent()
             if isBetween(("if", "let", 3), ("guard", "let", 3)) {
-                retString += SwiftParser.indentChar
+                retString += Indent.char
             } else if isNextWord("else", length: 4) {
-                retString += SwiftParser.indentChar
+                retString += Indent.char
             }
         }
         return string.nextNonSpaceIndex(strIndex)
@@ -320,11 +269,11 @@ class SwiftParser {
             case "/": // TODO: check word, nor char
                 break
             case ":":
-                if !self.inSwitch {
+                if !self.indent.inSwitch {
                     return 1
                 }
             case ",":
-                if self.blockType == .curly {
+                if self.indent.block == .curly {
                     return 1
                 }
             default:
@@ -334,7 +283,7 @@ class SwiftParser {
         }
 
         if let result = check(retString.last) {
-            extraIndent = result
+            indent.extra = result
             return
         }
 
@@ -342,15 +291,15 @@ class SwiftParser {
             let next = string.nextNonSpaceIndex(string.index(after: strIndex))
             if next < string.endIndex {
                 if let result = check(string[next]) {
-                    extraIndent = result
+                    indent.extra = result
                     return
                 }
                 if string[next] == "?" {
-                    extraIndent = 1
+                    indent.extra = 1
                     return
                 }
             }
-            extraIndent = 0
+            indent.extra = 0
             // TODO: check next if ? :
         }
     }

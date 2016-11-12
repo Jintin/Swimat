@@ -153,7 +153,7 @@ extension String {
             return nil
         }
         let middle = nextNonSpaceIndex(first.index)
-        guard self[middle] == ":" else {
+        guard middle < endIndex, self[middle] == ":" else {
             return nil
         }
         let end = nextNonSpaceIndex(self.index(after: middle))
