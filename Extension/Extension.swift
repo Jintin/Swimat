@@ -75,16 +75,16 @@ extension String {
     typealias StringObj = (string: String, index: String.Index)
 
     func findParentheses(from start: String.Index, reFormat: Bool = true) throws -> StringObj {
-        return try findBlock(from: start, symbol: ("(", ")"), reFormat: reFormat)
+        return try findBlock(type: .parentheses, from: start, reFormat: reFormat)
     }
 
     func findSquare(from start: String.Index, reFormat: Bool = true) throws -> StringObj {
-        return try findBlock(from: start, symbol: ("[", "]"), reFormat: reFormat)
+        return try findBlock(type: .square, from: start, reFormat: reFormat)
     }
 
-    func findBlock(from start: String.Index, symbol: (start: String, end: Character), reFormat: Bool) throws -> StringObj {
+    func findBlock(type: IndentType, from start: String.Index, reFormat: Bool) throws -> StringObj {
         var target = index(after: start)
-        var result = symbol.start
+        var result = String(type.rawValue)
         while target < endIndex {
             let next = self[target]
 
@@ -102,7 +102,7 @@ extension String {
                 result.append(next)
             }
             target = index(after: target)
-            if next == symbol.end {
+            if next == type.stopSymbol() {
                 break
             }
         }

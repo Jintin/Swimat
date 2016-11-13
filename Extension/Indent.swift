@@ -2,6 +2,17 @@ import Foundation
 
 enum IndentType: Character {
     case parentheses = "(", square = "[", curly = "{"
+
+    func stopSymbol() -> Character {
+        switch self {
+        case .parentheses:
+            return ")"
+        case .square:
+            return "]"
+        case .curly:
+            return "}"
+        }
+    }
 }
 
 class Indent {
@@ -30,13 +41,8 @@ class Indent {
         self.count = indent.count
         self.extra = indent.extra
         self.inSwitch = false
-        if block == .curly {
-            self.leading = 0
-        } else {
-            self.leading = indent.leading
-        }
 
-        if self.block != .parentheses && !indent.indentAdd {
+        if block != .parentheses && !indent.indentAdd {
             self.count += 1
             self.indentAdd = true
         } else {
@@ -48,11 +54,14 @@ class Indent {
         } else {
             self.extraAdd = false
         }
-        if self.block == .parentheses {
-            self.leading = offset - self.count * Indent.size - 1
-            if self.leading < 0 {
-                self.leading = 0
-            }
+
+        switch block {
+        case .curly:
+            self.leading = 0
+        case .parentheses:
+            self.leading = max(offset - count * Indent.size - 1, 0)
+        case .square:
+            self.leading = indent.leading
         }
     }
 
