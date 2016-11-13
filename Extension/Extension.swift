@@ -10,7 +10,7 @@ extension String {
         if !isEmpty {
             let end = lastNonBlankIndex(endIndex)
             if end != startIndex || !self[end].isBlank() {
-                let start = lastStringIndex(end) { $0.isBlank() }
+                let start = lastIndex(from: end) { $0.isBlank() }
                 if self[start].isBlank() {
                     return self[index(after: start) ... end]
                 }
@@ -30,34 +30,34 @@ extension String {
         }
     }
 
-    func nextStringIndex(_ start: String.Index, checker: (Character) -> Bool) -> String.Index {
-        var index = start
-        while index < endIndex {
-            if checker(self[index]) {
+    func nextIndex(from start: String.Index, checker: (Character) -> Bool) -> String.Index {
+        var target = start
+        while target < endIndex {
+            if checker(self[target]) {
                 break
             }
-            index = self.index(after: index)
+            target = index(after: target)
         }
-        return index
+        return target
     }
 
     func nextNonSpaceIndex(_ index: String.Index) -> String.Index {
-        return nextStringIndex(index) { !$0.isSpace() }
+        return nextIndex(from: index) { !$0.isSpace() }
     }
 
-    func lastStringIndex(_ start: String.Index, checker: (Character) -> Bool) -> String.Index {
-        var index = start
-        while index > startIndex {
-            index = self.index(before: index)
-            if checker(self[index]) {
+    func lastIndex(from: String.Index, checker: (Character) -> Bool) -> String.Index {
+        var target = from
+        while target > startIndex {
+            target = index(before: target)
+            if checker(self[target]) {
                 break
             }
         }
-        return index
+        return target
     }
 
     func lastNonSpaceIndex(_ start: String.Index) -> String.Index {
-        return lastStringIndex(start) { !$0.isSpace() }
+        return lastIndex(from: start) { !$0.isSpace() }
     }
 
     func lastNonSpaceChar(_ start: String.Index) -> Character {
@@ -65,67 +65,69 @@ extension String {
     }
 
     func lastNonBlankIndex(_ start: String.Index) -> String.Index {
-        return lastStringIndex(start) { !$0.isBlank() }
+        return lastIndex(from: start) { !$0.isBlank() }
     }
 
 }
 
 extension String {
 
-    func findParentheses(_ start: String.Index, needFormat: Bool = true) throws -> (string: String, index: String.Index) {
-        return try findBlock(start, startSign: "(", endSign: ")", needFormat: needFormat)
+    typealias StringObj = (string: String, index: String.Index)
+
+    func findParentheses(from start: String.Index, reFormat: Bool = true) throws -> StringObj {
+        return try findBlock(from: start, symbol: ("(", ")"), reFormat: reFormat)
     }
 
-    func findSquare(_ start: String.Index, needFormat: Bool = true) throws -> (string: String, index: String.Index) {
-        return try findBlock(start, startSign: "[", endSign: "]", needFormat: needFormat)
+    func findSquare(from start: String.Index, reFormat: Bool = true) throws -> StringObj {
+        return try findBlock(from: start, symbol: ("[", "]"), reFormat: reFormat)
     }
 
-    func findBlock(_ start: String.Index, startSign: String, endSign: Character, needFormat: Bool) throws -> (string: String, index: String.Index) {
-        var index = self.index(after: start)
-        var result = startSign
-        while index < endIndex {
-            let next = self[index]
+    func findBlock(from start: String.Index, symbol: (start: String, end: Character), reFormat: Bool) throws -> StringObj {
+        var target = index(after: start)
+        var result = symbol.start
+        while target < endIndex {
+            let next = self[target]
 
             if next == "\"" {
-                let quote = try findQuote(index)
-                index = quote.index
+                let quote = try findQuote(from: target)
+                target = quote.index
                 result += quote.string
                 continue
             } else if next == "(" {
-                let block = try findParentheses(index, needFormat: false)
-                index = block.index
+                let block = try findParentheses(from: target, reFormat: false)
+                target = block.index
                 result += block.string
                 continue
             } else {
                 result.append(next)
             }
-            index = self.index(after: index)
-            if next == endSign {
+            target = index(after: target)
+            if next == symbol.end {
                 break
             }
         }
         // TODO: no need to new obj
-        if needFormat {
+        if reFormat {
             let obj = try SwiftParser(string: result).format()
-            return (obj, index)
+            return (obj, target)
         } else {
-            return (result, index)
+            return (result, target)
         }
     }
 
-    func findQuote(_ start: String.Index) throws -> (string: String, index: String.Index) {
+    func findQuote(from start: String.Index) throws -> StringObj {
         var escape = false
-        var index = self.index(after: start)
+        var target = index(after: start)
         var result = "\""
-        while index < endIndex {
-            let next = self[index]
+        while target < endIndex {
+            let next = self[target]
             if next == "\n" {
                 throw FormatError.stringError
             }
 
             if escape && next == "(" {
-                let block = try findParentheses(index)
-                index = block.index
+                let block = try findParentheses(from: target)
+                target = block.index
                 result += block.string
 
                 escape = false
@@ -134,9 +136,9 @@ extension String {
                 result.append(next)
             }
 
-            index = self.index(after: index)
+            target = index(after: target)
             if !escape && next == "\"" {
-                return (result, index)
+                return (result, target)
             }
             if next == "\\" {
                 escape = !escape
@@ -144,51 +146,51 @@ extension String {
                 escape = false
             }
         }
-        return (result, self.index(before: endIndex))
+        return (result, index(before: endIndex))
     }
 
-    func findTernary(_ index: String.Index) throws -> (string: String, index: String.Index)? {
-        let start = nextNonSpaceIndex(self.index(after: index))
-        guard let first = try findObject(start) else {
+    func findTernary(from target: String.Index) throws -> StringObj? {
+        let start = nextNonSpaceIndex(index(after: target))
+        guard let first = try findObject(from: start) else {
             return nil
         }
         let middle = nextNonSpaceIndex(first.index)
         guard middle < endIndex, self[middle] == ":" else {
             return nil
         }
-        let end = nextNonSpaceIndex(self.index(after: middle))
-        guard let second = try findObject(end) else {
+        let end = nextNonSpaceIndex(index(after: middle))
+        guard let second = try findObject(from: end) else {
             return nil
         }
         return ("? " + first.string + " : " + second.string, second.index)
     }
 
 
-    func findObject(_ start: String.Index) throws -> (string: String, index: String.Index)? {
-        var index = start
+    func findObject(from start: String.Index) throws -> StringObj? {
+        var target = start
         var result = ""
 
-        if self[index] == "-" {
-            index = self.index(after: index)
+        if self[target] == "-" {
+            target = index(after: target)
             result = "-"
         }
         let list: [Character] = ["?", "!", "."]
-        while index < endIndex {
-            let next = self[index]
+        while target < endIndex {
+            let next = self[target]
             if next.isAZ() || list.contains(next) { // TODO: check complex case
                 result.append(next)
-                index = self.index(after: index)
+                target = index(after: target)
             } else if next == "[" {
-                let block = try findSquare(index)
-                index = block.index
+                let block = try findSquare(from: target)
+                target = block.index
                 result += block.string
             } else if next == "(" {
-                let block = try findParentheses(index)
-                index = block.index
+                let block = try findParentheses(from: target)
+                target = block.index
                 result += block.string
             } else if next == "\"" {
-                let quote = try findQuote(index)
-                index = quote.index
+                let quote = try findQuote(from: target)
+                target = quote.index
                 result += quote.string
             } else {
                 break
@@ -197,22 +199,22 @@ extension String {
         if result.isEmpty {
             return nil
         }
-        return (result, index)
+        return (result, target)
     }
 
-    func findGeneric(_ start: String.Index) throws -> (string: String, index: String.Index)? {
-        var index = self.index(after: start)
+    func findGeneric(from start: String.Index) throws -> StringObj? {
+        var target = index(after: start)
         var count = 1
         var result = "<"
-        while index < endIndex {
-            let next = self[index]
+        while target < endIndex {
+            let next = self[target]
 
             switch next {
             case "A" ... "z", "0" ... "9", " ", "[", "]", ".", "?", ":":
                 result.append(next)
             case ",":
                 result.append(", ")
-                index = nextNonSpaceIndex(self.index(after: index))
+                target = nextNonSpaceIndex(index(after: target))
                 continue
             case "<":
                 count += 1
@@ -221,25 +223,25 @@ extension String {
                 count -= 1
                 result.append(next)
                 if count == 0 {
-                    return (result, self.index(after: index))
+                    return (result, index(after: target))
                 } else if count < 0 {
                     return nil
                 }
             case "\"":
-                let quote = try findQuote(index)
-                index = quote.index
+                let quote = try findQuote(from: target)
+                target = quote.index
                 result += quote.string
                 continue
             case "(":
-                let block = try findParentheses(index)
-                index = block.index
+                let block = try findParentheses(from: target)
+                target = block.index
                 result += block.string
                 continue
             default:
                 return nil
             }
 
-            index = self.index(after: index)
+            target = index(after: target)
         }
         return nil
     }
@@ -249,14 +251,6 @@ extension String {
 extension Character {
 
     func isAZ() -> Bool {
-//        [0.009290, 0.000007, 0.000006, 0.000006, 0.000006, 0.000007, 0.000006, 0.000006, 0.000006, 0.000006],
-//        switch self {
-//        case "A" ... "Z", "a" ... "z", "0" ... "9":
-//            return true
-//        default:
-//            return false
-//        }
-//        [0.007204, 0.000005, 0.000003, 0.000003, 0.000003, 0.000003, 0.000003, 0.000003, 0.000003, 0.000003]
         if self >= "a" && self <= "z" {
             return true
         } else if self >= "A" && self <= "Z" {

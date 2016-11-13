@@ -16,11 +16,11 @@ class ExtensionTest: XCTestCase {
         assert(e.lastWord() == "cd")
     }
 
-    func testNextStringIndex() {
+    func testNextIndex() {
         let a = "abc"
-        assert(a.nextStringIndex(a.startIndex, checker: { $0 == "b" }) == a.index(after: a.startIndex))
-        assert(a.nextStringIndex(a.startIndex, checker: { $0 == "c" }) == a.index(before: a.endIndex))
-        assert(a.nextStringIndex(a.startIndex, checker: { $0 == "d" }) == a.endIndex)
+        assert(a.nextIndex(a.startIndex, checker: { $0 == "b" }) == a.index(after: a.startIndex))
+        assert(a.nextIndex(a.startIndex, checker: { $0 == "c" }) == a.index(before: a.endIndex))
+        assert(a.nextIndex(a.startIndex, checker: { $0 == "d" }) == a.endIndex)
     }
 
     func testNextNonSpaceIndex() {
@@ -33,12 +33,12 @@ class ExtensionTest: XCTestCase {
         assert(c.nextNonSpaceIndex(a.startIndex) == c.endIndex)
     }
 
-    func testLastStringIndex() {
+    func testLastIndex() {
         let a = "abcd"
-        assert(a.lastStringIndex(a.endIndex, checker: { $0 == "a" }) == a.startIndex)
-        assert(a.lastStringIndex(a.endIndex, checker: { $0 == "b" }) == a.index(after: a.startIndex))
-        assert(a.lastStringIndex(a.endIndex, checker: { $0 == "d" }) == a.index(before: a.endIndex))
-        assert(a.lastStringIndex(a.endIndex, checker: { $0 == "e" }) == a.startIndex)
+        assert(a.lastIndex(from: a.endIndex, checker: { $0 == "a" }) == a.startIndex)
+        assert(a.lastIndex(from: a.endIndex, checker: { $0 == "b" }) == a.index(after: a.startIndex))
+        assert(a.lastIndex(from: a.endIndex, checker: { $0 == "d" }) == a.index(before: a.endIndex))
+        assert(a.lastIndex(from: a.endIndex, checker: { $0 == "e" }) == a.startIndex)
     }
 
     func testLastNonSpaceIndex() {
