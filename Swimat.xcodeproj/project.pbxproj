@@ -692,6 +692,7 @@
 				49736ACF1DA8113D00A4D73A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

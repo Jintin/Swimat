@@ -15,7 +15,6 @@ var indent: String {
         return String(repeating: " ", count: indentSize)
     }
 }
-var force = false
 
 var lookingForIndent = false
 
@@ -26,27 +25,25 @@ func printToError(_ string: String = "") {
     FileHandle.standardError.write(data)
 }
 
+var files = [URL]()
 
 if CommandLine.arguments.count < 2 {
     printToError("The Swimat Swift formatter")
     printToError()
-    printToError("USAGE: swimat <options/inputs...>")
+    printToError("USAGE: swimat [options] <inputs...>")
     printToError()
     printToError("OPTIONS:")
-    printToError("-i <value>=0 Set number of spaces to indent for subsequent files, 0 for tabs.")
-    printToError("-f           Toggle force-formatting for all subsequent files.")
+    printToError("-i <value>=0 Set the number of spaces to indent; use 0 for tabs.")
     exit(SwimatError.noArguments.rawValue)
 }
 for var argument in CommandLine.arguments.dropFirst() {
     if argument.hasPrefix("-") {
         argument.remove(at: argument.startIndex)
         switch argument {
-        case "f":
-            force = !force
         case "i":
             lookingForIndent = true
         default:
-            printToError("-\(argument) is not a valid option.\nValid options are -i and -f.")
+            printToError("-\(argument) is not a valid option.\nValid options are -i.")
             exit(SwimatError.invalidOption.rawValue)
         }
     } else {
@@ -59,14 +56,15 @@ for var argument in CommandLine.arguments.dropFirst() {
             lookingForIndent = false
         } else {
             let file = URL(fileURLWithPath: argument)
-            if force || UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (file.pathExtension) as CFString, nil)?.takeRetainedValue() as? String ?? "" == "public.swift-source" {
-                SwiftParser.indentChar = indent
-                let parser = SwiftParser(string: try String(contentsOf: file))
-                let formattedText = try parser.format()
-                try formattedText.write(to: file, atomically: true, encoding: .utf8)
-                print("\(argument) was formatted successfully.")
+            if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (file.pathExtension) as CFString, nil)?.takeRetainedValue(),
+                uti == "public.swift-source" as CFString {
+                    SwiftParser.indentChar = indent
+                    let parser = SwiftParser(string: try String(contentsOf: file))
+                    let formattedText = try parser.format()
+                    try formattedText.write(to: file, atomically: true, encoding: .utf8)
+                    print("\(argument) was formatted successfully.")
             } else {
-                print("\(argument) doesn't appear to be a Swift file. Skipping.")
+                    print("\(argument) doesn't appear to be a Swift file. Skipping.")
             }
         }
     }
