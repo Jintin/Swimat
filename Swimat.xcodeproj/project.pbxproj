@@ -24,6 +24,13 @@
 		2F5746031D8A83E600094D06 /* SourceEditorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5746021D8A83E600094D06 /* SourceEditorExtension.swift */; };
 		2F5746051D8A83E600094D06 /* SourceEditorCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5746041D8A83E600094D06 /* SourceEditorCommand.swift */; };
 		2F5746091D8A83E600094D06 /* Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2F5745FB1D8A83E600094D06 /* Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4910940E1DF4B19D00D271A5 /* OptionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4910940D1DF4B19D00D271A5 /* OptionParser.swift */; };
+		491094101DF4B1DF00D271A5 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4910940F1DF4B1DF00D271A5 /* ErrorHandling.swift */; };
+		491094121DF4B9C800D271A5 /* Indent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1A96731DD6AF3700CEB5C7 /* Indent.swift */; };
+		49736ACD1DA8113D00A4D73A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49736ACC1DA8113D00A4D73A /* main.swift */; };
+		49736AD11DA8114A00A4D73A /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A231D8B9A3F00513FEE /* SwiftParser.swift */; };
+		49736AD21DA8114A00A4D73A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A251D8B9A6500513FEE /* Parser.swift */; };
+		49736AD31DA8114A00A4D73A /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A271D8B9B9100513FEE /* Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +62,15 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		49736AC81DA8113D00A4D73A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +93,10 @@
 		2F5746021D8A83E600094D06 /* SourceEditorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorExtension.swift; sourceTree = "<group>"; };
 		2F5746041D8A83E600094D06 /* SourceEditorCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorCommand.swift; sourceTree = "<group>"; };
 		2F5746061D8A83E600094D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4910940D1DF4B19D00D271A5 /* OptionParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OptionParser.swift; path = Swimat/OptionParser.swift; sourceTree = SOURCE_ROOT; };
+		4910940F1DF4B1DF00D271A5 /* ErrorHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
+		49736ACA1DA8113D00A4D73A /* swimat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = swimat; sourceTree = BUILT_PRODUCTS_DIR; };
+		49736ACC1DA8113D00A4D73A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +122,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		49736AC71DA8113D00A4D73A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -111,6 +138,7 @@
 				2F5745DB1D8A83C500094D06 /* Swimat */,
 				2F5745EB1D8A83C500094D06 /* SwimatTests */,
 				2F5745FF1D8A83E600094D06 /* Extension */,
+				49736ACB1DA8113D00A4D73A /* swimat */,
 				2F5745FC1D8A83E600094D06 /* Frameworks */,
 				2F5745DA1D8A83C500094D06 /* Products */,
 			);
@@ -122,6 +150,7 @@
 				2F5745D91D8A83C500094D06 /* Swimat.app */,
 				2F5745E81D8A83C500094D06 /* SwimatTests.xctest */,
 				2F5745FB1D8A83E600094D06 /* Extension.appex */,
+				49736ACA1DA8113D00A4D73A /* swimat */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -176,6 +205,16 @@
 				2F5746011D8A83E600094D06 /* Extension.entitlements */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		49736ACB1DA8113D00A4D73A /* swimat */ = {
+			isa = PBXGroup;
+			children = (
+				49736ACC1DA8113D00A4D73A /* main.swift */,
+				4910940F1DF4B1DF00D271A5 /* ErrorHandling.swift */,
+				4910940D1DF4B19D00D271A5 /* OptionParser.swift */,
+			);
+			path = swimat;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,6 +274,23 @@
 			productReference = 2F5745FB1D8A83E600094D06 /* Extension.appex */;
 			productType = "com.apple.product-type.xcode-extension";
 		};
+		49736AC91DA8113D00A4D73A /* swimat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49736AD01DA8113D00A4D73A /* Build configuration list for PBXNativeTarget "swimat" */;
+			buildPhases = (
+				49736AC61DA8113D00A4D73A /* Sources */,
+				49736AC71DA8113D00A4D73A /* Frameworks */,
+				49736AC81DA8113D00A4D73A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = swimat;
+			productName = swimat;
+			productReference = 49736ACA1DA8113D00A4D73A /* swimat */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -263,6 +319,10 @@
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
+					49736AC91DA8113D00A4D73A = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 2F5745D41D8A83C500094D06 /* Build configuration list for PBXProject "Swimat" */;
@@ -281,6 +341,7 @@
 				2F5745D81D8A83C500094D06 /* Swimat */,
 				2F5745E71D8A83C500094D06 /* SwimatTests */,
 				2F5745FA1D8A83E600094D06 /* Extension */,
+				49736AC91DA8113D00A4D73A /* swimat */,
 			);
 		};
 /* End PBXProject section */
@@ -343,6 +404,20 @@
 				2F1A96751DD6AF3700CEB5C7 /* Indent.swift in Sources */,
 				2F5746031D8A83E600094D06 /* SourceEditorExtension.swift in Sources */,
 				2F5746051D8A83E600094D06 /* SourceEditorCommand.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49736AC61DA8113D00A4D73A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49736AD11DA8114A00A4D73A /* SwiftParser.swift in Sources */,
+				491094121DF4B9C800D271A5 /* Indent.swift in Sources */,
+				4910940E1DF4B19D00D271A5 /* OptionParser.swift in Sources */,
+				49736ACD1DA8113D00A4D73A /* main.swift in Sources */,
+				491094101DF4B1DF00D271A5 /* ErrorHandling.swift in Sources */,
+				49736AD21DA8114A00A4D73A /* Parser.swift in Sources */,
+				49736AD31DA8114A00A4D73A /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,6 +638,24 @@
 			};
 			name = Release;
 		};
+		49736ACE1DA8113D00A4D73A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		49736ACF1DA8113D00A4D73A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -598,6 +691,15 @@
 			buildConfigurations = (
 				2F57460B1D8A83E600094D06 /* Debug */,
 				2F57460C1D8A83E600094D06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49736AD01DA8113D00A4D73A /* Build configuration list for PBXNativeTarget "swimat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49736ACE1DA8113D00A4D73A /* Debug */,
+				49736ACF1DA8113D00A4D73A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
