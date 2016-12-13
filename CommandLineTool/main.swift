@@ -6,9 +6,9 @@ let paths = options.parseArguments(Array(CommandLine.arguments.dropFirst()))
 for path in paths {
     let file = URL(fileURLWithPath: path)
     if FileManager.default.fileExists(atPath: file.path),
-		let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
-                                                       (file.pathExtension) as CFString,
-                                                       nil)?.takeRetainedValue(),
+        let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
+                                                        (file.pathExtension) as CFString,
+                                                        nil)?.takeRetainedValue(),
         uti == "public.swift-source" as CFString {
             let parser = SwiftParser(string: try String(contentsOf: file))
             let formattedText = try parser.format()

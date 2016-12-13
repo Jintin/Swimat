@@ -1,10 +1,11 @@
 import Foundation
 
 struct Option {
-    var shortOption: String
-    var helpText: String
-    var number: Int
-    var setter: ([String]) -> Void
+    let options: [String]
+    let helpArguments: String
+    let helpText: String
+    let number: Int
+    let setter: ([String]) -> Void
 }
 
 struct Options {
@@ -16,8 +17,18 @@ struct Options {
     }
 
     static let options: [Option] = [
-        Option(shortOption: "i",
-               helpText: "-i <value>=0 Set the number of spaces to indent; use 0 for tabs.",
+        Option(options: ["-h", "--help"],
+               helpArguments: "",
+               helpText: "Display this help message.",
+               number: 0,
+               setter: { _ in
+            printHeader()
+            printOptions()
+            exit(SwimatError.success.rawValue)
+        }),
+        Option(options: ["-i", "--indent"],
+               helpArguments: "<value>=0",
+               helpText: "Set the number of spaces to indent; use 0 for tabs.",
                number: 1,
                setter: { indentSize in
             guard indentSize.count == 1, let indentSize = Int(indentSize[0]) else {
@@ -33,19 +44,25 @@ struct Options {
             }
         })]
 
+    static func printHeader() {
+        printToError("The Swimat Swift formatter")
+        printToError()
+        printToError("USAGE: swimat [options] <inputs...>")
+        printToError()
+        printToError("OPTIONS:")
+    }
+
     static func printOptions() {
-        for option in options.sorted(by: { $0.shortOption < $1.shortOption }) {
-            printToError(option.helpText)
+        for option in options {
+            let optionsString = "\(option.options.joined(separator: ", ")) \(option.helpArguments)"
+                .padding(toLength: 25, withPad: " ", startingAt: 0)
+            printToError("\(optionsString)\(option.helpText)")
         }
     }
 
     func parseArguments(_ arguments: [String]) -> [String] {
         if arguments.isEmpty {
-            printToError("The Swimat Swift formatter")
-            printToError()
-            printToError("USAGE: swimat [options] <inputs...>")
-            printToError()
-            printToError("OPTIONS:")
+            Options.printHeader()
             Options.printOptions()
             exit(SwimatError.noArguments.rawValue)
         }
@@ -54,13 +71,12 @@ struct Options {
 
         var i = 0
         while i < arguments.count {
-            var argument = arguments[i]
+            let argument = arguments[i]
             i += 1
             if argument.hasPrefix("-") {
-                argument.remove(at: argument.startIndex)
                 var validOption = false
                 for option in Options.options {
-                    if option.shortOption == argument {
+                    if option.options.contains(argument) {
                         let startIndex = min(i, arguments.count)
                         let endIndex = min(i + option.number, arguments.count)
                         option.setter(Array(arguments[startIndex..<endIndex]))
@@ -69,7 +85,7 @@ struct Options {
                     }
                 }
                 if !validOption {
-                    printToError("Invalid option -\(argument). Valid options are:")
+                    printToError("Invalid option \(argument). Valid options are:")
                     Options.printOptions()
                     exit(SwimatError.invalidOption.rawValue)
                 }
