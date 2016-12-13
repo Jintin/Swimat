@@ -7,15 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2F151A241D8B9A3F00513FEE /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A231D8B9A3F00513FEE /* SwiftParser.swift */; };
-		2F151A261D8B9A6500513FEE /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A251D8B9A6500513FEE /* Parser.swift */; };
-		2F151A281D8B9B9100513FEE /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A271D8B9B9100513FEE /* Extension.swift */; };
-		2F1A96741DD6AF3700CEB5C7 /* Indent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1A96731DD6AF3700CEB5C7 /* Indent.swift */; };
-		2F1A96751DD6AF3700CEB5C7 /* Indent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1A96731DD6AF3700CEB5C7 /* Indent.swift */; };
 		2F2BDB331DA90DA0009A137B /* ExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2BDB321DA90DA0009A137B /* ExtensionTest.swift */; };
-		2F2BDB341DA90DEE009A137B /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A271D8B9B9100513FEE /* Extension.swift */; };
-		2F2BDB351DA90E6C009A137B /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A231D8B9A3F00513FEE /* SwiftParser.swift */; };
-		2F2BDB361DA90E6F009A137B /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A251D8B9A6500513FEE /* Parser.swift */; };
 		2F5745DD1D8A83C500094D06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5745DC1D8A83C500094D06 /* AppDelegate.swift */; };
 		2F5745DF1D8A83C500094D06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F5745DE1D8A83C500094D06 /* Assets.xcassets */; };
 		2F5745E21D8A83C500094D06 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F5745E01D8A83C500094D06 /* MainMenu.xib */; };
@@ -24,13 +16,14 @@
 		2F5746031D8A83E600094D06 /* SourceEditorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5746021D8A83E600094D06 /* SourceEditorExtension.swift */; };
 		2F5746051D8A83E600094D06 /* SourceEditorCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5746041D8A83E600094D06 /* SourceEditorCommand.swift */; };
 		2F5746091D8A83E600094D06 /* Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2F5745FB1D8A83E600094D06 /* Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		4910940E1DF4B19D00D271A5 /* OptionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4910940D1DF4B19D00D271A5 /* OptionParser.swift */; };
-		491094101DF4B1DF00D271A5 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4910940F1DF4B1DF00D271A5 /* ErrorHandling.swift */; };
-		491094121DF4B9C800D271A5 /* Indent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1A96731DD6AF3700CEB5C7 /* Indent.swift */; };
-		49736ACD1DA8113D00A4D73A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49736ACC1DA8113D00A4D73A /* main.swift */; };
-		49736AD11DA8114A00A4D73A /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A231D8B9A3F00513FEE /* SwiftParser.swift */; };
-		49736AD21DA8114A00A4D73A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A251D8B9A6500513FEE /* Parser.swift */; };
-		49736AD31DA8114A00A4D73A /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F151A271D8B9B9100513FEE /* Extension.swift */; };
+		492C688D1E0078E700E64B68 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C688A1E0078E700E64B68 /* ErrorHandling.swift */; };
+		492C688E1E0078E700E64B68 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C688B1E0078E700E64B68 /* main.swift */; };
+		492C688F1E0078E700E64B68 /* OptionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C688C1E0078E700E64B68 /* OptionParser.swift */; };
+		492C68951E0079BD00E64B68 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68911E0079BD00E64B68 /* Extension.swift */; };
+		492C68961E0079BD00E64B68 /* Indent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68921E0079BD00E64B68 /* Indent.swift */; };
+		492C68971E0079BD00E64B68 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68931E0079BD00E64B68 /* Parser.swift */; };
+		492C68981E0079BD00E64B68 /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68941E0079BD00E64B68 /* SwiftParser.swift */; };
+		492C68991E0079F600E64B68 /* swimat in CopyFiles */ = {isa = PBXBuildFile; fileRef = 492C68831E0078A200E64B68 /* swimat */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,22 +55,19 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		49736AC81DA8113D00A4D73A /* CopyFiles */ = {
+		492C68811E0078A200E64B68 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
+			dstPath = /usr/local/bin;
 			dstSubfolderSpec = 0;
 			files = (
+				492C68991E0079F600E64B68 /* swimat in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2F151A231D8B9A3F00513FEE /* SwiftParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftParser.swift; sourceTree = "<group>"; };
-		2F151A251D8B9A6500513FEE /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
-		2F151A271D8B9B9100513FEE /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
-		2F1A96731DD6AF3700CEB5C7 /* Indent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Indent.swift; sourceTree = "<group>"; };
 		2F2BDB321DA90DA0009A137B /* ExtensionTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionTest.swift; sourceTree = "<group>"; };
 		2F5745D91D8A83C500094D06 /* Swimat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Swimat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F5745DC1D8A83C500094D06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -93,10 +83,14 @@
 		2F5746021D8A83E600094D06 /* SourceEditorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorExtension.swift; sourceTree = "<group>"; };
 		2F5746041D8A83E600094D06 /* SourceEditorCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorCommand.swift; sourceTree = "<group>"; };
 		2F5746061D8A83E600094D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4910940D1DF4B19D00D271A5 /* OptionParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OptionParser.swift; path = Swimat/OptionParser.swift; sourceTree = SOURCE_ROOT; };
-		4910940F1DF4B1DF00D271A5 /* ErrorHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
-		49736ACA1DA8113D00A4D73A /* swimat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = swimat; sourceTree = BUILT_PRODUCTS_DIR; };
-		49736ACC1DA8113D00A4D73A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		492C68831E0078A200E64B68 /* swimat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = swimat; sourceTree = BUILT_PRODUCTS_DIR; };
+		492C688A1E0078E700E64B68 /* ErrorHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
+		492C688B1E0078E700E64B68 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		492C688C1E0078E700E64B68 /* OptionParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionParser.swift; sourceTree = "<group>"; };
+		492C68911E0079BD00E64B68 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extension.swift; path = Formatter/Extension.swift; sourceTree = "<group>"; };
+		492C68921E0079BD00E64B68 /* Indent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Indent.swift; path = Formatter/Indent.swift; sourceTree = "<group>"; };
+		492C68931E0079BD00E64B68 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = Formatter/Parser.swift; sourceTree = "<group>"; };
+		492C68941E0079BD00E64B68 /* SwiftParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftParser.swift; path = Formatter/SwiftParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +116,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		49736AC71DA8113D00A4D73A /* Frameworks */ = {
+		492C68801E0078A200E64B68 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -138,7 +132,8 @@
 				2F5745DB1D8A83C500094D06 /* Swimat */,
 				2F5745EB1D8A83C500094D06 /* SwimatTests */,
 				2F5745FF1D8A83E600094D06 /* Extension */,
-				49736ACB1DA8113D00A4D73A /* swimat */,
+				492C68841E0078A200E64B68 /* CommandLineTool */,
+				492C68901E00793000E64B68 /* Formatter */,
 				2F5745FC1D8A83E600094D06 /* Frameworks */,
 				2F5745DA1D8A83C500094D06 /* Products */,
 			);
@@ -150,10 +145,11 @@
 				2F5745D91D8A83C500094D06 /* Swimat.app */,
 				2F5745E81D8A83C500094D06 /* SwimatTests.xctest */,
 				2F5745FB1D8A83E600094D06 /* Extension.appex */,
-				49736ACA1DA8113D00A4D73A /* swimat */,
+				492C68831E0078A200E64B68 /* swimat */,
 			);
 			name = Products;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		2F5745DB1D8A83C500094D06 /* Swimat */ = {
 			isa = PBXGroup;
@@ -165,6 +161,7 @@
 			);
 			path = Swimat;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		2F5745EB1D8A83C500094D06 /* SwimatTests */ = {
 			isa = PBXGroup;
@@ -175,6 +172,7 @@
 			);
 			path = SwimatTests;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		2F5745FC1D8A83E600094D06 /* Frameworks */ = {
 			isa = PBXGroup;
@@ -183,6 +181,7 @@
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		2F5745FF1D8A83E600094D06 /* Extension */ = {
 			isa = PBXGroup;
@@ -191,13 +190,10 @@
 				2F5746041D8A83E600094D06 /* SourceEditorCommand.swift */,
 				2F5746061D8A83E600094D06 /* Info.plist */,
 				2F5746001D8A83E600094D06 /* Supporting Files */,
-				2F151A231D8B9A3F00513FEE /* SwiftParser.swift */,
-				2F151A251D8B9A6500513FEE /* Parser.swift */,
-				2F151A271D8B9B9100513FEE /* Extension.swift */,
-				2F1A96731DD6AF3700CEB5C7 /* Indent.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		2F5746001D8A83E600094D06 /* Supporting Files */ = {
 			isa = PBXGroup;
@@ -207,14 +203,26 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		49736ACB1DA8113D00A4D73A /* swimat */ = {
+		492C68841E0078A200E64B68 /* CommandLineTool */ = {
 			isa = PBXGroup;
 			children = (
-				49736ACC1DA8113D00A4D73A /* main.swift */,
-				4910940F1DF4B1DF00D271A5 /* ErrorHandling.swift */,
-				4910940D1DF4B19D00D271A5 /* OptionParser.swift */,
+				492C688A1E0078E700E64B68 /* ErrorHandling.swift */,
+				492C688B1E0078E700E64B68 /* main.swift */,
+				492C688C1E0078E700E64B68 /* OptionParser.swift */,
 			);
-			path = swimat;
+			path = CommandLineTool;
+			sourceTree = "<group>";
+			usesTabs = 0;
+		};
+		492C68901E00793000E64B68 /* Formatter */ = {
+			isa = PBXGroup;
+			children = (
+				492C68911E0079BD00E64B68 /* Extension.swift */,
+				492C68921E0079BD00E64B68 /* Indent.swift */,
+				492C68931E0079BD00E64B68 /* Parser.swift */,
+				492C68941E0079BD00E64B68 /* SwiftParser.swift */,
+			);
+			name = Formatter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -274,21 +282,21 @@
 			productReference = 2F5745FB1D8A83E600094D06 /* Extension.appex */;
 			productType = "com.apple.product-type.xcode-extension";
 		};
-		49736AC91DA8113D00A4D73A /* swimat */ = {
+		492C68821E0078A200E64B68 /* CommandLineTool */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 49736AD01DA8113D00A4D73A /* Build configuration list for PBXNativeTarget "swimat" */;
+			buildConfigurationList = 492C68891E0078A200E64B68 /* Build configuration list for PBXNativeTarget "CommandLineTool" */;
 			buildPhases = (
-				49736AC61DA8113D00A4D73A /* Sources */,
-				49736AC71DA8113D00A4D73A /* Frameworks */,
-				49736AC81DA8113D00A4D73A /* CopyFiles */,
+				492C687F1E0078A200E64B68 /* Sources */,
+				492C68801E0078A200E64B68 /* Frameworks */,
+				492C68811E0078A200E64B68 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = swimat;
-			productName = swimat;
-			productReference = 49736ACA1DA8113D00A4D73A /* swimat */;
+			name = CommandLineTool;
+			productName = CommandLineTool;
+			productReference = 492C68831E0078A200E64B68 /* swimat */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -297,7 +305,7 @@
 		2F5745D11D8A83C500094D06 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0800;
+				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = jintin;
 				TargetAttributes = {
@@ -319,8 +327,9 @@
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
-					49736AC91DA8113D00A4D73A = {
-						CreatedOnToolsVersion = 8.1;
+					492C68821E0078A200E64B68 = {
+						CreatedOnToolsVersion = 8.2;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -341,7 +350,7 @@
 				2F5745D81D8A83C500094D06 /* Swimat */,
 				2F5745E71D8A83C500094D06 /* SwimatTests */,
 				2F5745FA1D8A83E600094D06 /* Extension */,
-				49736AC91DA8113D00A4D73A /* swimat */,
+				492C68821E0078A200E64B68 /* CommandLineTool */,
 			);
 		};
 /* End PBXProject section */
@@ -385,11 +394,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F2BDB341DA90DEE009A137B /* Extension.swift in Sources */,
 				2F5745ED1D8A83C500094D06 /* SwimatTests.swift in Sources */,
-				2F2BDB361DA90E6F009A137B /* Parser.swift in Sources */,
-				2F1A96741DD6AF3700CEB5C7 /* Indent.swift in Sources */,
-				2F2BDB351DA90E6C009A137B /* SwiftParser.swift in Sources */,
 				2F2BDB331DA90DA0009A137B /* ExtensionTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -398,26 +403,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F151A281D8B9B9100513FEE /* Extension.swift in Sources */,
-				2F151A261D8B9A6500513FEE /* Parser.swift in Sources */,
-				2F151A241D8B9A3F00513FEE /* SwiftParser.swift in Sources */,
-				2F1A96751DD6AF3700CEB5C7 /* Indent.swift in Sources */,
 				2F5746031D8A83E600094D06 /* SourceEditorExtension.swift in Sources */,
 				2F5746051D8A83E600094D06 /* SourceEditorCommand.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		49736AC61DA8113D00A4D73A /* Sources */ = {
+		492C687F1E0078A200E64B68 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49736AD11DA8114A00A4D73A /* SwiftParser.swift in Sources */,
-				491094121DF4B9C800D271A5 /* Indent.swift in Sources */,
-				4910940E1DF4B19D00D271A5 /* OptionParser.swift in Sources */,
-				49736ACD1DA8113D00A4D73A /* main.swift in Sources */,
-				491094101DF4B1DF00D271A5 /* ErrorHandling.swift in Sources */,
-				49736AD21DA8114A00A4D73A /* Parser.swift in Sources */,
-				49736AD31DA8114A00A4D73A /* Extension.swift in Sources */,
+				492C688F1E0078E700E64B68 /* OptionParser.swift in Sources */,
+				492C688E1E0078E700E64B68 /* main.swift in Sources */,
+				492C68971E0079BD00E64B68 /* Parser.swift in Sources */,
+				492C68981E0079BD00E64B68 /* SwiftParser.swift in Sources */,
+				492C688D1E0078E700E64B68 /* ErrorHandling.swift in Sources */,
+				492C68961E0079BD00E64B68 /* Indent.swift in Sources */,
+				492C68951E0079BD00E64B68 /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -638,20 +639,25 @@
 			};
 			name = Release;
 		};
-		49736ACE1DA8113D00A4D73A /* Debug */ = {
+		492C68871E0078A200E64B68 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = swimat;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
-		49736ACF1DA8113D00A4D73A /* Release */ = {
+		492C68881E0078A200E64B68 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = swimat;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -695,14 +701,13 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		49736AD01DA8113D00A4D73A /* Build configuration list for PBXNativeTarget "swimat" */ = {
+		492C68891E0078A200E64B68 /* Build configuration list for PBXNativeTarget "CommandLineTool" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				49736ACE1DA8113D00A4D73A /* Debug */,
-				49736ACF1DA8113D00A4D73A /* Release */,
+				492C68871E0078A200E64B68 /* Debug */,
+				492C68881E0078A200E64B68 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
