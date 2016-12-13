@@ -24,6 +24,10 @@
 		492C68971E0079BD00E64B68 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68931E0079BD00E64B68 /* Parser.swift */; };
 		492C68981E0079BD00E64B68 /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68941E0079BD00E64B68 /* SwiftParser.swift */; };
 		492C68991E0079F600E64B68 /* swimat in CopyFiles */ = {isa = PBXBuildFile; fileRef = 492C68831E0078A200E64B68 /* swimat */; };
+		4973E1C41E02432A0011D22E /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68911E0079BD00E64B68 /* Extension.swift */; };
+		4973E1C51E02432A0011D22E /* Indent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68921E0079BD00E64B68 /* Indent.swift */; };
+		4973E1C61E02432A0011D22E /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68931E0079BD00E64B68 /* Parser.swift */; };
+		4973E1C71E02432A0011D22E /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68941E0079BD00E64B68 /* SwiftParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -403,6 +407,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4973E1C71E02432A0011D22E /* SwiftParser.swift in Sources */,
+				4973E1C41E02432A0011D22E /* Extension.swift in Sources */,
+				4973E1C51E02432A0011D22E /* Indent.swift in Sources */,
+				4973E1C61E02432A0011D22E /* Parser.swift in Sources */,
 				2F5746031D8A83E600094D06 /* SourceEditorExtension.swift in Sources */,
 				2F5746051D8A83E600094D06 /* SourceEditorCommand.swift in Sources */,
 			);

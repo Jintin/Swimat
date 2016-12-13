@@ -8,12 +8,15 @@ struct Option {
     let setter: ([String]) -> Void
 }
 
-struct Options {
+class Options {
     static var shared = Options()
+
+    var recursive = false
+    var verbose = false
 
     init() {
         Indent.char = "\t"
-        Indent.size = 1
+        Indent.size = -1
     }
 
     static let options: [Option] = [
@@ -27,22 +30,37 @@ struct Options {
             exit(SwimatError.success.rawValue)
         }),
         Option(options: ["-i", "--indent"],
-               helpArguments: "<value>=0",
-               helpText: "Set the number of spaces to indent; use 0 for tabs.",
+               helpArguments: "<value>=-1",
+               helpText: "Set the number of spaces to indent; use -1 for tabs.",
                number: 1,
                setter: { indentSize in
             guard indentSize.count == 1, let indentSize = Int(indentSize[0]) else {
                 printToError("Invalid indent size")
                 exit(SwimatError.invalidIndent.rawValue)
             }
-            if indentSize <= 0 {
+            if indentSize < 0 {
                 Indent.char = "\t"
                 Indent.size = 1
             } else {
                 Indent.char = String(repeating: " ", count: indentSize)
                 Indent.size = indentSize
             }
-        })]
+        }),
+        Option(options: ["-r", "--recursive"],
+               helpArguments: "",
+               helpText: "Search and format directories recursively.",
+               number: 0,
+               setter: { _ in
+            shared.recursive = true
+        }),
+        Option(options: ["-v", "--verbose"],
+               helpArguments: "",
+               helpText: "Enable verbose output.",
+               number: 0,
+               setter: { _ in
+            shared.verbose = true
+        }),
+    ]
 
     static func printHeader() {
         printToError("The Swimat Swift formatter")
@@ -54,7 +72,7 @@ struct Options {
 
     static func printOptions() {
         for option in options {
-            let optionsString = "\(option.options.joined(separator: ", ")) \(option.helpArguments)"
+            let optionsString = " \(option.options.joined(separator: ", ")) \(option.helpArguments)"
                 .padding(toLength: 25, withPad: " ", startingAt: 0)
             printToError("\(optionsString)\(option.helpText)")
         }
