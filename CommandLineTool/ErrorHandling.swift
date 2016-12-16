@@ -8,7 +8,8 @@ func printToError(_ string: String = "") {
 }
 
 enum SwimatError: Int32 {
-    case noArguments = 1
+    case success = 0
+    case noArguments
     case invalidOption
     case invalidIndent
 }
