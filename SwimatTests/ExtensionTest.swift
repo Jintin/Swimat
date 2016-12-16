@@ -18,9 +18,9 @@ class ExtensionTest: XCTestCase {
 
     func testNextIndex() {
         let a = "abc"
-        assert(a.nextIndex(a.startIndex, checker: { $0 == "b" }) == a.index(after: a.startIndex))
-        assert(a.nextIndex(a.startIndex, checker: { $0 == "c" }) == a.index(before: a.endIndex))
-        assert(a.nextIndex(a.startIndex, checker: { $0 == "d" }) == a.endIndex)
+        assert(a.nextIndex(from: a.startIndex, checker: { $0 == "b" }) == a.index(after: a.startIndex))
+        assert(a.nextIndex(from: a.startIndex, checker: { $0 == "c" }) == a.index(before: a.endIndex))
+        assert(a.nextIndex(from: a.startIndex, checker: { $0 == "d" }) == a.endIndex)
     }
 
     func testNextNonSpaceIndex() {
@@ -61,7 +61,7 @@ class ExtensionTest: XCTestCase {
     func testParentheses() {
         let a = "(a+b(c-d(\"e  f\")))"
         do {
-            let result = try a.findParentheses(a.startIndex)
+            let result = try a.findParentheses(from: a.startIndex)
             assert(result == ("(a + b(c - d(\"e  f\")))", a.endIndex))
         } catch {
             assertionFailure()
@@ -71,7 +71,7 @@ class ExtensionTest: XCTestCase {
     func testSquare() {
         let a = "[a+b,c(d-e)]"
         do {
-            let result = try a.findSquare(a.startIndex)
+            let result = try a.findSquare(from: a.startIndex)
             assert(result == ("[a + b, c(d - e)]", a.endIndex))
         } catch {
             assertionFailure()
@@ -81,7 +81,7 @@ class ExtensionTest: XCTestCase {
     func testQuote() {
         let a = "\"a+b\\(c+d)\""
         do {
-            let result = try a.findQuote(a.startIndex)
+            let result = try a.findQuote(from: a.startIndex)
             assert(result == ("\"a+b\\(c + d)\"", a.endIndex))
         } catch {
             assertionFailure()
@@ -91,7 +91,7 @@ class ExtensionTest: XCTestCase {
     func testTernary() {
         do {
             let a = "?bb:cc"
-            if let result = try a.findTernary(a.startIndex) {
+            if let result = try a.findTernary(from: a.startIndex) {
                 assert(result == ("? bb : cc", a.endIndex))
             } else {
                 assertionFailure()
@@ -107,7 +107,7 @@ class ExtensionTest: XCTestCase {
             "<A, B<C, D>>": "<A, B<C, D>>"]
         for (a, b) in values {
             do {
-                if let result = try a.findGeneric(a.startIndex) {
+                if let result = try a.findGeneric(from: a.startIndex) {
                     assert(result == (string: b, index: a.endIndex))
                 } else {
                     assertionFailure()

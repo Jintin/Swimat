@@ -11,23 +11,30 @@
 		2F5745DD1D8A83C500094D06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5745DC1D8A83C500094D06 /* AppDelegate.swift */; };
 		2F5745DF1D8A83C500094D06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F5745DE1D8A83C500094D06 /* Assets.xcassets */; };
 		2F5745E21D8A83C500094D06 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F5745E01D8A83C500094D06 /* MainMenu.xib */; };
-		2F5745ED1D8A83C500094D06 /* SwimatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5745EC1D8A83C500094D06 /* SwimatTests.swift */; };
 		2F5745FE1D8A83E600094D06 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F5745FD1D8A83E600094D06 /* Cocoa.framework */; };
 		2F5746031D8A83E600094D06 /* SourceEditorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5746021D8A83E600094D06 /* SourceEditorExtension.swift */; };
 		2F5746051D8A83E600094D06 /* SourceEditorCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5746041D8A83E600094D06 /* SourceEditorCommand.swift */; };
 		2F5746091D8A83E600094D06 /* Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2F5745FB1D8A83E600094D06 /* Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		492C688D1E0078E700E64B68 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C688A1E0078E700E64B68 /* ErrorHandling.swift */; };
-		492C688E1E0078E700E64B68 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C688B1E0078E700E64B68 /* main.swift */; };
-		492C688F1E0078E700E64B68 /* OptionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C688C1E0078E700E64B68 /* OptionParser.swift */; };
-		492C68951E0079BD00E64B68 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68911E0079BD00E64B68 /* Extension.swift */; };
-		492C68961E0079BD00E64B68 /* Indent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68921E0079BD00E64B68 /* Indent.swift */; };
-		492C68971E0079BD00E64B68 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68931E0079BD00E64B68 /* Parser.swift */; };
-		492C68981E0079BD00E64B68 /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68941E0079BD00E64B68 /* SwiftParser.swift */; };
-		492C68991E0079F600E64B68 /* swimat in CopyFiles */ = {isa = PBXBuildFile; fileRef = 492C68831E0078A200E64B68 /* swimat */; };
-		4973E1C41E02432A0011D22E /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68911E0079BD00E64B68 /* Extension.swift */; };
-		4973E1C51E02432A0011D22E /* Indent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68921E0079BD00E64B68 /* Indent.swift */; };
-		4973E1C61E02432A0011D22E /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68931E0079BD00E64B68 /* Parser.swift */; };
-		4973E1C71E02432A0011D22E /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492C68941E0079BD00E64B68 /* SwiftParser.swift */; };
+		2F6D8BF91E0435B5006CFC50 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF51E0435B5006CFC50 /* Extension.swift */; };
+		2F6D8BFA1E0435B5006CFC50 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF51E0435B5006CFC50 /* Extension.swift */; };
+		2F6D8BFB1E0435B5006CFC50 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF51E0435B5006CFC50 /* Extension.swift */; };
+		2F6D8BFC1E0435B5006CFC50 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF51E0435B5006CFC50 /* Extension.swift */; };
+		2F6D8BFD1E0435B5006CFC50 /* Indent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF61E0435B5006CFC50 /* Indent.swift */; };
+		2F6D8BFE1E0435B5006CFC50 /* Indent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF61E0435B5006CFC50 /* Indent.swift */; };
+		2F6D8BFF1E0435B5006CFC50 /* Indent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF61E0435B5006CFC50 /* Indent.swift */; };
+		2F6D8C001E0435B5006CFC50 /* Indent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF61E0435B5006CFC50 /* Indent.swift */; };
+		2F6D8C011E0435B5006CFC50 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF71E0435B5006CFC50 /* Parser.swift */; };
+		2F6D8C021E0435B5006CFC50 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF71E0435B5006CFC50 /* Parser.swift */; };
+		2F6D8C031E0435B5006CFC50 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF71E0435B5006CFC50 /* Parser.swift */; };
+		2F6D8C041E0435B5006CFC50 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF71E0435B5006CFC50 /* Parser.swift */; };
+		2F6D8C051E0435B5006CFC50 /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF81E0435B5006CFC50 /* SwiftParser.swift */; };
+		2F6D8C061E0435B5006CFC50 /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF81E0435B5006CFC50 /* SwiftParser.swift */; };
+		2F6D8C071E0435B5006CFC50 /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF81E0435B5006CFC50 /* SwiftParser.swift */; };
+		2F6D8C081E0435B5006CFC50 /* SwiftParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8BF81E0435B5006CFC50 /* SwiftParser.swift */; };
+		2F6D8C0C1E0435CA006CFC50 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C091E0435CA006CFC50 /* ErrorHandling.swift */; };
+		2F6D8C0D1E0435CA006CFC50 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C0A1E0435CA006CFC50 /* main.swift */; };
+		2F6D8C0E1E0435CA006CFC50 /* OptionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C0B1E0435CA006CFC50 /* OptionParser.swift */; };
+		492C68991E0079F600E64B68 /* CLI in CopyFiles */ = {isa = PBXBuildFile; fileRef = 492C68831E0078A200E64B68 /* CLI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +72,7 @@
 			dstPath = /usr/local/bin;
 			dstSubfolderSpec = 0;
 			files = (
-				492C68991E0079F600E64B68 /* swimat in CopyFiles */,
+				492C68991E0079F600E64B68 /* CLI in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,7 +86,6 @@
 		2F5745E11D8A83C500094D06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		2F5745E31D8A83C500094D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F5745E81D8A83C500094D06 /* SwimatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwimatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2F5745EC1D8A83C500094D06 /* SwimatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwimatTests.swift; sourceTree = "<group>"; };
 		2F5745EE1D8A83C500094D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F5745FB1D8A83E600094D06 /* Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Extension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F5745FD1D8A83E600094D06 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -87,14 +93,14 @@
 		2F5746021D8A83E600094D06 /* SourceEditorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorExtension.swift; sourceTree = "<group>"; };
 		2F5746041D8A83E600094D06 /* SourceEditorCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorCommand.swift; sourceTree = "<group>"; };
 		2F5746061D8A83E600094D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		492C68831E0078A200E64B68 /* swimat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = swimat; sourceTree = BUILT_PRODUCTS_DIR; };
-		492C688A1E0078E700E64B68 /* ErrorHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
-		492C688B1E0078E700E64B68 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		492C688C1E0078E700E64B68 /* OptionParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionParser.swift; sourceTree = "<group>"; };
-		492C68911E0079BD00E64B68 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extension.swift; path = Formatter/Extension.swift; sourceTree = "<group>"; };
-		492C68921E0079BD00E64B68 /* Indent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Indent.swift; path = Formatter/Indent.swift; sourceTree = "<group>"; };
-		492C68931E0079BD00E64B68 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = Formatter/Parser.swift; sourceTree = "<group>"; };
-		492C68941E0079BD00E64B68 /* SwiftParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftParser.swift; path = Formatter/SwiftParser.swift; sourceTree = "<group>"; };
+		2F6D8BF51E0435B5006CFC50 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extension.swift; path = Parser/Extension.swift; sourceTree = "<group>"; };
+		2F6D8BF61E0435B5006CFC50 /* Indent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Indent.swift; path = Parser/Indent.swift; sourceTree = "<group>"; };
+		2F6D8BF71E0435B5006CFC50 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = Parser/Parser.swift; sourceTree = "<group>"; };
+		2F6D8BF81E0435B5006CFC50 /* SwiftParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftParser.swift; path = Parser/SwiftParser.swift; sourceTree = "<group>"; };
+		2F6D8C091E0435CA006CFC50 /* ErrorHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ErrorHandling.swift; path = CLI/ErrorHandling.swift; sourceTree = SOURCE_ROOT; };
+		2F6D8C0A1E0435CA006CFC50 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = main.swift; path = CLI/main.swift; sourceTree = SOURCE_ROOT; };
+		2F6D8C0B1E0435CA006CFC50 /* OptionParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OptionParser.swift; path = CLI/OptionParser.swift; sourceTree = SOURCE_ROOT; };
+		492C68831E0078A200E64B68 /* CLI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CLI; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,8 +142,8 @@
 				2F5745DB1D8A83C500094D06 /* Swimat */,
 				2F5745EB1D8A83C500094D06 /* SwimatTests */,
 				2F5745FF1D8A83E600094D06 /* Extension */,
-				492C68841E0078A200E64B68 /* CommandLineTool */,
-				492C68901E00793000E64B68 /* Formatter */,
+				492C68841E0078A200E64B68 /* CLI */,
+				492C68901E00793000E64B68 /* Parser */,
 				2F5745FC1D8A83E600094D06 /* Frameworks */,
 				2F5745DA1D8A83C500094D06 /* Products */,
 			);
@@ -149,7 +155,7 @@
 				2F5745D91D8A83C500094D06 /* Swimat.app */,
 				2F5745E81D8A83C500094D06 /* SwimatTests.xctest */,
 				2F5745FB1D8A83E600094D06 /* Extension.appex */,
-				492C68831E0078A200E64B68 /* swimat */,
+				492C68831E0078A200E64B68 /* CLI */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -170,7 +176,6 @@
 		2F5745EB1D8A83C500094D06 /* SwimatTests */ = {
 			isa = PBXGroup;
 			children = (
-				2F5745EC1D8A83C500094D06 /* SwimatTests.swift */,
 				2F2BDB321DA90DA0009A137B /* ExtensionTest.swift */,
 				2F5745EE1D8A83C500094D06 /* Info.plist */,
 			);
@@ -207,26 +212,27 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		492C68841E0078A200E64B68 /* CommandLineTool */ = {
+		492C68841E0078A200E64B68 /* CLI */ = {
 			isa = PBXGroup;
 			children = (
-				492C688A1E0078E700E64B68 /* ErrorHandling.swift */,
-				492C688B1E0078E700E64B68 /* main.swift */,
-				492C688C1E0078E700E64B68 /* OptionParser.swift */,
+				2F6D8C091E0435CA006CFC50 /* ErrorHandling.swift */,
+				2F6D8C0A1E0435CA006CFC50 /* main.swift */,
+				2F6D8C0B1E0435CA006CFC50 /* OptionParser.swift */,
 			);
+			name = CLI;
 			path = CommandLineTool;
 			sourceTree = "<group>";
 			usesTabs = 0;
 		};
-		492C68901E00793000E64B68 /* Formatter */ = {
+		492C68901E00793000E64B68 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
-				492C68911E0079BD00E64B68 /* Extension.swift */,
-				492C68921E0079BD00E64B68 /* Indent.swift */,
-				492C68931E0079BD00E64B68 /* Parser.swift */,
-				492C68941E0079BD00E64B68 /* SwiftParser.swift */,
+				2F6D8BF51E0435B5006CFC50 /* Extension.swift */,
+				2F6D8BF61E0435B5006CFC50 /* Indent.swift */,
+				2F6D8BF71E0435B5006CFC50 /* Parser.swift */,
+				2F6D8BF81E0435B5006CFC50 /* SwiftParser.swift */,
 			);
-			name = Formatter;
+			name = Parser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -286,9 +292,9 @@
 			productReference = 2F5745FB1D8A83E600094D06 /* Extension.appex */;
 			productType = "com.apple.product-type.xcode-extension";
 		};
-		492C68821E0078A200E64B68 /* CommandLineTool */ = {
+		492C68821E0078A200E64B68 /* CLI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 492C68891E0078A200E64B68 /* Build configuration list for PBXNativeTarget "CommandLineTool" */;
+			buildConfigurationList = 492C68891E0078A200E64B68 /* Build configuration list for PBXNativeTarget "CLI" */;
 			buildPhases = (
 				492C687F1E0078A200E64B68 /* Sources */,
 				492C68801E0078A200E64B68 /* Frameworks */,
@@ -298,9 +304,9 @@
 			);
 			dependencies = (
 			);
-			name = CommandLineTool;
+			name = CLI;
 			productName = CommandLineTool;
-			productReference = 492C68831E0078A200E64B68 /* swimat */;
+			productReference = 492C68831E0078A200E64B68 /* CLI */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -321,6 +327,7 @@
 					};
 					2F5745E71D8A83C500094D06 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 2HR4N2E675;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2F5745D81D8A83C500094D06;
@@ -333,6 +340,7 @@
 					};
 					492C68821E0078A200E64B68 = {
 						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = 2HR4N2E675;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
@@ -354,7 +362,7 @@
 				2F5745D81D8A83C500094D06 /* Swimat */,
 				2F5745E71D8A83C500094D06 /* SwimatTests */,
 				2F5745FA1D8A83E600094D06 /* Extension */,
-				492C68821E0078A200E64B68 /* CommandLineTool */,
+				492C68821E0078A200E64B68 /* CLI */,
 			);
 		};
 /* End PBXProject section */
@@ -390,7 +398,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F6D8C051E0435B5006CFC50 /* SwiftParser.swift in Sources */,
+				2F6D8C011E0435B5006CFC50 /* Parser.swift in Sources */,
+				2F6D8BFD1E0435B5006CFC50 /* Indent.swift in Sources */,
 				2F5745DD1D8A83C500094D06 /* AppDelegate.swift in Sources */,
+				2F6D8BF91E0435B5006CFC50 /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,8 +410,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F5745ED1D8A83C500094D06 /* SwimatTests.swift in Sources */,
+				2F6D8C061E0435B5006CFC50 /* SwiftParser.swift in Sources */,
+				2F6D8C021E0435B5006CFC50 /* Parser.swift in Sources */,
+				2F6D8BFE1E0435B5006CFC50 /* Indent.swift in Sources */,
 				2F2BDB331DA90DA0009A137B /* ExtensionTest.swift in Sources */,
+				2F6D8BFA1E0435B5006CFC50 /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,10 +422,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4973E1C71E02432A0011D22E /* SwiftParser.swift in Sources */,
-				4973E1C41E02432A0011D22E /* Extension.swift in Sources */,
-				4973E1C51E02432A0011D22E /* Indent.swift in Sources */,
-				4973E1C61E02432A0011D22E /* Parser.swift in Sources */,
+				2F6D8C071E0435B5006CFC50 /* SwiftParser.swift in Sources */,
+				2F6D8BFB1E0435B5006CFC50 /* Extension.swift in Sources */,
+				2F6D8BFF1E0435B5006CFC50 /* Indent.swift in Sources */,
+				2F6D8C031E0435B5006CFC50 /* Parser.swift in Sources */,
 				2F5746031D8A83E600094D06 /* SourceEditorExtension.swift in Sources */,
 				2F5746051D8A83E600094D06 /* SourceEditorCommand.swift in Sources */,
 			);
@@ -420,13 +435,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				492C688F1E0078E700E64B68 /* OptionParser.swift in Sources */,
-				492C688E1E0078E700E64B68 /* main.swift in Sources */,
-				492C68971E0079BD00E64B68 /* Parser.swift in Sources */,
-				492C68981E0079BD00E64B68 /* SwiftParser.swift in Sources */,
-				492C688D1E0078E700E64B68 /* ErrorHandling.swift in Sources */,
-				492C68961E0079BD00E64B68 /* Indent.swift in Sources */,
-				492C68951E0079BD00E64B68 /* Extension.swift in Sources */,
+				2F6D8C0E1E0435CA006CFC50 /* OptionParser.swift in Sources */,
+				2F6D8C0D1E0435CA006CFC50 /* main.swift in Sources */,
+				2F6D8C041E0435B5006CFC50 /* Parser.swift in Sources */,
+				2F6D8C081E0435B5006CFC50 /* SwiftParser.swift in Sources */,
+				2F6D8C0C1E0435CA006CFC50 /* ErrorHandling.swift in Sources */,
+				2F6D8C001E0435B5006CFC50 /* Indent.swift in Sources */,
+				2F6D8BFC1E0435B5006CFC50 /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,7 +603,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 2HR4N2E675;
 				INFOPLIST_FILE = SwimatTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jintin.SwimatTests;
@@ -603,7 +620,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 2HR4N2E675;
 				INFOPLIST_FILE = SwimatTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jintin.SwimatTests;
@@ -651,9 +670,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEVELOPMENT_TEAM = 2HR4N2E675;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_NAME = swimat;
+				PRODUCT_NAME = CLI;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -663,9 +684,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEVELOPMENT_TEAM = 2HR4N2E675;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_NAME = swimat;
+				PRODUCT_NAME = CLI;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -709,7 +732,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		492C68891E0078A200E64B68 /* Build configuration list for PBXNativeTarget "CommandLineTool" */ = {
+		492C68891E0078A200E64B68 /* Build configuration list for PBXNativeTarget "CLI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				492C68871E0078A200E64B68 /* Debug */,
