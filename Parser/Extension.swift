@@ -210,7 +210,9 @@ extension String {
             let next = self[target]
 
             switch next {
-            case "A" ... "z", "0" ... "9", " ", "[", "]", ".", "?", ":":
+            case " ":
+                result.keepSpace()
+            case "A" ... "z", "0" ... "9", "[", "]", ".", "?", ":":
                 result.append(next)
             case ",":
                 result.append(", ")
@@ -237,6 +239,14 @@ extension String {
                 target = block.index
                 result += block.string
                 continue
+            case "-":
+                if let end = index(target, offsetBy: 2, limitedBy: endIndex), let _ = range(of: "->", options: [], range: target ..< end) {
+                    result.keepSpace()
+                    result.append("->")
+                    result.keepSpace()
+                    target = index(target, offsetBy: 2)
+                    continue
+                }
             default:
                 return nil
             }
@@ -245,6 +255,7 @@ extension String {
         }
         return nil
     }
+
 
 }
 
