@@ -22,18 +22,45 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         do {
             let newLines = try parser.format().components(separatedBy: "\n")
             let lines = invocation.buffer.lines
-            for i in 0 ..< lines.count {
-                if let line = lines[i] as? String {
-                    let newLine = newLines[i] + "\n"
+            let selections = invocation.buffer.selections
+            var hasSelection = false
+
+            func updateLine(index: Int) {
+                if let line = lines[index] as? String {
+                    let newLine = newLines[index] + "\n"
                     if newLine != line {
-                        lines[i] = newLine
+                        lines[index] = newLine
                     }
                 }
             }
+
+            for i in 0 ..< selections.count {
+                if let selection = selections[i] as? XCSourceTextRange, selection.start != selection.end {
+                    hasSelection = true
+                    for j in selection.start.line ... selection.end.line {
+                        updateLine(index: j)
+                    }
+                }
+            }
+            if !hasSelection {
+                for i in 0 ..< lines.count {
+                    updateLine(index: i)
+                }
+            }
+
             completionHandler(nil)
         } catch {
             completionHandler(error as NSError)
         }
     }
 
+}
+
+extension XCSourceTextPosition {
+    static func != (left: XCSourceTextPosition, right: XCSourceTextPosition) -> Bool {
+        if left.column != right.column || left.line != right.line {
+            return true
+        }
+        return false
+    }
 }
