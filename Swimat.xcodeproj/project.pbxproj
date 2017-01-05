@@ -34,7 +34,7 @@
 		2F6D8C0C1E0435CA006CFC50 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C091E0435CA006CFC50 /* ErrorHandling.swift */; };
 		2F6D8C0D1E0435CA006CFC50 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C0A1E0435CA006CFC50 /* main.swift */; };
 		2F6D8C0E1E0435CA006CFC50 /* OptionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C0B1E0435CA006CFC50 /* OptionParser.swift */; };
-		492C68991E0079F600E64B68 /* CLI in CopyFiles */ = {isa = PBXBuildFile; fileRef = 492C68831E0078A200E64B68 /* CLI */; };
+		492C68991E0079F600E64B68 /* swimat in CopyFiles */ = {isa = PBXBuildFile; fileRef = 492C68831E0078A200E64B68 /* swimat */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,7 +72,7 @@
 			dstPath = /usr/local/bin;
 			dstSubfolderSpec = 0;
 			files = (
-				492C68991E0079F600E64B68 /* CLI in CopyFiles */,
+				492C68991E0079F600E64B68 /* swimat in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,7 +100,7 @@
 		2F6D8C091E0435CA006CFC50 /* ErrorHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ErrorHandling.swift; path = CLI/ErrorHandling.swift; sourceTree = SOURCE_ROOT; };
 		2F6D8C0A1E0435CA006CFC50 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = main.swift; path = CLI/main.swift; sourceTree = SOURCE_ROOT; };
 		2F6D8C0B1E0435CA006CFC50 /* OptionParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OptionParser.swift; path = CLI/OptionParser.swift; sourceTree = SOURCE_ROOT; };
-		492C68831E0078A200E64B68 /* CLI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CLI; sourceTree = BUILT_PRODUCTS_DIR; };
+		492C68831E0078A200E64B68 /* swimat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = swimat; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,7 +155,7 @@
 				2F5745D91D8A83C500094D06 /* Swimat.app */,
 				2F5745E81D8A83C500094D06 /* SwimatTests.xctest */,
 				2F5745FB1D8A83E600094D06 /* Extension.appex */,
-				492C68831E0078A200E64B68 /* CLI */,
+				492C68831E0078A200E64B68 /* swimat */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -306,7 +306,7 @@
 			);
 			name = CLI;
 			productName = CommandLineTool;
-			productReference = 492C68831E0078A200E64B68 /* CLI */;
+			productReference = 492C68831E0078A200E64B68 /* swimat */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -674,7 +674,7 @@
 				DEVELOPMENT_TEAM = 2HR4N2E675;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_NAME = CLI;
+				PRODUCT_NAME = swimat;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -688,7 +688,7 @@
 				DEVELOPMENT_TEAM = 2HR4N2E675;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_NAME = CLI;
+				PRODUCT_NAME = swimat;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
