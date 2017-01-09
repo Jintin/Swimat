@@ -9,12 +9,13 @@ Swimat is an Xcode plug-in to format your Swift code.
 
 ## Installation
 There are three way to install.
+
 1. Install via [homebrew-cask](https://caskroom.github.io/)
   ```bash
   brew cask install swimat
   ```
 2. Download the App directly.  
-  https://github.com/Jintin/Swimat/releases/download/v1.0/Swimat.zip
+  https://github.com/Jintin/Swimat/releases/download/v1.1/Swimat.zip
 3. Clone `extension` branch and archive to Mac App.
 
 ## Usage
