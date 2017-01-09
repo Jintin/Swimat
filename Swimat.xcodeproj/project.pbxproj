@@ -10,7 +10,6 @@
 		2F2BDB331DA90DA0009A137B /* ExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2BDB321DA90DA0009A137B /* ExtensionTest.swift */; };
 		2F5745DD1D8A83C500094D06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5745DC1D8A83C500094D06 /* AppDelegate.swift */; };
 		2F5745DF1D8A83C500094D06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F5745DE1D8A83C500094D06 /* Assets.xcassets */; };
-		2F5745E21D8A83C500094D06 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F5745E01D8A83C500094D06 /* MainMenu.xib */; };
 		2F5745FE1D8A83E600094D06 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F5745FD1D8A83E600094D06 /* Cocoa.framework */; };
 		2F5746031D8A83E600094D06 /* SourceEditorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5746021D8A83E600094D06 /* SourceEditorExtension.swift */; };
 		2F5746051D8A83E600094D06 /* SourceEditorCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5746041D8A83E600094D06 /* SourceEditorCommand.swift */; };
@@ -34,7 +33,9 @@
 		2F6D8C0C1E0435CA006CFC50 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C091E0435CA006CFC50 /* ErrorHandling.swift */; };
 		2F6D8C0D1E0435CA006CFC50 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C0A1E0435CA006CFC50 /* main.swift */; };
 		2F6D8C0E1E0435CA006CFC50 /* OptionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C0B1E0435CA006CFC50 /* OptionParser.swift */; };
-		492C68991E0079F600E64B68 /* swimat in CopyFiles */ = {isa = PBXBuildFile; fileRef = 492C68831E0078A200E64B68 /* swimat */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		492A76BF1E22E63700DB9138 /* swimat in Embed Command Line Tool */ = {isa = PBXBuildFile; fileRef = 492C68831E0078A200E64B68 /* swimat */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		492A76C31E23575200DB9138 /* SwimatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492A76C21E23575200DB9138 /* SwimatViewController.swift */; };
+		494A4CD41E29E8700071EB7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 494A4CD21E29E8700071EB7C /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,13 @@
 			remoteGlobalIDString = 2F5745FA1D8A83E600094D06;
 			remoteInfo = Extension;
 		};
+		492A76BC1E22E47B00DB9138 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2F5745D11D8A83C500094D06 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 492C68821E0078A200E64B68;
+			remoteInfo = CLI;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -66,14 +74,15 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		492C68811E0078A200E64B68 /* CopyFiles */ = {
+		492A76BA1E22E2EB00DB9138 /* Embed Command Line Tool */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
-			dstPath = /usr/local/bin;
+			dstPath = "$(CODESIGNING_FOLDER_PATH)/Contents/Helpers";
 			dstSubfolderSpec = 0;
 			files = (
-				492C68991E0079F600E64B68 /* swimat in CopyFiles */,
+				492A76BF1E22E63700DB9138 /* swimat in Embed Command Line Tool */,
 			);
+			name = "Embed Command Line Tool";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -83,7 +92,6 @@
 		2F5745D91D8A83C500094D06 /* Swimat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Swimat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F5745DC1D8A83C500094D06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2F5745DE1D8A83C500094D06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2F5745E11D8A83C500094D06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		2F5745E31D8A83C500094D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F5745E81D8A83C500094D06 /* SwimatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwimatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F5745EE1D8A83C500094D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -100,7 +108,9 @@
 		2F6D8C091E0435CA006CFC50 /* ErrorHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ErrorHandling.swift; path = CLI/ErrorHandling.swift; sourceTree = SOURCE_ROOT; };
 		2F6D8C0A1E0435CA006CFC50 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = main.swift; path = CLI/main.swift; sourceTree = SOURCE_ROOT; };
 		2F6D8C0B1E0435CA006CFC50 /* OptionParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OptionParser.swift; path = CLI/OptionParser.swift; sourceTree = SOURCE_ROOT; };
+		492A76C21E23575200DB9138 /* SwimatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwimatViewController.swift; sourceTree = "<group>"; };
 		492C68831E0078A200E64B68 /* swimat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = swimat; sourceTree = BUILT_PRODUCTS_DIR; };
+		494A4CD31E29E8700071EB7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,8 +175,9 @@
 			isa = PBXGroup;
 			children = (
 				2F5745DC1D8A83C500094D06 /* AppDelegate.swift */,
+				492A76C21E23575200DB9138 /* SwimatViewController.swift */,
 				2F5745DE1D8A83C500094D06 /* Assets.xcassets */,
-				2F5745E01D8A83C500094D06 /* MainMenu.xib */,
+				494A4CD21E29E8700071EB7C /* Main.storyboard */,
 				2F5745E31D8A83C500094D06 /* Info.plist */,
 			);
 			path = Swimat;
@@ -246,11 +257,13 @@
 				2F5745D61D8A83C500094D06 /* Frameworks */,
 				2F5745D71D8A83C500094D06 /* Resources */,
 				2F57460D1D8A83E600094D06 /* Embed App Extensions */,
+				492A76BA1E22E2EB00DB9138 /* Embed Command Line Tool */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				2F5746081D8A83E600094D06 /* PBXTargetDependency */,
+				492A76BD1E22E47B00DB9138 /* PBXTargetDependency */,
 			);
 			name = Swimat;
 			productName = Swimat;
@@ -298,7 +311,6 @@
 			buildPhases = (
 				492C687F1E0078A200E64B68 /* Sources */,
 				492C68801E0078A200E64B68 /* Frameworks */,
-				492C68811E0078A200E64B68 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -372,8 +384,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				494A4CD41E29E8700071EB7C /* Main.storyboard in Resources */,
 				2F5745DF1D8A83C500094D06 /* Assets.xcassets in Resources */,
-				2F5745E21D8A83C500094D06 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +411,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F6D8C051E0435B5006CFC50 /* SwiftParser.swift in Sources */,
+				492A76C31E23575200DB9138 /* SwimatViewController.swift in Sources */,
 				2F6D8C011E0435B5006CFC50 /* Parser.swift in Sources */,
 				2F6D8BFD1E0435B5006CFC50 /* Indent.swift in Sources */,
 				2F5745DD1D8A83C500094D06 /* AppDelegate.swift in Sources */,
@@ -458,15 +471,20 @@
 			target = 2F5745FA1D8A83E600094D06 /* Extension */;
 			targetProxy = 2F5746071D8A83E600094D06 /* PBXContainerItemProxy */;
 		};
+		492A76BD1E22E47B00DB9138 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 492C68821E0078A200E64B68 /* CLI */;
+			targetProxy = 492A76BC1E22E47B00DB9138 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		2F5745E01D8A83C500094D06 /* MainMenu.xib */ = {
+		494A4CD21E29E8700071EB7C /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				2F5745E11D8A83C500094D06 /* Base */,
+				494A4CD31E29E8700071EB7C /* Base */,
 			);
-			name = MainMenu.xib;
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -675,6 +693,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = swimat;
+				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -689,6 +708,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = swimat;
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
