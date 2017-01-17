@@ -26,6 +26,9 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             var hasSelection = false
 
             func updateLine(index: Int) {
+                guard index < newLines.count, index < lines.count else {
+                    return
+                }
                 if let line = lines[index] as? String {
                     let newLine = newLines[index] + "\n"
                     if newLine != line {
