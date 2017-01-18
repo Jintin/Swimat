@@ -33,7 +33,6 @@
 		2F6D8C0C1E0435CA006CFC50 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C091E0435CA006CFC50 /* ErrorHandling.swift */; };
 		2F6D8C0D1E0435CA006CFC50 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C0A1E0435CA006CFC50 /* main.swift */; };
 		2F6D8C0E1E0435CA006CFC50 /* OptionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C0B1E0435CA006CFC50 /* OptionParser.swift */; };
-		492A76BF1E22E63700DB9138 /* swimat in Embed Command Line Tool */ = {isa = PBXBuildFile; fileRef = 492C68831E0078A200E64B68 /* swimat */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		492A76C31E23575200DB9138 /* SwimatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492A76C21E23575200DB9138 /* SwimatViewController.swift */; };
 		494A4CD41E29E8700071EB7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 494A4CD21E29E8700071EB7C /* Main.storyboard */; };
 /* End PBXBuildFile section */
@@ -80,7 +79,6 @@
 			dstPath = "$(CODESIGNING_FOLDER_PATH)/Contents/Helpers";
 			dstSubfolderSpec = 0;
 			files = (
-				492A76BF1E22E63700DB9138 /* swimat in Embed Command Line Tool */,
 			);
 			name = "Embed Command Line Tool";
 			runOnlyForDeploymentPostprocessing = 0;

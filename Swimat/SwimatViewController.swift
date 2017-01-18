@@ -44,32 +44,32 @@ class SwimatViewController: NSViewController {
     
 	@IBAction func install(_ sender: Any) {
         // Migrate this to SMJobBless?
-        let path = Bundle.main.bundleURL
-            .appendingPathComponent("Contents", isDirectory: true)
-            .appendingPathComponent("Helpers", isDirectory: true)
-            .appendingPathComponent("swimat")
-            .path
-        var error: NSDictionary?
-        let script = NSAppleScript(source: "do shell script \"ln -s \'\(path)\' \(installPath)swimat\" with administrator privileges")
-        script?.executeAndReturnError(&error)
-        if error != nil {
-            let alert = NSAlert()
-            alert.messageText = "There was an error symlinking swimat."
-            alert.informativeText = "You can try manually linking swimat by running:\n\nln -s /Applications/Swimat.app/Contents/Helpers/swimat \(installPath)swimat"
-            alert.alertStyle = .warning
-            alert.runModal()
-        }
-        refreshInstallButton()
+//        let path = Bundle.main.bundleURL
+//            .appendingPathComponent("Contents", isDirectory: true)
+//            .appendingPathComponent("Helpers", isDirectory: true)
+//            .appendingPathComponent("swimat")
+//            .path
+//        var error: NSDictionary?
+//        let script = NSAppleScript(source: "do shell script \"ln -s \'\(path)\' \(installPath)swimat\" with administrator privileges")
+//        script?.executeAndReturnError(&error)
+//        if error != nil {
+//            let alert = NSAlert()
+//            alert.messageText = "There was an error symlinking swimat."
+//            alert.informativeText = "You can try manually linking swimat by running:\n\nln -s /Applications/Swimat.app/Contents/Helpers/swimat \(installPath)swimat"
+//            alert.alertStyle = .warning
+//            alert.runModal()
+//        }
+//        refreshInstallButton()
 	}
     
     func refreshInstallButton() {
-        // Check for swimat, fileExists(atPath:) returns false for symlinks
-        if ((try? FileManager.default.attributesOfItem(atPath: "\(installPath)swimat")) != nil) {
-            installButton.title = "swimat installed to \(installPath)"
-            installButton.isEnabled = false
-        } else {
-            installButton.title = "Install swimat to \(installPath)"
-            installButton.isEnabled = true
-        }
+//        // Check for swimat, fileExists(atPath:) returns false for symlinks
+//        if ((try? FileManager.default.attributesOfItem(atPath: "\(installPath)swimat")) != nil) {
+//            installButton.title = "swimat installed to \(installPath)"
+//            installButton.isEnabled = false
+//        } else {
+//            installButton.title = "Install swimat to \(installPath)"
+//            installButton.isEnabled = true
+//        }
     }
 }
