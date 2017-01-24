@@ -1,6 +1,6 @@
-language: swift
-osx_image: xcode8
+language: objective-c
+osx_image: xcode8.2
 
-xcode_project: Swimat.xcodeproj
-xcode_scheme: SwimatTest
-
+script:
+  - xcodebuild -scheme Swimat CODE_SIGNING_ALLOWED=NO
+  - xcodebuild -scheme CLI CODE_SIGNING_ALLOWED=NO
