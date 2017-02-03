@@ -13,9 +13,11 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         if invocation.buffer.usesTabsForIndentation {
             Indent.char = "\t"
             Indent.size = 1
+            Indent.paraAlign = true
         } else {
             Indent.char = String(repeating: " ", count: invocation.buffer.indentationWidth)
             Indent.size = invocation.buffer.indentationWidth
+            Indent.paraAlign = true
         }
 
         let parser = SwiftParser(string: invocation.buffer.completeBuffer)

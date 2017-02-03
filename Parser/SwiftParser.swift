@@ -27,7 +27,6 @@ fileprivate let negativeCheckKeys = ["case", "return", "if", "for", "while", "in
 fileprivate let numbers: [Character] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 class SwiftParser {
-
     let string: String
     var retString = ""
     var strIndex: String.Index
@@ -185,8 +184,8 @@ class SwiftParser {
             } else {
                 indent = Indent()
             }
+            trimWithIndent()
             if char == "}" {
-                trimWithIndent(addExtra: false) // TODO: change to newline check
                 retString.keepSpace()
                 let next = string.index(after: strIndex)
                 if next < string.endIndex && string[next].isAZ() {
@@ -196,7 +195,6 @@ class SwiftParser {
                 }
                 return next
             }
-            trimWithIndent()
             return add(char: char)
         default:
             break

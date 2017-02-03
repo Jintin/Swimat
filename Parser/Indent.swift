@@ -18,6 +18,7 @@ enum IndentType: Character {
 class Indent {
     static var char: String = ""
     static var size: Int = 0
+    static var paraAlign = true
     var count: Int // general indent count
     var extra: Int // from extra indent
     var indentAdd: Bool // same line flag, if same line add only one indent
@@ -42,7 +43,7 @@ class Indent {
         self.extra = indent.extra
         self.inSwitch = false
 
-        if block != .parentheses && !indent.indentAdd {
+        if (block != .parentheses || !Indent.paraAlign) && !indent.indentAdd {
             self.count += 1
             self.indentAdd = true
         } else {
@@ -57,11 +58,14 @@ class Indent {
 
         switch block {
         case .curly:
-            self.leading = 0
+            self.leading = indent.leading
         case .parentheses:
             self.leading = max(offset - count * Indent.size - 1, 0)
         case .square:
             self.leading = indent.leading
+        }
+        if !Indent.paraAlign {
+            self.leading = 0
         }
     }
 
