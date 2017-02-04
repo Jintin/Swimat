@@ -2,4 +2,4 @@ language: objective-c
 osx_image: xcode8.2
 
 script:
-  - xcodebuild -scheme Swimat test CODE_SIGNING_ALLOWED=NO
+  - xcodebuild test -project Swimat.xcodeproj -scheme SwimatTests CODE_SIGNING_ALLOWED=NO
