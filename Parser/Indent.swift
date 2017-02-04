@@ -13,6 +13,7 @@ enum IndentType: Character {
             return "}"
         }
     }
+
 }
 
 class Indent {

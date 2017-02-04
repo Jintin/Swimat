@@ -13,12 +13,11 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         if invocation.buffer.usesTabsForIndentation {
             Indent.char = "\t"
             Indent.size = 1
-            Indent.paraAlign = true
         } else {
             Indent.char = String(repeating: " ", count: invocation.buffer.indentationWidth)
             Indent.size = invocation.buffer.indentationWidth
-            Indent.paraAlign = true
         }
+        Indent.paraAlign = Pref.isParaAlign()
 
         let parser = SwiftParser(string: invocation.buffer.completeBuffer)
         do {
@@ -62,10 +61,12 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 }
 
 extension XCSourceTextPosition {
+
     static func != (left: XCSourceTextPosition, right: XCSourceTextPosition) -> Bool {
         if left.column != right.column || left.line != right.line {
             return true
         }
         return false
     }
+
 }

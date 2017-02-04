@@ -256,7 +256,6 @@ extension String {
         return nil
     }
 
-
 }
 
 extension Character {

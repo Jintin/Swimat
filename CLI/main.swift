@@ -57,7 +57,7 @@ for path in paths {
                 if options.verbose {
                     print("\(file.path) was formatted successfully.")
                 }
-        }
+            }
     }
 }
 print("Finished formatting \(files) files.")

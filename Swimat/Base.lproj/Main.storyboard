@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D30a" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="HFN-HU-Szk">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="HFN-HU-Szk">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
@@ -31,250 +31,326 @@
             <objects>
                 <viewController title="Swimat" id="5NS-zJ-YxT" customClass="SwimatViewController" customModule="Swimat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="neG-K5-vhD">
-                        <rect key="frame" x="0.0" y="0.0" width="548" height="367"/>
+                        <rect key="frame" x="0.0" y="0.0" width="554" height="411"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <box boxType="custom" borderType="none" borderWidth="0.0" title="Swimat" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="aq5-En-jAk">
-                                <rect key="frame" x="0.0" y="0.0" width="548" height="367"/>
-                                <view key="contentView" id="s7k-Lj-578">
-                                    <rect key="frame" x="0.0" y="0.0" width="548" height="367"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <box boxType="custom" borderType="none" borderWidth="0.0" title="Installation" transparent="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n5V-AU-ftz">
-                                            <rect key="frame" x="168" y="20" width="360" height="327"/>
-                                            <view key="contentView" id="a8a-RF-L2E">
-                                                <rect key="frame" x="0.0" y="0.0" width="360" height="327"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <subviews>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A8m-zj-GCO">
-                                                        <rect key="frame" x="67" y="297" width="226" height="30"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Welcome to Swimat!" id="p5W-gE-44w">
-                                                            <font key="font" metaFont="systemLight" size="25"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JFN-8Y-Xv4">
-                                                        <rect key="frame" x="-2" y="251" width="364" height="38"/>
-                                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="You're almost there! There's just a couple of things you'll need to do before you can start using Swimat:" id="9kf-ay-VRR">
-                                                            <font key="font" metaFont="system" size="15"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m36-MG-ZJZ">
-                                                        <rect key="frame" x="44" y="201" width="298" height="17"/>
-                                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Open the Extensions Pane." id="7Gg-ji-hAT">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g8M-ic-SJP">
-                                                        <rect key="frame" x="44" y="159" width="298" height="34"/>
-                                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Select &quot;Xcode Source Editor&quot; from the pane on the right." id="L8h-eZ-SdN">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5M-I6-Vzd">
-                                                        <rect key="frame" x="-2" y="29" width="344" height="38"/>
-                                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Swimat also comes with a handy command line tool:" id="X5R-Nv-xVX">
-                                                            <font key="font" metaFont="system" size="15"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <button verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="9nB-vh-mrK">
-                                                        <rect key="frame" x="68" y="-7" width="225" height="32"/>
-                                                        <buttonCell key="cell" type="push" title="Install swimat to /usr/local/bin/" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iv2-Fx-fy7">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="system"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="install:" target="5NS-zJ-YxT" id="cgu-BD-e8o"/>
-                                                        </connections>
-                                                    </button>
-                                                    <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TM5-f8-J6Y">
-                                                        <rect key="frame" x="44" y="117" width="298" height="34"/>
-                                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Ensure that the checkbox next to Swimat is checked." id="MlP-OB-Wyy">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HgB-9o-9xu">
-                                                        <rect key="frame" x="26" y="226" width="14" height="17"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="1." id="1Lm-8u-Nxa">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="McY-Ex-f8c">
-                                                        <rect key="frame" x="44" y="226" width="298" height="17"/>
-                                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Open System Preferences." id="bsS-wj-WgP">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yzp-T6-9Kr">
-                                                        <rect key="frame" x="26" y="201" width="16" height="17"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="2." id="o2H-bV-lQo">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N2v-nJ-P60">
-                                                        <rect key="frame" x="26" y="176" width="16" height="17"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="3." id="keL-U9-VEl">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Mg-at-WvL">
-                                                        <rect key="frame" x="26" y="134" width="16" height="17"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="4." id="lRv-Za-McN">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YQK-vi-xxV">
-                                                        <rect key="frame" x="26" y="92" width="16" height="17"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="5." id="8CM-GW-iXv">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoK-uO-d83">
-                                                        <rect key="frame" x="44" y="75" width="298" height="34"/>
-                                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Restart Xcode and enjoy! You can find Swimat in the Editor menu." id="02m-Dh-2VN">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="xoK-uO-d83" firstAttribute="top" secondItem="TM5-f8-J6Y" secondAttribute="bottom" constant="8" id="1VD-2y-w0f"/>
-                                                    <constraint firstItem="HgB-9o-9xu" firstAttribute="leading" secondItem="a8a-RF-L2E" secondAttribute="leading" constant="28" id="2Ky-xf-WsS"/>
-                                                    <constraint firstItem="h5M-I6-Vzd" firstAttribute="leading" secondItem="JFN-8Y-Xv4" secondAttribute="leading" id="2v6-sF-4Zb"/>
-                                                    <constraint firstItem="g8M-ic-SJP" firstAttribute="leading" secondItem="McY-Ex-f8c" secondAttribute="leading" id="48o-s3-K9T"/>
-                                                    <constraint firstItem="JFN-8Y-Xv4" firstAttribute="top" secondItem="A8m-zj-GCO" secondAttribute="bottom" constant="8" id="4ta-BB-wgz"/>
-                                                    <constraint firstItem="m36-MG-ZJZ" firstAttribute="leading" secondItem="McY-Ex-f8c" secondAttribute="leading" id="6h4-OR-UHS"/>
-                                                    <constraint firstItem="xoK-uO-d83" firstAttribute="leading" secondItem="McY-Ex-f8c" secondAttribute="leading" id="9Bi-M7-VpB"/>
-                                                    <constraint firstItem="g8M-ic-SJP" firstAttribute="top" secondItem="m36-MG-ZJZ" secondAttribute="bottom" constant="8" id="Cgz-vM-e39"/>
-                                                    <constraint firstItem="JFN-8Y-Xv4" firstAttribute="leading" secondItem="a8a-RF-L2E" secondAttribute="leading" id="GXg-eZ-Ilf"/>
-                                                    <constraint firstAttribute="trailing" secondItem="h5M-I6-Vzd" secondAttribute="trailing" constant="20" id="HKK-AU-O13"/>
-                                                    <constraint firstItem="N2v-nJ-P60" firstAttribute="leading" secondItem="HgB-9o-9xu" secondAttribute="leading" id="Hbu-fs-FXF"/>
-                                                    <constraint firstItem="h5M-I6-Vzd" firstAttribute="top" secondItem="xoK-uO-d83" secondAttribute="bottom" constant="8" id="HnR-xw-0dP"/>
-                                                    <constraint firstItem="TM5-f8-J6Y" firstAttribute="leading" secondItem="McY-Ex-f8c" secondAttribute="leading" id="JKm-OS-K74"/>
-                                                    <constraint firstAttribute="trailing" secondItem="xoK-uO-d83" secondAttribute="trailing" constant="20" id="JtW-z7-RT1"/>
-                                                    <constraint firstItem="TM5-f8-J6Y" firstAttribute="top" secondItem="g8M-ic-SJP" secondAttribute="bottom" constant="8" id="LxU-q2-4ec"/>
-                                                    <constraint firstAttribute="trailing" secondItem="McY-Ex-f8c" secondAttribute="trailing" constant="20" id="MOz-Tk-kIM"/>
-                                                    <constraint firstAttribute="trailing" secondItem="TM5-f8-J6Y" secondAttribute="trailing" constant="20" id="MYB-OB-lHF"/>
-                                                    <constraint firstItem="9nB-vh-mrK" firstAttribute="centerX" secondItem="a8a-RF-L2E" secondAttribute="centerX" id="Rzi-lx-CAw"/>
-                                                    <constraint firstItem="yzp-T6-9Kr" firstAttribute="leading" secondItem="HgB-9o-9xu" secondAttribute="leading" id="Vef-ny-xFh"/>
-                                                    <constraint firstItem="TM5-f8-J6Y" firstAttribute="top" secondItem="9Mg-at-WvL" secondAttribute="top" id="Vih-1b-IXs"/>
-                                                    <constraint firstItem="McY-Ex-f8c" firstAttribute="leading" secondItem="HgB-9o-9xu" secondAttribute="trailing" constant="8" id="YM4-bm-U4V"/>
-                                                    <constraint firstAttribute="trailing" secondItem="g8M-ic-SJP" secondAttribute="trailing" constant="20" id="Ydx-CR-JTj"/>
-                                                    <constraint firstItem="9nB-vh-mrK" firstAttribute="top" secondItem="h5M-I6-Vzd" secondAttribute="bottom" constant="8" id="cI6-n0-1nt"/>
-                                                    <constraint firstItem="m36-MG-ZJZ" firstAttribute="top" secondItem="yzp-T6-9Kr" secondAttribute="top" id="d5D-V4-LTa"/>
-                                                    <constraint firstItem="McY-Ex-f8c" firstAttribute="top" secondItem="JFN-8Y-Xv4" secondAttribute="bottom" constant="8" id="dX2-vz-9g6"/>
-                                                    <constraint firstItem="A8m-zj-GCO" firstAttribute="centerX" secondItem="a8a-RF-L2E" secondAttribute="centerX" id="gxO-R6-wEB"/>
-                                                    <constraint firstItem="McY-Ex-f8c" firstAttribute="top" secondItem="HgB-9o-9xu" secondAttribute="top" id="hi9-iG-x0d"/>
-                                                    <constraint firstItem="g8M-ic-SJP" firstAttribute="top" secondItem="N2v-nJ-P60" secondAttribute="top" id="jEt-OA-kgi"/>
-                                                    <constraint firstAttribute="bottom" secondItem="9nB-vh-mrK" secondAttribute="bottom" id="mKP-ov-TKa"/>
-                                                    <constraint firstItem="YQK-vi-xxV" firstAttribute="leading" secondItem="HgB-9o-9xu" secondAttribute="leading" id="nwp-8h-uUc"/>
-                                                    <constraint firstItem="xoK-uO-d83" firstAttribute="top" secondItem="YQK-vi-xxV" secondAttribute="top" id="oGI-Uo-spD"/>
-                                                    <constraint firstItem="A8m-zj-GCO" firstAttribute="top" secondItem="a8a-RF-L2E" secondAttribute="top" id="uIM-FJ-0gf"/>
-                                                    <constraint firstItem="m36-MG-ZJZ" firstAttribute="top" secondItem="McY-Ex-f8c" secondAttribute="bottom" constant="8" id="v7t-CC-wpL"/>
-                                                    <constraint firstItem="9Mg-at-WvL" firstAttribute="leading" secondItem="HgB-9o-9xu" secondAttribute="leading" id="vd5-vl-Ztk"/>
-                                                    <constraint firstAttribute="trailing" secondItem="JFN-8Y-Xv4" secondAttribute="trailing" id="yCm-mV-xi0"/>
-                                                    <constraint firstAttribute="trailing" secondItem="m36-MG-ZJZ" secondAttribute="trailing" constant="20" id="yVa-lQ-b2E"/>
-                                                </constraints>
-                                            </view>
+                            <tabView translatesAutoresizingMaskIntoConstraints="NO" id="Mlv-5f-ipi">
+                                <rect key="frame" x="-7" y="-10" width="568" height="413"/>
+                                <font key="font" metaFont="system"/>
+                                <tabViewItems>
+                                    <tabViewItem label="Info" identifier="1" id="Yn6-4a-tYh">
+                                        <view key="view" id="cME-8e-77V">
+                                            <rect key="frame" x="10" y="33" width="548" height="367"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <box boxType="custom" borderType="none" borderWidth="0.0" title="Swimat" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="aq5-En-jAk">
+                                                    <rect key="frame" x="0.0" y="0.0" width="548" height="367"/>
+                                                    <view key="contentView" id="s7k-Lj-578">
+                                                        <rect key="frame" x="0.0" y="0.0" width="548" height="367"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <subviews>
+                                                            <box boxType="custom" borderType="none" borderWidth="0.0" title="Installation" transparent="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n5V-AU-ftz">
+                                                                <rect key="frame" x="168" y="20" width="360" height="327"/>
+                                                                <view key="contentView" id="a8a-RF-L2E">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="360" height="327"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                    <subviews>
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A8m-zj-GCO">
+                                                                            <rect key="frame" x="67" y="297" width="226" height="30"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Welcome to Swimat!" id="p5W-gE-44w">
+                                                                                <font key="font" metaFont="systemLight" size="25"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JFN-8Y-Xv4">
+                                                                            <rect key="frame" x="-2" y="251" width="364" height="38"/>
+                                                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="You're almost there! There's just a couple of things you'll need to do before you can start using Swimat:" id="9kf-ay-VRR">
+                                                                                <font key="font" metaFont="system" size="15"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m36-MG-ZJZ">
+                                                                            <rect key="frame" x="44" y="201" width="298" height="17"/>
+                                                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Open the Extensions Pane." id="7Gg-ji-hAT">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g8M-ic-SJP">
+                                                                            <rect key="frame" x="44" y="159" width="298" height="34"/>
+                                                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Select &quot;Xcode Source Editor&quot; from the pane on the right." id="L8h-eZ-SdN">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5M-I6-Vzd">
+                                                                            <rect key="frame" x="-2" y="29" width="344" height="38"/>
+                                                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Swimat also comes with a handy command line tool:" id="X5R-Nv-xVX">
+                                                                                <font key="font" metaFont="system" size="15"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <button verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="9nB-vh-mrK">
+                                                                            <rect key="frame" x="68" y="-7" width="225" height="32"/>
+                                                                            <buttonCell key="cell" type="push" title="Install swimat to /usr/local/bin/" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iv2-Fx-fy7">
+                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                <font key="font" metaFont="system"/>
+                                                                            </buttonCell>
+                                                                            <connections>
+                                                                                <action selector="install:" target="5NS-zJ-YxT" id="cgu-BD-e8o"/>
+                                                                            </connections>
+                                                                        </button>
+                                                                        <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TM5-f8-J6Y">
+                                                                            <rect key="frame" x="44" y="117" width="298" height="34"/>
+                                                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Ensure that the checkbox next to Swimat is checked." id="MlP-OB-Wyy">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HgB-9o-9xu">
+                                                                            <rect key="frame" x="26" y="226" width="14" height="17"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="1." id="1Lm-8u-Nxa">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="McY-Ex-f8c">
+                                                                            <rect key="frame" x="44" y="226" width="298" height="17"/>
+                                                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Open System Preferences." id="bsS-wj-WgP">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yzp-T6-9Kr">
+                                                                            <rect key="frame" x="26" y="201" width="16" height="17"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="2." id="o2H-bV-lQo">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N2v-nJ-P60">
+                                                                            <rect key="frame" x="26" y="176" width="16" height="17"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="3." id="keL-U9-VEl">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Mg-at-WvL">
+                                                                            <rect key="frame" x="26" y="134" width="16" height="17"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="4." id="lRv-Za-McN">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YQK-vi-xxV">
+                                                                            <rect key="frame" x="26" y="92" width="16" height="17"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="5." id="8CM-GW-iXv">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoK-uO-d83">
+                                                                            <rect key="frame" x="44" y="75" width="298" height="34"/>
+                                                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Restart Xcode and enjoy! You can find Swimat in the Editor menu." id="02m-Dh-2VN">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="xoK-uO-d83" firstAttribute="top" secondItem="TM5-f8-J6Y" secondAttribute="bottom" constant="8" id="1VD-2y-w0f"/>
+                                                                        <constraint firstItem="HgB-9o-9xu" firstAttribute="leading" secondItem="a8a-RF-L2E" secondAttribute="leading" constant="28" id="2Ky-xf-WsS"/>
+                                                                        <constraint firstItem="h5M-I6-Vzd" firstAttribute="leading" secondItem="JFN-8Y-Xv4" secondAttribute="leading" id="2v6-sF-4Zb"/>
+                                                                        <constraint firstItem="g8M-ic-SJP" firstAttribute="leading" secondItem="McY-Ex-f8c" secondAttribute="leading" id="48o-s3-K9T"/>
+                                                                        <constraint firstItem="JFN-8Y-Xv4" firstAttribute="top" secondItem="A8m-zj-GCO" secondAttribute="bottom" constant="8" id="4ta-BB-wgz"/>
+                                                                        <constraint firstItem="m36-MG-ZJZ" firstAttribute="leading" secondItem="McY-Ex-f8c" secondAttribute="leading" id="6h4-OR-UHS"/>
+                                                                        <constraint firstItem="xoK-uO-d83" firstAttribute="leading" secondItem="McY-Ex-f8c" secondAttribute="leading" id="9Bi-M7-VpB"/>
+                                                                        <constraint firstItem="g8M-ic-SJP" firstAttribute="top" secondItem="m36-MG-ZJZ" secondAttribute="bottom" constant="8" id="Cgz-vM-e39"/>
+                                                                        <constraint firstItem="JFN-8Y-Xv4" firstAttribute="leading" secondItem="a8a-RF-L2E" secondAttribute="leading" id="GXg-eZ-Ilf"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="h5M-I6-Vzd" secondAttribute="trailing" constant="20" id="HKK-AU-O13"/>
+                                                                        <constraint firstItem="N2v-nJ-P60" firstAttribute="leading" secondItem="HgB-9o-9xu" secondAttribute="leading" id="Hbu-fs-FXF"/>
+                                                                        <constraint firstItem="h5M-I6-Vzd" firstAttribute="top" secondItem="xoK-uO-d83" secondAttribute="bottom" constant="8" id="HnR-xw-0dP"/>
+                                                                        <constraint firstItem="TM5-f8-J6Y" firstAttribute="leading" secondItem="McY-Ex-f8c" secondAttribute="leading" id="JKm-OS-K74"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="xoK-uO-d83" secondAttribute="trailing" constant="20" id="JtW-z7-RT1"/>
+                                                                        <constraint firstItem="TM5-f8-J6Y" firstAttribute="top" secondItem="g8M-ic-SJP" secondAttribute="bottom" constant="8" id="LxU-q2-4ec"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="McY-Ex-f8c" secondAttribute="trailing" constant="20" id="MOz-Tk-kIM"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="TM5-f8-J6Y" secondAttribute="trailing" constant="20" id="MYB-OB-lHF"/>
+                                                                        <constraint firstItem="9nB-vh-mrK" firstAttribute="centerX" secondItem="a8a-RF-L2E" secondAttribute="centerX" id="Rzi-lx-CAw"/>
+                                                                        <constraint firstItem="yzp-T6-9Kr" firstAttribute="leading" secondItem="HgB-9o-9xu" secondAttribute="leading" id="Vef-ny-xFh"/>
+                                                                        <constraint firstItem="TM5-f8-J6Y" firstAttribute="top" secondItem="9Mg-at-WvL" secondAttribute="top" id="Vih-1b-IXs"/>
+                                                                        <constraint firstItem="McY-Ex-f8c" firstAttribute="leading" secondItem="HgB-9o-9xu" secondAttribute="trailing" constant="8" id="YM4-bm-U4V"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="g8M-ic-SJP" secondAttribute="trailing" constant="20" id="Ydx-CR-JTj"/>
+                                                                        <constraint firstItem="9nB-vh-mrK" firstAttribute="top" secondItem="h5M-I6-Vzd" secondAttribute="bottom" constant="8" id="cI6-n0-1nt"/>
+                                                                        <constraint firstItem="m36-MG-ZJZ" firstAttribute="top" secondItem="yzp-T6-9Kr" secondAttribute="top" id="d5D-V4-LTa"/>
+                                                                        <constraint firstItem="McY-Ex-f8c" firstAttribute="top" secondItem="JFN-8Y-Xv4" secondAttribute="bottom" constant="8" id="dX2-vz-9g6"/>
+                                                                        <constraint firstItem="A8m-zj-GCO" firstAttribute="centerX" secondItem="a8a-RF-L2E" secondAttribute="centerX" id="gxO-R6-wEB"/>
+                                                                        <constraint firstItem="McY-Ex-f8c" firstAttribute="top" secondItem="HgB-9o-9xu" secondAttribute="top" id="hi9-iG-x0d"/>
+                                                                        <constraint firstItem="g8M-ic-SJP" firstAttribute="top" secondItem="N2v-nJ-P60" secondAttribute="top" id="jEt-OA-kgi"/>
+                                                                        <constraint firstAttribute="bottom" secondItem="9nB-vh-mrK" secondAttribute="bottom" id="mKP-ov-TKa"/>
+                                                                        <constraint firstItem="YQK-vi-xxV" firstAttribute="leading" secondItem="HgB-9o-9xu" secondAttribute="leading" id="nwp-8h-uUc"/>
+                                                                        <constraint firstItem="xoK-uO-d83" firstAttribute="top" secondItem="YQK-vi-xxV" secondAttribute="top" id="oGI-Uo-spD"/>
+                                                                        <constraint firstItem="A8m-zj-GCO" firstAttribute="top" secondItem="a8a-RF-L2E" secondAttribute="top" id="uIM-FJ-0gf"/>
+                                                                        <constraint firstItem="m36-MG-ZJZ" firstAttribute="top" secondItem="McY-Ex-f8c" secondAttribute="bottom" constant="8" id="v7t-CC-wpL"/>
+                                                                        <constraint firstItem="9Mg-at-WvL" firstAttribute="leading" secondItem="HgB-9o-9xu" secondAttribute="leading" id="vd5-vl-Ztk"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="JFN-8Y-Xv4" secondAttribute="trailing" id="yCm-mV-xi0"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="m36-MG-ZJZ" secondAttribute="trailing" constant="20" id="yVa-lQ-b2E"/>
+                                                                    </constraints>
+                                                                </view>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="360" id="VRK-hV-ybW"/>
+                                                                </constraints>
+                                                            </box>
+                                                            <box boxType="custom" borderType="none" borderWidth="0.0" title="Version" transparent="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DOF-Mc-OAB">
+                                                                <rect key="frame" x="20" y="88" width="128" height="191"/>
+                                                                <view key="contentView" id="JDv-8J-o2W">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="191"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                    <subviews>
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ApI-HP-mgp">
+                                                                            <rect key="frame" x="22" y="25" width="84" height="30"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Swimat" id="5Dy-7j-zLg">
+                                                                                <font key="font" metaFont="systemLight" size="25"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="X7k-E7-aFm">
+                                                                            <rect key="frame" x="0.0" y="63" width="128" height="128"/>
+                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="AppIcon" id="y0c-8x-z8A"/>
+                                                                        </imageView>
+                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="woL-jt-bah">
+                                                                            <rect key="frame" x="39" y="8" width="50" height="17"/>
+                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Version" id="Dfx-QQ-lvt">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="X7k-E7-aFm" firstAttribute="leading" secondItem="JDv-8J-o2W" secondAttribute="leading" id="6bY-OB-ZOF"/>
+                                                                        <constraint firstItem="woL-jt-bah" firstAttribute="centerX" secondItem="JDv-8J-o2W" secondAttribute="centerX" id="BJP-wa-KFj"/>
+                                                                        <constraint firstItem="woL-jt-bah" firstAttribute="top" secondItem="ApI-HP-mgp" secondAttribute="bottom" id="Njh-9h-RTH"/>
+                                                                        <constraint firstItem="X7k-E7-aFm" firstAttribute="top" secondItem="JDv-8J-o2W" secondAttribute="top" id="O40-cA-ok6"/>
+                                                                        <constraint firstItem="ApI-HP-mgp" firstAttribute="centerX" secondItem="JDv-8J-o2W" secondAttribute="centerX" id="Zsf-iA-S0Z"/>
+                                                                        <constraint firstAttribute="bottom" secondItem="woL-jt-bah" secondAttribute="bottom" constant="8" id="cH4-z6-1sT"/>
+                                                                        <constraint firstItem="ApI-HP-mgp" firstAttribute="top" secondItem="X7k-E7-aFm" secondAttribute="bottom" constant="8" id="eg0-mn-oAR"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="X7k-E7-aFm" secondAttribute="trailing" id="hCL-sk-Cjx"/>
+                                                                    </constraints>
+                                                                </view>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="128" id="Hn3-Rs-XPC"/>
+                                                                </constraints>
+                                                            </box>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="n5V-AU-ftz" firstAttribute="leading" secondItem="DOF-Mc-OAB" secondAttribute="trailing" constant="20" id="3On-zh-hwY"/>
+                                                            <constraint firstAttribute="bottom" secondItem="n5V-AU-ftz" secondAttribute="bottom" constant="20" id="5RP-AO-gFq"/>
+                                                            <constraint firstItem="DOF-Mc-OAB" firstAttribute="leading" secondItem="s7k-Lj-578" secondAttribute="leading" constant="20" id="KQ8-E6-tqW"/>
+                                                            <constraint firstItem="n5V-AU-ftz" firstAttribute="centerY" secondItem="s7k-Lj-578" secondAttribute="centerY" id="Z89-1B-yx7"/>
+                                                            <constraint firstItem="n5V-AU-ftz" firstAttribute="top" secondItem="s7k-Lj-578" secondAttribute="top" constant="20" id="dGj-Mg-sej"/>
+                                                            <constraint firstItem="DOF-Mc-OAB" firstAttribute="centerY" secondItem="s7k-Lj-578" secondAttribute="centerY" id="osC-GZ-bBF"/>
+                                                            <constraint firstAttribute="trailing" secondItem="n5V-AU-ftz" secondAttribute="trailing" constant="20" id="swE-4m-Znh"/>
+                                                        </constraints>
+                                                    </view>
+                                                </box>
+                                            </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="360" id="VRK-hV-ybW"/>
+                                                <constraint firstAttribute="trailing" secondItem="aq5-En-jAk" secondAttribute="trailing" id="S12-Q7-x17"/>
+                                                <constraint firstAttribute="bottom" secondItem="aq5-En-jAk" secondAttribute="bottom" id="bOx-nw-UHZ"/>
+                                                <constraint firstItem="aq5-En-jAk" firstAttribute="leading" secondItem="cME-8e-77V" secondAttribute="leading" id="fZB-0W-EfI"/>
+                                                <constraint firstItem="aq5-En-jAk" firstAttribute="top" secondItem="cME-8e-77V" secondAttribute="top" id="zWL-ew-XEo"/>
                                             </constraints>
-                                        </box>
-                                        <box boxType="custom" borderType="none" borderWidth="0.0" title="Version" transparent="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DOF-Mc-OAB">
-                                            <rect key="frame" x="20" y="88" width="128" height="191"/>
-                                            <view key="contentView" id="JDv-8J-o2W">
-                                                <rect key="frame" x="0.0" y="0.0" width="128" height="191"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <subviews>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ApI-HP-mgp">
-                                                        <rect key="frame" x="22" y="25" width="84" height="30"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Swimat" id="5Dy-7j-zLg">
-                                                            <font key="font" metaFont="systemLight" size="25"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="X7k-E7-aFm">
-                                                        <rect key="frame" x="0.0" y="63" width="128" height="128"/>
-                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="AppIcon" id="y0c-8x-z8A"/>
-                                                    </imageView>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="woL-jt-bah">
-                                                        <rect key="frame" x="39" y="8" width="50" height="17"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Version" id="Dfx-QQ-lvt">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="X7k-E7-aFm" firstAttribute="leading" secondItem="JDv-8J-o2W" secondAttribute="leading" id="6bY-OB-ZOF"/>
-                                                    <constraint firstItem="woL-jt-bah" firstAttribute="centerX" secondItem="JDv-8J-o2W" secondAttribute="centerX" id="BJP-wa-KFj"/>
-                                                    <constraint firstItem="woL-jt-bah" firstAttribute="top" secondItem="ApI-HP-mgp" secondAttribute="bottom" id="Njh-9h-RTH"/>
-                                                    <constraint firstItem="X7k-E7-aFm" firstAttribute="top" secondItem="JDv-8J-o2W" secondAttribute="top" id="O40-cA-ok6"/>
-                                                    <constraint firstItem="ApI-HP-mgp" firstAttribute="centerX" secondItem="JDv-8J-o2W" secondAttribute="centerX" id="Zsf-iA-S0Z"/>
-                                                    <constraint firstAttribute="bottom" secondItem="woL-jt-bah" secondAttribute="bottom" constant="8" id="cH4-z6-1sT"/>
-                                                    <constraint firstItem="ApI-HP-mgp" firstAttribute="top" secondItem="X7k-E7-aFm" secondAttribute="bottom" constant="8" id="eg0-mn-oAR"/>
-                                                    <constraint firstAttribute="trailing" secondItem="X7k-E7-aFm" secondAttribute="trailing" id="hCL-sk-Cjx"/>
-                                                </constraints>
-                                            </view>
+                                        </view>
+                                    </tabViewItem>
+                                    <tabViewItem label="Configure" identifier="2" id="SPT-08-AQ8">
+                                        <view key="view" id="hPC-XX-mhM">
+                                            <rect key="frame" x="10" y="33" width="548" height="367"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="rxX-dK-ndq">
+                                                    <rect key="frame" x="15" y="348" width="146" height="18"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="14" id="aAo-mF-Ad6"/>
+                                                    </constraints>
+                                                    <buttonCell key="cell" type="check" title="Use Parameter Align" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="slC-5X-kxA">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="paraAlignClick:" target="5NS-zJ-YxT" id="qFM-Te-iwo"/>
+                                                    </connections>
+                                                </button>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zyC-iZ-yHg">
+                                                    <rect key="frame" x="17" y="9" width="514" height="323"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" drawsBackground="YES" id="wiy-I6-Hkc">
+                                                        <font key="font" size="13" name="Monaco"/>
+                                                        <string key="title">
+class SwimatTest: XCTestCase {
+    var a: Int = max(1 + 2 - 3 * 4 / 5,
+                     (-6 - 7) % 8)
+    let b = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    /**
+         get max of a and b
+         and if a &lt; 0 return b
+         */
+    func max&lt;S: Int, T: Int&gt;(a: S,
+                             b: T) -&gt; Int {
+        if a &gt; b &amp;&amp; a &gt;= 0 { // return a if bigger
+            return a
+        }
+        return b // return b as default
+    }
+}
+
+</string>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="128" id="Hn3-Rs-XPC"/>
+                                                <constraint firstItem="rxX-dK-ndq" firstAttribute="top" secondItem="hPC-XX-mhM" secondAttribute="top" constant="3" id="AgZ-tI-hcT"/>
+                                                <constraint firstAttribute="trailing" secondItem="zyC-iZ-yHg" secondAttribute="trailing" constant="17" id="C25-Mh-kck"/>
+                                                <constraint firstItem="rxX-dK-ndq" firstAttribute="leading" secondItem="hPC-XX-mhM" secondAttribute="leading" constant="17" id="UPO-KS-LjV"/>
+                                                <constraint firstItem="zyC-iZ-yHg" firstAttribute="leading" secondItem="hPC-XX-mhM" secondAttribute="leading" constant="17" id="ZM9-ur-zoY"/>
+                                                <constraint firstAttribute="bottom" secondItem="zyC-iZ-yHg" secondAttribute="bottom" constant="9" id="mEJ-4f-DUz"/>
                                             </constraints>
-                                        </box>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="n5V-AU-ftz" firstAttribute="leading" secondItem="DOF-Mc-OAB" secondAttribute="trailing" constant="20" id="3On-zh-hwY"/>
-                                        <constraint firstAttribute="bottom" secondItem="n5V-AU-ftz" secondAttribute="bottom" constant="20" id="5RP-AO-gFq"/>
-                                        <constraint firstItem="DOF-Mc-OAB" firstAttribute="leading" secondItem="s7k-Lj-578" secondAttribute="leading" constant="20" id="KQ8-E6-tqW"/>
-                                        <constraint firstItem="n5V-AU-ftz" firstAttribute="centerY" secondItem="s7k-Lj-578" secondAttribute="centerY" id="Z89-1B-yx7"/>
-                                        <constraint firstItem="n5V-AU-ftz" firstAttribute="top" secondItem="s7k-Lj-578" secondAttribute="top" constant="20" id="dGj-Mg-sej"/>
-                                        <constraint firstItem="DOF-Mc-OAB" firstAttribute="centerY" secondItem="s7k-Lj-578" secondAttribute="centerY" id="osC-GZ-bBF"/>
-                                        <constraint firstAttribute="trailing" secondItem="n5V-AU-ftz" secondAttribute="trailing" constant="20" id="swE-4m-Znh"/>
-                                    </constraints>
-                                </view>
-                                <color key="fillColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </box>
+                                        </view>
+                                    </tabViewItem>
+                                </tabViewItems>
+                            </tabView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="aq5-En-jAk" secondAttribute="bottom" id="07E-8k-ReN"/>
-                            <constraint firstAttribute="trailing" secondItem="aq5-En-jAk" secondAttribute="trailing" id="afJ-3B-dpG"/>
-                            <constraint firstItem="aq5-En-jAk" firstAttribute="top" secondItem="neG-K5-vhD" secondAttribute="top" id="cUm-t4-RhJ"/>
-                            <constraint firstItem="aq5-En-jAk" firstAttribute="leading" secondItem="neG-K5-vhD" secondAttribute="leading" id="y0i-zm-Omt"/>
+                            <constraint firstAttribute="trailing" secondItem="Mlv-5f-ipi" secondAttribute="trailing" id="0Hs-JG-7hp"/>
+                            <constraint firstAttribute="bottom" secondItem="Mlv-5f-ipi" secondAttribute="bottom" id="4bM-qY-cEx"/>
+                            <constraint firstItem="Mlv-5f-ipi" firstAttribute="leading" secondItem="neG-K5-vhD" secondAttribute="leading" id="CoL-2y-azO"/>
+                            <constraint firstItem="Mlv-5f-ipi" firstAttribute="top" secondItem="neG-K5-vhD" secondAttribute="top" constant="14" id="W63-qd-TPT"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="installButton" destination="9nB-vh-mrK" id="etJ-nb-tps"/>
+                        <outlet property="paraAlign" destination="rxX-dK-ndq" id="fVj-LP-khb"/>
+                        <outlet property="source" destination="zyC-iZ-yHg" id="hhf-LB-Ims"/>
                         <outlet property="versionLabel" destination="woL-jt-bah" id="UkM-8Y-v6G"/>
                     </connections>
                 </viewController>
                 <customObject id="scX-8g-33O" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="57" y="179"/>
+            <point key="canvasLocation" x="57" y="196.5"/>
         </scene>
         <!--Application-->
         <scene sceneID="JPo-4y-FX3">

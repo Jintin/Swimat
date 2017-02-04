@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  Swimat
-//
-//  Created by Jintin on 9/15/16.
-//  Copyright © 2016 jintin. All rights reserved.
-//
-
 import Cocoa
 
 @NSApplicationMain
