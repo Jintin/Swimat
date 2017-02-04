@@ -52,7 +52,9 @@ extension SwiftParser {
     }
 
     func space(with word: String, length: Int) -> String.Index {
-        retString.keepSpace()
+        if retString.last != "(" {
+            retString.keepSpace()
+        }
         retString += word + " "
         return string.nextNonSpaceIndex(string.index(strIndex, offsetBy: length))
     }
