@@ -44,6 +44,7 @@ extension SwiftParser {
         return false
     }
 
+    //TODO: move to Entension.swift
     func isNext(string target: String, length: Int) -> Bool {
         if let endIndex = string.index(strIndex, offsetBy: length, limitedBy: string.endIndex), let _ = string.range(of: target, options: [], range: strIndex ..< endIndex) {
             return true

@@ -151,7 +151,7 @@ extension String {
 
     func findTernary(from target: String.Index) throws -> StringObj? {
         let start = nextNonSpaceIndex(index(after: target))
-        guard let first = try findObject(from: start) else {
+        guard let first = try findStatement(from: start) else {
             return nil
         }
         let middle = nextNonSpaceIndex(first.index)
@@ -165,8 +165,33 @@ extension String {
         return ("? " + first.string + " : " + second.string, second.index)
     }
 
+    func findStatement(from start: String.Index) throws -> StringObj? {
+        if let obj1 = try findObject(from: start) {
+            let operIndex = nextNonSpaceIndex(obj1.index)
+            guard operIndex < endIndex, self[operIndex].isOperator() else {
+                return obj1
+            }
+            let list = operatorList[self[operIndex]]
+            for compare in list! {
+                if isNext(string: compare.0, length: compare.1, strIndex: operIndex) {
+                    let operEnd = index(operIndex, offsetBy: compare.1)
+                    let obj2Index = nextNonSpaceIndex( operEnd)
+                    if let obj2 = try findObject(from: obj2Index) {
+                        return (string: obj1.string + " " + compare.0 + " " + obj2.string, index: obj2.index)
+                    } else {
+                        return obj1
+                    }
+                }
+            }
+            return obj1
+        }
+        return nil
+    }
 
     func findObject(from start: String.Index) throws -> StringObj? {
+        guard start < endIndex else {
+            return nil
+        }
         var target = start
         var result = ""
 
@@ -254,6 +279,14 @@ extension String {
             target = index(after: target)
         }
         return nil
+    }
+
+    //TODO: remove duplicate in Parser.swift
+    func isNext(string target: String, length: Int, strIndex: String.Index) -> Bool {
+        if let stopIndex = self.index(strIndex, offsetBy: length, limitedBy: endIndex), let _ = self.range(of: target, options: [], range: strIndex ..< stopIndex) {
+            return true
+        }
+        return false
     }
 
 }

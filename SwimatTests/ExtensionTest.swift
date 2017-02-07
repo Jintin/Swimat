@@ -101,6 +101,20 @@ class ExtensionTest: XCTestCase {
         }
     }
 
+    func testStatement() {
+        do {
+            let a = "aa+bb"
+            if let result = try a.findStatement(from: a.startIndex) {
+                print(result.string )
+                assert(result == ("aa + bb", a.endIndex))
+            } else {
+                assertionFailure()
+            }
+        } catch {
+            assertionFailure()
+        }
+    }
+
     func testGeneric() {
         let values = [
             "<A,B<C,D>>": "<A, B<C, D>>",
