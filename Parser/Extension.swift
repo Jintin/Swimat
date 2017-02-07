@@ -305,7 +305,7 @@ extension Character {
     }
 
     func isOperator() -> Bool {
-        return self == "+" || self == "-" || self == "*" || self == "/"
+        return self == "+" || self == "-" || self == "*" || self == "/" || self == "%"
     }
 
     func isUpperBlock() -> Bool {
