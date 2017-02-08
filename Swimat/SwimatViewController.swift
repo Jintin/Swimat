@@ -95,4 +95,8 @@ class SwimatViewController: NSViewController {
             installButton.isEnabled = true
         }
     }
+
+//    @IBAction func showHelp(_ sender: Any) {
+//
+//    }
 }
