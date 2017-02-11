@@ -50,14 +50,14 @@ for path in paths {
                                                            (file.pathExtension) as CFString,
                                                            nil)?.takeRetainedValue(),
             uti == "public.swift-source" as CFString {
-                let parser = SwiftParser(string: try String(contentsOf: file))
-                let formattedText = try parser.format()
-                try formattedText.write(to: file, atomically: true, encoding: .utf8)
-                files += 1
-                if options.verbose {
-                    print("\(file.path) was formatted successfully.")
-                }
+            let parser = SwiftParser(string: try String(contentsOf: file))
+            let formattedText = try parser.format()
+            try formattedText.write(to: file, atomically: true, encoding: .utf8)
+            files += 1
+            if options.verbose {
+                print("\(file.path) was formatted successfully.")
             }
+        }
     }
 }
 print("Finished formatting \(files) files.")

@@ -17,8 +17,8 @@ class SwimatViewController: NSViewController {
             guard let infoDictionary = Bundle.main.infoDictionary,
                 let version = infoDictionary["CFBundleShortVersionString"],
                 let build = infoDictionary[kCFBundleVersionKey as String] else {
-                    return
-                }
+                return
+            }
             versionLabel.stringValue = "Version \(version) (\(build))"
         }
     }

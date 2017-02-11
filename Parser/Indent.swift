@@ -50,8 +50,10 @@ class Indent {
         } else {
             self.indentAdd = indent.indentAdd
         }
-        if block != .curly && !indent.extraAdd {
-            self.count += indent.extra
+        if !indent.extraAdd {
+            if block != .curly {
+                self.count += indent.extra
+            }
             self.extraAdd = true
         } else {
             self.extraAdd = false

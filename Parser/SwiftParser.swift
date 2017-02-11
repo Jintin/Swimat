@@ -182,6 +182,7 @@ class SwiftParser {
             } else {
                 indent = Indent()
             }
+
             if char == "}" {
                 trimWithIndent(addExtra: false) // TODO: change to newline check
                 retString.keepSpace()
@@ -214,9 +215,9 @@ class SwiftParser {
         strIndex = add(char: char)
         if !isNext(string: "//", length: 2) {
             if isBetween(words: ("if", "let", 3), ("guard", "let", 3)) {
-                indent.extra  = 1
+                indent.extra = 1
             } else if isNext(word: "else", length: 4) {
-                indent.extra  = 1
+                indent.extra = 1
             }
             addIndent()
         }

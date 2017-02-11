@@ -19,47 +19,48 @@ class Options {
         Indent.size = -1
     }
 
+
     static let options: [Option] = [
         Option(options: ["-h", "--help"],
                helpArguments: "",
                helpText: "Display this help message.",
                number: 0,
                setter: { _ in
-            printHeader()
-            printOptions()
-            exit(SwimatError.success.rawValue)
-        }),
+                   printHeader()
+                   printOptions()
+                   exit(SwimatError.success.rawValue)
+               }),
         Option(options: ["-i", "--indent"],
                helpArguments: "<value>=-1",
                helpText: "Set the number of spaces to indent; use -1 for tabs.",
                number: 1,
                setter: { indentSize in
-            guard indentSize.count == 1, let indentSize = Int(indentSize[0]) else {
-                printToError("Invalid indent size")
-                exit(SwimatError.invalidIndent.rawValue)
-            }
-            if indentSize < 0 {
-                Indent.char = "\t"
-                Indent.size = 1
-            } else {
-                Indent.char = String(repeating: " ", count: indentSize)
-                Indent.size = indentSize
-            }
-        }),
+                   guard indentSize.count == 1, let indentSize = Int(indentSize[0]) else {
+                       printToError("Invalid indent size")
+                       exit(SwimatError.invalidIndent.rawValue)
+                   }
+                   if indentSize < 0 {
+                       Indent.char = "\t"
+                       Indent.size = 1
+                   } else {
+                       Indent.char = String(repeating: " ", count: indentSize)
+                       Indent.size = indentSize
+                   }
+               }),
         Option(options: ["-r", "--recursive"],
                helpArguments: "",
                helpText: "Search and format directories recursively.",
                number: 0,
                setter: { _ in
-            shared.recursive = true
-        }),
+                   shared.recursive = true
+               }),
         Option(options: ["-v", "--verbose"],
                helpArguments: "",
                helpText: "Enable verbose output.",
                number: 0,
                setter: { _ in
-            shared.verbose = true
-        }),
+                   shared.verbose = true
+               }),
     ]
 
     static func printHeader() {
@@ -114,4 +115,5 @@ class Options {
 
         return files
     }
+
 }

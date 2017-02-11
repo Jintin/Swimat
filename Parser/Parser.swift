@@ -92,10 +92,7 @@ extension SwiftParser {
         }
 
         retString += String(repeating: Indent.char, count: indent.count + (addExtra ? indent.extra : 0))
-
-        if addExtra {
-            retString += String(repeating: " ", count: indent.leading)
-        }
+        retString += String(repeating: " ", count: indent.leading)
     }
 
     func add(string target: String, length: Int) -> String.Index {
