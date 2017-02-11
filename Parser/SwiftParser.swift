@@ -213,12 +213,12 @@ class SwiftParser {
         indent.extraAdd = false
         strIndex = add(char: char)
         if !isNext(string: "//", length: 2) {
-            addIndent()
             if isBetween(words: ("if", "let", 3), ("guard", "let", 3)) {
-                retString += Indent.char
+                indent.extra  = 1
             } else if isNext(word: "else", length: 4) {
-                retString += Indent.char
+                indent.extra  = 1
             }
+            addIndent()
         }
         return string.nextNonSpaceIndex(strIndex)
     }
