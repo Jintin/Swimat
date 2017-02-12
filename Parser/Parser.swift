@@ -12,12 +12,14 @@ extension SwiftParser {
         }
     }
 
-    func isBetween(words: (start: String, end: String, endLength: Int)...) -> Bool { //TODO:check word, not position
+    func isBetween(words: (start: String, end: String, endLength: Int)...) -> Bool {
+        // MARK: check word, not position
         if strIndex < string.endIndex {
             let startIndex = string.nextNonSpaceIndex(strIndex)
             for word in words {
-                if let endIndex = string.index(startIndex, offsetBy: word.endLength, limitedBy: string.endIndex), let _ = string.range(of: word.end, options: [], range: startIndex ..< endIndex) {
-                    if retString.lastWord() == word.start { //TODO: cache last word
+                if let endIndex = string.index(startIndex, offsetBy: word.endLength, limitedBy: string.endIndex),
+                    let _ = string.range(of: word.end, options: [], range: startIndex ..< endIndex) {
+                    if retString.lastWord() == word.start { // MARK: cache last word
                         return true
                     }
                 }
@@ -28,7 +30,8 @@ extension SwiftParser {
 
     func isNext(word: String, length: Int) -> Bool {
         let index = string.nextNonSpaceIndex(strIndex)
-        if let endIndex = string.index(index, offsetBy: length, limitedBy: string.endIndex), let _ = string.range(of: word, options: [], range: index ..< endIndex) {
+        if let endIndex = string.index(index, offsetBy: length, limitedBy: string.endIndex),
+            let _ = string.range(of: word, options: [], range: index ..< endIndex) {
             return true
         }
         return false
@@ -37,16 +40,18 @@ extension SwiftParser {
     func isNext(words: (str: String, length: Int)...) -> Bool {
         let index = string.nextNonSpaceIndex(strIndex)
         for word in words {
-            if let endIndex = string.index(index, offsetBy: word.length, limitedBy: string.endIndex), let _ = string.range(of: word.str, options: [], range: index ..< endIndex) {
+            if let endIndex = string.index(index, offsetBy: word.length, limitedBy: string.endIndex),
+                let _ = string.range(of: word.str, options: [], range: index ..< endIndex) {
                 return true
             }
         }
         return false
     }
 
-    //TODO: move to Entension.swift
+    // MARK: move to Entension.swift
     func isNext(string target: String, length: Int) -> Bool {
-        if let endIndex = string.index(strIndex, offsetBy: length, limitedBy: string.endIndex), let _ = string.range(of: target, options: [], range: strIndex ..< endIndex) {
+        if let endIndex = string.index(strIndex, offsetBy: length, limitedBy: string.endIndex),
+            let _ = string.range(of: target, options: [], range: strIndex ..< endIndex) {
             return true
         }
         return false

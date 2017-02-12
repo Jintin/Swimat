@@ -1,7 +1,7 @@
 import Foundation
 
 enum Pref: String {
-    case paraAlign = "paraAlign"
+    case paraAlign
 
     static func getUserDefaults() -> UserDefaults {
         return UserDefaults.init(suiteName: "com.jintin.swimat.config")!
@@ -20,4 +20,3 @@ enum Pref: String {
     }
 
 }
-

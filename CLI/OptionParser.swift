@@ -19,7 +19,6 @@ class Options {
         Indent.size = -1
     }
 
-
     static let options: [Option] = [
         Option(options: ["-h", "--help"],
                helpArguments: "",
@@ -60,7 +59,7 @@ class Options {
                number: 0,
                setter: { _ in
                    shared.verbose = true
-               }),
+               })
     ]
 
     static func printHeader() {

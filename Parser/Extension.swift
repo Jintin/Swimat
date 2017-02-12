@@ -106,7 +106,7 @@ extension String {
                 break
             }
         }
-        // TODO: no need to new obj
+        // MARK: no need to new obj
         if reFormat {
             let obj = try SwiftParser(string: result).format()
             return (obj, target)
@@ -202,7 +202,7 @@ extension String {
         let list: [Character] = ["?", "!", "."]
         while target < endIndex {
             let next = self[target]
-            if next.isAZ() || list.contains(next) { // TODO: check complex case
+            if next.isAZ() || list.contains(next) { // MARK: check complex case
                 result.append(next)
                 target = index(after: target)
             } else if next == "[" {
@@ -233,7 +233,6 @@ extension String {
         var result = "<"
         while target < endIndex {
             let next = self[target]
-
             switch next {
             case " ":
                 result.keepSpace()
@@ -265,13 +264,13 @@ extension String {
                 result += block.string
                 continue
             case "-":
-                if let end = index(target, offsetBy: 2, limitedBy: endIndex), let _ = range(of: "->", options: [], range: target ..< end) {
+                if isNext(string: "->", length: 2, strIndex: target) {
                     result.keepSpace()
-                    result.append("->")
-                    result.keepSpace()
+                    result.append("-> ")
                     target = index(target, offsetBy: 2)
                     continue
                 }
+                return nil
             default:
                 return nil
             }
@@ -281,9 +280,10 @@ extension String {
         return nil
     }
 
-    //TODO: remove duplicate in Parser.swift
+    // MARK: remove duplicate in Parser.swift
     func isNext(string target: String, length: Int, strIndex: String.Index) -> Bool {
-        if let stopIndex = self.index(strIndex, offsetBy: length, limitedBy: endIndex), let _ = self.range(of: target, options: [], range: strIndex ..< stopIndex) {
+        if let stopIndex = self.index(strIndex, offsetBy: length, limitedBy: endIndex),
+            let _ = self.range(of: target, options: [], range: strIndex ..< stopIndex) {
             return true
         }
         return false

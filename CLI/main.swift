@@ -20,12 +20,24 @@ func getFileType(for file: URL) -> FileType {
     }
 }
 
+func chidDir(parent: URL) -> [URL] {
+    do {
+        let result = try FileManager.default
+            .contentsOfDirectory(atPath: parent.path).map {
+            URL(fileURLWithPath: $0, relativeTo: parent)
+        }
+        return result
+    } catch {
+        return []
+    }
+}
+
 func expandDirectory(at path: String, recursively: Bool) -> [URL] {
     let parent = URL(fileURLWithPath: path)
     switch getFileType(for: parent) {
     case .directory:
         var files = [URL]()
-        for child in (try? FileManager.default.contentsOfDirectory(atPath: parent.path).map({ URL(fileURLWithPath: $0, relativeTo: parent) })) ?? [] {
+        for child in chidDir(parent: parent) {
             if recursively && getFileType(for: child) == .directory {
                 files.append(contentsOf: expandDirectory(at: child.path, recursively: recursively))
             } else {

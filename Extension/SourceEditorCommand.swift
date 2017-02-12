@@ -3,7 +3,8 @@ import XcodeKit
 
 class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 
-    func perform(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -> Swift.Void) {
+    func perform(with invocation: XCSourceEditorCommandInvocation,
+                 completionHandler: @escaping (Error?) -> Swift.Void) {
 
         let uti = invocation.buffer.contentUTI
         if uti != "com.apple.dt.playground" && uti != "public.swift-source" {

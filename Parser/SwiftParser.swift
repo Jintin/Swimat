@@ -4,25 +4,34 @@ enum FormatError: Error {
     case stringError
 }
 
-let operatorList: [Character: [(String, Int)]] = [
-    "+": [("+=<", 3), ("+=", 2), ("+++=", 4), ("+++", 3), ("+", 1)],
-    "-": [("->", 2), ("-=", 2), ("-<<", 3)],
-    "*": [("*=", 2), ("*", 1)],
-    "/": [("/=", 2), ("/", 1)],
-    "~": [("~=", 2), ("~~>", 3), ("~>", 2)],
-    "%": [("%=", 2), ("%", 1)],
-    "^": [("^=", 2)],
-    "&": [("&&=", 3), ("&&&", 3), ("&&", 2), ("&=", 2), ("&+", 2), ("&-", 2), ("&*", 2), ("&/", 2), ("&%", 2)],
-    "<": [("<<<", 3), ("<<=", 3), ("<<", 2), ("<=", 2), ("<~~", 3), ("<~", 2), ("<--", 3), ("<-<", 3), ("<-", 2), ("<^>", 3), ("<|>", 3), ("<*>", 3), ("<||?", 4), ("<||", 3), ("<|?", 3), ("<|", 2), ("<", 1)],
-    ">": [(">>>", 3), (">>=", 3), (">>-", 3), (">>", 2), (">=", 2), (">->", 3), (">", 1)],
-    "|": [("|||", 3), ("||=", 3), ("||", 2), ("|=", 2), ("|", 1)],
-    "!": [("!==", 3), ("!=", 2)],
-    "=": [("===", 3), ("==", 2), ("=", 1)]
-]
+let operatorList: [Character: [(String, Int)]] =
+    [
+        "+": [("+=<", 3), ("+=", 2), ("+++=", 4), ("+++", 3), ("+", 1)],
+        "-": [("->", 2), ("-=", 2), ("-<<", 3)],
+        "*": [("*=", 2), ("*", 1)],
+        "/": [("/=", 2), ("/", 1)],
+        "~": [("~=", 2), ("~~>", 3), ("~>", 2)],
+        "%": [("%=", 2), ("%", 1)],
+        "^": [("^=", 2)],
+        "&": [("&&=", 3), ("&&&", 3), ("&&", 2), ("&=", 2), ("&+", 2),
+            ("&-", 2), ("&*", 2), ("&/", 2), ("&%", 2)],
+        "<": [("<<<", 3), ("<<=", 3), ("<<", 2), ("<=", 2), ("<~~", 3),
+            ("<~", 2), ("<--", 3), ("<-<", 3), ("<-", 2), ("<^>", 3),
+            ("<|>", 3), ("<*>", 3), ("<||?", 4), ("<||", 3), ("<|?", 3),
+            ("<|", 2), ("<", 1)],
+        ">": [(">>>", 3), (">>=", 3), (">>-", 3), (">>", 2), (">=", 2),
+            (">->", 3), (">", 1)],
+        "|": [("|||", 3), ("||=", 3), ("||", 2), ("|=", 2), ("|", 1)],
+        "!": [("!==", 3), ("!=", 2)],
+        "=": [("===", 3), ("==", 2), ("=", 1)]
+    ]
 
-fileprivate let negativeCheckSigns: [Character] = ["+", "-", "*", "/", "&", "|", "^", "<", ">", ":", "(", "[", "{", "=", ",", ".", "?"]
-fileprivate let negativeCheckKeys = ["case", "return", "if", "for", "while", "in"]
-fileprivate let numbers: [Character] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+fileprivate let negativeCheckSigns: [Character] =
+    ["+", "-", "*", "/", "&", "|", "^", "<", ">", ":", "(", "[", "{", "=", ",", ".", "?"]
+fileprivate let negativeCheckKeys =
+    ["case", "return", "if", "for", "while", "in"]
+fileprivate let numbers: [Character] =
+    ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 class SwiftParser {
     let string: String
@@ -49,42 +58,13 @@ class SwiftParser {
 
     func check(char: Character) throws -> String.Index {
         switch char {
-        case "+", "*", "%", ">", "|", "=":
-            return space(with: operatorList[char]!)!
-        case "-":
-            if let index = space(with: operatorList[char]!) {
-                return index
-            } else {
-                var noSpace = false
-                if !retString.isEmpty {
-                    // check scientific notation
-                    if strIndex != string.endIndex {
-                        if retString.last == "e" && numbers.contains(string[string.index(after: strIndex)]) {
-                            noSpace = true
-                        }
-                    }
-                    // check negative
-                    let last = retString.lastNonSpaceChar(retString.endIndex)
-                    if last.isAZ() {
-                        if negativeCheckKeys.contains(retString.lastWord()) {
-                            noSpace = true
-                        }
-                    } else {
-                        if negativeCheckSigns.contains(last) {
-                            noSpace = true
-                        }
-                    }
-                }
-                if noSpace {
-                    return add(char: char)
-                }
-                return space(with: "-", length: 1)
-            }
-        case "~", "^", "!", "&":
+        case "+", "*", "%", ">", "|", "=", "~", "^", "!", "&":
             if let index = space(with: operatorList[char]!) {
                 return index
             }
             return add(char: char)
+        case "-":
+            return checkMinus(char: char)
         case ".":
             if isNext(char: ".") {
                 if isNext(string: "...", length: 3) {
@@ -112,7 +92,7 @@ class SwiftParser {
             return space(with: operatorList[char]!)!
         case "?":
             if isNext(char: "?") {
-                // TODO: check double optional or nil check
+                // MARK: check double optional or nil check
                 return add(string: "??", length: 2)
             } else if let ternary = try string.findTernary(from: strIndex) {
                 retString.keepSpace()
@@ -128,7 +108,7 @@ class SwiftParser {
         case "#":
             if isNext(string: "#if", length: 3) {
                 indent.count += 1
-                return addLine() //TODO: bypass like '#if swift(>=3)'
+                return addLine() // MARK: bypass like '#if swift(>=3)'
             } else if isNext(string: "#else", length: 5) {
                 indent.count -= 1
                 trimWithIndent()
@@ -172,7 +152,7 @@ class SwiftParser {
                 }
 
                 retString += "{ "
-                return string.index(after: strIndex)//TODO: find next now space
+                return string.index(after: strIndex) // MARK: find next now space
             } else {
                 return add(char: char)
             }
@@ -184,7 +164,7 @@ class SwiftParser {
             }
 
             if char == "}" {
-                trimWithIndent(addExtra: false) // TODO: change to newline check
+                trimWithIndent(addExtra: false) // MARK: change to newline check
                 retString.keepSpace()
                 let next = string.index(after: strIndex)
                 if next < string.endIndex && string[next].isAZ() {
@@ -200,6 +180,37 @@ class SwiftParser {
             break
         }
         return checkDefault(char: char)
+    }
+
+    func checkMinus(char: Character) -> String.Index {
+        if let index = space(with: operatorList[char]!) {
+            return index
+        } else {
+            var noSpace = false
+            if !retString.isEmpty {
+                // check scientific notation
+                if strIndex != string.endIndex {
+                    if retString.last == "e" && numbers.contains(string[string.index(after: strIndex)]) {
+                        noSpace = true
+                    }
+                }
+                // check negative
+                let last = retString.lastNonSpaceChar(retString.endIndex)
+                if last.isAZ() {
+                    if negativeCheckKeys.contains(retString.lastWord()) {
+                        noSpace = true
+                    }
+                } else {
+                    if negativeCheckSigns.contains(last) {
+                        noSpace = true
+                    }
+                }
+            }
+            if noSpace {
+                return add(char: char)
+            }
+            return space(with: "-", length: 1)
+        }
     }
 
     func checkLine(_ char: Character, checkLast: Bool = true) -> String.Index {
@@ -244,7 +255,7 @@ class SwiftParser {
             switch char {
             case "+", "-", "*", "=", ".":
                 return 1
-            case "/": // TODO: check word, nor char
+            case "/": // MARK: check word, nor char
                 break
             case ":":
                 if !self.indent.inSwitch {
@@ -278,7 +289,7 @@ class SwiftParser {
                 }
             }
             indent.extra = 0
-            // TODO: check next if ? :
+            // MARK: check next if ? :
         }
     }
 

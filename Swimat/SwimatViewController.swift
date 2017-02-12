@@ -1,11 +1,3 @@
-//
-//  SwimatViewController.swift
-//  Swimat
-//
-//  Created by Saagar Jha on 1/8/17.
-//  Copyright © 2017 jintin. All rights reserved.
-//
-
 import Cocoa
 
 class SwimatViewController: NSViewController {
@@ -44,7 +36,7 @@ class SwimatViewController: NSViewController {
             return
         }
         window.titleVisibility = .hidden
-        window.titlebarAppearsTransparent = true;
+        window.titlebarAppearsTransparent = true
     }
 
     @IBAction func paraAlignClick(_ sender: NSButton) {
@@ -73,12 +65,12 @@ class SwimatViewController: NSViewController {
             .appendingPathComponent("swimat")
             .path
         var error: NSDictionary?
-        let script = NSAppleScript(source: "do shell script \"ln -s \'\(path)\' \(installPath)swimat\" with administrator privileges")
-        script?.executeAndReturnError(&error)
+        let script = "do shell script \"ln -s \'\(path)\' \(installPath)swimat\" with administrator privileges"
+        NSAppleScript(source: script)?.executeAndReturnError(&error)
         if error != nil {
             let alert = NSAlert()
             alert.messageText = "There was an error symlinking swimat."
-            alert.informativeText = "You can try manually linking swimat by running:\n\nln -s /Applications/Swimat.app/Contents/Helpers/swimat \(installPath)swimat"
+            alert.informativeText = "You can try 'brew install swimat'"
             alert.alertStyle = .warning
             alert.runModal()
         }
@@ -87,7 +79,7 @@ class SwimatViewController: NSViewController {
 
     func refreshInstallButton() {
         // Check for swimat, fileExists(atPath:) returns false for symlinks
-        if ((try? FileManager.default.attributesOfItem(atPath: "\(installPath)swimat")) != nil) {
+        if (try? FileManager.default.attributesOfItem(atPath: "\(installPath)swimat")) != nil {
             installButton.title = "swimat installed to \(installPath)"
             installButton.isEnabled = false
         } else {
