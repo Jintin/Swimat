@@ -97,7 +97,9 @@ extension SwiftParser {
         }
 
         retString += String(repeating: Indent.char, count: indent.count + (addExtra ? indent.extra : 0))
-        retString += String(repeating: " ", count: indent.leading)
+        if indent.isLeading {
+            retString += String(repeating: " ", count: indent.leading)
+        }
     }
 
     func add(string target: String, length: Int) -> String.Index {

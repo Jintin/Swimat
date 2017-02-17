@@ -12,6 +12,7 @@
 		2F3595491E44D9AE001E1435 /* Pref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3595471E44D9AE001E1435 /* Pref.swift */; };
 		2F35954A1E44D9AE001E1435 /* Pref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3595471E44D9AE001E1435 /* Pref.swift */; };
 		2F35954B1E44D9AE001E1435 /* Pref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3595471E44D9AE001E1435 /* Pref.swift */; };
+		2F4C327C1E573EB70089CD82 /* FormatTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C327B1E573EB70089CD82 /* FormatTest.swift */; };
 		2F5745DD1D8A83C500094D06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5745DC1D8A83C500094D06 /* AppDelegate.swift */; };
 		2F5745DF1D8A83C500094D06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F5745DE1D8A83C500094D06 /* Assets.xcassets */; };
 		2F5745FE1D8A83E600094D06 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F5745FD1D8A83E600094D06 /* Cocoa.framework */; };
@@ -94,6 +95,7 @@
 /* Begin PBXFileReference section */
 		2F2BDB321DA90DA0009A137B /* ExtensionTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionTest.swift; sourceTree = "<group>"; };
 		2F3595471E44D9AE001E1435 /* Pref.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pref.swift; sourceTree = "<group>"; };
+		2F4C327B1E573EB70089CD82 /* FormatTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatTest.swift; sourceTree = "<group>"; };
 		2F5745D91D8A83C500094D06 /* Swimat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Swimat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F5745DC1D8A83C500094D06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2F5745DE1D8A83C500094D06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				2F2BDB321DA90DA0009A137B /* ExtensionTest.swift */,
+				2F4C327B1E573EB70089CD82 /* FormatTest.swift */,
 				2F5745EE1D8A83C500094D06 /* Info.plist */,
 			);
 			path = SwimatTests;
@@ -235,7 +238,6 @@
 			children = (
 				2FAF2E661E457AFB007EB7E5 /* Swimat.entitlements */,
 			);
-			name = "Supporting Files";
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
@@ -450,6 +452,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F4C327C1E573EB70089CD82 /* FormatTest.swift in Sources */,
 				2F3595491E44D9AE001E1435 /* Pref.swift in Sources */,
 				2F6D8C061E0435B5006CFC50 /* SwiftParser.swift in Sources */,
 				2F6D8C021E0435B5006CFC50 /* Parser.swift in Sources */,

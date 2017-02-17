@@ -24,6 +24,7 @@ class Indent {
     var extra: Int // from extra indent
     var indentAdd: Bool // same line flag, if same line add only one indent
     var extraAdd: Bool
+    var isLeading: Bool
     var leading: Int // leading for smart align
     var inSwitch: Bool // is in switch block
     var block: IndentType
@@ -33,6 +34,7 @@ class Indent {
         extra = 0
         indentAdd = false
         extraAdd = false
+        isLeading = false
         leading = 0
         inSwitch = false
         block = .curly
@@ -42,6 +44,7 @@ class Indent {
         self.block = type ?? .curly
         self.count = indent.count
         self.extra = indent.extra
+        self.isLeading = indent.isLeading
         self.inSwitch = false
 
         if (block != .parentheses || !Indent.paraAlign) && !indent.indentAdd {

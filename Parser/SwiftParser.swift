@@ -249,7 +249,6 @@ class SwiftParser {
     }
 
     func checkLineEnd() {
-
         let check = {
             (char: Character) -> Int? in
             switch char {
@@ -262,9 +261,7 @@ class SwiftParser {
                     return 1
                 }
             case ",":
-                if self.indent.block == .curly {
-                    return 1
-                }
+                self.indent.isLeading = true
             default:
                 break
             }
