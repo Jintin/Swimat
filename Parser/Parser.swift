@@ -95,9 +95,11 @@ extension SwiftParser {
         } else if isNext(word: "switch", length: 6) {
             isNextSwitch = true
         }
-
-        retString += String(repeating: Indent.char, count: indent.count + (addExtra ? indent.extra : 0))
-        if indent.isLeading {
+        let count = indent.count + (addExtra ? indent.extra : 0)
+        if count > 0 {
+            retString += String(repeating: Indent.char, count: count)
+        }
+        if indent.isLeading && indent.leading > 0 {
             retString += String(repeating: " ", count: indent.leading)
         }
     }

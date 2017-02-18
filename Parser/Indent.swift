@@ -50,8 +50,13 @@ class Indent {
         if (block != .parentheses || !Indent.paraAlign) && !indent.indentAdd {
             self.count += 1
             self.indentAdd = true
+        } else if indent.indentAdd {
+            self.indentAdd = true
+            if indent.count > 0 {
+                indent.count -= 1
+            }
         } else {
-            self.indentAdd = indent.indentAdd
+            self.indentAdd = false
         }
         if !indent.extraAdd {
             if block != .curly {

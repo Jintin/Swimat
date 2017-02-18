@@ -14,13 +14,13 @@ let operatorList: [Character: [(String, Int)]] =
         "%": [("%=", 2), ("%", 1)],
         "^": [("^=", 2)],
         "&": [("&&=", 3), ("&&&", 3), ("&&", 2), ("&=", 2), ("&+", 2),
-            ("&-", 2), ("&*", 2), ("&/", 2), ("&%", 2)],
+        ("&-", 2), ("&*", 2), ("&/", 2), ("&%", 2)],
         "<": [("<<<", 3), ("<<=", 3), ("<<", 2), ("<=", 2), ("<~~", 3),
-            ("<~", 2), ("<--", 3), ("<-<", 3), ("<-", 2), ("<^>", 3),
-            ("<|>", 3), ("<*>", 3), ("<||?", 4), ("<||", 3), ("<|?", 3),
-            ("<|", 2), ("<", 1)],
+        ("<~", 2), ("<--", 3), ("<-<", 3), ("<-", 2), ("<^>", 3),
+        ("<|>", 3), ("<*>", 3), ("<||?", 4), ("<||", 3), ("<|?", 3),
+        ("<|", 2), ("<", 1)],
         ">": [(">>>", 3), (">>=", 3), (">>-", 3), (">>", 2), (">=", 2),
-            (">->", 3), (">", 1)],
+        (">->", 3), (">", 1)],
         "|": [("|||", 3), ("||=", 3), ("||", 2), ("|=", 2), ("|", 1)],
         "!": [("!==", 3), ("!=", 2)],
         "=": [("===", 3), ("==", 2), ("=", 1)]
@@ -138,10 +138,10 @@ class SwiftParser {
             retString += ", "
             return string.nextNonSpaceIndex(string.index(after: strIndex))
         case "{", "[", "(":
-            indentStack.append(indent)
             let leading = retString.distance(from: newlineIndex, to: retString.endIndex)
-            indent = Indent(with: indent, offset: leading, type: IndentType(rawValue: char))
-
+            let newIndent = Indent(with: indent, offset: leading, type: IndentType(rawValue: char))
+            indentStack.append(indent)
+            indent = newIndent
             if indent.block == .curly {
                 if isNextSwitch {
                     indent.inSwitch = true
@@ -159,10 +159,12 @@ class SwiftParser {
         case "}", "]", ")":
             if let last = indentStack.popLast() {
                 indent = last
+                if indent.indentAdd {
+                    indent.indentAdd = false
+                }
             } else {
                 indent = Indent()
             }
-
             if char == "}" {
                 trimWithIndent(addExtra: false) // MARK: change to newline check
                 retString.keepSpace()
@@ -261,7 +263,12 @@ class SwiftParser {
                     return 1
                 }
             case ",":
-                self.indent.isLeading = true
+                if Indent.paraAlign {
+                    self.indent.isLeading = true
+                }
+                if self.indent.block == .curly {
+                    return 1
+                }
             default:
                 break
             }
