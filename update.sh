@@ -8,8 +8,8 @@ git config --local hub.protocol https
 hub fork
 
 # use to update <outdated_cask>
-outdated_cask='<the-cask-i-want-to-update>'
-github_user='<my-github-username>'
+outdated_cask='swimat'
+github_user='Jintin'
 cd "$(brew --repository)/Library/Taps/caskroom/homebrew-cask/Casks"
 
 cask-repair --pull origin --push $github_user $outdated_cask

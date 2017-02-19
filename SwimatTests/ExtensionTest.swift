@@ -29,7 +29,6 @@ class ExtensionTest: XCTestCase {
         let b = "abc"
         assert(b.nextNonSpaceIndex(a.startIndex) == b.startIndex)
         let c = "   "
-        print(c.nextNonSpaceIndex(a.startIndex))
         assert(c.nextNonSpaceIndex(a.startIndex) == c.endIndex)
     }
 
@@ -105,7 +104,6 @@ class ExtensionTest: XCTestCase {
         do {
             let a = "aa+bb"
             if let result = try a.findStatement(from: a.startIndex) {
-                print(result.string )
                 assert(result == ("aa + bb", a.endIndex))
             } else {
                 assertionFailure()
