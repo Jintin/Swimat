@@ -65,4 +65,14 @@ class FormatTest: XCTestCase {
             + "                                   completion: nil)"
         format(res: res, expect: res)
     }
+
+    func testCase4() { //#152
+        let res = "\nswitch aEnum {\n"
+            + "case .value1,\n"
+            + "     .value2:\n"
+            + "    someCode()\n"
+            + "}"
+        format(res: res, expect: res)
+//        formatAlign(res: res, expect: res)
+    }
 }

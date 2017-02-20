@@ -259,6 +259,12 @@ class SwiftParser {
             case "/": // MARK: check word, nor char
                 break
             case ":":
+                if self.indent.inCase {
+                    self.indent.inCase = false
+                    self.indent.leading -= 1
+                    self.indent.count += 1
+                    return 0
+                }
                 if !self.indent.inSwitch {
                     return 1
                 }

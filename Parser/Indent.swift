@@ -27,6 +27,7 @@ class Indent {
     var isLeading: Bool
     var leading: Int // leading for smart align
     var inSwitch: Bool // is in switch block
+    var inCase: Bool // is case statement
     var block: IndentType
 
     init() {
@@ -37,6 +38,7 @@ class Indent {
         isLeading = false
         leading = 0
         inSwitch = false
+        inCase = false
         block = .curly
     }
 
@@ -46,6 +48,7 @@ class Indent {
         self.extra = indent.extra
         self.isLeading = indent.isLeading
         self.inSwitch = false
+        self.inCase = false
 
         if (block != .parentheses || !Indent.paraAlign) && !indent.indentAdd {
             self.count += 1

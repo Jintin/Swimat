@@ -89,7 +89,11 @@ extension SwiftParser {
 
     func addIndent(addExtra: Bool = true) {
         if indent.inSwitch {
-            if isNext(words: ("case", 4), ("default:", 8)) {
+            if isNext(word: "case", length: 4) {
+                indent.inCase = true
+                indent.count -= 1
+                indent.leading += 1
+            } else if isNext(word: "default", length: 8) {
                 indent.extra -= 1
             }
         } else if isNext(word: "switch", length: 6) {
