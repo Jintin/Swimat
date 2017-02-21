@@ -62,9 +62,9 @@ class Indent {
             self.indentAdd = false
         }
         if !indent.extraAdd {
-            if block != .curly {
-                self.count += indent.extra
-            }
+//            if block != .curly {
+            self.count += indent.extra
+//            }
             self.extraAdd = true
         } else {
             self.extraAdd = false

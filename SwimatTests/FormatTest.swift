@@ -73,6 +73,33 @@ class FormatTest: XCTestCase {
             + "    someCode()\n"
             + "}"
         format(res: res, expect: res)
-//        formatAlign(res: res, expect: res)
+        //        formatAlign(res: res, expect: res)
     }
+
+    func testCase5() { //#153 //MARK: not xcode style
+        //        a
+        //            .map { (i) in
+        //                i * 2
+        //        }
+        let res = "a\n"
+            + "    .map { (i) in\n"
+            + "        i * 2\n"
+            + "    }"
+        format(res: res, expect: res)
+        //        formatAlign(res: res, expect: res)
+    }
+
+    func testCase6() { //#150 //MARK: not xcode style
+        //        if let a =
+        //            b, c == d {
+        //            a + c
+        //        }
+        let res = "if let a = b,\n"
+            + "    c == d {\n"
+            + "        a = c\n"
+            + "    }"
+        format(res: res, expect: res)
+        //        formatAlign(res: res, expect: res)
+    }
+
 }

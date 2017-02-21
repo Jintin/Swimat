@@ -157,16 +157,21 @@ class SwiftParser {
                 return add(char: char)
             }
         case "}", "]", ")":
+            var addIndentBack = false
             if let last = indentStack.popLast() {
                 indent = last
                 if indent.indentAdd {
                     indent.indentAdd = false
+                    addIndentBack = true
                 }
             } else {
                 indent = Indent()
             }
             if char == "}" {
-                trimWithIndent(addExtra: false) // MARK: change to newline check
+                trimWithIndent() // MARK: change to newline check
+                if addIndentBack {
+                    indent.count += 1
+                }
                 retString.keepSpace()
                 let next = string.index(after: strIndex)
                 if next < string.endIndex && string[next].isAZ() {
@@ -175,6 +180,9 @@ class SwiftParser {
                     retString += "}"
                 }
                 return next
+            }
+            if addIndentBack {
+                indent.count += 1
             }
             trimWithIndent()
             return add(char: char)
