@@ -14,13 +14,13 @@ let operatorList: [Character: [(String, Int)]] =
         "%": [("%=", 2), ("%", 1)],
         "^": [("^=", 2)],
         "&": [("&&=", 3), ("&&&", 3), ("&&", 2), ("&=", 2), ("&+", 2),
-        ("&-", 2), ("&*", 2), ("&/", 2), ("&%", 2)],
+            ("&-", 2), ("&*", 2), ("&/", 2), ("&%", 2)],
         "<": [("<<<", 3), ("<<=", 3), ("<<", 2), ("<=", 2), ("<~~", 3),
-        ("<~", 2), ("<--", 3), ("<-<", 3), ("<-", 2), ("<^>", 3),
-        ("<|>", 3), ("<*>", 3), ("<||?", 4), ("<||", 3), ("<|?", 3),
-        ("<|", 2), ("<", 1)],
+            ("<~", 2), ("<--", 3), ("<-<", 3), ("<-", 2), ("<^>", 3),
+            ("<|>", 3), ("<*>", 3), ("<||?", 4), ("<||", 3), ("<|?", 3),
+            ("<|", 2), ("<", 1)],
         ">": [(">>>", 3), (">>=", 3), (">>-", 3), (">>", 2), (">=", 2),
-        (">->", 3), (">", 1)],
+            (">->", 3), (">", 1)],
         "|": [("|||", 3), ("||=", 3), ("||", 2), ("|=", 2), ("|", 1)],
         "!": [("!==", 3), ("!=", 2)],
         "=": [("===", 3), ("==", 2), ("=", 1)]
@@ -102,6 +102,7 @@ class SwiftParser {
                 return add(char: char)
             }
         case ":":
+            _ = checkInCase()
             trimWithIndent()
             retString += ": "
             return string.nextNonSpaceIndex(string.index(after: strIndex))
@@ -168,7 +169,11 @@ class SwiftParser {
                 indent = Indent()
             }
             if char == "}" {
-                trimWithIndent() // MARK: change to newline check
+                if isNext(char: ".") { // MARK: need skip blank char
+                    trimWithIndent()
+                } else {
+                    trimWithIndent(addExtra: false)
+                }
                 if addIndentBack {
                     indent.count += 1
                 }
@@ -223,6 +228,16 @@ class SwiftParser {
         }
     }
 
+    func checkInCase() -> Bool {
+        if indent.inCase {
+            indent.inCase = false
+            indent.leading -= 1
+            indent.count += 1
+            return true
+        }
+        return false
+    }
+
     func checkLine(_ char: Character, checkLast: Bool = true) -> String.Index {
         trim()
         newlineIndex = retString.endIndex
@@ -267,10 +282,7 @@ class SwiftParser {
             case "/": // MARK: check word, nor char
                 break
             case ":":
-                if self.indent.inCase {
-                    self.indent.inCase = false
-                    self.indent.leading -= 1
-                    self.indent.count += 1
+                if self.checkInCase() {
                     return 0
                 }
                 if !self.indent.inSwitch {
