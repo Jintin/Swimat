@@ -84,7 +84,7 @@ class FormatTest: XCTestCase {
         let res = "a\n"
             + "    .map { (i) in\n"
             + "        i * 2\n"
-            + "    }"
+            + "}"
         format(res: res, expect: res)
         //        formatAlign(res: res, expect: res)
     }
@@ -97,7 +97,7 @@ class FormatTest: XCTestCase {
         let res = "if let a = b,\n"
             + "    c == d {\n"
             + "        a = c\n"
-            + "    }"
+            + "}"
         format(res: res, expect: res)
         //        formatAlign(res: res, expect: res)
     }
