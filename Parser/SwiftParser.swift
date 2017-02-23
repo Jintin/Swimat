@@ -132,6 +132,12 @@ class SwiftParser {
         case "\n":
             return checkLine(char)
         case " ", "\t":
+            if retString.lastWord() == "if" {
+                let leading = retString.distance(from: newlineIndex, to: retString.endIndex)
+                let newIndent = Indent(with: indent, offset: leading, type: IndentType(rawValue: "f"))
+                indentStack.append(indent)
+                indent = newIndent
+            }
             retString.keepSpace()
             return string.index(after: strIndex)
         case ",":
@@ -139,6 +145,14 @@ class SwiftParser {
             retString += ", "
             return string.nextNonSpaceIndex(string.index(after: strIndex))
         case "{", "[", "(":
+            if char == "{" && indent.block == .ifelse {
+                if let last = indentStack.popLast() {
+                    indent = last
+                    if indent.indentAdd {
+                        indent.indentAdd = false
+                    }
+                }
+            }
             let leading = retString.distance(from: newlineIndex, to: retString.endIndex)
             let newIndent = Indent(with: indent, offset: leading, type: IndentType(rawValue: char))
             indentStack.append(indent)
@@ -277,7 +291,7 @@ class SwiftParser {
         let check = {
             (char: Character) -> Int? in
             switch char {
-            case "+", "-", "*", "=", ".":
+            case "+", "-", "*", "=", ".", "&", "|":
                 return 1
             case "/": // MARK: check word, nor char
                 break
@@ -289,7 +303,7 @@ class SwiftParser {
                     return 1
                 }
             case ",":
-                if Indent.paraAlign {
+                if self.indent.block == .parentheses {
                     self.indent.isLeading = true
                 }
                 if self.indent.block == .curly {
@@ -299,6 +313,10 @@ class SwiftParser {
                 break
             }
             return nil
+        }
+
+        if indent.block == .ifelse {
+            return
         }
 
         if let result = check(retString.last) {

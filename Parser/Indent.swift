@@ -1,7 +1,7 @@
 import Foundation
 
 enum IndentType: Character {
-    case parentheses = "(", square = "[", curly = "{"
+    case parentheses = "(", square = "[", curly = "{", ifelse = "f"
 
     func stopSymbol() -> Character {
         switch self {
@@ -11,6 +11,8 @@ enum IndentType: Character {
             return "]"
         case .curly:
             return "}"
+        case .ifelse:
+            return "{"
         }
     }
 
@@ -47,8 +49,11 @@ class Indent {
         self.count = indent.count
         self.extra = indent.extra
         self.isLeading = indent.isLeading
+        self.leading = indent.leading
         self.inSwitch = false
         self.inCase = false
+        self.indentAdd = false
+        self.extraAdd = false
 
         if (block != .parentheses || !Indent.paraAlign) && !indent.indentAdd {
             self.count += 1
@@ -71,12 +76,9 @@ class Indent {
         }
 
         switch block {
-        case .curly:
-            self.leading = indent.leading
         case .parentheses:
             self.leading = max(offset - count * Indent.size - 1, 0)
-        case .square:
-            self.leading = indent.leading
+        default: break
         }
         if !Indent.paraAlign {
             self.leading = 0

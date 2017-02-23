@@ -76,7 +76,7 @@ class FormatTest: XCTestCase {
         //        formatAlign(res: res, expect: res)
     }
 
-    func testCase5() { //#153 //MARK: not xcode style
+    func testCase5() { //#153
         //        a
         //            .map { (i) in
         //                i * 2
@@ -89,14 +89,14 @@ class FormatTest: XCTestCase {
         //        formatAlign(res: res, expect: res)
     }
 
-    func testCase6() { //#150 //MARK: not xcode style
+    func testCase6() { //#150
         //        if let a =
         //            b, c == d {
         //            a + c
         //        }
         let res = "if let a = b,\n"
             + "    c == d {\n"
-            + "        a = c\n"
+            + "    a = c\n"
             + "}"
         format(res: res, expect: res)
         //        formatAlign(res: res, expect: res)
