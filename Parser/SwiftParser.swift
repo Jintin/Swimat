@@ -246,6 +246,7 @@ class SwiftParser {
         if indent.inCase {
             indent.inCase = false
             indent.leading -= 1
+            indent.isLeading = false
             indent.count += 1
             return true
         }

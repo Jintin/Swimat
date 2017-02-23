@@ -88,11 +88,12 @@ extension SwiftParser {
     }
 
     func addIndent(addExtra: Bool = true) {
+        var checkInCase = false
         if indent.inSwitch {
             if isNext(word: "case", length: 4) {
+                checkInCase = true
                 indent.inCase = true
                 indent.count -= 1
-                indent.leading += 1
             } else if isNext(word: "default", length: 8) {
                 indent.extra -= 1
             }
@@ -105,6 +106,10 @@ extension SwiftParser {
         }
         if indent.isLeading && indent.leading > 0 {
             retString += String(repeating: " ", count: indent.leading)
+        }
+        if checkInCase {
+            indent.isLeading = true
+            indent.leading += 1
         }
     }
 
