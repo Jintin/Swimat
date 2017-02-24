@@ -2,14 +2,18 @@ import Foundation
 
 extension SwiftParser {
 
-    func isNext(char: Character) -> Bool {
-        let next = string.index(after: strIndex)
+    func isNext(char: Character, skipBlank: Bool = false) -> Bool {
+        var next = string.index(after: strIndex)
 
-        if next < string.endIndex {
+        while next < string.endIndex {
+            if skipBlank && string[next].isBlank() {
+                next = string.index(after: next)
+                continue
+            }
+
             return string[next] == char
-        } else {
-            return false
         }
+        return false
     }
 
     func isBetween(words: (start: String, end: String, endLength: Int)...) -> Bool {

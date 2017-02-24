@@ -187,7 +187,7 @@ class SwiftParser {
                 indent = Indent()
             }
             if char == "}" {
-                if isNext(char: ".") { // MARK: need skip blank char
+                if isNext(char: ".", skipBlank: true) {
                     trimWithIndent()
                 } else {
                     trimWithIndent(addExtra: false)
