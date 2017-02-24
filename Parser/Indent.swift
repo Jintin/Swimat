@@ -23,6 +23,7 @@ class Indent {
     static var size: Int = 0
     static var paraAlign = true
     var count: Int // general indent count
+    var line: Int // count number of line
     var extra: Int // from extra indent
     var indentAdd: Bool // same line flag, if same line add only one indent
     var extraAdd: Bool
@@ -35,6 +36,7 @@ class Indent {
     init() {
         count = 0
         extra = 0
+        line = 0
         indentAdd = false
         extraAdd = false
         isLeading = false
@@ -48,6 +50,7 @@ class Indent {
         self.block = type ?? .curly
         self.count = indent.count
         self.extra = indent.extra
+        self.line = 0
         self.isLeading = indent.isLeading
         self.leading = indent.leading
         self.inSwitch = false

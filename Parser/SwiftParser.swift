@@ -130,6 +130,7 @@ class SwiftParser {
             retString += quote.string
             return quote.index
         case "\n":
+            indent.line += 1
             return checkLine(char)
         case " ", "\t":
             if retString.lastWord() == "if" {
@@ -153,8 +154,8 @@ class SwiftParser {
                     }
                 }
             }
-            let leading = retString.distance(from: newlineIndex, to: retString.endIndex)
-            let newIndent = Indent(with: indent, offset: leading, type: IndentType(rawValue: char))
+            let offset = retString.distance(from: newlineIndex, to: retString.endIndex)
+            let newIndent = Indent(with: indent, offset: offset, type: IndentType(rawValue: char))
             indentStack.append(indent)
             indent = newIndent
             if indent.block == .curly {
@@ -169,6 +170,9 @@ class SwiftParser {
                 retString += "{ "
                 return string.index(after: strIndex) // MARK: find next now space
             } else {
+                if char == "(" && isNext(char: "\n") {
+                    indent.count += 1
+                }
                 return add(char: char)
             }
         case "}", "]", ")":
@@ -304,7 +308,7 @@ class SwiftParser {
                     return 1
                 }
             case ",":
-                if self.indent.block == .parentheses {
+                if self.indent.line == 1 && (self.indent.block == .parentheses || self.indent.block == .square) {
                     self.indent.isLeading = true
                 }
                 if self.indent.block == .curly {

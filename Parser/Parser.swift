@@ -97,7 +97,8 @@ extension SwiftParser {
             } else if isNext(word: "default", length: 8) {
                 indent.extra -= 1
             }
-        } else if isNext(word: "switch", length: 6) {
+        }
+        if isNext(word: "switch", length: 6) {
             isNextSwitch = true
         }
         let count = indent.count + (addExtra ? indent.extra : 0)

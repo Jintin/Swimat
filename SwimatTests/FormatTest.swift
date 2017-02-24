@@ -98,8 +98,32 @@ class FormatTest: XCTestCase {
             + "    c == d {\n"
             + "    a = c\n"
             + "}"
+
         format(res: res, expect: res)
         //        formatAlign(res: res, expect: res)
+    }
+
+    func testCase7() { // multi switch
+        let res = "\nswitch a {\n"
+            + "case 1:\n"
+            + "    switch b {\n"
+            + "    case 1:\n"
+            + "        return\n"
+            + "    default:\n"
+            + "        return\n"
+            + "    }\n"
+            + "default:\n"
+            + "    return\n"
+            + "}\n"
+        format(res: res, expect: res)
+    }
+
+    func testCase8() {
+        let res = "a(\n"
+        + "    a)\n"
+        + "a(a,\n"
+        + "  a)\n"
+        format(res: res, expect: res)
     }
 
 }
