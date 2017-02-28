@@ -170,7 +170,7 @@ class SwiftParser {
                 retString += "{ "
                 return string.index(after: strIndex) // MARK: find next now space
             } else {
-                if char == "(" && isNext(char: "\n") {
+                if Indent.paraAlign && char == "(" && isNext(char: "\n") {
                     indent.count += 1
                 }
                 return add(char: char)

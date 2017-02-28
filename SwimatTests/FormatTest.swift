@@ -120,10 +120,21 @@ class FormatTest: XCTestCase {
 
     func testCase8() {
         let res = "a(\n"
-        + "    a)\n"
-        + "a(a,\n"
-        + "  a)\n"
+            + "    a)\n"
+            + "a(a,\n"
+            + "  a)\n"
         format(res: res, expect: res)
+    }
+
+    func testCase9() { //#155
+        let res = "func some() {\n"
+            + "    return f(\n"
+            + "        arg1: value1,\n"
+            + "        arg2: value2\n"
+            + "    )\n"
+            + "}\n"
+        format(res: res, expect: res)
+        formatAlign(res: res, expect: res)
     }
 
 }
