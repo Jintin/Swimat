@@ -20,9 +20,12 @@ There are three way to install.
 
 2. Download the App directly.<br>
   <https://github.com/Jintin/Swimat/releases/download/v1.3.2/Swimat.zip>
+
 3. Clone `extension` branch and archive to Mac App.
 
 ## Usage
+
+**After installation, you should open the `Swimat.app` once to make the functionality works.**
 
 In the menu open **[Editor] -> [Swimat] -> [Format]** or map it to a hot-key you like in Xcode's Key Binding preferences.
 
