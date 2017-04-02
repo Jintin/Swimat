@@ -137,4 +137,11 @@ class FormatTest: XCTestCase {
         formatAlign(res: res, expect: res)
     }
 
+    func testCase10() { //#164
+        let res = "a( b: c)"
+        let result = "a(b: c)"
+        format(res: res, expect: result)
+        formatAlign(res: res, expect: result)
+    }
+
 }

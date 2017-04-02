@@ -168,12 +168,13 @@ class SwiftParser {
                 }
 
                 retString += "{ "
-                return string.index(after: strIndex) // MARK: find next now space
+                return string.nextNonSpaceIndex(string.index(after: strIndex))
             } else {
                 if Indent.paraAlign && char == "(" && isNext(char: "\n") {
                     indent.count += 1
                 }
-                return add(char: char)
+                retString.append(char)
+                return string.nextNonSpaceIndex(string.index(after: strIndex))
             }
         case "}", "]", ")":
             var addIndentBack = false
