@@ -23,7 +23,8 @@ let operatorList: [Character: [(String, Int)]] =
             (">->", 3), (">", 1)],
         "|": [("|||", 3), ("||=", 3), ("||", 2), ("|=", 2), ("|", 1)],
         "!": [("!==", 3), ("!=", 2)],
-        "=": [("===", 3), ("==", 2), ("=", 1)]
+        "=": [("===", 3), ("==", 2), ("=", 1)],
+        "?" : []
     ]
 
 fileprivate let negativeCheckSigns: [Character] =
@@ -91,6 +92,12 @@ class SwiftParser {
             }
             return space(with: operatorList[char]!)!
         case "?":
+            if let spaceChar = operatorList[char] {
+                if let index = space(with: spaceChar) {
+                    return index
+                }
+            }
+
             if isNext(char: "?") {
                 // MARK: check double optional or nil check
                 return add(string: "??", length: 2)
