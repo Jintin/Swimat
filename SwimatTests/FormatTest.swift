@@ -7,23 +7,19 @@ class FormatTest: XCTestCase {
         Indent.size = 4
         Indent.paraAlign = true
         let parser = SwiftParser(string: res)
-        do {
-            let result = try parser.format()
-            print("expect=")
-            print(expect)
-            print("result=")
-            print(result)
-            assert(result == expect)
-        } catch {
-            assertionFailure()
-        }
+        format(parser: parser, expect: expect)
     }
+
 
     func formatAlign(res: String, expect: String) {
         Indent.char = "    "
         Indent.size = 4
         Indent.paraAlign = false
         let parser = SwiftParser(string: res)
+        format(parser: parser, expect: expect)
+    }
+
+    func format(parser: SwiftParser, expect: String) {
         do {
             let result = try parser.format()
             print("expect=")
@@ -144,4 +140,17 @@ class FormatTest: XCTestCase {
         formatAlign(res: res, expect: result)
     }
 
+    func testCase11() { //#163
+        let res = "a ? (b as? Int) : Int((c as? Double) ?? 0)"
+        format(res: res, expect: res)
+        formatAlign(res: res, expect: res)
+    }
+
+    func testCase12() { //#166
+        let res = "c = a + b;"
+        let ret = "c = a + b"
+        let parser = SwiftParser(string: res)
+        parser.autoRemoveChar = true
+        format(parser: parser, expect: ret)
+    }
 }

@@ -24,7 +24,7 @@ let operatorList: [Character: [(String, Int)]] =
         "|": [("|||", 3), ("||=", 3), ("||", 2), ("|=", 2), ("|", 1)],
         "!": [("!==", 3), ("!=", 2)],
         "=": [("===", 3), ("==", 2), ("=", 1)],
-        "?" : []
+        "?": []
     ]
 
 fileprivate let negativeCheckSigns: [Character] =
@@ -42,6 +42,7 @@ class SwiftParser {
     var indentStack = [Indent]()
     var newlineIndex: String.Index
     var isNextSwitch: Bool = false
+    var autoRemoveChar: Bool = false
 
     init(string: String) {
         self.string = string
@@ -54,6 +55,7 @@ class SwiftParser {
             let char = string[strIndex]
             strIndex = try check(char: char)
         }
+        removeUnnecessaryChar()
         return retString.trim()
     }
 
@@ -137,6 +139,7 @@ class SwiftParser {
             retString += quote.string
             return quote.index
         case "\n":
+            removeUnnecessaryChar()
             indent.line += 1
             return checkLine(char)
         case " ", "\t":
@@ -251,6 +254,12 @@ class SwiftParser {
                 return add(char: char)
             }
             return space(with: "-", length: 1)
+        }
+    }
+
+    func removeUnnecessaryChar() {
+        if autoRemoveChar && retString.last == ";" {
+            retString = retString.substring(to: retString.index(before: retString.endIndex))
         }
     }
 

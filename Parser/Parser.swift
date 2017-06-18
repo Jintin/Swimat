@@ -16,6 +16,16 @@ extension SwiftParser {
         return false
     }
 
+    func isPrevious(str: String) -> Bool {
+
+        if let start = string.index(strIndex, offsetBy: -str.characters.count, limitedBy: string.startIndex) {
+            if let _ = string.range(of: str, options: [], range: start ..< strIndex) {
+                return true
+            }
+        }
+        return false
+    }
+
     func isBetween(words: (start: String, end: String, endLength: Int)...) -> Bool {
         // MARK: check word, not position
         if strIndex < string.endIndex {

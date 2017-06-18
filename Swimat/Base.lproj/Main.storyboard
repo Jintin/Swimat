@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="HFN-HU-Szk">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="HFN-HU-Szk">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -30,11 +30,11 @@
             <objects>
                 <viewController title="Swimat" id="5NS-zJ-YxT" customClass="SwimatViewController" customModule="Swimat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="neG-K5-vhD">
-                        <rect key="frame" x="0.0" y="0.0" width="554" height="401"/>
+                        <rect key="frame" x="0.0" y="0.0" width="554" height="431"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <tabView translatesAutoresizingMaskIntoConstraints="NO" id="Mlv-5f-ipi">
-                                <rect key="frame" x="-7" y="-10" width="568" height="403"/>
+                                <rect key="frame" x="-7" y="-10" width="568" height="433"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="Info" identifier="1" id="Yn6-4a-tYh">
@@ -153,14 +153,11 @@ Swimat also comes with a handy command line tool:</string>
                                     </tabViewItem>
                                     <tabViewItem label="Configure" identifier="2" id="SPT-08-AQ8">
                                         <view key="view" id="hPC-XX-mhM">
-                                            <rect key="frame" x="10" y="33" width="548" height="357"/>
+                                            <rect key="frame" x="10" y="33" width="548" height="387"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="rxX-dK-ndq">
-                                                    <rect key="frame" x="15" y="338" width="146" height="18"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="14" id="aAo-mF-Ad6"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="15" y="368" width="146" height="18"/>
                                                     <buttonCell key="cell" type="check" title="Use Parameter Align" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="slC-5X-kxA">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
@@ -196,10 +193,20 @@ class SwimatTest: XCTestCase {
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
+                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="o5T-Qx-O3u">
+                                                    <rect key="frame" x="15" y="344" width="181" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Remove unnecessary char" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="FDi-dU-Exn">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="zyC-iZ-yHg" firstAttribute="top" secondItem="o5T-Qx-O3u" secondAttribute="bottom" constant="14" id="8lp-3l-7ZN"/>
+                                                <constraint firstItem="o5T-Qx-O3u" firstAttribute="top" secondItem="rxX-dK-ndq" secondAttribute="bottom" constant="10" id="94r-Rh-det"/>
                                                 <constraint firstItem="rxX-dK-ndq" firstAttribute="top" secondItem="hPC-XX-mhM" secondAttribute="top" constant="3" id="AgZ-tI-hcT"/>
                                                 <constraint firstAttribute="trailing" secondItem="zyC-iZ-yHg" secondAttribute="trailing" constant="17" id="C25-Mh-kck"/>
+                                                <constraint firstItem="o5T-Qx-O3u" firstAttribute="leading" secondItem="hPC-XX-mhM" secondAttribute="leading" constant="17" id="Ko0-qb-MfD"/>
                                                 <constraint firstItem="rxX-dK-ndq" firstAttribute="leading" secondItem="hPC-XX-mhM" secondAttribute="leading" constant="17" id="UPO-KS-LjV"/>
                                                 <constraint firstItem="zyC-iZ-yHg" firstAttribute="leading" secondItem="hPC-XX-mhM" secondAttribute="leading" constant="17" id="ZM9-ur-zoY"/>
                                                 <constraint firstAttribute="bottom" secondItem="zyC-iZ-yHg" secondAttribute="bottom" constant="9" id="mEJ-4f-DUz"/>
@@ -217,6 +224,7 @@ class SwimatTest: XCTestCase {
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="autoRemoveChar" destination="o5T-Qx-O3u" id="mq1-Fe-GtL"/>
                         <outlet property="installButton" destination="9nB-vh-mrK" id="etJ-nb-tps"/>
                         <outlet property="paraAlign" destination="rxX-dK-ndq" id="fVj-LP-khb"/>
                         <outlet property="source" destination="zyC-iZ-yHg" id="hhf-LB-Ims"/>

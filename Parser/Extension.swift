@@ -175,7 +175,7 @@ extension String {
             for compare in list! {
                 if isNext(string: compare.0, length: compare.1, strIndex: operIndex) {
                     let operEnd = index(operIndex, offsetBy: compare.1)
-                    let obj2Index = nextNonSpaceIndex( operEnd)
+                    let obj2Index = nextNonSpaceIndex(operEnd)
                     if let obj2 = try findObject(from: obj2Index) {
                         return (string: obj1.string + " " + compare.0 + " " + obj2.string, index: obj2.index)
                     } else {

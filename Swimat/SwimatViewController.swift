@@ -22,12 +22,16 @@ class SwimatViewController: NSViewController {
     }
 
     @IBOutlet weak var paraAlign: NSButton!
+
+    @IBOutlet weak var autoRemoveChar: NSButton!
+
     @IBOutlet weak var source: NSTextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
         paraAlign.state = Pref.isParaAlign() ? 1 : 0
+        autoRemoveChar.state = Pref.isParaAlign() ? 1 : 0
         formatSource()
     }
 
@@ -44,6 +48,9 @@ class SwimatViewController: NSViewController {
         formatSource()
     }
 
+    @IBAction func autoRemoveChar(_ sender: NSButton) {
+        Pref.setParaAlign(isAlign: sender.state == 1)
+    }
     func formatSource() {
         Indent.char = "    "
         Indent.size = 4
