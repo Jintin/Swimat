@@ -19,7 +19,7 @@ class SwimatViewController: NSViewController {
     @IBOutlet weak var installationLabel: NSTextField! {
         didSet {
             guard let url = Bundle.main.url(forResource: "Installation", withExtension: "html"),
-                let string = try? NSAttributedString(url: url, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil) else {
+                let string = try? NSAttributedString(url: url, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) else {
                     return
             }
             installationLabel.attributedStringValue = string
@@ -33,15 +33,14 @@ class SwimatViewController: NSViewController {
 
     @IBOutlet weak var parameterAlignmentCheckbox: NSButton! {
         didSet {
-            parameterAlignmentCheckbox.state = Preferences.areParametersAligned ? NSOnState : NSOffState
+            parameterAlignmentCheckbox.state = Preferences.areParametersAligned ? .on : .off
         }
     }
     @IBOutlet weak var removeSemicolonsCheckbox: NSButton! {
         didSet {
-            removeSemicolonsCheckbox.state = Preferences.areSemicolonsRemoved ? NSOnState : NSOffState
+            removeSemicolonsCheckbox.state = Preferences.areSemicolonsRemoved ? .on : .off
         }
     }
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,12 +76,12 @@ class SwimatViewController: NSViewController {
     }
 
     @IBAction func updateParameterAlignment(_ sender: NSButton) {
-        Preferences.areParametersAligned = sender.state == NSOnState
+        Preferences.areParametersAligned = sender.state == .on
         preferencesChanged()
     }
 
     @IBAction func updateRemoveSemicolons(_ sender: NSButton) {
-        Preferences.areSemicolonsRemoved = sender.state == NSOnState
+        Preferences.areSemicolonsRemoved = sender.state == .on
         preferencesChanged()
     }
 

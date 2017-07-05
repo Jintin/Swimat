@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func openPreferences(_ sender: Any) {
-        (NSApplication.shared().mainWindow?.contentViewController as? SwimatViewController)?.swimatTabView.selectTabViewItem(withIdentifier: "options")
+        (NSApplication.shared.mainWindow?.contentViewController as? SwimatViewController)?.swimatTabView.selectTabViewItem(withIdentifier: "options")
     }
 
 }
