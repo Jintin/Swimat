@@ -30,8 +30,8 @@ class SwimatViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
-        paraAlign.state = Pref.isParaAlign() ? 1 : 0
-        autoRemoveChar.state = Pref.isParaAlign() ? 1 : 0
+        paraAlign.state = Preferences.areParametersAligned ? 1 : 0
+        autoRemoveChar.state = Preferences.areSemicolonsRemoved ? 1 : 0
         formatSource()
     }
 
@@ -44,17 +44,17 @@ class SwimatViewController: NSViewController {
     }
 
     @IBAction func paraAlignClick(_ sender: NSButton) {
-        Pref.setParaAlign(isAlign: sender.state == 1)
+        Preferences.areParametersAligned = sender.state == NSOnState
         formatSource()
     }
 
     @IBAction func autoRemoveChar(_ sender: NSButton) {
-        Pref.setParaAlign(isAlign: sender.state == 1)
+        Preferences.areSemicolonsRemoved = sender.state == NSOnState
     }
     func formatSource() {
         Indent.char = "    "
         Indent.size = 4
-        Indent.paraAlign = Pref.isParaAlign()
+        Indent.paraAlign = Preferences.areParametersAligned
         let parser = SwiftParser(string: source.stringValue)
         do {
             let newValue = try parser.format()

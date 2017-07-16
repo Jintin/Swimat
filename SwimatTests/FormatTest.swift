@@ -4,15 +4,17 @@ class FormatTest: XCTestCase {
 
     func formatAlign(res: String, expect: String) {
         Indent.char = "    "
-        Indent.paraAlign = true
-        let parser = SwiftParser(string: res)
+        let preferences = Preferences()
+        preferences.areParametersAligned = true
+        let parser = SwiftParser(string: res, preferences: preferences)
         format(parser: parser, expect: expect)
     }
 
     func formatNonAlign(res: String, expect: String) {
         Indent.char = "    "
-        Indent.paraAlign = false
-        let parser = SwiftParser(string: res)
+        let preferences = Preferences()
+        preferences.areParametersAligned = false
+        let parser = SwiftParser(string: res, preferences: preferences)
         format(parser: parser, expect: expect)
     }
 

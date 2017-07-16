@@ -17,10 +17,8 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         } else {
             Indent.char = String(repeating: " ", count: invocation.buffer.indentationWidth)
         }
-        Indent.paraAlign = Pref.isParaAlign()
 
         let parser = SwiftParser(string: invocation.buffer.completeBuffer)
-        parser.autoRemoveChar = Pref.isAutoRemoveChar()
         do {
             let newLines = try parser.format().components(separatedBy: "\n")
             let lines = invocation.buffer.lines
