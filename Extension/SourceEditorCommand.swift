@@ -4,19 +4,18 @@ import XcodeKit
 class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 
     func perform(with invocation: XCSourceEditorCommandInvocation,
-                 completionHandler: @escaping (Error?) -> Swift.Void) {
+        completionHandler: @escaping (Error?) -> Swift.Void) {
 
         let uti = invocation.buffer.contentUTI
-        if uti != "com.apple.dt.playground" && uti != "public.swift-source" && uti != "com.apple.dt.playgroundpage"{
+        guard uti == "com.apple.dt.playground" || uti == "public.swift-source" || uti == "com.apple.dt.playgroundpage" else {
             completionHandler(nil)
+            return
         }
 
         if invocation.buffer.usesTabsForIndentation {
             Indent.char = "\t"
-            Indent.size = 1
         } else {
             Indent.char = String(repeating: " ", count: invocation.buffer.indentationWidth)
-            Indent.size = invocation.buffer.indentationWidth
         }
         Indent.paraAlign = Pref.isParaAlign()
 
@@ -43,7 +42,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             for i in 0 ..< selections.count {
                 if let selection = selections[i] as? XCSourceTextRange, selection.start != selection.end {
                     hasSelection = true
-                    for j in selection.start.line ... selection.end.line {
+                    for j in selection.start.line...selection.end.line {
                         updateLine(index: j)
                     }
                 }
@@ -62,13 +61,8 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 
 }
 
-extension XCSourceTextPosition {
-
-    static func != (left: XCSourceTextPosition, right: XCSourceTextPosition) -> Bool {
-        if left.column != right.column || left.line != right.line {
-            return true
-        }
-        return false
+extension XCSourceTextPosition: Equatable {
+    public static func == (lhs: XCSourceTextPosition, rhs: XCSourceTextPosition) -> Bool {
+        return lhs.column == rhs.column && lhs.line == rhs.line
     }
-
 }
