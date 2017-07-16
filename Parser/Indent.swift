@@ -19,9 +19,13 @@ enum IndentType: Character {
 }
 
 class Indent {
-    static var char: String = ""
+    static var char: String = "" {
+        didSet {
+            size = char.characters.count
+        }
+    }
     static var size: Int = 0
-    static var paraAlign = true
+    static var paraAlign = false
     var count: Int // general indent count
     var line: Int // count number of line
     var extra: Int // from extra indent

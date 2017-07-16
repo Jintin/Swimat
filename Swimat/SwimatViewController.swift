@@ -9,7 +9,7 @@ class SwimatViewController: NSViewController {
             guard let infoDictionary = Bundle.main.infoDictionary,
                 let version = infoDictionary["CFBundleShortVersionString"],
                 let build = infoDictionary[kCFBundleVersionKey as String] else {
-                return
+                    return
             }
             versionLabel.stringValue = "Version \(version) (\(build))"
         }
@@ -72,12 +72,12 @@ class SwimatViewController: NSViewController {
             .appendingPathComponent("swimat")
             .path
         var error: NSDictionary?
-        let script = "do shell script \"ln -s \'\(path)\' \(installPath)swimat\" with administrator privileges"
-        NSAppleScript(source: script)?.executeAndReturnError(&error)
+        let script = NSAppleScript(source: "do shell script \"ln -s \'\(path)\' \(installPath)swimat\" with administrator privileges")
+        script?.executeAndReturnError(&error)
         if error != nil {
             let alert = NSAlert()
             alert.messageText = "There was an error symlinking swimat."
-            alert.informativeText = "You can try 'brew install swimat'"
+            alert.informativeText = "You can try manually linking swimat by running:\n\nln -s /Applications/Swimat.app/Contents/Helpers/swimat \(installPath)swimat"
             alert.alertStyle = .warning
             alert.runModal()
         }
@@ -94,8 +94,4 @@ class SwimatViewController: NSViewController {
             installButton.isEnabled = true
         }
     }
-
-//    @IBAction func showHelp(_ sender: Any) {
-//
-//    }
 }

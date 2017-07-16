@@ -24,7 +24,7 @@ func chidDir(parent: URL) -> [URL] {
     do {
         let result = try FileManager.default
             .contentsOfDirectory(atPath: parent.path).map {
-            URL(fileURLWithPath: $0, relativeTo: parent)
+                URL(fileURLWithPath: $0, relativeTo: parent)
         }
         return result
     } catch {
@@ -59,8 +59,8 @@ for path in paths {
     let file = URL(fileURLWithPath: path)
     for file in expandDirectory(at: path, recursively: options.recursive) {
         if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
-                                                           (file.pathExtension) as CFString,
-                                                           nil)?.takeRetainedValue(),
+            (file.pathExtension) as CFString,
+            nil)?.takeRetainedValue(),
             uti == "public.swift-source" as CFString {
             let parser = SwiftParser(string: try String(contentsOf: file))
             let formattedText = try parser.format()
