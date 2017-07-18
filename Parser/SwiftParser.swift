@@ -44,10 +44,21 @@ class SwiftParser {
     var isNextSwitch: Bool = false
     var autoRemoveChar: Bool = false
 
-    init(string: String) {
+    init(string: String, preferences: Preferences? = nil) {
         self.string = string
         self.strIndex = string.startIndex
         self.newlineIndex = string.startIndex
+
+        // Fallback on user-defined preferences
+        guard let preferences = preferences else {
+            Indent.paraAlign = Preferences.areParametersAligned
+            autoRemoveChar = Preferences.areSemicolonsRemoved
+            return
+        }
+
+        // Use the preferences given (for example, when testing)
+        Indent.paraAlign = preferences.areParametersAligned
+        autoRemoveChar = preferences.areSemicolonsRemoved
     }
 
     func format() throws -> String {

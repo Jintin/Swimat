@@ -8,14 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		2F2BDB331DA90DA0009A137B /* ExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2BDB321DA90DA0009A137B /* ExtensionTest.swift */; };
-		2F3595481E44D9AE001E1435 /* Pref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3595471E44D9AE001E1435 /* Pref.swift */; };
-		2F3595491E44D9AE001E1435 /* Pref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3595471E44D9AE001E1435 /* Pref.swift */; };
-		2F35954A1E44D9AE001E1435 /* Pref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3595471E44D9AE001E1435 /* Pref.swift */; };
-		2F35954B1E44D9AE001E1435 /* Pref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3595471E44D9AE001E1435 /* Pref.swift */; };
+		2F3595481E44D9AE001E1435 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3595471E44D9AE001E1435 /* Preferences.swift */; };
+		2F3595491E44D9AE001E1435 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3595471E44D9AE001E1435 /* Preferences.swift */; };
+		2F35954A1E44D9AE001E1435 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3595471E44D9AE001E1435 /* Preferences.swift */; };
+		2F35954B1E44D9AE001E1435 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3595471E44D9AE001E1435 /* Preferences.swift */; };
 		2F4C327C1E573EB70089CD82 /* FormatTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C327B1E573EB70089CD82 /* FormatTest.swift */; };
 		2F5745DD1D8A83C500094D06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5745DC1D8A83C500094D06 /* AppDelegate.swift */; };
 		2F5745DF1D8A83C500094D06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F5745DE1D8A83C500094D06 /* Assets.xcassets */; };
-		2F5745FE1D8A83E600094D06 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F5745FD1D8A83E600094D06 /* Cocoa.framework */; };
 		2F5746031D8A83E600094D06 /* SourceEditorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5746021D8A83E600094D06 /* SourceEditorExtension.swift */; };
 		2F5746051D8A83E600094D06 /* SourceEditorCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5746041D8A83E600094D06 /* SourceEditorCommand.swift */; };
 		2F5746091D8A83E600094D06 /* Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2F5745FB1D8A83E600094D06 /* Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -40,7 +39,11 @@
 		2F6D8C0E1E0435CA006CFC50 /* OptionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C0B1E0435CA006CFC50 /* OptionParser.swift */; };
 		492A76C31E23575200DB9138 /* SwimatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492A76C21E23575200DB9138 /* SwimatViewController.swift */; };
 		492C30C51E2FF1C600B4FADD /* swimat in Embed Command Line Tool */ = {isa = PBXBuildFile; fileRef = 492C68831E0078A200E64B68 /* swimat */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		49329DF31E6A0406005C266E /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49329DF21E6A0406005C266E /* PreviewViewController.swift */; };
 		494A4CD41E29E8700071EB7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 494A4CD21E29E8700071EB7C /* Main.storyboard */; };
+		495E8A911E650E020045FB39 /* Installation.html in Resources */ = {isa = PBXBuildFile; fileRef = 495E8A901E650E020045FB39 /* Installation.html */; };
+		49F37BED1F0D739100E092B1 /* tests in Resources */ = {isa = PBXBuildFile; fileRef = 49F37BEC1F0D739100E092B1 /* tests */; };
+		49F37BEF1F0DB06800E092B1 /* TestSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F37BEE1F0DB06800E092B1 /* TestSetup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,7 +97,7 @@
 
 /* Begin PBXFileReference section */
 		2F2BDB321DA90DA0009A137B /* ExtensionTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionTest.swift; sourceTree = "<group>"; };
-		2F3595471E44D9AE001E1435 /* Pref.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pref.swift; sourceTree = "<group>"; };
+		2F3595471E44D9AE001E1435 /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		2F4C327B1E573EB70089CD82 /* FormatTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatTest.swift; sourceTree = "<group>"; };
 		2F5745D91D8A83C500094D06 /* Swimat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Swimat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F5745DC1D8A83C500094D06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -103,7 +106,6 @@
 		2F5745E81D8A83C500094D06 /* SwimatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwimatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F5745EE1D8A83C500094D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F5745FB1D8A83E600094D06 /* Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Extension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		2F5745FD1D8A83E600094D06 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2F5746011D8A83E600094D06 /* Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Extension.entitlements; sourceTree = "<group>"; };
 		2F5746021D8A83E600094D06 /* SourceEditorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorExtension.swift; sourceTree = "<group>"; };
 		2F5746041D8A83E600094D06 /* SourceEditorCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorCommand.swift; sourceTree = "<group>"; };
@@ -118,7 +120,11 @@
 		2FAF2E661E457AFB007EB7E5 /* Swimat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Swimat.entitlements; sourceTree = "<group>"; };
 		492A76C21E23575200DB9138 /* SwimatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwimatViewController.swift; sourceTree = "<group>"; };
 		492C68831E0078A200E64B68 /* swimat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = swimat; sourceTree = BUILT_PRODUCTS_DIR; };
+		49329DF21E6A0406005C266E /* PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		494A4CD31E29E8700071EB7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		495E8A901E650E020045FB39 /* Installation.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Installation.html; sourceTree = "<group>"; };
+		49F37BEC1F0D739100E092B1 /* tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tests; sourceTree = "<group>"; };
+		49F37BEE1F0DB06800E092B1 /* TestSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSetup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,7 +146,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F5745FE1D8A83E600094D06 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,15 +162,15 @@
 		2F5745D01D8A83C500094D06 = {
 			isa = PBXGroup;
 			children = (
-				492C68841E0078A200E64B68 /* CLI */,
-				2F5745FF1D8A83E600094D06 /* Extension */,
-				2F5745FC1D8A83E600094D06 /* Frameworks */,
-				492C68901E00793000E64B68 /* Parser */,
-				2F5745DA1D8A83C500094D06 /* Products */,
 				2F5745DB1D8A83C500094D06 /* Swimat */,
+				2F5745FF1D8A83E600094D06 /* Extension */,
+				492C68841E0078A200E64B68 /* CLI */,
+				492C68901E00793000E64B68 /* Parser */,
 				2F5745EB1D8A83C500094D06 /* SwimatTests */,
+				2F5745DA1D8A83C500094D06 /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		2F5745DA1D8A83C500094D06 /* Products */ = {
 			isa = PBXGroup;
@@ -182,12 +187,14 @@
 		2F5745DB1D8A83C500094D06 /* Swimat */ = {
 			isa = PBXGroup;
 			children = (
-				2FD9C8D61E45EDC400EF1EDC /* Supporting Files */,
 				2F5745DC1D8A83C500094D06 /* AppDelegate.swift */,
-				2F5745DE1D8A83C500094D06 /* Assets.xcassets */,
-				2F5745E31D8A83C500094D06 /* Info.plist */,
-				494A4CD21E29E8700071EB7C /* Main.storyboard */,
+				49329DF21E6A0406005C266E /* PreviewViewController.swift */,
 				492A76C21E23575200DB9138 /* SwimatViewController.swift */,
+				494A4CD21E29E8700071EB7C /* Main.storyboard */,
+				495E8A901E650E020045FB39 /* Installation.html */,
+				2F5745E31D8A83C500094D06 /* Info.plist */,
+				2F5745DE1D8A83C500094D06 /* Assets.xcassets */,
+				2FD9C8D61E45EDC400EF1EDC /* Supporting Files */,
 			);
 			path = Swimat;
 			sourceTree = "<group>";
@@ -198,18 +205,11 @@
 			children = (
 				2F2BDB321DA90DA0009A137B /* ExtensionTest.swift */,
 				2F4C327B1E573EB70089CD82 /* FormatTest.swift */,
+				49F37BEE1F0DB06800E092B1 /* TestSetup.swift */,
 				2F5745EE1D8A83C500094D06 /* Info.plist */,
+				49F37BEC1F0D739100E092B1 /* tests */,
 			);
 			path = SwimatTests;
-			sourceTree = "<group>";
-			usesTabs = 0;
-		};
-		2F5745FC1D8A83E600094D06 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				2F5745FD1D8A83E600094D06 /* Cocoa.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 			usesTabs = 0;
 		};
@@ -258,7 +258,7 @@
 				2F6D8BF51E0435B5006CFC50 /* Extension.swift */,
 				2F6D8BF61E0435B5006CFC50 /* Indent.swift */,
 				2F6D8BF71E0435B5006CFC50 /* Parser.swift */,
-				2F3595471E44D9AE001E1435 /* Pref.swift */,
+				2F3595471E44D9AE001E1435 /* Preferences.swift */,
 				2F6D8BF81E0435B5006CFC50 /* SwiftParser.swift */,
 			);
 			path = Parser;
@@ -414,6 +414,7 @@
 			files = (
 				494A4CD41E29E8700071EB7C /* Main.storyboard in Resources */,
 				2F5745DF1D8A83C500094D06 /* Assets.xcassets in Resources */,
+				495E8A911E650E020045FB39 /* Installation.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,6 +422,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49F37BED1F0D739100E092B1 /* tests in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,7 +446,8 @@
 				2F6D8BFD1E0435B5006CFC50 /* Indent.swift in Sources */,
 				2F5745DD1D8A83C500094D06 /* AppDelegate.swift in Sources */,
 				2F6D8BF91E0435B5006CFC50 /* Extension.swift in Sources */,
-				2F3595481E44D9AE001E1435 /* Pref.swift in Sources */,
+				2F3595481E44D9AE001E1435 /* Preferences.swift in Sources */,
+				49329DF31E6A0406005C266E /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,8 +456,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F4C327C1E573EB70089CD82 /* FormatTest.swift in Sources */,
-				2F3595491E44D9AE001E1435 /* Pref.swift in Sources */,
+				2F3595491E44D9AE001E1435 /* Preferences.swift in Sources */,
 				2F6D8C061E0435B5006CFC50 /* SwiftParser.swift in Sources */,
+				49F37BEF1F0DB06800E092B1 /* TestSetup.swift in Sources */,
 				2F6D8C021E0435B5006CFC50 /* Parser.swift in Sources */,
 				2F6D8BFE1E0435B5006CFC50 /* Indent.swift in Sources */,
 				2F2BDB331DA90DA0009A137B /* ExtensionTest.swift in Sources */,
@@ -472,7 +476,7 @@
 				2F6D8C031E0435B5006CFC50 /* Parser.swift in Sources */,
 				2F5746031D8A83E600094D06 /* SourceEditorExtension.swift in Sources */,
 				2F5746051D8A83E600094D06 /* SourceEditorCommand.swift in Sources */,
-				2F35954A1E44D9AE001E1435 /* Pref.swift in Sources */,
+				2F35954A1E44D9AE001E1435 /* Preferences.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,7 +486,7 @@
 			files = (
 				2F6D8C0E1E0435CA006CFC50 /* OptionParser.swift in Sources */,
 				2F6D8C0D1E0435CA006CFC50 /* main.swift in Sources */,
-				2F35954B1E44D9AE001E1435 /* Pref.swift in Sources */,
+				2F35954B1E44D9AE001E1435 /* Preferences.swift in Sources */,
 				2F6D8C041E0435B5006CFC50 /* Parser.swift in Sources */,
 				2F6D8C081E0435B5006CFC50 /* SwiftParser.swift in Sources */,
 				2F6D8C0C1E0435CA006CFC50 /* ErrorHandling.swift in Sources */,
