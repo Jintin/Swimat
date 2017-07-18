@@ -4,6 +4,8 @@ class SwimatViewController: NSViewController {
 
     let installPath = "/usr/local/bin/"
 
+    @IBOutlet weak var swimatTabView: NSTabView!
+
     @IBOutlet weak var versionLabel: NSTextField! {
         didSet {
             guard let infoDictionary = Bundle.main.infoDictionary,
@@ -14,25 +16,36 @@ class SwimatViewController: NSViewController {
             versionLabel.stringValue = "Version \(version) (\(build))"
         }
     }
-
+    @IBOutlet weak var installationLabel: NSTextField! {
+        didSet {
+            guard let url = Bundle.main.url(forResource: "Installation", withExtension: "html"),
+                let string = try? NSAttributedString(url: url, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil) else {
+                    return
+            }
+            installationLabel.attributedStringValue = string
+        }
+    }
     @IBOutlet weak var installButton: NSButton! {
         didSet {
             refreshInstallButton()
         }
     }
 
-    @IBOutlet weak var paraAlign: NSButton!
+    @IBOutlet weak var parameterAlignmentCheckbox: NSButton! {
+        didSet {
+            parameterAlignmentCheckbox.state = Preferences.areParametersAligned ? NSOnState : NSOffState
+        }
+    }
+    @IBOutlet weak var removeSemicolonsCheckbox: NSButton! {
+        didSet {
+            removeSemicolonsCheckbox.state = Preferences.areSemicolonsRemoved ? NSOnState : NSOffState
+        }
+    }
 
-    @IBOutlet weak var autoRemoveChar: NSButton!
-
-    @IBOutlet weak var source: NSTextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
-        paraAlign.state = Preferences.areParametersAligned ? 1 : 0
-        autoRemoveChar.state = Preferences.areSemicolonsRemoved ? 1 : 0
-        formatSource()
     }
 
     override func viewDidAppear() {
@@ -41,27 +54,6 @@ class SwimatViewController: NSViewController {
         }
         window.titleVisibility = .hidden
         window.titlebarAppearsTransparent = true
-    }
-
-    @IBAction func paraAlignClick(_ sender: NSButton) {
-        Preferences.areParametersAligned = sender.state == NSOnState
-        formatSource()
-    }
-
-    @IBAction func autoRemoveChar(_ sender: NSButton) {
-        Preferences.areSemicolonsRemoved = sender.state == NSOnState
-    }
-    func formatSource() {
-        Indent.char = "    "
-        Indent.size = 4
-        Indent.paraAlign = Preferences.areParametersAligned
-        let parser = SwiftParser(string: source.stringValue)
-        do {
-            let newValue = try parser.format()
-            source.stringValue = newValue
-        } catch {
-
-        }
     }
 
     @IBAction func install(_ sender: Any) {
@@ -82,6 +74,21 @@ class SwimatViewController: NSViewController {
             alert.runModal()
         }
         refreshInstallButton()
+    }
+
+    @IBAction func updateParameterAlignment(_ sender: NSButton) {
+        Preferences.areParametersAligned = sender.state == NSOnState
+        preferencesChanged()
+    }
+
+    @IBAction func updateRemoveSemicolons(_ sender: NSButton) {
+        Preferences.areSemicolonsRemoved = sender.state == NSOnState
+        preferencesChanged()
+    }
+
+    func preferencesChanged() {
+        let notification = Notification(name: Notification.Name("SwimatPreferencesChangedNotification"))
+        NotificationCenter.default.post(notification)
     }
 
     func refreshInstallButton() {
