@@ -2,18 +2,15 @@ import XCTest
 
 class FormatTest: XCTestCase {
 
-    func format(res: String, expect: String) {
+    func formatAlign(res: String, expect: String) {
         Indent.char = "    "
-        Indent.size = 4
         Indent.paraAlign = true
         let parser = SwiftParser(string: res)
         format(parser: parser, expect: expect)
     }
 
-
-    func formatAlign(res: String, expect: String) {
+    func formatNonAlign(res: String, expect: String) {
         Indent.char = "    "
-        Indent.size = 4
         Indent.paraAlign = false
         let parser = SwiftParser(string: res)
         format(parser: parser, expect: expect)
@@ -36,8 +33,8 @@ class FormatTest: XCTestCase {
         let res = "UIView.animatesss(withDuration: 0.3, animations: {\n"
             + "    someCode()\n"
             + "})"
-        format(res: res, expect: res)
         formatAlign(res: res, expect: res)
+        formatNonAlign(res: res, expect: res)
     }
 
     func testCase2() { //#151
@@ -46,8 +43,8 @@ class FormatTest: XCTestCase {
             + "}) { finished in\n"
             + "    afterAnimation()\n"
             + "}"
-        format(res: res, expect: res)
         formatAlign(res: res, expect: res)
+        formatNonAlign(res: res, expect: res)
     }
 
     func testCase3() { //#147
@@ -59,7 +56,7 @@ class FormatTest: XCTestCase {
             + "                                       self.view.layoutIfNeeded()\n"
             + "                                   },\n"
             + "                                   completion: nil)"
-        format(res: res, expect: res)
+        formatAlign(res: res, expect: res)
     }
 
     func testCase4() { //#152
@@ -68,8 +65,8 @@ class FormatTest: XCTestCase {
             + "     .value2:\n"
             + "    someCode()\n"
             + "}"
-        format(res: res, expect: res)
-        //        formatAlign(res: res, expect: res)
+        formatAlign(res: res, expect: res)
+        //        formatNonAlign(res: res, expect: res)
     }
 
     func testCase5() { //#153
@@ -81,8 +78,8 @@ class FormatTest: XCTestCase {
             + "    .map { (i) in\n"
             + "        i * 2\n"
             + "}"
-        format(res: res, expect: res)
-        //        formatAlign(res: res, expect: res)
+        formatAlign(res: res, expect: res)
+        //        formatNonAlign(res: res, expect: res)
     }
 
     func testCase6() { //#150
@@ -95,8 +92,8 @@ class FormatTest: XCTestCase {
             + "    a = c\n"
             + "}"
 
-        format(res: res, expect: res)
-        //        formatAlign(res: res, expect: res)
+        formatAlign(res: res, expect: res)
+        //        formatNonAlign(res: res, expect: res)
     }
 
     func testCase7() { // multi switch
@@ -111,7 +108,7 @@ class FormatTest: XCTestCase {
             + "default:\n"
             + "    return\n"
             + "}\n"
-        format(res: res, expect: res)
+        formatAlign(res: res, expect: res)
     }
 
     func testCase8() {
@@ -119,7 +116,7 @@ class FormatTest: XCTestCase {
             + "    a)\n"
             + "a(a,\n"
             + "  a)\n"
-        format(res: res, expect: res)
+        formatAlign(res: res, expect: res)
     }
 
     func testCase9() { //#155
@@ -129,21 +126,21 @@ class FormatTest: XCTestCase {
             + "        arg2: value2\n"
             + "    )\n"
             + "}\n"
-        format(res: res, expect: res)
         formatAlign(res: res, expect: res)
+        formatNonAlign(res: res, expect: res)
     }
 
     func testCase10() { //#164
         let res = "a( b: c)"
         let result = "a(b: c)"
-        format(res: res, expect: result)
         formatAlign(res: res, expect: result)
+        formatNonAlign(res: res, expect: result)
     }
 
     func testCase11() { //#163
         let res = "a ? (b as? Int) : Int((c as? Double) ?? 0)"
-        format(res: res, expect: res)
         formatAlign(res: res, expect: res)
+        formatNonAlign(res: res, expect: res)
     }
 
     func testCase12() { //#166
