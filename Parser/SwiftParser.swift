@@ -164,7 +164,7 @@ class SwiftParser {
                     }
                 }
             }
-            let offset = retString.distance(from: newlineIndex, to: retString.endIndex) + 1
+            let offset = retString.distance(from: newlineIndex, to: retString.endIndex)
             let newIndent = Indent(with: indent, offset: offset, type: IndentType(rawValue: char))
             indentStack.append(indent)
             indent = newIndent
