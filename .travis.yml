@@ -2,7 +2,7 @@ language: objective-c
 matrix:
   include:
     - osx_image: xcode8
-    - osx_image: xcode9
+    # - osx_image: xcode9
 
 script:
   - xcodebuild test -project Swimat.xcodeproj -scheme SwimatTests CODE_SIGNING_ALLOWED=NO
