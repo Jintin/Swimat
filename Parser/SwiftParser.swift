@@ -135,6 +135,10 @@ class SwiftParser {
             }
             break
         case "\"":
+            if isNext(string: "\"\"\"", length: 3) {
+                strIndex = add(string: "\"\"\"", length: 3)
+                return addToNext(strIndex, stopWord: "\"\"\"")
+            }
             let quote = try string.findQuote(from: strIndex)
             retString += quote.string
             return quote.index

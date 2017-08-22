@@ -150,4 +150,11 @@ class FormatTest: XCTestCase {
         parser.autoRemoveChar = true
         format(parser: parser, expect: ret)
     }
+    
+    func testCase13() {
+        let res = "\"\"\"  a   b  \"\"\""
+        let ret = "\"\"\"  a   b  \"\"\""
+        let parser = SwiftParser(string: res)
+        format(parser: parser, expect: ret)
+    }
 }
