@@ -293,7 +293,9 @@ class SwiftParser {
             if isBetween(words: ("if", "let", 3), ("guard", "let", 3)) {
                 indent.extra = 1
             } else if isNext(word: "else", length: 4) {
-                indent.extra = 1
+                if retString.lastWord() != "}" {
+                    indent.extra = 1
+                }
             }
             addIndent()
         }
