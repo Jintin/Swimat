@@ -32,7 +32,8 @@ class FormatTest: XCTestCase {
                 guard let result = try? parser.format() else {
                     fatalError("Formatter threw an exception")
                 }
-                XCTAssertEqual(result, after)
+
+                XCTAssertEqual(result, after, "result: \n\(result)\nafter: \n\(after)")
             }
         }
 

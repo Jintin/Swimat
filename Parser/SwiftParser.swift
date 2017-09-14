@@ -40,14 +40,13 @@ class SwiftParser {
     var strIndex: String.Index
     var indent = Indent()
     var indentStack = [Indent]()
-    var newlineIndex: String.Index
+    var newlineIndex: Int = 0
     var isNextSwitch: Bool = false
     var autoRemoveChar: Bool = false
 
     init(string: String, preferences: Preferences? = nil) {
         self.string = string
         self.strIndex = string.startIndex
-        self.newlineIndex = string.startIndex
 
         if let preferences = preferences {
             // Use the preferences given (for example, when testing)
@@ -159,7 +158,7 @@ class SwiftParser {
             return checkLine(char)
         case " ", "\t":
             if retString.lastWord() == "if" {
-                let leading = retString.distance(from: newlineIndex, to: retString.endIndex)
+                let leading = retString.characters.count - newlineIndex
                 let newIndent = Indent(with: indent, offset: leading, type: IndentType(rawValue: "f"))
                 indentStack.append(indent)
                 indent = newIndent
@@ -179,7 +178,7 @@ class SwiftParser {
                     }
                 }
             }
-            let offset = retString.distance(from: newlineIndex, to: retString.endIndex)
+            let offset = retString.characters.count - newlineIndex
             let newIndent = Indent(with: indent, offset: offset, type: IndentType(rawValue: char))
             indentStack.append(indent)
             indent = newIndent
@@ -291,7 +290,7 @@ class SwiftParser {
 
     func checkLine(_ char: Character, checkLast: Bool = true) -> String.Index {
         trim()
-        newlineIndex = retString.endIndex
+        newlineIndex = retString.characters.count - 1
         if checkLast {
             checkLineEnd()
         } else {
