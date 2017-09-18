@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2F5745D81D8A83C500094D06"
-               BuildableName = "Swimat.app"
-               BlueprintName = "Swimat"
+               BlueprintIdentifier = "492C68821E0078A200E64B68"
+               BuildableName = "swimat"
+               BlueprintName = "CLI"
                ReferencedContainer = "container:Swimat.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2F5745D81D8A83C500094D06"
-            BuildableName = "Swimat.app"
-            BlueprintName = "Swimat"
+            BlueprintIdentifier = "492C68821E0078A200E64B68"
+            BuildableName = "swimat"
+            BlueprintName = "CLI"
             ReferencedContainer = "container:Swimat.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -55,9 +55,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2F5745D81D8A83C500094D06"
-            BuildableName = "Swimat.app"
-            BlueprintName = "Swimat"
+            BlueprintIdentifier = "492C68821E0078A200E64B68"
+            BuildableName = "swimat"
+            BlueprintName = "CLI"
             ReferencedContainer = "container:Swimat.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -74,9 +74,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2F5745D81D8A83C500094D06"
-            BuildableName = "Swimat.app"
-            BlueprintName = "Swimat"
+            BlueprintIdentifier = "492C68821E0078A200E64B68"
+            BuildableName = "swimat"
+            BlueprintName = "CLI"
             ReferencedContainer = "container:Swimat.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

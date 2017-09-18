@@ -1,7 +1,8 @@
 language: objective-c
+matrix:
+  include:
+    - osx_image: xcode8.3
+    - osx_image: xcode9
 
-before_install:
-  - brew update
-  - brew outdated xctool || brew upgrade xctool
-
-script: xctool -project Swimat.xcodeproj -scheme SwimatTest test
+script:
+  - xcodebuild test -project Swimat.xcodeproj -scheme SwimatTests CODE_SIGNING_ALLOWED=NO
