@@ -4,7 +4,7 @@ import XcodeKit
 class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 
     func perform(with invocation: XCSourceEditorCommandInvocation,
-        completionHandler: @escaping (Error?) -> Swift.Void) {
+        completionHandler: @escaping (Error?) -> Void) {
 
         let uti = invocation.buffer.contentUTI
         guard uti == "com.apple.dt.playground" || uti == "public.swift-source" || uti == "com.apple.dt.playgroundpage" else {

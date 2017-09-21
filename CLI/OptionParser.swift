@@ -26,7 +26,7 @@ class Options {
             setter: { _ in
                 printHeader()
                 printOptions()
-                exit(SwimatError.success.rawValue)
+                exit(.success)
             }),
         Option(options: ["-i", "--indent"],
             helpArguments: "<value>=-1",
@@ -35,7 +35,7 @@ class Options {
             setter: { indentSize in
                 guard indentSize.count == 1, let indentSize = Int(indentSize[0]) else {
                     printToError("Invalid indent size")
-                    exit(SwimatError.invalidIndent.rawValue)
+                    exit(.invalidIndent)
                 }
                 if indentSize < 0 {
                     Indent.char = "\t"
@@ -79,7 +79,7 @@ class Options {
         if arguments.isEmpty {
             Options.printHeader()
             Options.printOptions()
-            exit(SwimatError.noArguments.rawValue)
+            exit(.noArguments)
         }
 
         var files = [String]()
@@ -102,7 +102,7 @@ class Options {
                 if !validOption {
                     printToError("Invalid option \(argument). Valid options are:")
                     Options.printOptions()
-                    exit(SwimatError.invalidOption.rawValue)
+                    exit(.invalidOption)
                 }
             } else {
                 files.append(argument)
