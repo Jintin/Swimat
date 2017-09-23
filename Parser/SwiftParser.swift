@@ -273,7 +273,7 @@ class SwiftParser {
 
     func removeUnnecessaryChar() {
         if autoRemoveChar && retString.last == ";" {
-            retString = retString.substring(to: retString.index(before: retString.endIndex))
+            retString = String(retString[..<retString.index(before: retString.endIndex)])
         }
     }
 

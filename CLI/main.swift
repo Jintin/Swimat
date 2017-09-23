@@ -2,43 +2,40 @@ import CoreServices
 import Foundation
 
 enum FileType {
-    case nonexistant
+    case nonexistent
     case file
     case directory
 }
 
-func getFileType(for file: URL) -> FileType {
-    var isDirectory: ObjCBool = false
-    if FileManager.default.fileExists(atPath: file.path, isDirectory: &isDirectory) {
-        if isDirectory.boolValue {
-            return .directory
-        } else {
-            return .file
-        }
-    } else {
-        return .nonexistant
+extension URL {
+    var children: [URL] {
+        return (try? FileManager.default
+                .contentsOfDirectory(atPath: self.path).map {
+                    URL(fileURLWithPath: $0, relativeTo: self)
+            }) ?? []
     }
-}
 
-func chidDir(parent: URL) -> [URL] {
-    do {
-        let result = try FileManager.default
-            .contentsOfDirectory(atPath: parent.path).map {
-                URL(fileURLWithPath: $0, relativeTo: parent)
+    var fileType: FileType {
+        var isDirectory: ObjCBool = false
+        if FileManager.default.fileExists(atPath: self.path, isDirectory: &isDirectory) {
+            if isDirectory.boolValue {
+                return .directory
+            } else {
+                return .file
+            }
+        } else {
+            return .nonexistent
         }
-        return result
-    } catch {
-        return []
     }
 }
 
 func expandDirectory(at path: String, recursively: Bool) -> [URL] {
     let parent = URL(fileURLWithPath: path)
-    switch getFileType(for: parent) {
+    switch parent.fileType {
     case .directory:
         var files = [URL]()
-        for child in chidDir(parent: parent) {
-            if recursively && getFileType(for: child) == .directory {
+        for child in parent.children {
+            if recursively && child.fileType == .directory {
                 files.append(contentsOf: expandDirectory(at: child.path, recursively: recursively))
             } else {
                 files.append(child)
@@ -47,7 +44,7 @@ func expandDirectory(at path: String, recursively: Bool) -> [URL] {
         return files
     case .file:
         return [parent]
-    case .nonexistant:
+    case .nonexistent:
         return []
     }
 }
@@ -56,7 +53,6 @@ let options = Options.shared
 let paths = options.parseArguments(Array(CommandLine.arguments.dropFirst()))
 var files = 0
 for path in paths {
-    let file = URL(fileURLWithPath: path)
     for file in expandDirectory(at: path, recursively: options.recursive) {
         if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
             (file.pathExtension) as CFString,

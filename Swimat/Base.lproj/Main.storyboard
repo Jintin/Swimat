@@ -92,11 +92,11 @@
                                             <tabViewItems>
                                                 <tabViewItem label="Installation" identifier="installation" id="EZd-rT-CGw">
                                                     <view key="view" id="g3E-QC-nKF">
-                                                        <rect key="frame" x="10" y="33" width="414" height="352"/>
+                                                        <rect key="frame" x="10" y="33" width="354" height="352"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="eQ5-vy-08Z">
-                                                                <rect key="frame" x="18" y="49" width="378" height="300"/>
+                                                                <rect key="frame" x="18" y="49" width="318" height="300"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="300" placeholder="YES" id="duv-Vj-oGP"/>
                                                                 </constraints>
@@ -107,7 +107,7 @@
                                                                 </textFieldCell>
                                                             </textField>
                                                             <button verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="WLk-it-wEc">
-                                                                <rect key="frame" x="95" y="13" width="224" height="32"/>
+                                                                <rect key="frame" x="65" y="13" width="224" height="32"/>
                                                                 <buttonCell key="cell" type="push" title="Install swimat to /usr/local/bin/" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xLc-1o-3Pq">
                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                     <font key="font" metaFont="system"/>

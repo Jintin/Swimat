@@ -12,9 +12,9 @@ extension String {
             if end != startIndex || !self[end].isBlank() {
                 let start = lastIndex(from: end) { $0.isBlank() }
                 if self[start].isBlank() {
-                    return self[index(after: start) ... end]
+                    return String(self[index(after: start) ... end])
                 }
-                return self[start ... end]
+                return String(self[start ... end])
             }
         }
         return ""

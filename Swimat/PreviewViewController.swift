@@ -42,7 +42,7 @@ class PreviewViewController: NSViewController, NSTextViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(preferencesChanged), name: NSNotification.Name("SwimatPreferencesChangedNotification"), object: nil)
     }
 
-    func preferencesChanged(_ notification: Notification) {
+    @objc func preferencesChanged(_ notification: Notification) {
         DispatchQueue.main.async { [unowned self] in
             self.rateLimitedFormat()
         }
@@ -58,10 +58,10 @@ class PreviewViewController: NSViewController, NSTextViewDelegate {
         RunLoop.current.add(timer, forMode: .commonModes)
     }
 
-    func format() {
-        let text = codeTextView.string ?? ""
+    @objc func format() {
+        let text = codeTextView.string
         Indent.char = "\t"
-        let formattedText = try? SwiftParser(string: text).format()
+        let formattedText = (try? SwiftParser(string: text).format()) ?? text
         let start = Date()
         DispatchQueue.main.async { [unowned self] in
             self.formattedCodeTextView.string = formattedText

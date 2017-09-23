@@ -13,3 +13,7 @@ enum SwimatError: Int32 {
     case invalidOption
     case invalidIndent
 }
+
+func exit(_ error: SwimatError) -> Never {
+    exit(error.rawValue)
+}
