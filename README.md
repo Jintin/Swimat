@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/Jintin/Swimat.svg?branch=master)](https://travis-ci.org/Jintin/Swimat)
 [![Code Climate](https://codeclimate.com/github/Jintin/Swimat/badges/gpa.svg)](https://codeclimate.com/github/Jintin/Swimat)
 [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/matteocrippa/awesome-swift)
-https://img.shields.io/cocoapods/v/Swimat.svg
+[![cocoapods](https://img.shields.io/cocoapods/v/Swimat.svg)](https://cocoapods.org/pods/Swimat)
 
 Swimat is an Xcode plug-in to format your Swift code.
 
