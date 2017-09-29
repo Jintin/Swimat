@@ -100,4 +100,5 @@ class SwimatViewController: NSViewController {
             installButton.isEnabled = true
         }
     }
+
 }

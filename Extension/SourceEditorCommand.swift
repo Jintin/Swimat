@@ -4,7 +4,7 @@ import XcodeKit
 class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 
     func perform(with invocation: XCSourceEditorCommandInvocation,
-        completionHandler: @escaping (Error?) -> Void) {
+                 completionHandler: @escaping (Error?) -> Void) {
 
         let uti = invocation.buffer.contentUTI
         guard uti == "com.apple.dt.playground" || uti == "public.swift-source" || uti == "com.apple.dt.playgroundpage" else {
@@ -60,7 +60,9 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 }
 
 extension XCSourceTextPosition: Equatable {
+
     public static func == (lhs: XCSourceTextPosition, rhs: XCSourceTextPosition) -> Bool {
         return lhs.column == rhs.column && lhs.line == rhs.line
     }
+
 }

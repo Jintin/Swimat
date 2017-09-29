@@ -56,7 +56,7 @@ class ExtensionTest: XCTestCase {
         let a = "ab\n "
         assert(a.lastNonBlankIndex(a.endIndex) == a.index(after: a.startIndex))
     }
-    // MARK: advance String
+
     func testParentheses() {
         let a = "(a+b(c-d(\"e  f\")))"
         do {

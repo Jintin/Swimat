@@ -68,4 +68,5 @@ class PreviewViewController: NSViewController, NSTextViewDelegate {
             self.lastFormatTime = Date().timeIntervalSince(start)
         }
     }
+
 }

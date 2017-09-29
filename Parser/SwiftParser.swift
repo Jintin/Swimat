@@ -133,11 +133,11 @@ class SwiftParser {
                 indent.count -= 1
                 trimWithIndent()
                 indent.count += 1
-                return addLine() //bypass like '#if swift(>=3)'
+                return addLine() // bypass like '#if swift(>=3)'
             } else if isNext(string: "#endif", length: 6) {
                 indent.count -= 1
                 trimWithIndent()
-                return addLine() //bypass like '#if swift(>=3)'
+                return addLine() // bypass like '#if swift(>=3)'
             } else if isNext(char: ">") {
                 return add(string: "#>", length: 2)
             } else if isNext(char: "!") {
