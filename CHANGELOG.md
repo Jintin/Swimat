@@ -6,4 +6,4 @@
 - update to Swift4
 ### Removed
 ### Fixed
-if else in new line, #178
+- if else in new line, #178
