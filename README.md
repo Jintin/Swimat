@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Jintin/Swimat.svg?branch=master)](https://travis-ci.org/Jintin/Swimat)
 [![Code Climate](https://codeclimate.com/github/Jintin/Swimat/badges/gpa.svg)](https://codeclimate.com/github/Jintin/Swimat)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e3a2fb6a6ba34b11836d58cee0668fb9)](https://www.codacy.com/app/Jintin/Swimat?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Jintin/Swimat&amp;utm_campaign=Badge_Grade)
 [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/matteocrippa/awesome-swift)
 
 [![github](https://img.shields.io/github/release/Jintin/Swimat.svg)](https://github.com/Jintin/Swimat/releases/latest)
