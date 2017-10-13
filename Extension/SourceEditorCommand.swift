@@ -3,11 +3,16 @@ import XcodeKit
 
 class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 
+    let supportUTIs = [
+        "com.apple.dt.playground",
+        "public.swift-source",
+        "com.apple.dt.playgroundpage"]
     func perform(with invocation: XCSourceEditorCommandInvocation,
                  completionHandler: @escaping (Error?) -> Void) {
 
         let uti = invocation.buffer.contentUTI
-        guard uti == "com.apple.dt.playground" || uti == "public.swift-source" || uti == "com.apple.dt.playgroundpage" else {
+
+        guard supportUTIs.contains(uti) else {
             completionHandler(nil)
             return
         }
