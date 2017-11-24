@@ -21,7 +21,7 @@ enum IndentType: Character {
 class Indent {
     static var char: String = "" {
         didSet {
-            size = char.characters.count
+            size = char.count
         }
     }
     static var size: Int = 0

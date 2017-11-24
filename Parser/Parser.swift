@@ -18,7 +18,7 @@ extension SwiftParser {
 
     func isPrevious(str: String) -> Bool {
 
-        if let start = string.index(strIndex, offsetBy: -str.characters.count, limitedBy: string.startIndex) {
+        if let start = string.index(strIndex, offsetBy: -str.count, limitedBy: string.startIndex) {
             if let _ = string.range(of: str, options: [], range: start ..< strIndex) {
                 return true
             }
@@ -26,12 +26,12 @@ extension SwiftParser {
         return false
     }
 
-    func isBetween(words: (start: String, end: String, endLength: Int)...) -> Bool {
+    func isBetween(words: (start: String, end: String)...) -> Bool {
         // MARK: check word, not position
         if strIndex < string.endIndex {
             let startIndex = string.nextNonSpaceIndex(strIndex)
             for word in words {
-                if let endIndex = string.index(startIndex, offsetBy: word.endLength, limitedBy: string.endIndex),
+                if let endIndex = string.index(startIndex, offsetBy: word.end.count, limitedBy: string.endIndex),
                     let _ = string.range(of: word.end, options: [], range: startIndex ..< endIndex) {
                     if retString.lastWord() == word.start { // MARK: cache last word
                         return true
@@ -42,47 +42,36 @@ extension SwiftParser {
         return false
     }
 
-    func isNext(word: String, length: Int) -> Bool {
+    func isNext(word: String) -> Bool {
         let index = string.nextNonSpaceIndex(strIndex)
-        if let endIndex = string.index(index, offsetBy: length, limitedBy: string.endIndex),
+        if let endIndex = string.index(index, offsetBy: word.count, limitedBy: string.endIndex),
             let _ = string.range(of: word, options: [], range: index ..< endIndex) {
             return true
         }
         return false
     }
 
-    func isNext(words: (str: String, length: Int)...) -> Bool {
-        let index = string.nextNonSpaceIndex(strIndex)
-        for word in words {
-            if let endIndex = string.index(index, offsetBy: word.length, limitedBy: string.endIndex),
-                let _ = string.range(of: word.str, options: [], range: index ..< endIndex) {
-                return true
-            }
-        }
-        return false
-    }
-
     // MARK: move to Entension.swift
-    func isNext(string target: String, length: Int) -> Bool {
-        if let endIndex = string.index(strIndex, offsetBy: length, limitedBy: string.endIndex),
+    func isNext(string target: String) -> Bool {
+        if let endIndex = string.index(strIndex, offsetBy: target.count, limitedBy: string.endIndex),
             let _ = string.range(of: target, options: [], range: strIndex ..< endIndex) {
             return true
         }
         return false
     }
 
-    func space(with word: String, length: Int) -> String.Index {
+    func space(with word: String) -> String.Index {
         if retString.last != "(" {
             retString.keepSpace()
         }
         retString += word + " "
-        return string.nextNonSpaceIndex(string.index(strIndex, offsetBy: length))
+        return string.nextNonSpaceIndex(string.index(strIndex, offsetBy: word.count))
     }
 
-    func space(with words: [(str: String, length: Int)]) -> String.Index? {
+    func space(with words: [String]) -> String.Index? {
         for word in words {
-            if isNext(string: word.str, length: word.length) {
-                return space(with: word.str, length: word.length)
+            if isNext(string: word) {
+                return space(with: word)
             }
         }
         return nil
@@ -104,15 +93,15 @@ extension SwiftParser {
     func addIndent(addExtra: Bool = true) {
         var checkInCase = false
         if indent.inSwitch {
-            if isNext(word: "case", length: 4) {
+            if isNext(word: "case") {
                 checkInCase = true
                 indent.inCase = true
                 indent.count -= 1
-            } else if isNext(word: "default", length: 8) {
+            } else if isNext(word: "default") {
                 indent.extra -= 1
             }
         }
-        if isNext(word: "switch", length: 6) {
+        if isNext(word: "switch") {
             isNextSwitch = true
         }
         let count = indent.count + (addExtra ? indent.extra : 0)
@@ -128,9 +117,9 @@ extension SwiftParser {
         }
     }
 
-    func add(string target: String, length: Int) -> String.Index {
+    func add(string target: String) -> String.Index {
         retString += target
-        return string.index(strIndex, offsetBy: length)
+        return string.index(strIndex, offsetBy: target.count)
     }
 
     func add(char: Character) -> String.Index {

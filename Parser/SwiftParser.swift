@@ -4,26 +4,26 @@ enum FormatError: Error {
     case stringError
 }
 
-let operatorList: [Character: [(String, Int)]] =
+let operatorList: [Character: [String]] =
     [
-        "+": [("+=<", 3), ("+=", 2), ("+++=", 4), ("+++", 3), ("+", 1)],
-        "-": [("->", 2), ("-=", 2), ("-<<", 3)],
-        "*": [("*=", 2), ("*", 1)],
-        "/": [("/=", 2), ("/", 1)],
-        "~": [("~=", 2), ("~~>", 3), ("~>", 2)],
-        "%": [("%=", 2), ("%", 1)],
-        "^": [("^=", 2)],
-        "&": [("&&=", 3), ("&&&", 3), ("&&", 2), ("&=", 2), ("&+", 2),
-            ("&-", 2), ("&*", 2), ("&/", 2), ("&%", 2)],
-        "<": [("<<<", 3), ("<<=", 3), ("<<", 2), ("<=", 2), ("<~~", 3),
-            ("<~", 2), ("<--", 3), ("<-<", 3), ("<-", 2), ("<^>", 3),
-            ("<|>", 3), ("<*>", 3), ("<||?", 4), ("<||", 3), ("<|?", 3),
-            ("<|", 2), ("<", 1)],
-        ">": [(">>>", 3), (">>=", 3), (">>-", 3), (">>", 2), (">=", 2),
-            (">->", 3), (">", 1)],
-        "|": [("|||", 3), ("||=", 3), ("||", 2), ("|=", 2), ("|", 1)],
-        "!": [("!==", 3), ("!=", 2)],
-        "=": [("===", 3), ("==", 2), ("=", 1)],
+        "+": ["+=<", "+=", "+++=", "+++", "+"],
+        "-": ["->", "-=", "-<<"],
+        "*": ["*=", "*"],
+        "/": ["/=", "/"],
+        "~": ["~=", "~~>", "~>"],
+        "%": ["%=", "%"],
+        "^": ["^="],
+        "&": ["&&=", "&&&", "&&", "&=", "&+",
+            "&-", "&*", "&/", "&%"],
+        "<": ["<<<", "<<=", "<<", "<=", "<~~",
+            "<~", "<--", "<-<", "<-", "<^>",
+            "<|>", "<*>", "<||?", "<||", "<|?",
+            "<|", "<"],
+        ">": [">>>", ">>=", ">>-", ">>", ">=",
+            ">->", ">"],
+        "|": ["|||", "||=", "||", "|=", "|"],
+        "!": ["!==", "!="],
+        "=": ["===", "==", "="],
         "?": []
     ]
 
@@ -80,10 +80,10 @@ class SwiftParser {
             return checkMinus(char: char)
         case ".":
             if isNext(char: ".") {
-                if isNext(string: "...", length: 3) {
-                    return add(string: "...", length: 3)
-                } else if isNext(string: "..<", length: 3) {
-                    return add(string: "..<", length: 3)
+                if isNext(string: "...") {
+                    return add(string: "...")
+                } else if isNext(string: "..<") {
+                    return add(string: "..<")
                 }
             }
             return add(char: char)
@@ -96,7 +96,7 @@ class SwiftParser {
             return space(with: operatorList[char]!)!
         case "<":
             if isNext(char: "#") {
-                return add(string: "<#", length: 2)
+                return add(string: "<#")
             }
             if let result = try string.findGeneric(from: strIndex) {
                 retString += result.string
@@ -112,7 +112,7 @@ class SwiftParser {
 
             if isNext(char: "?") {
                 // MARK: check double optional or nil check
-                return add(string: "??", length: 2)
+                return add(string: "??")
             } else if let ternary = try string.findTernary(from: strIndex) {
                 retString.keepSpace()
                 retString += ternary.string
@@ -126,27 +126,27 @@ class SwiftParser {
             retString += ": "
             return string.nextNonSpaceIndex(string.index(after: strIndex))
         case "#":
-            if isNext(string: "#if", length: 3) {
+            if isNext(string: "#if") {
                 indent.count += 1
                 return addLine() // MARK: bypass like '#if swift(>=3)'
-            } else if isNext(string: "#else", length: 5) {
+            } else if isNext(string: "#else") {
                 indent.count -= 1
                 trimWithIndent()
                 indent.count += 1
                 return addLine() // bypass like '#if swift(>=3)'
-            } else if isNext(string: "#endif", length: 6) {
+            } else if isNext(string: "#endif") {
                 indent.count -= 1
                 trimWithIndent()
                 return addLine() // bypass like '#if swift(>=3)'
             } else if isNext(char: ">") {
-                return add(string: "#>", length: 2)
+                return add(string: "#>")
             } else if isNext(char: "!") {
                 return addLine()
             }
             break
         case "\"":
-            if isNext(string: "\"\"\"", length: 3) {
-                strIndex = add(string: "\"\"\"", length: 3)
+            if isNext(string: "\"\"\"") {
+                strIndex = add(string: "\"\"\"")
                 return addToNext(strIndex, stopWord: "\"\"\"")
             }
             let quote = try string.findQuote(from: strIndex)
@@ -158,7 +158,7 @@ class SwiftParser {
             return checkLine(char)
         case " ", "\t":
             if retString.lastWord() == "if" {
-                let leading = retString.characters.count - newlineIndex
+                let leading = retString.count - newlineIndex
                 let newIndent = Indent(with: indent, offset: leading, type: IndentType(rawValue: "f"))
                 indentStack.append(indent)
                 indent = newIndent
@@ -178,7 +178,7 @@ class SwiftParser {
                     }
                 }
             }
-            let offset = retString.characters.count - newlineIndex
+            let offset = retString.count - newlineIndex
             let newIndent = Indent(with: indent, offset: offset, type: IndentType(rawValue: char))
             indentStack.append(indent)
             indent = newIndent
@@ -267,7 +267,7 @@ class SwiftParser {
             if noSpace {
                 return add(char: char)
             }
-            return space(with: "-", length: 1)
+            return space(with: "-")
         }
     }
 
@@ -290,7 +290,7 @@ class SwiftParser {
 
     func checkLine(_ char: Character, checkLast: Bool = true) -> String.Index {
         trim()
-        newlineIndex = retString.characters.count - 1
+        newlineIndex = retString.count - 1
         if checkLast {
             checkLineEnd()
         } else {
@@ -299,10 +299,10 @@ class SwiftParser {
         indent.indentAdd = false
         indent.extraAdd = false
         strIndex = add(char: char)
-        if !isNext(string: "//", length: 2) {
-            if isBetween(words: ("if", "let", 3), ("guard", "let", 3)) {
+        if !isNext(string: "//") {
+            if isBetween(words: ("if", "let"), ("guard", "let")) {
                 indent.extra = 1
-            } else if isNext(word: "else", length: 4) {
+            } else if isNext(word: "else") {
                 if retString.lastWord() != "}" {
                     indent.extra = 1
                 }

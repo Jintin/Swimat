@@ -3,7 +3,7 @@ import Foundation
 extension String {
 
     var last: Character {
-        return characters.last ?? "\0" as Character
+        return last ?? "\0" as Character
     }
 
     func lastWord() -> String {
@@ -173,11 +173,11 @@ extension String {
             }
             let list = operatorList[self[operIndex]]
             for compare in list! {
-                if isNext(string: compare.0, length: compare.1, strIndex: operIndex) {
-                    let operEnd = index(operIndex, offsetBy: compare.1)
+                if isNext(string: compare, strIndex: operIndex) {
+                    let operEnd = index(operIndex, offsetBy: compare.count)
                     let obj2Index = nextNonSpaceIndex(operEnd)
                     if let obj2 = try findObject(from: obj2Index) {
-                        return (string: obj1.string + " " + compare.0 + " " + obj2.string, index: obj2.index)
+                        return (string: obj1.string + " " + compare + " " + obj2.string, index: obj2.index)
                     } else {
                         return obj1
                     }
@@ -264,7 +264,7 @@ extension String {
                 result += block.string
                 continue
             case "-":
-                if isNext(string: "->", length: 2, strIndex: target) {
+                if isNext(string: "->", strIndex: target) {
                     result.keepSpace()
                     result.append("-> ")
                     target = index(target, offsetBy: 2)
@@ -281,8 +281,8 @@ extension String {
     }
 
     // MARK: remove duplicate in Parser.swift
-    func isNext(string target: String, length: Int, strIndex: String.Index) -> Bool {
-        if let stopIndex = self.index(strIndex, offsetBy: length, limitedBy: endIndex),
+    func isNext(string target: String, strIndex: String.Index) -> Bool {
+        if let stopIndex = self.index(strIndex, offsetBy: target.count, limitedBy: endIndex),
             let _ = self.range(of: target, options: [], range: strIndex ..< stopIndex) {
             return true
         }
