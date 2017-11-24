@@ -7,6 +7,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         "com.apple.dt.playground",
         "public.swift-source",
         "com.apple.dt.playgroundpage"]
+
     func perform(with invocation: XCSourceEditorCommandInvocation,
                  completionHandler: @escaping (Error?) -> Void) {
 
