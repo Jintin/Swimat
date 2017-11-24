@@ -187,13 +187,13 @@
 		2F5745DB1D8A83C500094D06 /* Swimat */ = {
 			isa = PBXGroup;
 			children = (
+				495E8A901E650E020045FB39 /* Installation.html */,
+				2F5745E31D8A83C500094D06 /* Info.plist */,
 				2F5745DC1D8A83C500094D06 /* AppDelegate.swift */,
 				49329DF21E6A0406005C266E /* PreviewViewController.swift */,
 				492A76C21E23575200DB9138 /* SwimatViewController.swift */,
-				494A4CD21E29E8700071EB7C /* Main.storyboard */,
-				495E8A901E650E020045FB39 /* Installation.html */,
-				2F5745E31D8A83C500094D06 /* Info.plist */,
 				2F5745DE1D8A83C500094D06 /* Assets.xcassets */,
+				494A4CD21E29E8700071EB7C /* Main.storyboard */,
 				2FD9C8D61E45EDC400EF1EDC /* Supporting Files */,
 			);
 			path = Swimat;
@@ -203,11 +203,11 @@
 		2F5745EB1D8A83C500094D06 /* SwimatTests */ = {
 			isa = PBXGroup;
 			children = (
+				49F37BEC1F0D739100E092B1 /* tests */,
+				2F5745EE1D8A83C500094D06 /* Info.plist */,
 				2F2BDB321DA90DA0009A137B /* ExtensionTest.swift */,
 				2F4C327B1E573EB70089CD82 /* FormatTest.swift */,
 				49F37BEE1F0DB06800E092B1 /* TestSetup.swift */,
-				2F5745EE1D8A83C500094D06 /* Info.plist */,
-				49F37BEC1F0D739100E092B1 /* tests */,
 			);
 			path = SwimatTests;
 			sourceTree = "<group>";
@@ -216,10 +216,10 @@
 		2F5745FF1D8A83E600094D06 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				2F5746001D8A83E600094D06 /* Supporting Files */,
 				2F5746061D8A83E600094D06 /* Info.plist */,
 				2F5746041D8A83E600094D06 /* SourceEditorCommand.swift */,
 				2F5746021D8A83E600094D06 /* SourceEditorExtension.swift */,
+				2F5746001D8A83E600094D06 /* Supporting Files */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -245,8 +245,8 @@
 			isa = PBXGroup;
 			children = (
 				2F6D8C091E0435CA006CFC50 /* ErrorHandling.swift */,
-				2F6D8C0B1E0435CA006CFC50 /* OptionParser.swift */,
 				2F6D8C0A1E0435CA006CFC50 /* main.swift */,
+				2F6D8C0B1E0435CA006CFC50 /* OptionParser.swift */,
 			);
 			path = CLI;
 			sourceTree = "<group>";
