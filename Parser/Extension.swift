@@ -3,7 +3,7 @@ import Foundation
 extension String {
 
     var last: Character {
-        return characters.last ?? "\0" as Character
+        return last ?? "\0" as Character
     }
 
     func lastWord() -> String {

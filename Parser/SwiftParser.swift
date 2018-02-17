@@ -158,7 +158,7 @@ class SwiftParser {
             return checkLine(char)
         case " ", "\t":
             if retString.lastWord() == "if" {
-                let leading = retString.characters.count - newlineIndex
+                let leading = retString.count - newlineIndex
                 let newIndent = Indent(with: indent, offset: leading, type: IndentType(rawValue: "f"))
                 indentStack.append(indent)
                 indent = newIndent
@@ -178,7 +178,7 @@ class SwiftParser {
                     }
                 }
             }
-            let offset = retString.characters.count - newlineIndex
+            let offset = retString.count - newlineIndex
             let newIndent = Indent(with: indent, offset: offset, type: IndentType(rawValue: char))
             indentStack.append(indent)
             indent = newIndent
@@ -290,7 +290,7 @@ class SwiftParser {
 
     func checkLine(_ char: Character, checkLast: Bool = true) -> String.Index {
         trim()
-        newlineIndex = retString.characters.count - 1
+        newlineIndex = retString.count - 1
         if checkLast {
             checkLineEnd()
         } else {

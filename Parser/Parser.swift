@@ -18,7 +18,7 @@ extension SwiftParser {
 
     func isPrevious(str: String) -> Bool {
 
-        if let start = string.index(strIndex, offsetBy: -str.characters.count, limitedBy: string.startIndex) {
+        if let start = string.index(strIndex, offsetBy: -str.count, limitedBy: string.startIndex) {
             if let _ = string.range(of: str, options: [], range: start ..< strIndex) {
                 return true
             }
