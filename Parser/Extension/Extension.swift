@@ -28,6 +28,11 @@ extension String {
                 target = block.index
                 result += block.string
                 continue
+            } else if next == "[" {
+                let block = try findSquare(from: target, reFormat: false)
+                target = block.index
+                result += block.string
+                continue
             } else {
                 result.append(next)
             }

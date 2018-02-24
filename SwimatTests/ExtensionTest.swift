@@ -69,37 +69,35 @@ class ExtensionTest: XCTestCase {
         assert(a.lastNonBlankIndex(a.endIndex) == a.index(after: a.startIndex))
     }
 
-    func testParentheses() throws {
-        let a = "(a+b(c-d(\"e  f\")))"
-        let result = try a.findParentheses(from: a.startIndex)
-        assert(result == ("(a + b(c - d(\"e  f\")))", a.endIndex))
-    }
+    func testBlock() throws {
+        let pareText = "(a+b(c-d(\"e  f\")))"
+        let pare = try pareText.findParentheses(from: pareText.startIndex)
+        assert(pare == ("(a + b(c - d(\"e  f\")))", pareText.endIndex))
 
-    func testSquare() throws {
-        let a = "[a+b,c(d-e)]"
-        let result = try a.findSquare(from: a.startIndex)
-        assert(result == ("[a + b, c(d - e)]", a.endIndex))
+        let squareText = "[a+b,c(d-e)]"
+        let square = try squareText.findSquare(from: squareText.startIndex)
+        assert(square == ("[a + b, c(d - e)]", squareText.endIndex))
     }
 
     func testQuote() throws {
-        let a = "\"a+b\\(c+d)\""
-        let result = try a.findQuote(from: a.startIndex)
-        assert(result == ("\"a+b\\(c + d)\"", a.endIndex))
+        let quote = "\"a+b\\(c+d)\""
+        let result = try quote.findQuote(from: quote.startIndex)
+        assert(result == ("\"a+b\\(c + d)\"", quote.endIndex))
     }
 
     func testTernary() throws {
-        let a = "?bb:cc"
-        if let result = try a.findTernary(from: a.startIndex) {
-            assert(result == ("? bb : cc", a.endIndex))
+        let ternary = "?bb:cc"
+        if let result = try ternary.findTernary(from: ternary.startIndex) {
+            assert(result == ("? bb : cc", ternary.endIndex))
         } else {
             assertionFailure()
         }
     }
 
     func testStatement() throws {
-        let a = "aa+bb"
-        if let result = try a.findStatement(from: a.startIndex) {
-            assert(result == ("aa + bb", a.endIndex))
+        let statement = "aa+bb"
+        if let result = try statement.findStatement(from: statement.startIndex) {
+            assert(result == ("aa + bb", statement.endIndex))
         } else {
             assertionFailure()
         }
