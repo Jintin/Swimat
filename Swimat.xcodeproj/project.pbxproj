@@ -44,6 +44,7 @@
 		495E8A911E650E020045FB39 /* Installation.html in Resources */ = {isa = PBXBuildFile; fileRef = 495E8A901E650E020045FB39 /* Installation.html */; };
 		49F37BED1F0D739100E092B1 /* tests in Resources */ = {isa = PBXBuildFile; fileRef = 49F37BEC1F0D739100E092B1 /* tests */; };
 		49F37BEF1F0DB06800E092B1 /* TestSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F37BEE1F0DB06800E092B1 /* TestSetup.swift */; };
+		A0A3C66620410E250024EA9F /* FormatError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A3C66520410E250024EA9F /* FormatError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +126,7 @@
 		495E8A901E650E020045FB39 /* Installation.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Installation.html; sourceTree = "<group>"; };
 		49F37BEC1F0D739100E092B1 /* tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tests; sourceTree = "<group>"; };
 		49F37BEE1F0DB06800E092B1 /* TestSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSetup.swift; sourceTree = "<group>"; };
+		A0A3C66520410E250024EA9F /* FormatError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,6 +262,7 @@
 				2F6D8BF71E0435B5006CFC50 /* Parser.swift */,
 				2F3595471E44D9AE001E1435 /* Preferences.swift */,
 				2F6D8BF81E0435B5006CFC50 /* SwiftParser.swift */,
+				A0A3C66520410E250024EA9F /* FormatError.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -440,6 +443,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0A3C66620410E250024EA9F /* FormatError.swift in Sources */,
 				2F6D8C051E0435B5006CFC50 /* SwiftParser.swift in Sources */,
 				492A76C31E23575200DB9138 /* SwimatViewController.swift in Sources */,
 				2F6D8C011E0435B5006CFC50 /* Parser.swift in Sources */,

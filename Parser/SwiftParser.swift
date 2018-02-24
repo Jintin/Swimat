@@ -1,9 +1,5 @@
 import Foundation
 
-enum FormatError: Error {
-    case stringError
-}
-
 let operatorList: [Character: [String]] =
     [
         "+": ["+=<", "+=", "+++=", "+++", "+"],
@@ -13,18 +9,12 @@ let operatorList: [Character: [String]] =
         "~": ["~=", "~~>", "~>"],
         "%": ["%=", "%"],
         "^": ["^="],
-        "&": ["&&=", "&&&", "&&", "&=", "&+",
-            "&-", "&*", "&/", "&%"],
-        "<": ["<<<", "<<=", "<<", "<=", "<~~",
-            "<~", "<--", "<-<", "<-", "<^>",
-            "<|>", "<*>", "<||?", "<||", "<|?",
-            "<|", "<"],
-        ">": [">>>", ">>=", ">>-", ">>", ">=",
-            ">->", ">"],
+        "&": ["&&=", "&&&", "&&", "&=", "&+", "&-", "&*", "&/", "&%"],
+        "<": ["<<<", "<<=", "<<", "<=", "<~~", "<~", "<--", "<-<", "<-", "<^>", "<|>", "<*>", "<||?", "<||", "<|?", "<|", "<"],
+        ">": [">>>", ">>=", ">>-", ">>", ">=", ">->", ">"],
         "|": ["|||", "||=", "||", "|=", "|"],
         "!": ["!==", "!="],
-        "=": ["===", "==", "="],
-        "?": []
+        "=": ["===", "==", "="]
     ]
 
 fileprivate let negativeCheckSigns: [Character] =
@@ -79,165 +69,32 @@ class SwiftParser {
         case "-":
             return checkMinus(char: char)
         case ".":
-            if isNext(char: ".") {
-                if isNext(string: "...") {
-                    return add(string: "...")
-                } else if isNext(string: "..<") {
-                    return add(string: "..<")
-                }
-            }
-            return add(char: char)
+            return checkDot(char: char)
         case "/":
-            if isNext(char: "/") {
-                return addLine()
-            } else if isNext(char: "*") {
-                return addToNext(strIndex, stopWord: "*/")
-            }
-            return space(with: operatorList[char]!)!
+            return checkSlash(char: char)
         case "<":
-            if isNext(char: "#") {
-                return add(string: "<#")
-            }
-            if let result = try string.findGeneric(from: strIndex) {
-                retString += result.string
-                return result.index
-            }
-            return space(with: operatorList[char]!)!
+            return try checkLess(char: char)
         case "?":
-            if let spaceChar = operatorList[char] {
-                if let index = space(with: spaceChar) {
-                    return index
-                }
-            }
-
-            if isNext(char: "?") {
-                // MARK: check double optional or nil check
-                return add(string: "??")
-            } else if let ternary = try string.findTernary(from: strIndex) {
-                retString.keepSpace()
-                retString += ternary.string
-                return ternary.index
-            } else {
-                return add(char: char)
-            }
+            return try checkQuestion(char: char)
         case ":":
-            _ = checkInCase()
-            trimWithIndent()
-            retString += ": "
-            return string.nextNonSpaceIndex(string.index(after: strIndex))
+            return checkColon(char: char)
         case "#":
-            if isNext(string: "#if") {
-                indent.count += 1
-                return addLine() // MARK: bypass like '#if swift(>=3)'
-            } else if isNext(string: "#else") {
-                indent.count -= 1
-                trimWithIndent()
-                indent.count += 1
-                return addLine() // bypass like '#if swift(>=3)'
-            } else if isNext(string: "#endif") {
-                indent.count -= 1
-                trimWithIndent()
-                return addLine() // bypass like '#if swift(>=3)'
-            } else if isNext(char: ">") {
-                return add(string: "#>")
-            } else if isNext(char: "!") {
-                return addLine()
-            }
-            break
+            return checkHash(char: char)
         case "\"":
-            if isNext(string: "\"\"\"") {
-                strIndex = add(string: "\"\"\"")
-                return addToNext(strIndex, stopWord: "\"\"\"")
-            }
-            let quote = try string.findQuote(from: strIndex)
-            retString += quote.string
-            return quote.index
+            return try checkQuote(char: char)
         case "\n":
-            removeUnnecessaryChar()
-            indent.line += 1
-            return checkLine(char)
+            return checkLineBreak(char: char)
         case " ", "\t":
-            if retString.lastWord() == "if" {
-                let leading = retString.count - newlineIndex
-                let newIndent = Indent(with: indent, offset: leading, type: IndentType(rawValue: "f"))
-                indentStack.append(indent)
-                indent = newIndent
-            }
-            retString.keepSpace()
-            return string.index(after: strIndex)
+            return checkSpace(char: char)
         case ",":
-            trimWithIndent()
-            retString += ", "
-            return string.nextNonSpaceIndex(string.index(after: strIndex))
+            return checkComma(char: char)
         case "{", "[", "(":
-            if char == "{" && indent.block == .ifelse {
-                if let last = indentStack.popLast() {
-                    indent = last
-                    if indent.indentAdd {
-                        indent.indentAdd = false
-                    }
-                }
-            }
-            let offset = retString.count - newlineIndex
-            let newIndent = Indent(with: indent, offset: offset, type: IndentType(rawValue: char))
-            indentStack.append(indent)
-            indent = newIndent
-            if indent.block == .curly {
-                if isNextSwitch {
-                    indent.inSwitch = true
-                    isNextSwitch = false
-                }
-                if !retString.last.isUpperBlock() {
-                    retString.keepSpace()
-                }
-
-                retString += "{ "
-                return string.nextNonSpaceIndex(string.index(after: strIndex))
-            } else {
-                if Indent.paraAlign && char == "(" && isNext(char: "\n") {
-                    indent.count += 1
-                }
-                retString.append(char)
-                return string.nextNonSpaceIndex(string.index(after: strIndex))
-            }
+            return checkUpperBlock(char: char)
         case "}", "]", ")":
-            var addIndentBack = false
-            if let last = indentStack.popLast() {
-                indent = last
-                if indent.indentAdd {
-                    indent.indentAdd = false
-                    addIndentBack = true
-                }
-            } else {
-                indent = Indent()
-            }
-            if char == "}" {
-                if isNext(char: ".", skipBlank: true) {
-                    trimWithIndent()
-                } else {
-                    trimWithIndent(addExtra: false)
-                }
-                if addIndentBack {
-                    indent.count += 1
-                }
-                retString.keepSpace()
-                let next = string.index(after: strIndex)
-                if next < string.endIndex && string[next].isAZ() {
-                    retString += "} "
-                } else {
-                    retString += "}"
-                }
-                return next
-            }
-            if addIndentBack {
-                indent.count += 1
-            }
-            trimWithIndent()
-            return add(char: char)
+            return checkLowerBlock(char: char)
         default:
-            break
+            return checkDefault(char: char)
         }
-        return checkDefault(char: char)
     }
 
     func checkMinus(char: Character) -> String.Index {
@@ -269,6 +126,180 @@ class SwiftParser {
             }
             return space(with: "-")
         }
+    }
+
+    func checkDot(char: Character) -> String.Index {
+        if isNext(char: ".") {
+            if isNext(string: "...") {
+                return add(string: "...")
+            } else if isNext(string: "..<") {
+                return add(string: "..<")
+            }
+        }
+        return add(char: char)
+    }
+
+    func checkSlash(char: Character) -> String.Index {
+        if isNext(char: "/") {
+            return addLine()
+        } else if isNext(char: "*") {
+            return addToNext(strIndex, stopWord: "*/")
+        }
+        return space(with: operatorList[char]!)!
+    }
+
+    func checkLess(char: Character) throws -> String.Index {
+        if isNext(char: "#") {
+            return add(string: "<#")
+        }
+        if let result = try string.findGeneric(from: strIndex) {
+            retString += result.string
+            return result.index
+        }
+        return space(with: operatorList[char]!)!
+    }
+
+    func checkQuestion(char: Character) throws -> String.Index {
+        if isNext(char: "?") {
+            // MARK: check double optional or nil check
+            return add(string: "??")
+        } else if let ternary = try string.findTernary(from: strIndex) {
+            retString.keepSpace()
+            retString += ternary.string
+            return ternary.index
+        } else {
+            return add(char: char)
+        }
+    }
+
+    func checkColon(char: Character) -> String.Index {
+        _ = checkInCase()
+        trimWithIndent()
+        retString += ": "
+        return string.nextNonSpaceIndex(string.index(after: strIndex))
+    }
+
+    func checkHash(char: Character) -> String.Index {
+        if isNext(string: "#if") {
+            indent.count += 1
+            return addLine() // MARK: bypass like '#if swift(>=3)'
+        } else if isNext(string: "#else") {
+            indent.count -= 1
+            trimWithIndent()
+            indent.count += 1
+            return addLine() // bypass like '#if swift(>=3)'
+        } else if isNext(string: "#endif") {
+            indent.count -= 1
+            trimWithIndent()
+            return addLine() // bypass like '#if swift(>=3)'
+        } else if isNext(char: ">") {
+            return add(string: "#>")
+        } else if isNext(char: "!") {
+            return addLine()
+        }
+        return checkDefault(char: char)
+    }
+
+    func checkQuote(char: Character) throws -> String.Index {
+        if isNext(string: "\"\"\"") {
+            strIndex = add(string: "\"\"\"")
+            return addToNext(strIndex, stopWord: "\"\"\"")
+        }
+        let quote = try string.findQuote(from: strIndex)
+        retString += quote.string
+        return quote.index
+    }
+
+    func checkLineBreak(char: Character) -> String.Index {
+        removeUnnecessaryChar()
+        indent.line += 1
+        return checkLine(char)
+    }
+
+    func checkSpace(char: Character) -> String.Index {
+        if retString.lastWord() == "if" {
+            let leading = retString.count - newlineIndex
+            let newIndent = Indent(with: indent, offset: leading, type: IndentType(rawValue: "f"))
+            indentStack.append(indent)
+            indent = newIndent
+        }
+        retString.keepSpace()
+        return string.index(after: strIndex)
+    }
+
+    func checkComma(char: Character) -> String.Index {
+        trimWithIndent()
+        retString += ", "
+        return string.nextNonSpaceIndex(string.index(after: strIndex))
+    }
+
+    func checkUpperBlock(char: Character) -> String.Index {
+        if char == "{" && indent.block == .ifelse {
+            if let last = indentStack.popLast() {
+                indent = last
+                if indent.indentAdd {
+                    indent.indentAdd = false
+                }
+            }
+        }
+        let offset = retString.count - newlineIndex
+        let newIndent = Indent(with: indent, offset: offset, type: IndentType(rawValue: char))
+        indentStack.append(indent)
+        indent = newIndent
+        if indent.block == .curly {
+            if isNextSwitch {
+                indent.inSwitch = true
+                isNextSwitch = false
+            }
+            if !retString.last.isUpperBlock() {
+                retString.keepSpace()
+            }
+
+            retString += "{ "
+            return string.nextNonSpaceIndex(string.index(after: strIndex))
+        } else {
+            if Indent.paraAlign && char == "(" && isNext(char: "\n") {
+                indent.count += 1
+            }
+            retString.append(char)
+            return string.nextNonSpaceIndex(string.index(after: strIndex))
+        }
+    }
+
+    func checkLowerBlock(char: Character) -> String.Index {
+        var addIndentBack = false
+        if let last = indentStack.popLast() {
+            indent = last
+            if indent.indentAdd {
+                indent.indentAdd = false
+                addIndentBack = true
+            }
+        } else {
+            indent = Indent()
+        }
+        if char == "}" {
+            if isNext(char: ".", skipBlank: true) {
+                trimWithIndent()
+            } else {
+                trimWithIndent(addExtra: false)
+            }
+            if addIndentBack {
+                indent.count += 1
+            }
+            retString.keepSpace()
+            let next = string.index(after: strIndex)
+            if next < string.endIndex && string[next].isAZ() {
+                retString += "} "
+            } else {
+                retString += "}"
+            }
+            return next
+        }
+        if addIndentBack {
+            indent.count += 1
+        }
+        trimWithIndent()
+        return add(char: char)
     }
 
     func removeUnnecessaryChar() {
