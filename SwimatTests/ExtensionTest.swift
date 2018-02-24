@@ -4,16 +4,16 @@ class ExtensionTest: XCTestCase {
 
     // MARK: basic String
     func testLastWord() {
-        let a = ""
-        assert(a.lastWord() == "")
-        let b = " ab"
-        assert(b.lastWord() == "ab")
-        let c = " ab  "
-        assert(c.lastWord() == "ab")
-        let d = " ab cd"
-        assert(d.lastWord() == "cd")
-        let e = " ab cd  "
-        assert(e.lastWord() == "cd")
+        let values = [
+            "": "",
+            " ab": "ab",
+            " ab ": "ab",
+            " ab cd": "cd",
+            " ab cd  ": "cd",
+        ]
+        for (a, b) in values {
+            assert(a.lastWord() == b)
+        }
     }
 
     func testNextIndex() {
@@ -57,74 +57,50 @@ class ExtensionTest: XCTestCase {
         assert(a.lastNonBlankIndex(a.endIndex) == a.index(after: a.startIndex))
     }
 
-    func testParentheses() {
+    func testParentheses() throws {
         let a = "(a+b(c-d(\"e  f\")))"
-        do {
-            let result = try a.findParentheses(from: a.startIndex)
-            assert(result == ("(a + b(c - d(\"e  f\")))", a.endIndex))
-        } catch {
-            assertionFailure()
-        }
+        let result = try a.findParentheses(from: a.startIndex)
+        assert(result == ("(a + b(c - d(\"e  f\")))", a.endIndex))
     }
 
-    func testSquare() {
+    func testSquare() throws {
         let a = "[a+b,c(d-e)]"
-        do {
-            let result = try a.findSquare(from: a.startIndex)
-            assert(result == ("[a + b, c(d - e)]", a.endIndex))
-        } catch {
-            assertionFailure()
-        }
+        let result = try a.findSquare(from: a.startIndex)
+        assert(result == ("[a + b, c(d - e)]", a.endIndex))
     }
 
-    func testQuote() {
+    func testQuote() throws {
         let a = "\"a+b\\(c+d)\""
-        do {
-            let result = try a.findQuote(from: a.startIndex)
-            assert(result == ("\"a+b\\(c + d)\"", a.endIndex))
-        } catch {
+        let result = try a.findQuote(from: a.startIndex)
+        assert(result == ("\"a+b\\(c + d)\"", a.endIndex))
+    }
+
+    func testTernary() throws {
+        let a = "?bb:cc"
+        if let result = try a.findTernary(from: a.startIndex) {
+            assert(result == ("? bb : cc", a.endIndex))
+        } else {
             assertionFailure()
         }
     }
 
-    func testTernary() {
-        do {
-            let a = "?bb:cc"
-            if let result = try a.findTernary(from: a.startIndex) {
-                assert(result == ("? bb : cc", a.endIndex))
-            } else {
-                assertionFailure()
-            }
-        } catch {
+    func testStatement() throws {
+        let a = "aa+bb"
+        if let result = try a.findStatement(from: a.startIndex) {
+            assert(result == ("aa + bb", a.endIndex))
+        } else {
             assertionFailure()
         }
     }
 
-    func testStatement() {
-        do {
-            let a = "aa+bb"
-            if let result = try a.findStatement(from: a.startIndex) {
-                assert(result == ("aa + bb", a.endIndex))
-            } else {
-                assertionFailure()
-            }
-        } catch {
-            assertionFailure()
-        }
-    }
-
-    func testGeneric() {
+    func testGeneric() throws {
         let values = [
             "<A,B<C,D>>": "<A, B<C, D>>",
             "<A, B<C, D>>": "<A, B<C, D>>"]
         for (a, b) in values {
-            do {
-                if let result = try a.findGeneric(from: a.startIndex) {
-                    assert(result == (string: b, index: a.endIndex))
-                } else {
-                    assertionFailure()
-                }
-            } catch {
+            if let result = try a.findGeneric(from: a.startIndex) {
+                assert(result == (string: b, index: a.endIndex))
+            } else {
                 assertionFailure()
             }
         }

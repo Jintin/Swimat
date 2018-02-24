@@ -2,76 +2,6 @@ import Foundation
 
 extension String {
 
-    var last: Character {
-        return last ?? "\0" as Character
-    }
-
-    func lastWord() -> String {
-        if !isEmpty {
-            let end = lastNonBlankIndex(endIndex)
-            if end != startIndex || !self[end].isBlank() {
-                let start = lastIndex(from: end) { $0.isBlank() }
-                if self[start].isBlank() {
-                    return String(self[index(after: start) ... end])
-                }
-                return String(self[start ... end])
-            }
-        }
-        return ""
-    }
-
-    func trim() -> String {
-        return trimmingCharacters(in: .whitespaces)
-    }
-
-    mutating func keepSpace() {
-        if !last.isBlank() {
-            append(" ")
-        }
-    }
-
-    func nextIndex(from start: String.Index, checker: (Character) -> Bool) -> String.Index {
-        var target = start
-        while target < endIndex {
-            if checker(self[target]) {
-                break
-            }
-            target = index(after: target)
-        }
-        return target
-    }
-
-    func nextNonSpaceIndex(_ index: String.Index) -> String.Index {
-        return nextIndex(from: index) { !$0.isSpace() }
-    }
-
-    func lastIndex(from: String.Index, checker: (Character) -> Bool) -> String.Index {
-        var target = from
-        while target > startIndex {
-            target = index(before: target)
-            if checker(self[target]) {
-                break
-            }
-        }
-        return target
-    }
-
-    func lastNonSpaceIndex(_ start: String.Index) -> String.Index {
-        return lastIndex(from: start) { !$0.isSpace() }
-    }
-
-    func lastNonSpaceChar(_ start: String.Index) -> Character {
-        return self[lastNonSpaceIndex(start)]
-    }
-
-    func lastNonBlankIndex(_ start: String.Index) -> String.Index {
-        return lastIndex(from: start) { !$0.isBlank() }
-    }
-
-}
-
-extension String {
-
     typealias StringObj = (string: String, index: String.Index)
 
     func findParentheses(from start: String.Index, reFormat: Bool = true) throws -> StringObj {
@@ -287,41 +217,6 @@ extension String {
             return true
         }
         return false
-    }
-
-}
-
-extension Character {
-
-    func isAZ() -> Bool {
-        if self >= "a" && self <= "z" {
-            return true
-        } else if self >= "A" && self <= "Z" {
-            return true
-        } else if self >= "0" && self <= "9" {
-            return true
-        }
-        return false
-    }
-
-    func isOperator() -> Bool {
-        return self == "+" || self == "-" || self == "*" || self == "/" || self == "%"
-    }
-
-    func isUpperBlock() -> Bool {
-        return self == "{" || self == "[" || self == "("
-    }
-
-    func isLowerBlock() -> Bool {
-        return self == "}" || self == "]" || self == ")"
-    }
-
-    func isSpace() -> Bool {
-        return self == " " || self == "\t"
-    }
-
-    func isBlank() -> Bool {
-        return isSpace() || self == "\n"
     }
 
 }

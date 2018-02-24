@@ -36,4 +36,5 @@ class Preferences: Codable {
         sharedUserDefaults.set(value, forKey: Preferences.parameterAlignment)
         sharedUserDefaults.synchronize()
     }
+
 }
