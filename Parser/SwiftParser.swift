@@ -323,7 +323,7 @@ class SwiftParser {
         trim()
         newlineIndex = retString.count - 1
         if checkLast {
-            checkLineEnd()
+            checkLineEndExtra()
         } else {
             indent.extra = 0
         }
@@ -356,56 +356,57 @@ class SwiftParser {
         return strIndex
     }
 
-    func checkLineEnd() {
-        let check = {
-            (char: Character) -> Int? in
-            switch char {
-            case "+", "-", "*", "=", ".", "&", "|":
-                return 1
-            case "/": // MARK: check word, nor char
-                break
-            case ":":
-                if self.checkInCase() {
-                    return 0
-                }
-                if !self.indent.inSwitch {
-                    return 1
-                }
-            case ",":
-                if self.indent.line == 1 && (self.indent.block == .parentheses || self.indent.block == .square) {
-                    self.indent.isLeading = true
-                }
-                if self.indent.block == .curly {
-                    return 1
-                }
-            default:
-                break
+    func checkLineChar(char: Character) -> Int? {
+        switch char {
+        case "+", "-", "*", "=", ".", "&", "|":
+            return 1
+        case "/": // MARK: check word, nor char
+            break
+        case ":":
+            if self.checkInCase() {
+                return 0
             }
-            return nil
+            if !self.indent.inSwitch {
+                return 1
+            }
+        case ",":
+            if self.indent.line == 1 && (self.indent.block == .parentheses || self.indent.block == .square) {
+                self.indent.isLeading = true
+            }
+            if self.indent.block == .curly {
+                return 1
+            }
+        default:
+            break
         }
+        return nil
+    }
 
-        if indent.block == .ifelse {
+    func checkLineEndExtra() {
+        guard indent.block != .ifelse else {
             return
         }
 
-        if let result = check(retString.last) {
+        if let result = checkLineChar(char: retString.last) {
             indent.extra = result
             return
         }
 
+        checkLineNextExtra()
+    }
+
+    func checkLineNextExtra() {
         if strIndex < string.endIndex {
             let next = string.nextNonSpaceIndex(string.index(after: strIndex))
             if next < string.endIndex {
-                if let result = check(string[next]) {
+                if let result = checkLineChar(char: string[next]) {
                     indent.extra = result
-                    return
-                }
-                if string[next] == "?" {
+                } else if string[next] == "?" {
                     indent.extra = 1
-                    return
+                } else {
+                    indent.extra = 0
                 }
             }
-            indent.extra = 0
             // MARK: check next if ? :
         }
     }
