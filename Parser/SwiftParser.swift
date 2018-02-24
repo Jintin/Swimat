@@ -14,7 +14,9 @@ let operatorList: [Character: [String]] =
         ">": [">>>", ">>=", ">>-", ">>", ">=", ">->", ">"],
         "|": ["|||", "||=", "||", "|=", "|"],
         "!": ["!==", "!="],
-        "=": ["===", "==", "="]
+        "=": ["===", "==", "="],
+        ".": ["...", "..<", "."],
+        "#": ["#>","#"]
     ]
 
 fileprivate let negativeCheckSigns: [Character] =
@@ -66,10 +68,13 @@ class SwiftParser {
                 return index
             }
             return add(char: char)
+        case ".":
+            if let index = add(with: operatorList[char]!) {
+                return index
+            }
+            return add(char: char)
         case "-":
             return checkMinus(char: char)
-        case ".":
-            return checkDot(char: char)
         case "/":
             return checkSlash(char: char)
         case "<":
@@ -128,17 +133,6 @@ class SwiftParser {
         }
     }
 
-    func checkDot(char: Character) -> String.Index {
-        if isNext(char: ".") {
-            if isNext(string: "...") {
-                return add(string: "...")
-            } else if isNext(string: "..<") {
-                return add(string: "..<")
-            }
-        }
-        return add(char: char)
-    }
-
     func checkSlash(char: Character) -> String.Index {
         if isNext(char: "/") {
             return addLine()
@@ -192,12 +186,13 @@ class SwiftParser {
             indent.count -= 1
             trimWithIndent()
             return addLine() // bypass like '#if swift(>=3)'
-        } else if isNext(char: ">") {
-            return add(string: "#>")
-        } else if isNext(char: "!") {
+        } else if isNext(char: "!") { //shebang
             return addLine()
         }
-        return checkDefault(char: char)
+        if let index = add(with: operatorList[char]!) {
+            return index
+        }
+        return add(char: char)
     }
 
     func checkQuote(char: Character) throws -> String.Index {
@@ -360,8 +355,6 @@ class SwiftParser {
         switch char {
         case "+", "-", "*", "=", ".", "&", "|":
             return 1
-        case "/": // MARK: check word, nor char
-            break
         case ":":
             if self.checkInCase() {
                 return 0

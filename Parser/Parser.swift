@@ -117,6 +117,15 @@ extension SwiftParser {
         }
     }
 
+    func add(with words: [String]) -> String.Index? {
+        for word in words {
+            if isNext(string: word) {
+                return add(string: word)
+            }
+        }
+        return nil
+    }
+
     func add(string target: String) -> String.Index {
         retString += target
         return string.index(strIndex, offsetBy: target.count)
