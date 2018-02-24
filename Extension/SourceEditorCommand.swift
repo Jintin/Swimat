@@ -31,29 +31,17 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             let selections = invocation.buffer.selections
             var hasSelection = false
 
-            func updateLine(index: Int) {
-                guard index < newLines.count, index < lines.count else {
-                    return
-                }
-                if let line = lines[index] as? String {
-                    let newLine = newLines[index] + "\n"
-                    if newLine != line {
-                        lines[index] = newLine
-                    }
-                }
-            }
-
             for i in 0 ..< selections.count {
                 if let selection = selections[i] as? XCSourceTextRange, selection.start != selection.end {
                     hasSelection = true
                     for j in selection.start.line...selection.end.line {
-                        updateLine(index: j)
+                        updateLine(lines: lines, newLines: newLines, index: j)
                     }
                 }
             }
             if !hasSelection {
                 for i in 0 ..< lines.count {
-                    updateLine(index: i)
+                    updateLine(lines: lines, newLines: newLines, index: i)
                 }
             }
 
@@ -63,6 +51,17 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         }
     }
 
+    func updateLine(lines: NSMutableArray, newLines: [String], index: Int) {
+        guard index < newLines.count, index < lines.count else {
+            return
+        }
+        if let line = lines[index] as? String {
+            let newLine = newLines[index] + "\n"
+            if newLine != line {
+                lines[index] = newLine
+            }
+        }
+    }
 }
 
 extension XCSourceTextPosition: Equatable {
