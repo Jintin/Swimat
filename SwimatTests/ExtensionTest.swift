@@ -33,11 +33,17 @@ class ExtensionTest: XCTestCase {
     }
 
     func testLastIndex() {
-        let a = "abcd"
-        assert(a.lastIndex(from: a.endIndex, checker: { $0 == "a" }) == a.startIndex)
-        assert(a.lastIndex(from: a.endIndex, checker: { $0 == "b" }) == a.index(after: a.startIndex))
-        assert(a.lastIndex(from: a.endIndex, checker: { $0 == "d" }) == a.index(before: a.endIndex))
-        assert(a.lastIndex(from: a.endIndex, checker: { $0 == "e" }) == a.startIndex)
+        let text = "abcd"
+        let values: [Character: String.Index] = [
+            "a": text.startIndex,
+            "b": text.index(after: text.startIndex),
+            "d": text.index(before: text.endIndex),
+            "e": text.startIndex
+        ]
+        for (a, b) in values {
+            let index = text.lastIndex(from: text.endIndex) { $0 == a }
+            assert(index == b)
+        }
     }
 
     func testLastNonSpaceIndex() {
