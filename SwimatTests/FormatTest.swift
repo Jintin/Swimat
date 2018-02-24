@@ -1,6 +1,7 @@
 import XCTest
 
 class FormatTest: XCTestCase {
+
     class func generateTests() {
         // Add formatting tests
         let bundle = Bundle(for: FormatTest.self)
@@ -35,4 +36,5 @@ class FormatTest: XCTestCase {
         // Set the indent size
         Indent.char = "    "
     }
+
 }

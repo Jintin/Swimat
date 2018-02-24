@@ -62,6 +62,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             }
         }
     }
+
 }
 
 extension XCSourceTextPosition: Equatable {

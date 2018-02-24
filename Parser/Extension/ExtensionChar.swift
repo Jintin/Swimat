@@ -1,7 +1,7 @@
 import Foundation
 
 extension Character {
-    
+
     func isAZ() -> Bool {
         if self >= "a" && self <= "z" {
             return true
@@ -12,25 +12,25 @@ extension Character {
         }
         return false
     }
-    
+
     func isOperator() -> Bool {
         return self == "+" || self == "-" || self == "*" || self == "/" || self == "%"
     }
-    
+
     func isUpperBlock() -> Bool {
         return self == "{" || self == "[" || self == "("
     }
-    
+
     func isLowerBlock() -> Bool {
         return self == "}" || self == "]" || self == ")"
     }
-    
+
     func isSpace() -> Bool {
         return self == " " || self == "\t"
     }
-    
+
     func isBlank() -> Bool {
         return isSpace() || self == "\n"
     }
-    
+
 }
