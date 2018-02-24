@@ -17,10 +17,16 @@ class ExtensionTest: XCTestCase {
     }
 
     func testNextIndex() {
-        let a = "abc"
-        assert(a.nextIndex(from: a.startIndex, checker: { $0 == "b" }) == a.index(after: a.startIndex))
-        assert(a.nextIndex(from: a.startIndex, checker: { $0 == "c" }) == a.index(before: a.endIndex))
-        assert(a.nextIndex(from: a.startIndex, checker: { $0 == "d" }) == a.endIndex)
+        let text = "abc"
+        let values: [Character: String.Index] = [
+            "b": text.index(after: text.startIndex),
+            "c": text.index(before: text.endIndex),
+            "d": text.endIndex
+        ]
+        for (a, b) in values {
+            let index = text.nextIndex(from: text.startIndex) { $0 == a }
+            assert(index == b)
+        }
     }
 
     func testNextNonSpaceIndex() {
