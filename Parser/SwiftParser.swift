@@ -16,7 +16,7 @@ let operatorList: [Character: [String]] =
         "!": ["!==", "!="],
         "=": ["===", "==", "="],
         ".": ["...", "..<", "."],
-        "#": ["#>","#"]
+        "#": ["#>", "#"]
     ]
 
 fileprivate let negativeCheckSigns: [Character] =
@@ -186,7 +186,7 @@ class SwiftParser {
             indent.count -= 1
             trimWithIndent()
             return addLine() // bypass like '#if swift(>=3)'
-        } else if isNext(char: "!") { //shebang
+        } else if isNext(char: "!") { // shebang
             return addLine()
         }
         if let index = add(with: operatorList[char]!) {
