@@ -10,23 +10,30 @@ class Preferences: Codable {
 
     static var areParametersAligned: Bool {
         get {
-            return Preferences.sharedUserDefaults.bool(forKey: Preferences.parameterAlignment)
+            return getBool(key: parameterAlignment)
         }
         set {
-            Preferences.sharedUserDefaults.set(newValue, forKey: Preferences.parameterAlignment)
-            Preferences.sharedUserDefaults.synchronize()
+            setBool(key: parameterAlignment, value: newValue)
         }
     }
     var areParametersAligned = false
 
     static var areSemicolonsRemoved: Bool {
         get {
-            return Preferences.sharedUserDefaults.bool(forKey: Preferences.removeSemicolons)
+            return getBool(key: removeSemicolons)
         }
         set {
-            Preferences.sharedUserDefaults.set(newValue, forKey: Preferences.removeSemicolons)
-            Preferences.sharedUserDefaults.synchronize()
+            setBool(key: removeSemicolons, value: newValue)
         }
     }
     var areSemicolonsRemoved = false
+
+    static func getBool(key: String) -> Bool {
+        return sharedUserDefaults.bool(forKey: key)
+    }
+
+    static func setBool(key: String, value: Bool) {
+        sharedUserDefaults.set(value, forKey: Preferences.parameterAlignment)
+        sharedUserDefaults.synchronize()
+    }
 }
