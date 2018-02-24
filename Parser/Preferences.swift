@@ -30,29 +30,3 @@ class Preferences: Codable {
     }
     var areSemicolonsRemoved = false
 }
-
-#if swift(>=4)
-    // We can't do this yet, so fallback on the older workaround
-    // extension Preferences: Codable { }
-#else
-    protocol Codable { }
-    
-    // Rewrite just enough of JSONDecoder so that it satifies our needs
-    class JSONDecoder {
-        func decode<T: Codable>(_ type: T.Type, from data: Data) throws -> T? {
-            if type == Preferences.self {
-                let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-                let preferences = Preferences()
-                (json?[Preferences.parameterAlignment] as? Bool).flatMap {
-                    preferences.areParametersAligned = $0
-                }
-                (json?[Preferences.removeSemicolons] as? Bool).flatMap {
-                    preferences.areSemicolonsRemoved = $0
-                }
-                return preferences as? T
-            } else {
-                return nil
-            }
-        }
-    }
-#endif

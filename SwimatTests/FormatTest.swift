@@ -9,14 +9,9 @@ class FormatTest: XCTestCase {
         let tests = bundle.paths(forResourcesOfType: "", inDirectory: "tests").map(URL.init(fileURLWithPath:))
         for test in tests {
             let fullTestName = test.lastPathComponent
-            #if swift(>=4)
-                let searchingTestName = fullTestName
-            #else
-                let searchingTestName = fullTestName.characters
-            #endif
             let testName: String
             // Drop the leading number and dash, if any
-            if let index = searchingTestName.index(of: "-") {
+            if let index = fullTestName.index(of: "-") {
                 testName = String(fullTestName[fullTestName.index(after: index)..<fullTestName.endIndex])
             } else {
                 testName = fullTestName
