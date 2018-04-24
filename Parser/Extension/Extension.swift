@@ -171,7 +171,7 @@ extension String {
             switch next {
             case " ":
                 result.keepSpace()
-            case "A" ... "z", "0" ... "9", "[", "]", ".", "?", ":":
+            case "A" ... "z", "0" ... "9", "[", "]", ".", "?", ":", "&":
                 result.append(next)
             case ",":
                 result.append(", ")
