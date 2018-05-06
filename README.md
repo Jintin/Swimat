@@ -25,7 +25,7 @@ There are three way to install.
   ```
 
 2. Download the App directly.<br>
-  <https://github.com/Jintin/Swimat/releases/download/v1.3.5/Swimat.zip>
+  <https://github.com/Jintin/Swimat/releases/download/v1.5.1/Swimat.zip>
 
 3. Clone and archive to Mac App by yourself.
 
@@ -46,5 +46,3 @@ Bug reports and pull requests are welcome on GitHub at <https://github.com/Jinti
 ## License
 
 The module is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
-[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/jintin)
