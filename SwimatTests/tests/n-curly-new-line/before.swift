@@ -1,5 +1,7 @@
 // #182
-if condition
-{
-    expression()
+if condition {
+    if condition
+    {
+        expression()
+    }
 }

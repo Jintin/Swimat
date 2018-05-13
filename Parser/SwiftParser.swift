@@ -246,7 +246,9 @@ class SwiftParser {
                 indent.inSwitch = true
                 isNextSwitch = false
             }
-            retString = retString.trim()
+            indent.count -= 1
+            trimWithIndent()
+            indent.count += 1
             if !retString.last.isUpperBlock() {
                 retString.keepSpace()
             }
