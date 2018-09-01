@@ -82,12 +82,11 @@ class Indent {
             self.extraAdd = false
         }
 
-        switch block {
-        case .parentheses:
-            self.leading = max(offset - count * Indent.size - 1, 0)
-        default: break
-        }
-        if !Indent.paraAlign {
+        if Indent.paraAlign {
+            if block != .curly {
+                self.leading = max(offset - count * Indent.size - 1, 0)
+            }
+        } else {
             self.leading = 0
         }
     }
