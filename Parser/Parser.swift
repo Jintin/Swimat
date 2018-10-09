@@ -103,6 +103,8 @@ extension SwiftParser {
         }
         if isNext(word: "switch") {
             isNextSwitch = true
+        } else if isNext(word: "enum") {
+            isNextEnum = true
         }
         let count = indent.count + (addExtra ? indent.extra : 0)
         if count > 0 {

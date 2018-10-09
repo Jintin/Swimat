@@ -34,6 +34,7 @@ class Indent {
     var isLeading: Bool
     var leading: Int // leading for smart align
     var inSwitch: Bool // is in switch block
+    var inEnum: Bool // is in enum block
     var inCase: Bool // is case statement
     var block: IndentType
 
@@ -46,6 +47,7 @@ class Indent {
         isLeading = false
         leading = 0
         inSwitch = false
+        inEnum = false
         inCase = false
         block = .curly
     }
@@ -58,6 +60,7 @@ class Indent {
         self.isLeading = indent.isLeading
         self.leading = indent.leading
         self.inSwitch = false
+        self.inEnum = false
         self.inCase = false
         self.indentAdd = false
         self.extraAdd = false

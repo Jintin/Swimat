@@ -34,6 +34,7 @@ class SwiftParser {
     var indentStack = [Indent]()
     var newlineIndex: Int = 0
     var isNextSwitch: Bool = false
+    var isNextEnum: Bool = false
     var autoRemoveChar: Bool = false
 
     init(string: String, preferences: Preferences? = nil) {
@@ -246,6 +247,10 @@ class SwiftParser {
                 indent.inSwitch = true
                 isNextSwitch = false
             }
+            if isNextEnum {
+                indent.inEnum = true
+                isNextEnum = false
+            }
             indent.count -= 1
             trimWithIndent()
             indent.count += 1
@@ -275,6 +280,7 @@ class SwiftParser {
         } else {
             indent = Indent()
         }
+
         if char == "}" {
             if isNext(char: ".", skipBlank: true) {
                 trimWithIndent()
@@ -331,6 +337,8 @@ class SwiftParser {
         if !isNext(string: "//") {
             if isBetween(words: ("if", "let"), ("guard", "let")) {
                 indent.extra = 1
+            } else if isPrevious(str: "case") {
+                indent.extra = 1
             } else if isNext(word: "else") {
                 if retString.lastWord() != "}" {
                     indent.extra = 1
@@ -366,6 +374,9 @@ class SwiftParser {
                 return 1
             }
         case ",":
+            if self.indent.inEnum {
+                return 0
+            }
             if self.indent.line == 1 && (self.indent.block == .parentheses || self.indent.block == .square) {
                 self.indent.isLeading = true
             }
