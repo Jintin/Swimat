@@ -19,9 +19,10 @@ class SwimatViewController: NSViewController {
     @IBOutlet weak var installationLabel: NSTextField! {
         didSet {
             guard let url = Bundle.main.url(forResource: "Installation", withExtension: "html"),
-                let string = try? NSAttributedString(url: url, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) else {
+                let string = try? NSMutableAttributedString(url: url, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) else {
                     return
             }
+            string.addAttributes([.foregroundColor: NSColor.textColor], range: NSRange(location: 0, length: string.length))
             installationLabel.attributedStringValue = string
         }
     }
