@@ -33,7 +33,7 @@ class Preferences: Codable {
     }
 
     static func setBool(key: String, value: Bool) {
-        sharedUserDefaults.set(value, forKey: Preferences.parameterAlignment)
+        sharedUserDefaults.set(value, forKey: key)
         sharedUserDefaults.synchronize()
     }
 
