@@ -97,7 +97,7 @@ extension SwiftParser {
                 checkInCase = true
                 indent.inCase = true
                 indent.count -= 1
-            } else if isNext(word: "default") {
+            } else if isNext(word: "default") || isNext(word: "@unknown") {
                 indent.extra -= 1
             }
         }
