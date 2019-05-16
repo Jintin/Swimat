@@ -146,10 +146,8 @@ class SwiftParser {
     func checkLess(char: Character) throws -> String.Index {
         if isNext(char: "#") {
             return add(string: "<#")
-        } else if isNext(char: " ") {
-            return add(string: "< ")
         }
-        if let result = try string.findGeneric(from: strIndex) {
+        if let result = try string.findGeneric(from: strIndex), !isNext(char: " ") {
             retString += result.string
             return result.index
         }
