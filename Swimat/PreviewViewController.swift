@@ -55,7 +55,7 @@ class PreviewViewController: NSViewController, NSTextViewDelegate {
     func rateLimitedFormat() {
         timer.invalidate()
         timer = Timer(timeInterval: lastFormatTime + 0.1, target: self, selector: #selector(format), userInfo: nil, repeats: false)
-        RunLoop.current.add(timer, forMode: .commonModes)
+        RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
     }
 
     @objc func format() {
