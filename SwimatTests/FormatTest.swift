@@ -12,7 +12,7 @@ class FormatTest: XCTestCase {
             let fullTestName = test.lastPathComponent
             let testName: String
             // Drop the leading number and dash, if any
-            if let index = fullTestName.index(of: "-") {
+            if let index = fullTestName.firstIndex(of: "-") {
                 testName = String(fullTestName[fullTestName.index(after: index)..<fullTestName.endIndex])
             } else {
                 testName = fullTestName
