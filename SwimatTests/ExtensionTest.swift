@@ -87,7 +87,7 @@ class ExtensionTest: XCTestCase {
 
     func testTernary() throws {
         let ternary = "?bb:cc"
-        if let result = try ternary.findTernary(from: ternary.startIndex) {
+        if let result = ternary.findTernary(from: ternary.startIndex) {
             assert(result == ("? bb : cc", ternary.endIndex))
         } else {
             assertionFailure()
@@ -96,7 +96,7 @@ class ExtensionTest: XCTestCase {
 
     func testStatement() throws {
         let statement = "aa+bb"
-        if let result = try statement.findStatement(from: statement.startIndex) {
+        if let result = statement.findStatement(from: statement.startIndex) {
             assert(result == ("aa + bb", statement.endIndex))
         } else {
             assertionFailure()

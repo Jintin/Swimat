@@ -25,11 +25,15 @@ class FormatTest: XCTestCase {
             }
             addInstanceMethod(named: Selector("test-\(testName)"), to: FormatTest.self) {
                 let parser = SwiftParser(string: before, preferences: preferences)
-                guard let result = try? parser.format() else {
-                    fatalError("Formatter threw an exception")
+                do {
+                    let result = try parser.format()
+                    XCTAssertEqual(result, after, "result: \n\(result)\nafter: \n\(after)")
+                } catch {
+                    print("Error info: \(error)")
+                    fatalError("Formatter threw an exception\(error)")
                 }
 
-                XCTAssertEqual(result, after, "result: \n\(result)\nafter: \n\(after)")
+                
             }
         }
 

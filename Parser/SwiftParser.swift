@@ -158,7 +158,7 @@ class SwiftParser {
         if isNext(char: "?") {
             // MARK: check double optional or nil check
             return add(string: "??")
-        } else if let ternary = try string.findTernary(from: strIndex) {
+        } else if let ternary = string.findTernary(from: strIndex) {
             retString.keepSpace()
             retString += ternary.string
             return ternary.index

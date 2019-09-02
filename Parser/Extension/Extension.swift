@@ -84,9 +84,9 @@ extension String {
         return (result, index(before: endIndex))
     }
 
-    func findTernary(from target: String.Index) throws -> StringObj? {
+    func findTernary(from target: String.Index) -> StringObj? {
         let start = nextNonSpaceIndex(index(after: target))
-        guard let first = try findStatement(from: start) else {
+        guard let first = findStatement(from: start) else {
             return nil
         }
         let middle = nextNonSpaceIndex(first.index)
@@ -94,36 +94,36 @@ extension String {
             return nil
         }
         let end = nextNonSpaceIndex(index(after: middle))
-        guard let second = try findObject(from: end) else {
+        guard let second = findObject(from: end) else {
             return nil
         }
         return ("? " + first.string + " : " + second.string, second.index)
     }
 
-    func findStatement(from start: String.Index) throws -> StringObj? {
-        if let obj1 = try findObject(from: start) {
-            let operIndex = nextNonSpaceIndex(obj1.index)
-            guard operIndex < endIndex, self[operIndex].isOperator() else {
-                return obj1
-            }
-            let list = operatorList[self[operIndex]]
-            for compare in list! {
-                if isNext(string: compare, strIndex: operIndex) {
-                    let operEnd = index(operIndex, offsetBy: compare.count)
-                    let obj2Index = nextNonSpaceIndex(operEnd)
-                    if let obj2 = try findObject(from: obj2Index) {
-                        return (string: obj1.string + " " + compare + " " + obj2.string, index: obj2.index)
-                    } else {
-                        return obj1
-                    }
-                }
-            }
+    func findStatement(from start: String.Index) -> StringObj? {
+        guard let obj1 = findObject(from: start) else {
+            return nil
+        }
+        let operIndex = nextNonSpaceIndex(obj1.index)
+        guard operIndex < endIndex, self[operIndex].isOperator() else {
             return obj1
         }
-        return nil
+        let list = operatorList[self[operIndex]]
+        for compare in list! {
+            if isNext(string: compare, strIndex: operIndex) {
+                let operEnd = index(operIndex, offsetBy: compare.count)
+                let obj2Index = nextNonSpaceIndex(operEnd)
+                if let obj2 = findObject(from: obj2Index) {
+                    return (string: obj1.string + " " + compare + " " + obj2.string, index: obj2.index)
+                } else {
+                    return obj1
+                }
+            }
+        }
+        return obj1
     }
 
-    func findObject(from start: String.Index) throws -> StringObj? {
+    func findObject(from start: String.Index) -> StringObj? {
         guard start < endIndex else {
             return nil
         }
@@ -134,6 +134,7 @@ extension String {
             target = index(after: target)
             result = "-"
         }
+
         let list: [Character] = ["?", "!", "."]
         while target < endIndex {
             let next = self[target]
@@ -141,15 +142,21 @@ extension String {
                 result.append(next)
                 target = index(after: target)
             } else if next == "[" {
-                let block = try findSquare(from: target)
+                guard let block = try? findSquare(from: target) else {
+                    return nil
+                }
                 target = block.index
                 result += block.string
             } else if next == "(" {
-                let block = try findParentheses(from: target)
+                guard let block = try? findParentheses(from: target) else {
+                    return nil
+                }
                 target = block.index
                 result += block.string
             } else if next == "\"" {
-                let quote = try findQuote(from: target)
+                guard let quote = try? findQuote(from: target) else {
+                    return nil
+                }
                 target = quote.index
                 result += quote.string
             } else {
