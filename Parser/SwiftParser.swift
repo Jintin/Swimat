@@ -190,7 +190,7 @@ class SwiftParser {
         } else if isNext(char: "!") { // shebang
             return addLine()
         }
-        if let index = checkHashQuote() {
+        if let index = checkHashQuote(index: strIndex, count: 0) {
             return index
         }
         if let index = add(with: operatorList[char]!) {
@@ -199,19 +199,14 @@ class SwiftParser {
         return add(char: char)
     }
 
-    func checkHashQuote() -> String.Index? {
-        var index = strIndex
-        var count = 0;
-        while (true) {
-            switch string[index] {
-            case "#":
-                count += 1
-                index = string.index(after: index)
-            case "\"":
-                return addToNext(strIndex, stopWord: "\"" + String(repeating: "#", count: count))
-            default:
-                return nil
-            }
+    func checkHashQuote(index: String.Index, count: Int) -> String.Index? {
+        switch string[index] {
+        case "#":
+            return checkHashQuote(index: string.index(after: index), count: count + 1)
+        case "\"":
+            return addToNext(strIndex, stopWord: "\"" + String(repeating: "#", count: count))
+        default:
+            return nil
         }
     }
 
