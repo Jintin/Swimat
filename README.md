@@ -34,7 +34,7 @@ There are three way to install.
 **After installation, you should open the `Swimat.app` once to make the functionality works.**
 
 In the Xcode menu click **[Editor] -> [Swimat] -> [Format]** then the current active file will reformat.
-You can also create a hot-key in **[Xcode] -> [Preferences..] -> [Key Bindings]**, if you don't have any prefernce you can set as [<kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>L</kbd>].
+You can also create a hot-key in **[Xcode] -> [Preferences..] -> [Key Bindings]**, if you don't have any prefernce you can set as <kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>L</kbd>.
 
 ## TroubleShooting
 
