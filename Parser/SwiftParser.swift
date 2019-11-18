@@ -37,7 +37,7 @@ class SwiftParser {
     var isNextEnum: Bool = false
     var autoRemoveChar: Bool = false
 
-    init(string: String, preferences: Preferences? = nil) {
+    init(string: String, preferences: Preferences? = Options.shared.preference) {
         self.string = string
         self.strIndex = string.startIndex
 
