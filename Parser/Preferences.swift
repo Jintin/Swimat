@@ -56,4 +56,5 @@ class Preferences: Codable {
         print(Key.parameterAlignment.rawValue, areParametersAligned)
         print(Key.removeSemicolons.rawValue, areSemicolonsRemoved)
     }
+
 }
