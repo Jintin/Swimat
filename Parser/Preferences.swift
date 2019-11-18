@@ -6,6 +6,7 @@ class Preferences: Codable {
         case removeSemicolons = "areSemicolonsRemoved"
     }
 
+    static var shared: Preferences?
     private static let sharedUserDefaults = {
         UserDefaults(suiteName: "com.jintin.swimat.configuration")!
     }()

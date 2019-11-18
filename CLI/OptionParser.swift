@@ -11,7 +11,6 @@ struct Option {
 class Options {
     static var shared = Options()
 
-    var preference: Preferences?
     var configurationFile = ".swimat.json"
     var recursive = false
     var verbose = false
@@ -126,10 +125,10 @@ class Options {
 
         do {
             let data = try Data(contentsOf: URL(fileURLWithPath: configurationFile))
-            preference = try JSONDecoder().decode(Preferences.self, from: data)
+            Preferences.shared = try JSONDecoder().decode(Preferences.self, from: data)
             if verbose {
                 print("Used config file \(configurationFile)")
-                preference?.printDescription()
+                Preferences.shared?.printDescription()
             }
         } catch DecodingError.dataCorrupted {
             fatalError("Can't read \(configurationFile) file. Data corrupted.")
