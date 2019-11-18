@@ -11,6 +11,8 @@ struct Option {
 class Options {
     static var shared = Options()
 
+    var preference: Preferences?
+    var configurationFile = ".swimat.json"
     var recursive = false
     var verbose = false
 
@@ -43,6 +45,19 @@ class Options {
                     Indent.char = String(repeating: " ", count: indentSize)
                 }
             }),
+        Option(options: ["-c", "--config"],
+            helpArguments: "-c .swimat.json",
+            helpText: "Set the configuration file",
+            number: 1,
+            setter: { value in
+                guard value.count <= 1, let value = value.first else {
+                    printToError("Invalid --config argument")
+                    exit(.invalidIndent)
+                }
+
+                shared.configurationFile = value
+            }),
+
         Option(options: ["-r", "--recursive"],
             helpArguments: "",
             helpText: "Search and format directories recursively.",
@@ -107,6 +122,18 @@ class Options {
             } else {
                 files.append(argument)
             }
+        }
+
+        do {
+            let data = try Data(contentsOf: URL(fileURLWithPath: configurationFile))
+            preference = try JSONDecoder().decode(Preferences.self, from: data)
+            if verbose {
+                print("Used config file \(configurationFile)")
+                preference?.printDescription()
+            }
+        } catch DecodingError.dataCorrupted {
+            fatalError("Can't read \(configurationFile) file. Data corrupted.")
+        } catch {
         }
 
         return files
