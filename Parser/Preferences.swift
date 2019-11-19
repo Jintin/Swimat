@@ -13,20 +13,20 @@ class Preferences: Codable {
 
     static var areParametersAligned: Bool {
         get {
-            return getBool(key: Key.parameterAlignment)
+            return getBool(key: .parameterAlignment)
         }
         set {
-            setBool(key: Key.parameterAlignment, value: newValue)
+            setBool(key: .parameterAlignment, value: newValue)
         }
     }
     var areParametersAligned: Bool
 
     static var areSemicolonsRemoved: Bool {
         get {
-            return getBool(key: Key.removeSemicolons)
+            return getBool(key: .removeSemicolons)
         }
         set {
-            setBool(key: Key.removeSemicolons, value: newValue)
+            setBool(key: .removeSemicolons, value: newValue)
         }
     }
     var areSemicolonsRemoved: Bool
