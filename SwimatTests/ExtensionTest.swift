@@ -86,9 +86,9 @@ class ExtensionTest: XCTestCase {
     }
 
     func testTernary() throws {
-        let ternary = "?bb:cc"
+        let ternary = "?-bb:-cc"
         if let result = ternary.findTernary(from: ternary.startIndex) {
-            assert(result == ("? bb : cc", ternary.endIndex))
+            assert(result == ("? -bb : -cc", ternary.endIndex))
         } else {
             assertionFailure()
         }
