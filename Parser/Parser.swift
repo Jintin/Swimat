@@ -110,6 +110,7 @@ extension SwiftParser {
         if count > 0 {
             retString += String(repeating: Indent.char, count: count)
         }
+        indent.extra = 0
         if indent.isLeading && indent.leading > 0 {
             retString += String(repeating: " ", count: indent.leading)
         }

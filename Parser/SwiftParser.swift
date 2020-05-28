@@ -412,11 +412,6 @@ class SwiftParser {
             indent.extra = result
             return
         }
-
-        checkLineNextExtra()
-    }
-
-    func checkLineNextExtra() {
         if strIndex < string.endIndex {
             let next = string.nextNonSpaceIndex(string.index(after: strIndex))
             if next < string.endIndex {

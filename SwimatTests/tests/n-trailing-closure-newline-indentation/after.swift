@@ -1,5 +1,7 @@
 // #153
-a
-    .map { (i) in
+func test(a: [Int]) -> [Int] {
+    return a
+        .map { (i) in
         i * 2
+    }
 }
