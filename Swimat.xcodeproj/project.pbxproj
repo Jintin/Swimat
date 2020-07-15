@@ -37,6 +37,8 @@
 		2F6D8C0C1E0435CA006CFC50 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C091E0435CA006CFC50 /* ErrorHandling.swift */; };
 		2F6D8C0D1E0435CA006CFC50 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C0A1E0435CA006CFC50 /* main.swift */; };
 		2F6D8C0E1E0435CA006CFC50 /* OptionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C0B1E0435CA006CFC50 /* OptionParser.swift */; };
+		37E5261724BF67B800549508 /* XcodeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E5261624BF67B800549508 /* XcodeKit.framework */; };
+		37E5261824BF67B800549508 /* XcodeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 37E5261624BF67B800549508 /* XcodeKit.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		492A76C31E23575200DB9138 /* SwimatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492A76C21E23575200DB9138 /* SwimatViewController.swift */; };
 		492C30C51E2FF1C600B4FADD /* swimat in Embed Command Line Tool */ = {isa = PBXBuildFile; fileRef = 492C68831E0078A200E64B68 /* swimat */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		49329DF31E6A0406005C266E /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49329DF21E6A0406005C266E /* PreviewViewController.swift */; };
@@ -94,6 +96,17 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		37E5261924BF67B800549508 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				37E5261824BF67B800549508 /* XcodeKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		492A76BA1E22E2EB00DB9138 /* Embed Command Line Tool */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -130,6 +143,7 @@
 		2F6D8C0A1E0435CA006CFC50 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		2F6D8C0B1E0435CA006CFC50 /* OptionParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionParser.swift; sourceTree = "<group>"; };
 		2FAF2E661E457AFB007EB7E5 /* Swimat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Swimat.entitlements; sourceTree = "<group>"; };
+		37E5261624BF67B800549508 /* XcodeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XcodeKit.framework; path = Library/Frameworks/XcodeKit.framework; sourceTree = DEVELOPER_DIR; };
 		492A76C21E23575200DB9138 /* SwimatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwimatViewController.swift; sourceTree = "<group>"; };
 		492C68831E0078A200E64B68 /* swimat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = swimat; sourceTree = BUILT_PRODUCTS_DIR; };
 		49329DF21E6A0406005C266E /* PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
@@ -162,6 +176,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37E5261724BF67B800549508 /* XcodeKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,6 +200,7 @@
 				2F5745EB1D8A83C500094D06 /* SwimatTests */,
 				2F5745DA1D8A83C500094D06 /* Products */,
 				A04ACCBB2322B23A007D82F7 /* README.md */,
+				37E5261524BF67B700549508 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 0;
@@ -256,6 +272,14 @@
 				2FAF2E661E457AFB007EB7E5 /* Swimat.entitlements */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		37E5261524BF67B700549508 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				37E5261624BF67B800549508 /* XcodeKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		492C68841E0078A200E64B68 /* CLI */ = {
@@ -341,6 +365,7 @@
 				2F5745F71D8A83E600094D06 /* Sources */,
 				2F5745F81D8A83E600094D06 /* Frameworks */,
 				2F5745F91D8A83E600094D06 /* Resources */,
+				37E5261924BF67B800549508 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
