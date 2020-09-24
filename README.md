@@ -6,7 +6,6 @@
 
 [![github](https://img.shields.io/github/release/Jintin/Swimat.svg)](https://github.com/Jintin/Swimat/releases/latest)
 [![homebrew-cask](https://img.shields.io/homebrew/v/swimat.svg)](https://caskroom.github.io/)
-[![cocoapods](https://img.shields.io/cocoapods/v/Swimat.svg)](https://cocoapods.org/pods/Swimat)
 
 Swimat is an Xcode plug-in to format your Swift code.
 
@@ -25,7 +24,7 @@ There are three way to install.
   ```
 
 2. Download the App directly.<br>
-  <https://github.com/Jintin/Swimat/releases/download/v1.5.1/Swimat.zip>
+  <https://github.com/Jintin/Swimat/releases/download/v1.6.2/Swimat.zip>
 
 3. Clone and archive to Mac App by yourself.
 
