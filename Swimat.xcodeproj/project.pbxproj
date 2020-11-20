@@ -38,7 +38,7 @@
 		2F6D8C0D1E0435CA006CFC50 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C0A1E0435CA006CFC50 /* main.swift */; };
 		2F6D8C0E1E0435CA006CFC50 /* OptionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6D8C0B1E0435CA006CFC50 /* OptionParser.swift */; };
 		37E5261724BF67B800549508 /* XcodeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E5261624BF67B800549508 /* XcodeKit.framework */; };
-		37E5261824BF67B800549508 /* XcodeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 37E5261624BF67B800549508 /* XcodeKit.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		37E5261824BF67B800549508 /* XcodeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 37E5261624BF67B800549508 /* XcodeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		492A76C31E23575200DB9138 /* SwimatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492A76C21E23575200DB9138 /* SwimatViewController.swift */; };
 		492C30C51E2FF1C600B4FADD /* swimat in Embed Command Line Tool */ = {isa = PBXBuildFile; fileRef = 492C68831E0078A200E64B68 /* swimat */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		49329DF31E6A0406005C266E /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49329DF21E6A0406005C266E /* PreviewViewController.swift */; };
