@@ -20,7 +20,12 @@ There are three way to install.
 1. Install via [homebrew-cask](https://caskroom.github.io/)
 
   ```bash
+  # Homebrew previous version
   brew cask install swimat
+  ```
+  ```bash
+  # Homebrew latest version
+  brew install --cask swimat
   ```
 
 2. Download the App directly.<br>
