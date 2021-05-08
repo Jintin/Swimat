@@ -29,7 +29,7 @@ There are three way to install.
   ```
 
 2. Download the App directly.<br>
-  <https://github.com/Jintin/Swimat/releases/download/v1.6.2/Swimat.zip>
+  <https://github.com/Jintin/Swimat/releases/download/1.7.0/Swimat.zip>
 
 3. Clone and archive to Mac App by yourself.
 
