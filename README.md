@@ -1,5 +1,24 @@
 # Swimat
 
+> ## ⚠️ This project is archived and no longer maintained.
+>
+> Swimat was built in 2015, when Xcode had no built-in way to format Swift code. That is no longer true — **Xcode now ships Apple's [`swift-format`](https://github.com/swiftlang/swift-format) as a first-party feature**, available under **Editor → Structure → Format File**.
+>
+> **If you're looking for a replacement:**
+>
+> | Need | Use |
+> |---|---|
+> | Format inside Xcode | **Editor → Structure → Format File** (built in) |
+> | A configurable Xcode extension | [SwiftFormat for Xcode](https://github.com/nicklockwood/SwiftFormat#xcode-source-editor-extension) — `brew install --cask swiftformat-for-xcode` |
+> | Formatting in CI / pre-commit | [SwiftFormat](https://github.com/nicklockwood/SwiftFormat) or [swift-format](https://github.com/swiftlang/swift-format) |
+> | Linting | [SwiftLint](https://github.com/realm/SwiftLint) |
+>
+> The last release (1.7.0) no longer passes Gatekeeper and the Homebrew cask is being disabled. Please migrate to one of the options above.
+>
+> Swimat's formatter is a hand-written character scanner, which cannot correctly handle Swift features added since ~2020 — regex literals, custom operators, and nested block comments can be corrupted. The tools above are built on `swift-syntax` and do not have this class of bug.
+>
+> Thank you to the 1,600+ people who starred this, the 90+ who forked it, and everyone who filed an issue or sent a patch over the past decade. — [@Jintin](https://github.com/Jintin)
+
 [![Build Status](https://travis-ci.org/Jintin/Swimat.svg?branch=master)](https://travis-ci.org/Jintin/Swimat)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e3a2fb6a6ba34b11836d58cee0668fb9)](https://www.codacy.com/app/Jintin/Swimat?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Jintin/Swimat&amp;utm_campaign=Badge_Grade)
 [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/matteocrippa/awesome-swift)
