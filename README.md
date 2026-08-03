@@ -19,12 +19,8 @@
 >
 > Thank you to the 1,600+ people who starred this, the 90+ who forked it, and everyone who filed an issue or sent a patch over the past decade. — [@Jintin](https://github.com/Jintin)
 
-[![Build Status](https://travis-ci.org/Jintin/Swimat.svg?branch=master)](https://travis-ci.org/Jintin/Swimat)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e3a2fb6a6ba34b11836d58cee0668fb9)](https://www.codacy.com/app/Jintin/Swimat?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Jintin/Swimat&amp;utm_campaign=Badge_Grade)
-[![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/matteocrippa/awesome-swift)
-
-[![github](https://img.shields.io/github/release/Jintin/Swimat.svg)](https://github.com/Jintin/Swimat/releases/latest)
-[![homebrew-cask](https://img.shields.io/homebrew/v/swimat.svg)](https://caskroom.github.io/)
+[![Awesome](https://cdn.jsdelivr.net/gh/sindresorhus/awesome@d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/matteocrippa/awesome-swift)
+[![github](https://img.shields.io/github/v/release/Jintin/Swimat.svg)](https://github.com/Jintin/Swimat/releases/latest)
 
 Swimat is an Xcode plug-in to format your Swift code.
 
@@ -34,23 +30,11 @@ Swimat is an Xcode plug-in to format your Swift code.
 
 ## Installation
 
-There are three way to install.
+**No longer available.** The Homebrew cask has been deprecated and disabled, and the last released
+binary (1.7.0) does not pass Gatekeeper on current macOS. Please use one of the
+[alternatives listed above](#swimat) instead.
 
-1. Install via [homebrew-cask](https://caskroom.github.io/)
-
-  ```bash
-  # Homebrew previous version
-  brew cask install swimat
-  ```
-  ```bash
-  # Homebrew latest version
-  brew install --cask swimat
-  ```
-
-2. Download the App directly.<br>
-  <https://github.com/Jintin/Swimat/releases/download/1.7.0/Swimat.zip>
-
-3. Clone and archive to Mac App by yourself.
+The source remains here under the MIT license if you want to read it or build it yourself.
 
 ## Usage
 
